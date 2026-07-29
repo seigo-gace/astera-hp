@@ -1,0 +1,103 @@
+{
+  "schema_version": "astera-hp-public-ai-v2",
+  "effective_date": "2026-07-29",
+  "source_file": "index(18).html",
+  "source_sha256": "8c2de4259b00a4c64dc175bb76ed7187387db1c127e2f3de66fc21278490d8f5",
+  "source_policy": {
+    "visual_design_frozen": true,
+    "transport_may_be_added_without_replacing_ui": true,
+    "customer_ai_bubble_is_separate_from_this_explanation": true,
+    "old_public_bundle_is_not_current_pricing_or_provider_source": true
+  },
+  "positioning": {
+    "brand_label": "外付けAI強化外装",
+    "kicker": "GOOGLE V8 × 多重並列思考",
+    "tagline": "問いを星図に変える。",
+    "subhero": "あなたのAIを置き換えず、判断に必要な材料を外側から加える。",
+    "description": "Asteraは、Google V8を使って多重並列思考を走らせ、判断素材8項目から比較・検証・レビューなどの判断材料を整理します。その材料をあなたのAIへ渡すことで、回答をより深く、安全で、目的に合ったものへ強くします。"
+  },
+  "judgment_materials": [
+    {
+      "number": "01",
+      "title": "本当の目的",
+      "summary": "表面的な依頼の奥にある、本当に達成したいことを整理する。",
+      "deliver_to_main_ai": ["本当に達成したい目的", "成功条件", "優先順位", "避けたい失敗", "誰に向けた回答なのか"],
+      "answer_effect": "主役AIの回答が、表面的な答えではなく、目的に合った答えになりやすくなります。"
+    },
+    {
+      "number": "02",
+      "title": "前提不足",
+      "summary": "答えを作るために足りない条件や情報の抜けを探す。",
+      "deliver_to_main_ai": ["足りない条件", "確認すべき質問", "回答前に置くべき前提", "制約条件", "まだ決まっていない情報"],
+      "answer_effect": "主役AIの回答が、思い込みや抜けのある答えになりにくくなります。"
+    },
+    {
+      "number": "03",
+      "title": "事実確認",
+      "summary": "事実・推測・未確認情報を分ける。",
+      "deliver_to_main_ai": ["確認済みの事実", "推測として扱うべき内容", "未確認の情報", "調べるべき点", "断定を避けるべき箇所"],
+      "answer_effect": "主役AIの回答が、嘘・思い込み・未確認情報を混ぜにくくなります。"
+    },
+    {
+      "number": "04",
+      "title": "危機察知",
+      "summary": "あとで失敗や信用低下につながる危険を先に探す。",
+      "deliver_to_main_ai": ["想定されるリスク", "問題が起きる条件", "避けるべき表現や手順", "先に対策すべき点", "代替案"],
+      "answer_effect": "主役AIの回答が、安全性や運用面を考えた、実際に使いやすい回答になりやすくなります。"
+    },
+    {
+      "number": "05",
+      "title": "反対視点",
+      "summary": "あえて逆側から見て、弱点や反論されそうな点を確認する。",
+      "deliver_to_main_ai": ["反論されそうな点", "弱い部分", "批判されやすい表現", "別の立場からの見え方", "補強すべき論点"],
+      "answer_effect": "主役AIの回答が、反論や批判に耐えやすい、厚みのある回答になりやすくなります。"
+    },
+    {
+      "number": "06",
+      "title": "比較案",
+      "summary": "ひとつの答えだけでなく、別の選択肢も並べる。",
+      "deliver_to_main_ai": ["案A/B/C", "それぞれのメリット", "デメリット", "採用条件", "捨てるべき案", "段階的な進め方"],
+      "answer_effect": "主役AIの回答が、一択押し付けではなく、比較して選べる回答になりやすくなります。"
+    },
+    {
+      "number": "07",
+      "title": "推奨判断",
+      "summary": "複数の視点をまとめ、現時点で一番筋の良い方向を示す。",
+      "deliver_to_main_ai": ["推奨する方向", "その理由", "判断条件", "注意点", "次に取る一手", "採用しない案の理由"],
+      "answer_effect": "主役AIの回答が、情報の羅列ではなく、判断へ着地しやすくなります。"
+    },
+    {
+      "number": "08",
+      "title": "主役AIへの再指示",
+      "summary": "整理した材料をもとに、主役AIへ渡す指示を作る。",
+      "deliver_to_main_ai": ["再指示文", "重視する目的", "追加する前提", "避けるべき危険", "比較すべき案", "出力形式", "禁止事項", "最終回答の条件"],
+      "answer_effect": "主役AIが、判断材料をもとに回答を作り直せるため、より深く、安全で、目的に合った最終回答になりやすくなります。"
+    }
+  ],
+  "transfer_methods": [
+    {"id": "copy", "label": "コピー", "description": "判断材料や再指示文を、自分のAIに貼り付けて使う。"},
+    {"id": "form", "label": "フォーム", "description": "Web上で入力し、整理された判断材料を受け取る。"},
+    {"id": "api", "label": "API", "description": "自作AI、自社AI、SaaS、Botの裏側に組み込む。"},
+    {"id": "webhook", "label": "Webhook", "description": "業務フローやBotへ、必要なタイミングで判断材料を送る。"}
+  ],
+  "answer_boost": [
+    "目的に合いやすくなる。",
+    "前提抜けが減る。",
+    "事実と推測を分けやすくなる。",
+    "危険や反対意見を先に見られる。",
+    "比較・検証・レビューを通して、答えを作り直しやすくなる。"
+  ],
+  "technical_boundary": {
+    "google_v8_is_a_javascript_runtime_not_a_generative_model": true,
+    "parallel_processing_respects_dependency_order": true,
+    "public_eight_materials_are_output_contract_not_internal_module_list": true,
+    "main_ai_and_expert_judgment_are_not_replaced": true
+  },
+  "customer_ai_transport": {
+    "api_base": "https://api.asterav8.jp",
+    "message_path": "/v1/customer-ai/messages",
+    "job_path_prefix": "/v1/customer-ai/jobs/",
+    "source": "astera-hp",
+    "browser_must_not_receive_private_runtime_or_gateway_credentials": true
+  }
+}
