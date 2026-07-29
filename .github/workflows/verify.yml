@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  transport:
+  public-ai:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -18,3 +18,5 @@ jobs:
           node-version: '22'
       - name: Validate Customer AI transport syntax
         run: node --check assets/customer-ai-transport.js
+      - name: Verify approved HP public AI contract and transport
+        run: node --test test/*.test.mjs
