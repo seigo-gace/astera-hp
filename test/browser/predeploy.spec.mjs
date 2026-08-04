@@ -45,6 +45,7 @@ async function verifyLayeredHero(page, projectName) {
   await expect(page.locator('svg[data-astera-layered-svg]')).toHaveCount(1, {timeout: 10_000});
   await expect(page.locator('#lower-right-sparkle-removal')).toHaveCount(1, {timeout: 10_000});
   await expect.poll(() => page.evaluate(() => Boolean(window.gsap))).toBe(true);
+  await page.waitForTimeout(220);
 
   const contract = await hero.evaluate((node) => {
     const patch = node.querySelector('#lower-right-sparkle-removal');
