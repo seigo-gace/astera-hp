@@ -38,6 +38,50 @@ async function loadLazyAssets(page) {
   await page.evaluate(() => window.scrollTo({top: 0, behavior: 'instant'}));
 }
 
+async function verifyLayeredHero(page, projectName) {
+  const hero = page.locator('[data-astera-hero]');
+  await expect(hero).toBeVisible();
+  await expect(page.locator('.astera-hero-image')).toHaveAttribute('src', '/assets/images/astera-globe-top.webp');
+  await expect(page.locator('svg[data-astera-layered-svg]')).toHaveCount(1, {timeout: 10_000});
+  await expect.poll(() => page.evaluate(() => Boolean(window.gsap))).toBe(true);
+
+  const contract = await hero.evaluate((node) => ({
+    svgMounted: node.classList.contains('is-svg-mounted'),
+    svgFailed: node.classList.contains('is-svg-failed') || node.classList.contains('is-svg-image-failed'),
+    dataLines: node.querySelectorAll('.data-line').length,
+    glowNodes: node.querySelectorAll('.glow-node').length,
+    canvases: node.querySelectorAll('canvas').length,
+    forbiddenUi: node.querySelectorAll('.astera-hero-hud,.concept-labels,.astera-data-node,button,a,[role="button"]').length,
+    fallbackLoaded: Boolean(node.querySelector('.astera-hero-image')?.complete && node.querySelector('.astera-hero-image')?.naturalWidth > 0),
+    svgOpacity: Number.parseFloat(getComputedStyle(node.querySelector('.astera-hero-svg')).opacity)
+  }));
+  expect(contract.svgMounted).toBe(true);
+  expect(contract.svgFailed).toBe(false);
+  expect(contract.dataLines).toBeGreaterThanOrEqual(10);
+  expect(contract.glowNodes).toBeGreaterThanOrEqual(18);
+  expect(contract.canvases).toBe(0);
+  expect(contract.forbiddenUi).toBe(0);
+  expect(contract.fallbackLoaded).toBe(true);
+  expect(contract.svgOpacity).toBeGreaterThan(0.9);
+
+  const initialDashOffset = await page.locator('.data-line').first().evaluate((line) => getComputedStyle(line).strokeDashoffset);
+  await page.waitForTimeout(180);
+  const movingDashOffset = await page.locator('.data-line').first().evaluate((line) => getComputedStyle(line).strokeDashoffset);
+  expect(movingDashOffset).not.toBe(initialDashOffset);
+
+  if (projectName.startsWith('desktop')) {
+    const depth = page.locator('[data-astera-depth]');
+    const before = await depth.evaluate((node) => getComputedStyle(node).transform);
+    const box = await hero.boundingBox();
+    expect(box).not.toBeNull();
+    await page.mouse.move(box.x + box.width * 0.82, box.y + box.height * 0.23);
+    await page.waitForTimeout(160);
+    const after = await depth.evaluate((node) => getComputedStyle(node).transform);
+    expect(after).not.toBe(before);
+    await page.mouse.move(box.x - 10, box.y - 10);
+  }
+}
+
 for (const route of routes) {
   test(`${route} renders without browser or layout failures`, async ({ page }, testInfo) => {
     const browserErrors = [];
@@ -69,6 +113,8 @@ for (const route of routes) {
     }));
     expect(layout.scrollWidth, `Horizontal overflow in ${route}`).toBeLessThanOrEqual(layout.width + 2);
     expect(layout.bodyWidth, `Body overflow in ${route}`).toBeLessThanOrEqual(layout.width + 2);
+
+    if (route === '/') await verifyLayeredHero(page, testInfo.project.name);
 
     await loadLazyAssets(page);
     const brokenImages = await page.locator('img').evaluateAll((images) => images
