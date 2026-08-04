@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="t d">
+<title id="t">判断材料化</title><desc id="d">判断材料化の概念図。</desc>
+<defs>
+ <radialGradient id="bg"><stop offset="0" stop-color="#0d5a73" stop-opacity=".5"/><stop offset="1" stop-color="#020d15" stop-opacity=".1"/></radialGradient>
+ <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b5ffff"/><stop offset=".45" stop-color="#36ddf5"/><stop offset=".82" stop-color="#0c8db5"/><stop offset="1" stop-color="#f1a158"/></linearGradient>
+ <filter id="gl" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="320" height="320" rx="42" fill="url(#bg)"/>
+<circle cx="160" cy="160" r="108.8" fill="none" stroke="#33dff5" stroke-opacity=".16" stroke-width="1.5"/>
+<g fill="none" stroke="url(#g)" stroke-linecap="round" stroke-linejoin="round" filter="url(#gl)">
+<path d="M160 66 L238 111 L238 201 L160 246 L82 201 L82 111 Z" stroke-width="4"/>
+<path d="M160 66 V246 M82 111 L238 201 M238 111 L82 201" stroke-width="2.5" opacity=".75"/>
+<circle cx="160" cy="156" r="20" fill="#6ff2ff" stroke="none"/>
+<circle cx="82" cy="111" r="6" fill="#f2a158" stroke="none"/><circle cx="238" cy="201" r="6" fill="#f2a158" stroke="none"/>
+</g>
+</svg>

@@ -9,17 +9,241 @@
   <link rel="canonical" href="https://asterav8.jp/product/integration/">
   <meta property="og:type" content="website"><meta property="og:site_name" content="Astera"><meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="連携・拡張性｜Astera"><meta property="og:description" content="App、API、Webhook、KB、Vault、Storageの責務境界と段階導入。"><meta property="og:url" content="https://asterav8.jp/product/integration/">
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="連携・拡張性｜Astera"><meta name="twitter:description" content="App、API、Webhook、KB、Vault、Storageの責務境界と段階導入。">
+  <meta property="og:image" content="https://asterav8.jp/assets/og/astera-home.png">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="連携・拡張性｜Astera"><meta name="twitter:description" content="App、API、Webhook、KB、Vault、Storageの責務境界と段階導入。">
+  <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/images/astera-globe-top.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="/assets/style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asterav8.jp/#organization","name":"Astera","url":"https://asterav8.jp/"},{"@type":"WebSite","@id":"https://asterav8.jp/#website","name":"Astera","url":"https://asterav8.jp/","inLanguage":"ja-JP"},{"@type":"WebPage","@id":"https://asterav8.jp/product/integration/#page","url":"https://asterav8.jp/product/integration/","name":"連携・拡張性｜Astera","description":"App、API、Webhook、KB、Vault、Storageの責務境界と段階導入。","inLanguage":"ja-JP"}]}</script>
-  <script type="module" src="/assets/app.js"></script>
-  <script type="module" src="/assets/motion.js"></script>
+  <link rel="stylesheet" href="/assets/source-content.css">
+  <link rel="stylesheet" href="/assets/astera-aurora.css">
+  <link rel="stylesheet" href="/assets/astera-hero-image.css">
+  <link rel="stylesheet" href="/assets/notion-complete.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://asterav8.jp/#website","name":"Astera","url":"https://asterav8.jp/","inLanguage":"ja-JP"},{"@type":"WebPage","@id":"https://asterav8.jp/product/integration/#page","url":"https://asterav8.jp/product/integration/","name":"連携・拡張性｜Astera","description":"App、API、Webhook、KB、Vault、Storageの責務境界と段階導入。","inLanguage":"ja-JP"}]}</script>
 </head>
 <body data-route="integration">
   <a class="skip-link" href="#main">本文へ移動</a>
-  <header class="site-header" data-site-header><div class="header-inner"><a class="brand" href="/" aria-label="Astera ホーム"><span class="brand-text">Astera</span><small>v8</small></a><button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-nav">MENU</button><nav id="site-nav" class="site-nav" aria-label="主要ナビゲーション"><details class="product-menu"><summary>製品</summary><div class="mega-menu"><a href="/product/what-is-astera/">01 Asteraとは？</a><a href="/product/why-astera/">02 なぜAsteraを使うのか</a><a href="/product/value/">03 費用対効果・導入価値</a><a href="/product/process/">04 判断材料生成プロセス</a><a href="/product/engine/">05 多角的判断エンジン</a><a href="/product/usage/">06 利用方法・活用範囲</a><a href="/product/technology/">07 技術基盤</a><a href="/product/integration/">08 連携・拡張性</a></div></details><a href="/use-cases/">活用シーン</a><a href="/support/">支援・投資</a><a href="/docs/">ドキュメント</a><a href="/company/">会社情報</a><a href="https://app.asterav8.jp/pricing">プラン・料金</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a><a class="launch" href="https://app.asterav8.jp/">LAUNCH APP</a><button type="button" data-language-button>言語</button></nav></div></header>
-  <main id="main"><article class="page"><header class="page-hero"><div class="container"><nav class="breadcrumbs" aria-label="パンくず"><a href="/">ホーム</a> / <span>連携・拡張性</span></nav><p class="eyebrow">MAIN 8</p><h1>連携・拡張性</h1><p class="lead">App、API、Webhook、KB、Vault、Storageの責務境界と段階導入。</p></div></header><div class="container page-layout"><aside class="toc" aria-label="目次"><a href="#section-1">01 結論</a><a href="#section-2">02 責務分離</a><a href="#section-3">03 コピー＆ペースト</a><a href="#section-4">04 Web App</a><a href="#section-5">05 外部AI</a><a href="#section-6">06 API</a><a href="#section-7">07 Webhook Gateway</a><a href="#section-8">08 Knowledge Base</a><a href="#section-9">09 Libral-Vault</a><a href="#section-10">10 TGserver</a><a href="#section-11">11 外部Storage</a><a href="#section-12">12 Private Mode</a><a href="#section-13">13 段階導入</a><a href="#section-14">14 障害境界・重要事項</a></aside><div class="page-main"><section class="page-visual visual-hub" aria-labelledby="visual-title"><p class="eyebrow">VISUAL GUIDE</p><h2 id="visual-title">中心と周辺の関係</h2><div class="visual-grid"><div class="visual-item"><strong>01 結論</strong><span>判断材料生成、最終回答、Event受信、秘密情報、Log、Knowledgeを別々の責務へ分けます。</span></div><div class="visual-item"><strong>02 責務分離</strong><span>Astera本体、App、API、Webhook、KB、Vault、TGserver、StorageのOwnerを明確にします。</span></div><div class="visual-item"><strong>03 コピー＆ペースト</strong><span>最も単純な接続で、判断材料を主役AIへ手動で渡せます。</span></div><div class="visual-item"><strong>04 Web App</strong><span>Account、履歴、用途選択、結果表示、料金確認をApp側で管理します。</span></div><div class="visual-item"><strong>05 外部AI</strong><span>最終回答を生成する主役AIとして任意に接続し、Providerを固定しません。</span></div><div class="visual-item"><strong>06 API</strong><span>認証、Scope、Request ID、Rate、Error、Idempotencyを公開Contractで管理します。</span></div></div></section><section class="content-section" id="section-1"><p class="eyebrow">01</p><h2>結論</h2><p>判断材料生成、最終回答、Event受信、秘密情報、Log、Knowledgeを別々の責務へ分けます。</p></section><section class="content-section" id="section-2"><p class="eyebrow">02</p><h2>責務分離</h2><p>Astera本体、App、API、Webhook、KB、Vault、TGserver、StorageのOwnerを明確にします。</p></section><section class="content-section" id="section-3"><p class="eyebrow">03</p><h2>コピー＆ペースト</h2><p>最も単純な接続で、判断材料を主役AIへ手動で渡せます。</p></section><section class="content-section" id="section-4"><p class="eyebrow">04</p><h2>Web App</h2><p>Account、履歴、用途選択、結果表示、料金確認をApp側で管理します。</p></section><section class="content-section" id="section-5"><p class="eyebrow">05</p><h2>外部AI</h2><p>最終回答を生成する主役AIとして任意に接続し、Providerを固定しません。</p></section><section class="content-section" id="section-6"><p class="eyebrow">06</p><h2>API</h2><p>認証、Scope、Request ID、Rate、Error、Idempotencyを公開Contractで管理します。</p></section><section class="content-section" id="section-7"><p class="eyebrow">07</p><h2>Webhook Gateway</h2><p>Event受信、署名検証、正規化、Queue、Retry、Replay、Auditを独立Systemで行います。</p></section><section class="content-section" id="section-8"><p class="eyebrow">08</p><h2>Knowledge Base</h2><p>公開KBとPrivate Knowledgeを分け、権限とSourceを保持します。</p></section><section class="content-section" id="section-9"><p class="eyebrow">09</p><h2>Libral-Vault</h2><p>Secret・認証情報を通常処理から分離し、目的・権限・期限付き利用へ制限します。</p></section><section class="content-section" id="section-10"><p class="eyebrow">10</p><h2>TGserver</h2><p>System Health、障害、Deploy、Backup、復旧等の秘匿化Logを扱います。</p></section><section class="content-section" id="section-11"><p class="eyebrow">11</p><h2>外部Storage</h2><p>大容量File、利用者選択Storage、保存・削除・Export境界を管理します。</p></section><section class="content-section" id="section-12"><p class="eyebrow">12</p><h2>Private Mode</h2><p>外部送信、保存、Provider、Log範囲を利用者設定と契約に従って制限します。</p></section><section class="content-section" id="section-13"><p class="eyebrow">13</p><h2>段階導入</h2><p>コピー＆ペースト→Web App→API→Webhook／KB→専有構成の順で導入できます。</p></section><section class="content-section" id="section-14"><p class="eyebrow">14</p><h2>障害境界・重要事項</h2><p>一部外部Systemが停止してもStatic本文や他の責務をBlockせず、未提供機能を利用可能と表示しません。</p></section><aside class="related"><h2>関連ページ</h2><div class="related-links"><a href="/">/</a><a href="/product/what-is-astera/">/product/what-is-astera/</a><a href="/product/why-astera/">/product/why-astera/</a><a href="/product/value/">/product/value/</a><a href="/product/process/">/product/process/</a><a href="/product/engine/">/product/engine/</a><a href="/product/usage/">/product/usage/</a><a href="/product/technology/">/product/technology/</a><a href="https://app.asterav8.jp/" rel="external noopener">https://app.asterav8.jp/</a><a href="https://app.asterav8.jp/pricing" rel="external noopener">https://app.asterav8.jp/pricing</a></div></aside></div></div></article></main>
-  <footer class="site-footer"><div class="footer-grid"><section><p class="footer-brand">Astera <small>v8</small></p><p>問いを星図に変える。</p></section><nav aria-label="製品"><a href="/product/what-is-astera/">01 Asteraとは？</a><a href="/product/why-astera/">02 なぜAsteraを使うのか</a><a href="/product/value/">03 費用対効果・導入価値</a><a href="/product/process/">04 判断材料生成プロセス</a><a href="/product/engine/">05 多角的判断エンジン</a><a href="/product/usage/">06 利用方法・活用範囲</a><a href="/product/technology/">07 技術基盤</a><a href="/product/integration/">08 連携・拡張性</a></nav><nav aria-label="情報"><a href="/use-cases/">活用シーン</a><a href="/docs/">Docs</a><a href="/developers/">Developers</a><a href="/qa/">Q&amp;A</a><a href="/chat/">総合案内AI</a></nav><nav aria-label="運営"><a href="/support/">支援</a><a href="/corporate/">法人</a><a href="/investors/">投資家</a><a href="/company/">会社情報</a><a href="/contact/">Contact</a></nav><nav aria-label="法務"><a href="/legal/terms/">利用規約</a><a href="/legal/privacy/">Privacy</a><a href="/legal/commerce/">特商法</a><a href="https://app.asterav8.jp/">App</a><a href="https://app.asterav8.jp/pricing">プラン・料金</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a></nav></div><p class="copyright">© Astera Project</p></footer>
-  <button class="ai-launcher" type="button" data-ai-launcher aria-expanded="false" aria-controls="customer-ai">案内AI</button>
-  <section id="customer-ai" class="ai-bubble" hidden aria-label="Astera総合案内AI"><button type="button" data-ai-close>閉じる</button><p><strong>Astera総合案内AI</strong></p><p>公開情報に基づいて案内します。機微情報は入力しないでください。</p><a href="/chat/">Full Chatを開く</a></section>
-</body></html>
+  <header class="site-header" data-header>
+  <div class="header-shell">
+    <a class="brand asset-missing" href="/" aria-label="Astera ホーム" data-official-logo-pending="/assets/brand/astera-logo-dark.svg">
+      <span class="brand-fallback is-visible">Astera</span>
+      <span class="sr-only">正式ロゴAssetはByte検証完了後に表示します</span>
+    </a>
+    <a class="mobile-launch button is-primary" href="https://app.asterav8.jp/">LAUNCH APP</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="global-nav" data-nav-toggle>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      <span class="sr-only">メニューを開く</span>
+    </button>
+    <nav id="global-nav" class="global-nav" aria-label="主要ナビゲーション" data-global-nav>
+      <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>製品</button>
+      <a class="nav-item" href="/use-cases/">活用シーン</a>
+      <a class="nav-item" href="/support/">支援・投資</a>
+      <a class="nav-item" href="/docs/">ドキュメント</a>
+      <a class="nav-item" href="/company/">会社情報</a>
+      <a class="nav-item" href="https://app.asterav8.jp/pricing">プラン・料金</a>
+      <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a>
+      <a class="button is-primary desktop-launch" href="https://app.asterav8.jp/">LAUNCH APP</a>
+      <button type="button" class="language-button" data-language-open>Language</button>
+    </nav>
+    <div id="product-menu" class="product-menu" hidden data-product-menu>
+      <a href="/product/what-is-astera/"><span>01</span><strong>Asteraとは？</strong></a><a href="/product/why-astera/"><span>02</span><strong>なぜAsteraを使うのか</strong></a><a href="/product/value/"><span>03</span><strong>費用対効果・導入価値</strong></a><a href="/product/process/"><span>04</span><strong>判断材料生成プロセス</strong></a><a href="/product/engine/"><span>05</span><strong>多角的判断エンジン</strong></a><a href="/product/usage/"><span>06</span><strong>利用方法・活用範囲</strong></a><a href="/product/technology/"><span>07</span><strong>技術基盤</strong></a><a href="/product/integration/"><span>08</span><strong>連携・拡張性</strong></a>
+    </div>
+  </div>
+</header>
+
+  <main id="main"><article class="page article-page">
+  <header class="page-hero section-frame">
+    <nav class="breadcrumbs" aria-label="パンくず"><a href="/">ホーム</a><span aria-hidden="true">/</span><span>連携・拡張性</span></nav>
+    <p class="eyebrow">MAIN 8</p>
+    <h1>連携・拡張性</h1>
+    <p class="lead">App、API、Webhook、KB、Vault、Storageの責務境界と段階導入。</p>
+    
+  </header>
+  <section class="page-visual visual-hub section-frame" data-visual-kind="hub" aria-labelledby="visual-title-integration"><header class="section-heading" data-reveal><p>VISUAL GUIDE</p><h2 id="visual-title-integration">中心と周辺の関係</h2></header><div class="visual-contract"><div class="visual-center" aria-hidden="true"><span>ASTERA</span></div><article class="visual-item" data-reveal><span>01</span><h3>結論</h3><p>判断材料生成、最終回答、Event受信、秘密情報、Log、Knowledgeを別々の責務へ分けます。</p></article><article class="visual-item" data-reveal><span>02</span><h3>責務分離</h3><p>Astera本体、App、API、Webhook、KB、Vault、TGserver、StorageのOwnerを明確にします。</p></article><article class="visual-item" data-reveal><span>03</span><h3>コピー＆ペースト</h3><p>最も単純な接続で、判断材料を主役AIへ手動で渡せます。</p></article><article class="visual-item" data-reveal><span>04</span><h3>Web App</h3><p>Account、履歴、用途選択、結果表示、料金確認をApp側で管理します。</p></article><article class="visual-item" data-reveal><span>05</span><h3>外部AI</h3><p>最終回答を生成する主役AIとして任意に接続し、Providerを固定しません。</p></article><article class="visual-item" data-reveal><span>06</span><h3>API</h3><p>認証、Scope、Request ID、Rate、Error、Idempotencyを公開Contractで管理します。</p></article></div></section>
+  
+  <div class="article-shell section-frame has-toc">
+    <aside class="toc" aria-label="目次"><a href="#結論">01 結論</a><a href="#全体の責務分離">02 全体の責務分離</a><a href="#コピー-ペースト接続">03 コピー＆ペースト接続</a><a href="#web-app">04 Web App</a><a href="#外部aiとの接続">05 外部AIとの接続</a><a href="#api">06 API</a><a href="#webhook-gateway">07 Webhook Gateway</a><a href="#knowledge-base">08 Knowledge Base</a><a href="#libral-vault">09 Libral-Vault</a><a href="#tgserver">10 TGserver</a><a href="#外部storage">11 外部Storage</a><a href="#private-mode">12 Private Mode</a><a href="#段階的な導入">13 段階的な導入</a><a href="#障害時の境界">14 障害時の境界</a><a href="#拡張しても変えない原則">15 拡張しても変えない原則</a><a href="#公開範囲">16 公開範囲</a></aside>
+    <div class="page-main">
+      <div class="source-content" data-source-id="3a9cdcf128e481f2a053f1b93cefdb88"><section class="content-section source-section" id="結論" data-reveal><p class="section-number">01</p><h2>結論</h2>
+<p>Asteraは、既存のAI、App、業務System、Knowledge Base、通知・Log基盤を置き換えるのではありません。 それぞれの外側または間に、<strong>判断材料生成レイヤー</strong>として接続します。</p>
+<blockquote>コピー＆ペーストで単独利用でき、必要になった部分だけAPI、Webhook、KB、暗号化、Logへ段階的に拡張できる。</blockquote>
+<p>特定AIや一つのCloud Serviceへ全体を依存させないことが、Asteraの拡張原則です。</p>
+</section>
+<section class="content-section source-section" id="全体の責務分離" data-reveal><p class="section-number">02</p><h2>全体の責務分離</h2>
+<pre><code class="language-plain-text">利用者・外部System
+↓
+Astera App／API Gateway
+↓
+Astera v8
+判断材料生成・Lens・比較・再指示
+↓
+主役AI
+最終回答・文章・Code等の生成
+
+必要に応じて横から接続
+├─ Knowledge Base：分野別の根拠・運用情報
+├─ Webhook Gateway：外部Event受信・配送・再送
+├─ Libral-Vault：秘密情報の暗号化・解錠制御
+├─ TGserver：Log・監査・障害情報の外部保管
+└─ 外部Storage：利用者Dataと履歴の保存</code></pre>
+<p>Astera v8がすべてを直接抱えません。</p>
+<ul><li>判断材料生成はAstera v8</li><li>最終回答生成は主役AI</li><li>外部Event処理はWebhook Gateway</li><li>秘密情報保護はLibral-Vault</li><li>Log保管はTGserver</li><li>分野別知識はKB</li><li>決済と個人情報は決済Provider</li></ul>
+<p>責務を分けることで、一つの障害やProvider変更が全体へ広がることを防ぎ、個別交換しやすい構造を作ります。</p>
+</section>
+<section class="content-section source-section" id="コピー-ペースト接続" data-reveal><p class="section-number">03</p><h2>コピー＆ペースト接続</h2>
+<p>Asteraを利用するために、API接続は必須ではありません。</p>
+<pre><code class="language-plain-text">1. ChatGPT、Claude、Gemini等の回答をコピー
+2. Asteraへ貼り付け
+3. 8項目の判断材料を生成
+4. 再指示をコピー
+5. 元のAIまたは別のAIへ貼り付け</code></pre>
+<p>この方法では、利用者は現在使っているAIを変更せず、Asteraの判断工程だけを追加できます。 「APIが使えないからAsteraを利用できない」という依存を作らないことが基本設計です。</p>
+</section>
+<section class="content-section source-section" id="web-app" data-reveal><p class="section-number">04</p><h2>Web App</h2>
+<p>Astera Appは、利用者が直接操作する入口です。 主な責務：</p>
+<ul><li>問い・資料・AI回答の入力</li><li>用途とOptionの選択</li><li>実行前の消費予定表示</li><li>8項目の表示</li><li>再指示のコピー</li><li>履歴・保存設定</li><li>利用状況と残高確認</li></ul>
+<p>AppはAstera v8そのものではありません。Appを変更しても、認知処理Runtimeを別のClientやAPIから再利用できる構造を維持します。</p>
+</section>
+<section class="content-section source-section" id="外部aiとの接続" data-reveal><p class="section-number">05</p><h2>外部AIとの接続</h2>
+<p>Asteraが生成した次の材料を、主役AIへ渡せます。</p>
+<ul><li>本当の目的</li><li>成功条件</li><li>前提不足</li><li>確認済みの事実</li><li>未確認情報</li><li>重点Risk</li><li>反対視点</li><li>比較候補</li><li>推奨判断</li><li>再指示</li></ul>
+<p>接続先の例：</p>
+<ul><li>ChatGPT／OpenAI</li><li>Claude／Anthropic</li><li>Gemini</li><li>Ollama</li><li>OpenAI互換API</li><li>自作AI</li><li>自社AI</li><li>Rule-based System</li></ul>
+<p>外部AIの回答精度、保存条件、利用規約、料金、障害、仕様変更は各Providerに依存します。Asteraは接続先AIそのものを管理・保証しません。</p>
+</section>
+<section class="content-section source-section" id="api" data-reveal><p class="section-number">06</p><h2>API</h2>
+<p>APIは、Asteraの判断材料生成を、自作App、自社System、AI Agent、Bot、業務Workflow等へ組み込む入口です。</p>
+<h3 id="apiの中心成果物">APIの中心成果物</h3>
+<ul><li>Cognitive Map</li><li>8項目の判断材料</li><li>Evidence情報</li><li>Candidate Ranking</li><li>主役AI用の再指示</li></ul>
+<p>最終回答生成を必須にせず、利用側が選んだAIや人間へ材料を渡せることを重視します。</p>
+<h3 id="利用例">利用例</h3>
+<ul><li>自社Appの入力前処理</li><li>AI Agentの実行前確認</li><li>問い合わせAIの回答材料生成</li><li>社内稟議の論点整理</li><li>複数AIへ共通判断材料を配布</li><li>文書、比較、調査工程の共通化</li></ul>
+<h3 id="api-gatewayの役割">API Gatewayの役割</h3>
+<ul><li>認証</li><li>Tenant・Account確認</li><li>使用量・Credit確認</li><li>Rate Limit</li><li>Request検証</li><li>Astera v8へのRouting</li><li>Response整形</li><li>Log・監査連携</li></ul>
+<p>アプリから直接内部Runtimeへ無制限に接続せず、Gatewayを関所として扱います。</p>
+</section>
+<section class="content-section source-section" id="webhook-gateway" data-reveal><p class="section-number">07</p><h2>Webhook Gateway</h2>
+<p>Webhook Gatewayは、外部Serviceから送られるEventを一元受信し、検証、保存、配送、再送、復旧する独立Systemです。</p>
+<h3 id="asteraとの関係">Asteraとの関係</h3>
+<p>Asteraが外部Serviceごとの署名形式、Retry、Event保存、配送失敗を直接抱えるのではなく、Webhook Gatewayが外部Eventを正規化し、必要な処理先へ届けます。</p>
+<pre><code class="language-plain-text">GitHub／Stripe／Slack／Telegram／Generic HMAC
+↓
+Webhook Gateway
+署名検証・正規化・保存・Queue
+↓
+Astera App／Astera v8／通知先／業務System</code></pre>
+<h3 id="想定provider">想定Provider</h3>
+<ul><li>GitHub</li><li>Stripe</li><li>Slack</li><li>Telegram</li><li>Generic HMAC</li></ul>
+<h3 id="中核責務">中核責務</h3>
+<ul><li>Raw Bodyを使用した署名検証</li><li>CloudEvents形式への正規化</li><li>EventとDeliveryの保存</li><li>Queueによる配送</li><li>Retry、Dead Letter、Replay</li><li>Audit</li><li>障害時Spool退避とRecovery</li></ul>
+<h3 id="重要な防御-配送保証設計">重要な防御・配送保証設計</h3>
+<ul><li>Redis ZSET Sliding Window＋LuaによるRate Policy</li><li>DNS解決とIP分類によるSSRF Guard</li><li>DB保存後のQueue失敗を回収するOutbox</li><li>Redis共有状態のCircuit Breaker</li><li>Raw BodyのAES-256-GCM暗号化</li><li>Replay Cooldownと回数上限</li><li>DB障害時のSpool退避、上限、復旧</li></ul>
+<h3 id="状態の表示原則">状態の表示原則</h3>
+<p>Webhook Gatewayについて、設計済み、実装済み、Test済み、本番検証済みを分けて表示します。設計書に存在する機能を、実装・検証済みとして扱いません。</p>
+</section>
+<section class="content-section source-section" id="knowledge-base" data-reveal><p class="section-number">08</p><h2>Knowledge Base</h2>
+<p>AsteraのKBは、回答を固定文から検索するだけのFAQ Botを目的としません。 Asteraの判断工程で必要になる、次の情報を供給します。</p>
+<ul><li>製品仕様</li><li>利用手順</li><li>料金・契約・解約</li><li>障害・復旧</li><li>開発者向け技術情報</li><li>法令・Guideline・公式情報</li><li>Evidenceの参照先</li><li>追加質問への回答材料</li></ul>
+<h3 id="free-layerと拡張layer">Free Layerと拡張Layer</h3>
+<p>公開情報を基にした基礎KBと、追加収集・検証した専門Dataを分離できます。 KBの内容だけで結論を固定せず、Domain Lens、Fact、Risk、Inquiry、Compareが、対象の問いに合わせて使用する情報を選びます。</p>
+<h3 id="private-knowledge">Private Knowledge</h3>
+<p>法人・開発者は、権限範囲内で自社資料、規定、製品情報、運用手順等を接続できます。 公開KB、利用者Private KB、外部検索結果を混同せず、Sourceと権限を分けることが必要です。</p>
+</section>
+<section class="content-section source-section" id="libral-vault" data-reveal><p class="section-number">09</p><h2>Libral-Vault</h2>
+<p>Libral-Vaultは、秘密情報や機密Dataを扱うための独立した秘匿・鍵制御基盤です。</p>
+<h3 id="想定責務">想定責務</h3>
+<ul><li>通信・保存時の暗号化</li><li>Key管理</li><li>Secret Capsule</li><li>Unlock Grant</li><li>一時復号</li><li>期限・権限付き利用</li><li>Audit記録</li></ul>
+<h3 id="asteraとの関係-2">Asteraとの関係</h3>
+<p>Astera v8が秘密鍵や平文の機密情報を常時保持するのではなく、必要な処理へ必要な時間だけ解錠権限を渡す構造を目指します。</p>
+<pre><code class="language-plain-text">暗号化されたData
+↓
+権限・期限・目的を確認
+↓
+一時Unlock Grant
+↓
+必要な処理だけが一時利用
+↓
+権限失効・監査記録</code></pre>
+<h3 id="表示原則">表示原則</h3>
+<p>暗号化を使用しても「絶対に漏えいしない」「完全に安全」とは表示しません。Algorithm、Key管理、実装、運用、権限、端末、外部Providerまで含めた実測と監査が必要です。</p>
+</section>
+<section class="content-section source-section" id="tgserver" data-reveal><p class="section-number">10</p><h2>TGserver</h2>
+<p>TGserverは、Asteraと周辺SystemのLog、障害情報、監査情報、Backupを、実行ServerのLocal Storageだけに依存せず外部へ配送・保管するための基盤です。</p>
+<h3 id="役割">役割</h3>
+<ul><li>Application Log</li><li>Error Log</li><li>Audit Log</li><li>Deploy・Build結果</li><li>障害時の状況</li><li>Backup成果物</li><li>Topic別整理</li></ul>
+<h3 id="分離する理由">分離する理由</h3>
+<p>実行Serverが停止、破損、容量不足になった場合、同じServer内のLogだけでは原因調査できません。外部Log保管へ配送し、実行環境とEvidenceを分離します。 TGserverは判断材料生成を行いません。Astera v8、Webhook Gateway、App等の運用Evidenceを保存する補助基盤です。</p>
+</section>
+<section class="content-section source-section" id="外部storage" data-reveal><p class="section-number">11</p><h2>外部Storage</h2>
+<p>利用者が選んだ外部Storageへ、結果、履歴、Template、Private Knowledge等を保存・転送する構造を取れます。 確認すべき項目：</p>
+<ul><li>保存対象</li><li>保存期間</li><li>暗号化</li><li>Access権限</li><li>Data削除</li><li>Provider障害</li><li>容量</li><li>解約後の移行</li><li>国外移転</li></ul>
+<p>Asteraが外部Storage Providerの可用性、保存、削除、規約を保証するものではありません。</p>
+</section>
+<section class="content-section source-section" id="private-mode" data-reveal><p class="section-number">12</p><h2>Private Mode</h2>
+<p>Private Modeでは、入力、出力、履歴、Template等を、利用者が選択したStorageへ保存し、Astera側へ不要なDataを残さない構造を取ります。 ただし、次を事前に明確にする必要があります。</p>
+<ul><li>不正防止や課金に必要なMetadata</li><li>Error調査に必要な最小情報</li><li>保存先ProviderのData取扱い</li><li>利用者自身のAccess管理</li><li>削除とBackupの関係</li></ul>
+<p>「Astera Serverに本文を保存しない」と「通信経路や外部Serviceを含めて誰もDataを扱わない」は同じではありません。</p>
+</section>
+<section class="content-section source-section" id="段階的な導入" data-reveal><p class="section-number">13</p><h2>段階的な導入</h2>
+<h3 id="stage-1-手動利用">Stage 1｜手動利用</h3>
+<p>コピー＆ペーストでAsteraを使用します。既存AIと業務Systemを変更しません。</p>
+<h3 id="stage-2-web-app">Stage 2｜Web App</h3>
+<p>履歴、Option、保存、利用状況等を画面から管理します。</p>
+<h3 id="stage-3-api">Stage 3｜API</h3>
+<p>繰り返し処理や自社Appから判断材料生成を呼び出します。</p>
+<h3 id="stage-4-webhook-kb-storage">Stage 4｜Webhook・KB・Storage</h3>
+<p>外部Event、社内Knowledge、Storageへ接続します。</p>
+<h3 id="stage-5-vault-法人専有構成">Stage 5｜Vault・法人専有構成</h3>
+<p>秘密情報、権限、監査、専有環境、SLA等を個別設計します。</p>
+<p>最初から全Systemを導入する必要はありません。必要な責務だけを追加し、既存構成を壊さず拡張します。</p>
+</section>
+<section class="content-section source-section" id="障害時の境界" data-reveal><p class="section-number">14</p><h2>障害時の境界</h2>
+<h3 id="主役aiが停止した場合">主役AIが停止した場合</h3>
+<p>Asteraは判断材料を生成できても、接続先AIによる最終回答は生成できません。別Providerまたは人間へ判断材料を渡します。</p>
+<h3 id="webhook-gatewayが停止した場合">Webhook Gatewayが停止した場合</h3>
+<p>外部Eventの受信・配送に影響します。Asteraの手動利用や直接API利用とは分離します。</p>
+<h3 id="kbが利用できない場合">KBが利用できない場合</h3>
+<p>KB依存のEvidence取得は制限されますが、入力Dataと基本処理だけで未確認事項を残して続行できる構造を維持します。</p>
+<h3 id="tgserverが停止した場合">TGserverが停止した場合</h3>
+<p>Log配送と外部保管に影響します。判断処理自体と分離し、Local Buffer、再配送、容量上限を設計します。</p>
+<h3 id="libral-vaultが利用できない場合">Libral-Vaultが利用できない場合</h3>
+<p>暗号化Dataの解錠を必要とする処理を停止し、平文へ勝手にFallbackしません。</p>
+</section>
+<section class="content-section source-section" id="拡張しても変えない原則" data-reveal><p class="section-number">15</p><h2>拡張しても変えない原則</h2>
+<ul><li>Asteraは主役AIを置き換えない</li><li>最終判断を自動で奪わない</li><li>判断材料生成と外部Systemの責務を混ぜない</li><li>API接続を利用の必須条件にしない</li><li>秘密情報を不要に集中させない</li><li>実装済み、Test済み、計画を混同しない</li><li>障害時に影響範囲を限定する</li><li>各Componentを交換可能にする</li></ul>
+</section>
+<section class="content-section source-section" id="公開範囲" data-reveal><p class="section-number">16</p><h2>公開範囲</h2>
+<p>本ページでは、利用者、開発者、投資家が、責務、依存関係、Data Flow、導入段階、障害境界を判断するための情報を公開します。 内部Endpoint、秘密鍵、Network詳細、認証情報、攻撃へ悪用できる具体的制御値、非公開の復旧手順は公開しません。</p>
+</section></div>
+      <aside class="related"><h2>関連ページ</h2><div class="related-links"><a href="/">/</a><a href="/product/what-is-astera/">/product/what-is-astera/</a><a href="/product/why-astera/">/product/why-astera/</a><a href="/product/value/">/product/value/</a><a href="/product/process/">/product/process/</a><a href="/product/engine/">/product/engine/</a><a href="/product/usage/">/product/usage/</a><a href="/product/technology/">/product/technology/</a><a href="https://app.asterav8.jp/" rel="external noopener">https://app.asterav8.jp/</a><a href="https://app.asterav8.jp/pricing" rel="external noopener">https://app.asterav8.jp/pricing</a></div></aside>
+    </div>
+  </div>
+</article>
+</main>
+  <footer class="site-footer">
+  <div class="footer-shell">
+    <section class="footer-brand asset-missing" data-official-logo-pending="/assets/brand/astera-logo-dark.svg">
+      <span class="brand-fallback is-visible">Astera</span>
+      <span class="sr-only">正式ロゴAssetはByte検証完了後に表示します</span>
+      <p>問いを星図に変える。</p>
+    </section>
+    <nav aria-label="製品"><h2>Product</h2><a href="/product/what-is-astera/">01 Asteraとは？</a><a href="/product/why-astera/">02 なぜAsteraを使うのか</a><a href="/product/value/">03 費用対効果・導入価値</a><a href="/product/process/">04 判断材料生成プロセス</a><a href="/product/engine/">05 多角的判断エンジン</a><a href="/product/usage/">06 利用方法・活用範囲</a><a href="/product/technology/">07 技術基盤</a><a href="/product/integration/">08 連携・拡張性</a></nav>
+    <nav aria-label="情報"><h2>Explore</h2><a href="/use-cases/">活用シーン</a><a href="/docs/">Docs</a><a href="/developers/">Developers</a><a href="/qa/">Q&amp;A</a><a href="/chat/">総合案内AI</a></nav>
+    <nav aria-label="運営"><h2>Project</h2><a href="/support/">支援</a><a href="/corporate/">法人</a><a href="/investors/">投資家</a><a href="/company/">会社情報</a><a href="/contact/">Contact</a></nav>
+    <nav aria-label="法務と外部サービス"><h2>Legal / Access</h2><a href="/legal/terms/">利用規約</a><a href="/legal/privacy/">Privacy</a><a href="/legal/commerce/">特商法</a><a href="https://app.asterav8.jp/">App</a><a href="https://app.asterav8.jp/pricing">プラン・料金</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a></nav>
+  </div>
+  <p class="copyright">© 2026 Astera Project.</p>
+</footer>
+
+  <button class="ai-launcher" type="button" data-ai-launcher aria-expanded="false" aria-controls="customer-ai"><span aria-hidden="true">✦</span><span>案内AI</span></button>
+  <section id="customer-ai" class="ai-bubble" hidden role="dialog" aria-modal="true" aria-labelledby="customer-ai-title" data-ai-panel>
+    <div class="ai-sheet-handle" aria-hidden="true"></div>
+    <header><div><p class="eyebrow">PUBLIC GUIDE</p><h2 id="customer-ai-title">Astera総合案内AI</h2></div><button type="button" data-ai-close aria-label="閉じる">×</button></header>
+    <p>公開情報に基づいて案内します。Password、API Key、Card情報、医療等の機微情報は入力しないでください。</p>
+    <form data-bubble-chat-form class="bubble-chat-form"><label>回答Type<select name="answerType"><option value="general">一般</option><option value="technical">技術</option><option value="corporate">法人</option><option value="investor">投資家</option><option value="operation">操作説明</option></select></label><label>質問<textarea name="message" maxlength="12000" required></textarea></label><button class="button is-primary" type="submit">送信</button><div data-bubble-answer aria-live="polite"></div></form>
+    <nav aria-label="案内AIの代替導線"><a href="/chat/">Full Chat</a><a href="/qa/">Q&amp;A</a><a href="/contact/">お問い合わせ</a></nav>
+  </section>
+  <section class="language-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="language-title" data-language-dialog><div class="dialog-card"><button type="button" data-language-close aria-label="閉じる">×</button><h2 id="language-title">Language</h2><p>現在の公開本文は日本語です。対応言語は実装・検証済みのものだけを追加します。</p></div></section>
+  <script type="module" src="/assets/app.js"></script>
+  <script type="module" src="/assets/motion.js"></script>
+</body>
+</html>

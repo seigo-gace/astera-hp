@@ -9,17 +9,202 @@
   <link rel="canonical" href="https://asterav8.jp/product/technology/">
   <meta property="og:type" content="website"><meta property="og:site_name" content="Astera"><meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="技術基盤｜Astera"><meta property="og:description" content="V8／Node.js Runtime、Worker、依存順序、品質Gate、公開範囲を説明する。"><meta property="og:url" content="https://asterav8.jp/product/technology/">
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="技術基盤｜Astera"><meta name="twitter:description" content="V8／Node.js Runtime、Worker、依存順序、品質Gate、公開範囲を説明する。">
+  <meta property="og:image" content="https://asterav8.jp/assets/og/astera-home.png">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="技術基盤｜Astera"><meta name="twitter:description" content="V8／Node.js Runtime、Worker、依存順序、品質Gate、公開範囲を説明する。">
+  <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/images/astera-globe-top.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="/assets/style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asterav8.jp/#organization","name":"Astera","url":"https://asterav8.jp/"},{"@type":"WebSite","@id":"https://asterav8.jp/#website","name":"Astera","url":"https://asterav8.jp/","inLanguage":"ja-JP"},{"@type":"WebPage","@id":"https://asterav8.jp/product/technology/#page","url":"https://asterav8.jp/product/technology/","name":"技術基盤｜Astera","description":"V8／Node.js Runtime、Worker、依存順序、品質Gate、公開範囲を説明する。","inLanguage":"ja-JP"}]}</script>
-  <script type="module" src="/assets/app.js"></script>
-  <script type="module" src="/assets/motion.js"></script>
+  <link rel="stylesheet" href="/assets/source-content.css">
+  <link rel="stylesheet" href="/assets/astera-aurora.css">
+  <link rel="stylesheet" href="/assets/astera-hero-image.css">
+  <link rel="stylesheet" href="/assets/notion-complete.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://asterav8.jp/#website","name":"Astera","url":"https://asterav8.jp/","inLanguage":"ja-JP"},{"@type":"WebPage","@id":"https://asterav8.jp/product/technology/#page","url":"https://asterav8.jp/product/technology/","name":"技術基盤｜Astera","description":"V8／Node.js Runtime、Worker、依存順序、品質Gate、公開範囲を説明する。","inLanguage":"ja-JP"}]}</script>
 </head>
 <body data-route="technology">
   <a class="skip-link" href="#main">本文へ移動</a>
-  <header class="site-header" data-site-header><div class="header-inner"><a class="brand" href="/" aria-label="Astera ホーム"><span class="brand-text">Astera</span><small>v8</small></a><button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-nav">MENU</button><nav id="site-nav" class="site-nav" aria-label="主要ナビゲーション"><details class="product-menu"><summary>製品</summary><div class="mega-menu"><a href="/product/what-is-astera/">01 Asteraとは？</a><a href="/product/why-astera/">02 なぜAsteraを使うのか</a><a href="/product/value/">03 費用対効果・導入価値</a><a href="/product/process/">04 判断材料生成プロセス</a><a href="/product/engine/">05 多角的判断エンジン</a><a href="/product/usage/">06 利用方法・活用範囲</a><a href="/product/technology/">07 技術基盤</a><a href="/product/integration/">08 連携・拡張性</a></div></details><a href="/use-cases/">活用シーン</a><a href="/support/">支援・投資</a><a href="/docs/">ドキュメント</a><a href="/company/">会社情報</a><a href="https://app.asterav8.jp/pricing">プラン・料金</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a><a class="launch" href="https://app.asterav8.jp/">LAUNCH APP</a><button type="button" data-language-button>言語</button></nav></div></header>
-  <main id="main"><article class="page"><header class="page-hero"><div class="container"><nav class="breadcrumbs" aria-label="パンくず"><a href="/">ホーム</a> / <span>技術基盤</span></nav><p class="eyebrow">MAIN 8</p><h1>技術基盤</h1><p class="lead">V8／Node.js Runtime、Worker、依存順序、品質Gate、公開範囲を説明する。</p></div></header><div class="container page-layout"><aside class="toc" aria-label="目次"><a href="#section-1">01 結論</a><a href="#section-2">02 V8の役割</a><a href="#section-3">03 Runtime分離理由</a><a href="#section-4">04 処理依存関係</a><a href="#section-5">05 Worker Pool</a><a href="#section-6">06 5本柱と8項目</a><a href="#section-7">07 候補生成</a><a href="#section-8">08 Provider非依存</a><a href="#section-9">09 Cognitive Map</a><a href="#section-10">10 Human Reader／Lens／Overlay</a><a href="#section-11">11 QualityCompletionEvaluator</a><a href="#section-12">12 検証Evidence</a><a href="#section-13">13 Security・軽量性</a><a href="#section-14">14 公開範囲と未実測</a></aside><div class="page-main"><section class="page-visual visual-flow" aria-labelledby="visual-title"><p class="eyebrow">VISUAL GUIDE</p><h2 id="visual-title">流れを一目で確認</h2><div class="visual-grid"><div class="visual-item"><strong>01 結論</strong><span>AsteraはAI Modelではなく、V8／Node.js上で処理の責務、依存順序、状態、比較を制御するRuntimeです。</span></div><div class="visual-item"><strong>02 V8の役割</strong><span>軽量なWorkflow、Task、非同期、並列、状態管理、結果統合を担当します。</span></div><div class="visual-item"><strong>03 Runtime分離理由</strong><span>生成AIへ全責務を混ぜず、Fact、Risk、Inquiry、候補、比較、検証を独立させます。</span></div><div class="visual-item"><strong>04 処理依存関係</strong><span>独立処理だけ並列化し、Multi、Dialectic、Compareは前段結果を待ちます。</span></div><div class="visual-item"><strong>05 Worker Pool</strong><span>Domain Router、Inquiry、Fact、Risk、Multi、Dialectic、Compare等を役割別に管理します。</span></div><div class="visual-item"><strong>06 5本柱と8項目</strong><span>内部処理の5本柱から、利用者向け8項目へProjectionします。</span></div></div></section><section class="content-section" id="section-1"><p class="eyebrow">01</p><h2>結論</h2><p>AsteraはAI Modelではなく、V8／Node.js上で処理の責務、依存順序、状態、比較を制御するRuntimeです。</p></section><section class="content-section" id="section-2"><p class="eyebrow">02</p><h2>V8の役割</h2><p>軽量なWorkflow、Task、非同期、並列、状態管理、結果統合を担当します。</p></section><section class="content-section" id="section-3"><p class="eyebrow">03</p><h2>Runtime分離理由</h2><p>生成AIへ全責務を混ぜず、Fact、Risk、Inquiry、候補、比較、検証を独立させます。</p></section><section class="content-section" id="section-4"><p class="eyebrow">04</p><h2>処理依存関係</h2><p>独立処理だけ並列化し、Multi、Dialectic、Compareは前段結果を待ちます。</p></section><section class="content-section" id="section-5"><p class="eyebrow">05</p><h2>Worker Pool</h2><p>Domain Router、Inquiry、Fact、Risk、Multi、Dialectic、Compare等を役割別に管理します。</p></section><section class="content-section" id="section-6"><p class="eyebrow">06</p><h2>5本柱と8項目</h2><p>内部処理の5本柱から、利用者向け8項目へProjectionします。</p></section><section class="content-section" id="section-7"><p class="eyebrow">07</p><h2>候補生成</h2><p>複数候補を軽量に生成し、外部LLMの大量呼出しを前提にしません。</p></section><section class="content-section" id="section-8"><p class="eyebrow">08</p><h2>Provider非依存</h2><p>外部AI接続は任意で、判断材料を複数Providerまたは人へ渡せます。</p></section><section class="content-section" id="section-9"><p class="eyebrow">09</p><h2>Cognitive Map</h2><p>目的、前提、Fact、Risk、候補、Evidence、未解決を構造化して保持します。</p></section><section class="content-section" id="section-10"><p class="eyebrow">10</p><h2>Human Reader／Lens／Overlay</h2><p>分野、Current性、高Risk、利用者状態に応じて確認基準を切り替えます。</p></section><section class="content-section" id="section-11"><p class="eyebrow">11</p><h2>QualityCompletionEvaluator</h2><p>必須項目、Evidence、矛盾、未解決、Blocking条件で完成判定を行います。</p></section><section class="content-section" id="section-12"><p class="eyebrow">12</p><h2>検証Evidence</h2><p>implemented、tested、documented、planned、not_verifiedを分けて公開します。</p></section><section class="content-section" id="section-13"><p class="eyebrow">13</p><h2>Security・軽量性</h2><p>Secretを公開面へ出さず、外部依存と処理量を抑え、障害境界を分離します。</p></section><section class="content-section" id="section-14"><p class="eyebrow">14</p><h2>公開範囲と未実測</h2><p>設計・Local Test・本番実測を混同せず、未検証性能を確定表示しません。</p></section><aside class="related"><h2>関連ページ</h2><div class="related-links"><a href="/">/</a><a href="/product/what-is-astera/">/product/what-is-astera/</a><a href="/product/why-astera/">/product/why-astera/</a><a href="/product/value/">/product/value/</a><a href="/product/process/">/product/process/</a><a href="/product/engine/">/product/engine/</a><a href="/product/usage/">/product/usage/</a><a href="/product/integration/">/product/integration/</a><a href="https://app.asterav8.jp/" rel="external noopener">https://app.asterav8.jp/</a><a href="https://app.asterav8.jp/pricing" rel="external noopener">https://app.asterav8.jp/pricing</a></div></aside></div></div></article></main>
-  <footer class="site-footer"><div class="footer-grid"><section><p class="footer-brand">Astera <small>v8</small></p><p>問いを星図に変える。</p></section><nav aria-label="製品"><a href="/product/what-is-astera/">01 Asteraとは？</a><a href="/product/why-astera/">02 なぜAsteraを使うのか</a><a href="/product/value/">03 費用対効果・導入価値</a><a href="/product/process/">04 判断材料生成プロセス</a><a href="/product/engine/">05 多角的判断エンジン</a><a href="/product/usage/">06 利用方法・活用範囲</a><a href="/product/technology/">07 技術基盤</a><a href="/product/integration/">08 連携・拡張性</a></nav><nav aria-label="情報"><a href="/use-cases/">活用シーン</a><a href="/docs/">Docs</a><a href="/developers/">Developers</a><a href="/qa/">Q&amp;A</a><a href="/chat/">総合案内AI</a></nav><nav aria-label="運営"><a href="/support/">支援</a><a href="/corporate/">法人</a><a href="/investors/">投資家</a><a href="/company/">会社情報</a><a href="/contact/">Contact</a></nav><nav aria-label="法務"><a href="/legal/terms/">利用規約</a><a href="/legal/privacy/">Privacy</a><a href="/legal/commerce/">特商法</a><a href="https://app.asterav8.jp/">App</a><a href="https://app.asterav8.jp/pricing">プラン・料金</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a></nav></div><p class="copyright">© Astera Project</p></footer>
-  <button class="ai-launcher" type="button" data-ai-launcher aria-expanded="false" aria-controls="customer-ai">案内AI</button>
-  <section id="customer-ai" class="ai-bubble" hidden aria-label="Astera総合案内AI"><button type="button" data-ai-close>閉じる</button><p><strong>Astera総合案内AI</strong></p><p>公開情報に基づいて案内します。機微情報は入力しないでください。</p><a href="/chat/">Full Chatを開く</a></section>
-</body></html>
+  <header class="site-header" data-header>
+  <div class="header-shell">
+    <a class="brand asset-missing" href="/" aria-label="Astera ホーム" data-official-logo-pending="/assets/brand/astera-logo-dark.svg">
+      <span class="brand-fallback is-visible">Astera</span>
+      <span class="sr-only">正式ロゴAssetはByte検証完了後に表示します</span>
+    </a>
+    <a class="mobile-launch button is-primary" href="https://app.asterav8.jp/">LAUNCH APP</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="global-nav" data-nav-toggle>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      <span class="sr-only">メニューを開く</span>
+    </button>
+    <nav id="global-nav" class="global-nav" aria-label="主要ナビゲーション" data-global-nav>
+      <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>製品</button>
+      <a class="nav-item" href="/use-cases/">活用シーン</a>
+      <a class="nav-item" href="/support/">支援・投資</a>
+      <a class="nav-item" href="/docs/">ドキュメント</a>
+      <a class="nav-item" href="/company/">会社情報</a>
+      <a class="nav-item" href="https://app.asterav8.jp/pricing">プラン・料金</a>
+      <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a>
+      <a class="button is-primary desktop-launch" href="https://app.asterav8.jp/">LAUNCH APP</a>
+      <button type="button" class="language-button" data-language-open>Language</button>
+    </nav>
+    <div id="product-menu" class="product-menu" hidden data-product-menu>
+      <a href="/product/what-is-astera/"><span>01</span><strong>Asteraとは？</strong></a><a href="/product/why-astera/"><span>02</span><strong>なぜAsteraを使うのか</strong></a><a href="/product/value/"><span>03</span><strong>費用対効果・導入価値</strong></a><a href="/product/process/"><span>04</span><strong>判断材料生成プロセス</strong></a><a href="/product/engine/"><span>05</span><strong>多角的判断エンジン</strong></a><a href="/product/usage/"><span>06</span><strong>利用方法・活用範囲</strong></a><a href="/product/technology/"><span>07</span><strong>技術基盤</strong></a><a href="/product/integration/"><span>08</span><strong>連携・拡張性</strong></a>
+    </div>
+  </div>
+</header>
+
+  <main id="main"><article class="page article-page">
+  <header class="page-hero section-frame">
+    <nav class="breadcrumbs" aria-label="パンくず"><a href="/">ホーム</a><span aria-hidden="true">/</span><span>技術基盤</span></nav>
+    <p class="eyebrow">MAIN 8</p>
+    <h1>技術基盤</h1>
+    <p class="lead">V8／Node.js Runtime、Worker、依存順序、品質Gate、公開範囲を説明する。</p>
+    
+  </header>
+  <section class="page-visual visual-flow section-frame" data-visual-kind="flow" aria-labelledby="visual-title-technology"><header class="section-heading" data-reveal><p>VISUAL GUIDE</p><h2 id="visual-title-technology">流れを一目で確認</h2></header><div class="visual-contract"><article class="visual-item" data-reveal><span>01</span><h3>結論</h3><p>AsteraはAI Modelではなく、V8／Node.js上で処理の責務、依存順序、状態、比較を制御するRuntimeです。</p></article><article class="visual-item" data-reveal><span>02</span><h3>V8の役割</h3><p>軽量なWorkflow、Task、非同期、並列、状態管理、結果統合を担当します。</p></article><article class="visual-item" data-reveal><span>03</span><h3>Runtime分離理由</h3><p>生成AIへ全責務を混ぜず、Fact、Risk、Inquiry、候補、比較、検証を独立させます。</p></article><article class="visual-item" data-reveal><span>04</span><h3>処理依存関係</h3><p>独立処理だけ並列化し、Multi、Dialectic、Compareは前段結果を待ちます。</p></article><article class="visual-item" data-reveal><span>05</span><h3>Worker Pool</h3><p>Domain Router、Inquiry、Fact、Risk、Multi、Dialectic、Compare等を役割別に管理します。</p></article><article class="visual-item" data-reveal><span>06</span><h3>5本柱と8項目</h3><p>内部処理の5本柱から、利用者向け8項目へProjectionします。</p></article></div></section>
+  
+  <div class="article-shell section-frame has-toc">
+    <aside class="toc" aria-label="目次"><a href="#結論">01 結論</a><a href="#v8の役割">02 V8の役割</a><a href="#runtimeとして分離する理由">03 Runtimeとして分離する理由</a><a href="#処理の依存関係">04 処理の依存関係</a><a href="#worker-pool">05 Worker Pool</a><a href="#5本柱と8項目の違い">06 5本柱と8項目の違い</a><a href="#複数候補生成">07 複数候補生成</a><a href="#provider非依存">08 Provider非依存</a><a href="#cognitive-mapと成果物">09 Cognitive Mapと成果物</a><a href="#human-reader">10 Human Reader</a><a href="#domain-router-lens-overlay">11 Domain Router・Lens・Overlay</a><a href="#qualitycompletionevaluator">12 QualityCompletionEvaluator</a><a href="#v1-1-1公開document-bundleで確認できる検証">13 v1.1.1公開Document Bundleで確認できる検証</a><a href="#検証を分ける理由">14 検証を分ける理由</a><a href="#securityと責務分離">15 Securityと責務分離</a><a href="#軽量性の設計">16 軽量性の設計</a><a href="#現在のevidenceと今後の実測を分ける">17 現在のEvidenceと今後の実測を分ける</a><a href="#公開範囲">18 公開範囲</a></aside>
+    <div class="page-main">
+      <div class="source-content" data-source-id="3a9cdcf128e48156836be4c5fa8c4778"><section class="content-section source-section" id="結論" data-reveal><p class="section-number">01</p><h2>結論</h2>
+<p>Astera v8は、AIモデルではありません。 Google V8上で動くNode.js Runtimeを使用し、問い、資料、AI回答を複数の独立した確認工程へ分解し、依存関係を守りながら並列・順次実行し、人間と主役AIが再利用できる判断材料へ変換する<strong>Multi-Perspective Cognition Runtime</strong>です。</p>
+<blockquote>AIへすべてを一度に考えさせるのではなく、AIが答える前後の認知処理を、交換可能な独立基盤として外側へ分離する。</blockquote>
+<p>これが技術設計の中心です。</p>
+</section>
+<section class="content-section source-section" id="v8の役割" data-reveal><p class="section-number">02</p><h2>V8の役割</h2>
+<p>V8は、Google ChromeやNode.js等でJavaScriptを実行するために使われる高性能なEngineです。 AsteraにおけるV8の役割は、AI推論そのものではありません。</p>
+<ul><li>Workflow制御</li><li>Task分割</li><li>Worker管理</li><li>非同期処理</li><li>並列処理</li><li>Event処理</li><li>軽量Data変換</li><li>状態管理</li><li>Timeout、Failure、結果統合</li></ul>
+<p>重いLLM推論、外部検索、専門Database、GPU処理等は、それぞれの責務を持つ外部処理へ分離します。</p>
+</section>
+<section class="content-section source-section" id="runtimeとして分離する理由" data-reveal><p class="section-number">03</p><h2>Runtimeとして分離する理由</h2>
+<p>一つのAIへ、次のすべてを同時に任せるとします。</p>
+<ul><li>目的を読み取る</li><li>前提不足を確認する</li><li>事実を確認する</li><li>Riskを探す</li><li>反対意見を出す</li><li>複数案を作る</li><li>比較する</li><li>最終文章を生成する</li></ul>
+<p>この場合、確認工程と回答生成が同じ推論へ混ざります。最終回答をきれいにまとめる過程で、未確認事項、反対意見、弱い候補が消える可能性があります。 Asteraは、判断材料生成を独立Runtimeへ分離し、主役AIを次の役割へ集中させます。</p>
+<ul><li>最終推論</li><li>文章、Code、画像等の生成</li><li>利用者との対話</li><li>Asteraが生成した判断材料の反映</li></ul>
+</section>
+<section class="content-section source-section" id="処理の依存関係" data-reveal><p class="section-number">04</p><h2>処理の依存関係</h2>
+<p>すべての処理を無条件に同時実行しません。</p>
+<pre><code class="language-plain-text">Inquiry Preflight
+↓
+Fact・Risk・Inquiryを並列実行
+↓
+Multiが前段結果を利用
+↓
+Dialecticが候補を生成
+↓
+Compareが全結果を統合
+↓
+8項目と再指示を生成</code></pre>
+<h3 id="並列にできる処理">並列にできる処理</h3>
+<p>Fact、Risk、Inquiryは、それぞれ異なる確認目的を持ち、同じ入力を独立して確認できます。</p>
+<h3 id="前段結果が必要な処理">前段結果が必要な処理</h3>
+<p>MultiはFact、Risk、Inquiryの結果を使います。Dialecticは複数視点から候補を作り、Compareは全候補、Evidence、Risk、矛盾を比較します。 依存関係を守ることで、同じ分析の重複を抑えながら、必要な確認を省略しない構造を作ります。</p>
+</section>
+<section class="content-section source-section" id="worker-pool" data-reveal><p class="section-number">05</p><h2>Worker Pool</h2>
+<p>Asteraは、複数の確認する役割をWorkerへ分けます。 主な責務：</p>
+<ul><li>Fact Worker</li><li>Risk Worker</li><li>Inquiry Worker</li><li>Multi Worker</li><li>Dialectic Worker</li><li>Compare Worker</li><li>Human Reader</li><li>Domain Router</li><li>Quality評価</li></ul>
+<p>Workerを分ける目的は、処理数を見せるためではありません。</p>
+<ul><li>一つの責務へ集中させる</li><li>Failureの影響範囲を限定する</li><li>個別にTestできる</li><li>将来交換できる</li><li>依存順序を明確にする</li><li>同じ基準で再実行しやすくする</li></ul>
+</section>
+<section class="content-section source-section" id="5本柱と8項目の違い" data-reveal><p class="section-number">06</p><h2>5本柱と8項目の違い</h2>
+<p>5本柱は内部の認知処理です。</p>
+<ul><li>Fact</li><li>Risk</li><li>Multi</li><li>Inquiry</li><li>Compare</li></ul>
+<p>8項目は、内部処理の結果を人間と主役AIが使える形へ再編集した外部成果物です。</p>
+<ul><li>本当の目的</li><li>前提不足</li><li>事実確認</li><li>危機察知</li><li>反対視点</li><li>比較案</li><li>推奨判断</li><li>主役AIへの再指示</li></ul>
+<p>内部構造をそのまま利用者へ押しつけず、判断に使用できる固定形式へ変換します。</p>
+</section>
+<section class="content-section source-section" id="複数候補生成" data-reveal><p class="section-number">07</p><h2>複数候補生成</h2>
+<p>Dialectic Workerは、次の候補を生成します。</p>
+<ul><li>主案</li><li>悪手案</li><li>反対案</li><li>第三案</li><li>人読み最適案</li></ul>
+<p>完全PCEのように候補ごとに外部LLMを何度も呼ぶのではなく、ルールベースのPCE-DCEで候補を生成・競合させ、最終LLM呼び出しを必要最小限に抑える設計を採用しています。 目的：</p>
+<ul><li>外部AI費用を増やしすぎない</li><li>Provider障害の影響を抑える</li><li>処理時間を抑える</li><li>候補生成工程を再現しやすくする</li><li>AIを増やすのではなく、入力と判断工程を強くする</li></ul>
+</section>
+<section class="content-section source-section" id="provider非依存" data-reveal><p class="section-number">08</p><h2>Provider非依存</h2>
+<p>Asteraは、最終回答を作るAIを固定しません。 Adapterの対象例：</p>
+<ul><li>OpenAI</li><li>Anthropic</li><li>Ollama</li><li>OpenAI互換API</li><li>Rule-based／Null</li></ul>
+<p>ChatGPT、Claude、Gemini、自社AI等へ判断材料を渡すことができます。API接続はOptionであり、コピー＆ペーストでも認知処理を利用できます。 Providerごとに料金、Privacy、得意分野、利用規約、障害、仕様変更が異なります。主役AIを交換可能にし、Asteraの判断工程を特定Providerから分離します。</p>
+</section>
+<section class="content-section source-section" id="cognitive-mapと成果物" data-reveal><p class="section-number">09</p><h2>Cognitive Mapと成果物</h2>
+<p>Asteraは、処理結果を次の形で返します。</p>
+<ul><li>Cognitive Map</li><li>8項目の判断材料セット</li><li>Compact Output</li><li>主役AI用Prompt</li><li>接続時の任意LLM回答</li></ul>
+<p>主役AIへ渡す中心成果物は、最終回答ではなく、目的、前提、Fact、Risk、反対、比較、推奨、再指示です。</p>
+</section>
+<section class="content-section source-section" id="human-reader" data-reveal><p class="section-number">10</p><h2>Human Reader</h2>
+<p>Human Readerは、入力文章から次の状態の可能性を検出します。</p>
+<ul><li>urgency</li><li>anger</li><li>fatigue</li><li>confusion</li><li>precision</li><li>scope pressure</li><li>build mode</li></ul>
+<p>これは感情診断や人格判定ではありません。説明量、確認質問、出力順序、実行形式を調整するために使います。</p>
+</section>
+<section class="content-section source-section" id="domain-router-lens-overlay" data-reveal><p class="section-number">11</p><h2>Domain Router・Lens・Overlay</h2>
+<p>Domain Routerは、問いの分野を判定し、Primary Lens、Secondary Lens、Overlayを選択します。 Lensが変更する内容：</p>
+<ul><li>何をFactとして確認するか</li><li>どのRiskを優先するか</li><li>誰の立場から見るか</li><li>何を問い直すか</li><li>どの案を、何で比較するか</li><li>どのEvidenceを要求するか</li><li>どこで断定を止めるか</li></ul>
+<p>これにより、医療、法律、事業、開発、研究等へ同じ一般論を適用するのではなく、確認基準そのものを切り替えます。</p>
+</section>
+<section class="content-section source-section" id="qualitycompletionevaluator" data-reveal><p class="section-number">12</p><h2>QualityCompletionEvaluator</h2>
+<p>Asteraの品質Gateは、文章が自然かどうかだけを評価しません。 合格条件として管理する項目：</p>
+<ul><li>品質95点以上</li><li>完成度95点以上</li><li>Blocking 0件</li><li>必須Requirement未達 0件</li><li>Evidence不整合 0件</li><li>評価処理が正常完了</li><li>平均点だけによる合格を禁止</li></ul>
+<p>一部の項目が極端に低い出力を、他項目の点数で相殺して完成扱いにしないためのGateです。 95点という内部品質基準は、最終回答の正しさを95％保証する意味ではありません。<strong>定義した必須要件と構造が欠けていないかを判定する受入基準</strong>です。</p>
+</section>
+<section class="content-section source-section" id="v1-1-1公開document-bundleで確認できる検証" data-reveal><p class="section-number">13</p><h2>v1.1.1公開Document Bundleで確認できる検証</h2>
+<p>公開Document BundleのManifestでは、次の検証手順が定義されています。</p>
+<pre><code class="language-plain-text">npm test
+bash scripts/smoke.sh
+npm run verify</code></pre>
+<p>同Bundleに記録された検証結果：</p>
+<ul><li>11 tests／11 pass</li><li>smoke ok</li></ul>
+<p>これはv1.1.1 Bundleに記録された範囲の検証結果です。現在の全構成、将来Version、本番負荷、長期運用を一括して保証するものではありません。</p>
+</section>
+<section class="content-section source-section" id="検証を分ける理由" data-reveal><p class="section-number">14</p><h2>検証を分ける理由</h2>
+<p>技術基盤の「完成」は、一つのTestが通ったことだけでは判断しません。 必要な検証階層：</p>
+<ul><li>構文</li><li>Build</li><li>Unit Test</li><li>Integration Test</li><li>API Test</li><li>Security Test</li><li>異常系</li><li>境界値</li><li>Timeout、Retry</li><li>Data整合性</li><li>障害・復旧</li><li>性能</li><li>長時間運用</li><li>実環境でのBefore／After</li></ul>
+<p>実行していない検証を、完了・合格として扱いません。</p>
+</section>
+<section class="content-section source-section" id="securityと責務分離" data-reveal><p class="section-number">15</p><h2>Securityと責務分離</h2>
+<p>公開画面、認証、課金、保存、外部通知、Log、検索、秘密情報を、一つの処理へ混在させません。 主な考え方：</p>
+<ul><li>API KeyとTenant状態の管理</li><li>Rate Limit</li><li>Request Payload上限</li><li>CORS Allowlist</li><li>HTTPS／HSTS</li><li>Secret Masking</li><li>Webhook署名検証</li><li>使用量管理</li><li>状態保存</li><li>Logの外部配送</li><li>Container単位の運用</li></ul>
+<p>内部Endpoint、Network構成、秘密鍵、監視値、復旧手順等はSecurity上公開しません。公開すべき責務、Data取扱い、利用条件、検証Evidenceを分けます。</p>
+</section>
+<section class="content-section source-section" id="軽量性の設計" data-reveal><p class="section-number">16</p><h2>軽量性の設計</h2>
+<p>AsteraはAIモデルを内蔵して巨大化するのではなく、次をRuntime側へ置きます。</p>
+<ul><li>軽量分類</li><li>処理Routing</li><li>ルールベースの候補生成</li><li>Worker制御</li><li>結果統合</li><li>再指示生成</li></ul>
+<p>高価な外部AI呼び出しを必要な部分へ限定し、主役AIを交換可能にします。 軽量性は機能を削る意味ではありません。<strong>必要な機能を残しながら、重複した推論、不要な外部呼び出し、責務の混在を減らす</strong>という意味です。</p>
+</section>
+<section class="content-section source-section" id="現在のevidenceと今後の実測を分ける" data-reveal><p class="section-number">17</p><h2>現在のEvidenceと今後の実測を分ける</h2>
+<h3 id="構造-実装資料から説明できること">構造・実装資料から説明できること</h3>
+<ul><li>Runtimeとしての責務分離</li><li>Workerと処理順</li><li>5本柱と8項目</li><li>Provider非依存</li><li>候補生成と比較構造</li><li>公開Bundleに記録されたTest結果</li><li>品質Gateの判定条件</li></ul>
+<h3 id="実環境で継続測定が必要なこと">実環境で継続測定が必要なこと</h3>
+<ul><li>AI回答正答率の改善率</li><li>手戻り削減率</li><li>業務時間削減率</li><li>外部AI費用削減率</li><li>大量同時利用時の性能</li><li>長期本番障害率</li><li>障害復旧時間</li></ul>
+<p>実装構造から推測できる効果と、実測された効果を混同しません。</p>
+</section>
+<section class="content-section source-section" id="公開範囲" data-reveal><p class="section-number">18</p><h2>公開範囲</h2>
+<p>本ページでは、利用者、開発者、投資家が技術的な役割、依存関係、検証方法を判断するために必要な情報を公開します。 無断転用、攻撃、秘密情報漏えいにつながる内部Code、秘密鍵、Endpoint、Network詳細、非公開Prompt、制御値は公開しません。</p>
+</section></div>
+      <aside class="related"><h2>関連ページ</h2><div class="related-links"><a href="/">/</a><a href="/product/what-is-astera/">/product/what-is-astera/</a><a href="/product/why-astera/">/product/why-astera/</a><a href="/product/value/">/product/value/</a><a href="/product/process/">/product/process/</a><a href="/product/engine/">/product/engine/</a><a href="/product/usage/">/product/usage/</a><a href="/product/integration/">/product/integration/</a><a href="https://app.asterav8.jp/" rel="external noopener">https://app.asterav8.jp/</a><a href="https://app.asterav8.jp/pricing" rel="external noopener">https://app.asterav8.jp/pricing</a></div></aside>
+    </div>
+  </div>
+</article>
+</main>
+  <footer class="site-footer">
+  <div class="footer-shell">
+    <section class="footer-brand asset-missing" data-official-logo-pending="/assets/brand/astera-logo-dark.svg">
+      <span class="brand-fallback is-visible">Astera</span>
+      <span class="sr-only">正式ロゴAssetはByte検証完了後に表示します</span>
+      <p>問いを星図に変える。</p>
+    </section>
+    <nav aria-label="製品"><h2>Product</h2><a href="/product/what-is-astera/">01 Asteraとは？</a><a href="/product/why-astera/">02 なぜAsteraを使うのか</a><a href="/product/value/">03 費用対効果・導入価値</a><a href="/product/process/">04 判断材料生成プロセス</a><a href="/product/engine/">05 多角的判断エンジン</a><a href="/product/usage/">06 利用方法・活用範囲</a><a href="/product/technology/">07 技術基盤</a><a href="/product/integration/">08 連携・拡張性</a></nav>
+    <nav aria-label="情報"><h2>Explore</h2><a href="/use-cases/">活用シーン</a><a href="/docs/">Docs</a><a href="/developers/">Developers</a><a href="/qa/">Q&amp;A</a><a href="/chat/">総合案内AI</a></nav>
+    <nav aria-label="運営"><h2>Project</h2><a href="/support/">支援</a><a href="/corporate/">法人</a><a href="/investors/">投資家</a><a href="/company/">会社情報</a><a href="/contact/">Contact</a></nav>
+    <nav aria-label="法務と外部サービス"><h2>Legal / Access</h2><a href="/legal/terms/">利用規約</a><a href="/legal/privacy/">Privacy</a><a href="/legal/commerce/">特商法</a><a href="https://app.asterav8.jp/">App</a><a href="https://app.asterav8.jp/pricing">プラン・料金</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a></nav>
+  </div>
+  <p class="copyright">© 2026 Astera Project.</p>
+</footer>
+
+  <button class="ai-launcher" type="button" data-ai-launcher aria-expanded="false" aria-controls="customer-ai"><span aria-hidden="true">✦</span><span>案内AI</span></button>
+  <section id="customer-ai" class="ai-bubble" hidden role="dialog" aria-modal="true" aria-labelledby="customer-ai-title" data-ai-panel>
+    <div class="ai-sheet-handle" aria-hidden="true"></div>
+    <header><div><p class="eyebrow">PUBLIC GUIDE</p><h2 id="customer-ai-title">Astera総合案内AI</h2></div><button type="button" data-ai-close aria-label="閉じる">×</button></header>
+    <p>公開情報に基づいて案内します。Password、API Key、Card情報、医療等の機微情報は入力しないでください。</p>
+    <form data-bubble-chat-form class="bubble-chat-form"><label>回答Type<select name="answerType"><option value="general">一般</option><option value="technical">技術</option><option value="corporate">法人</option><option value="investor">投資家</option><option value="operation">操作説明</option></select></label><label>質問<textarea name="message" maxlength="12000" required></textarea></label><button class="button is-primary" type="submit">送信</button><div data-bubble-answer aria-live="polite"></div></form>
+    <nav aria-label="案内AIの代替導線"><a href="/chat/">Full Chat</a><a href="/qa/">Q&amp;A</a><a href="/contact/">お問い合わせ</a></nav>
+  </section>
+  <section class="language-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="language-title" data-language-dialog><div class="dialog-card"><button type="button" data-language-close aria-label="閉じる">×</button><h2 id="language-title">Language</h2><p>現在の公開本文は日本語です。対応言語は実装・検証済みのものだけを追加します。</p></div></section>
+  <script type="module" src="/assets/app.js"></script>
+  <script type="module" src="/assets/motion.js"></script>
+</body>
+</html>
