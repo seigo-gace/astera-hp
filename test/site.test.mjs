@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile, stat } from 'node:fs/promises';
+const pages=(await Promise.all(['pages.1.json','pages.2.json','pages.3.json'].map(async name=>JSON.parse(await readFile(new URL(`../site/data/${name}`,import.meta.url),'utf8'))))).flat();
+test('route contract is exactly 26 unique public routes',()=>{assert.equal(pages.length,26);assert.equal(new Set(pages.map(p=>p.route)).size,26);assert.ok(!pages.some(p=>p.route.startsWith('/pricing')));});
+test('main eight route order is fixed',()=>{assert.deepEqual(pages.slice(1,9).map(p=>p.route),['/product/what-is-astera/','/product/why-astera/','/product/value/','/product/process/','/product/engine/','/product/usage/','/product/technology/','/product/integration/']);});
+test('every page has complete metadata source',()=>{for(const p of pages){assert.ok(p.title);assert.ok(p.description);assert.ok(p.h1);assert.ok(p.lead);assert.ok(p.sections.length);}});
+test('build emitted sitemap and top page',async()=>{assert.ok((await stat(new URL('../site/dist/index.html',import.meta.url))).isFile());const sitemap=await readFile(new URL('../site/dist/sitemap.xml',import.meta.url),'utf8');assert.equal((sitemap.match(/<url>/g)||[]).length,26);});
+test('pricing is redirect-only',async()=>{const redirects=await readFile(new URL('../site/dist/_redirects',import.meta.url),'utf8');assert.match(redirects,/\/pricing https:\/\/app\.asterav8\.jp\/pricing 308/);await assert.rejects(stat(new URL('../site/dist/pricing/index.html',import.meta.url)));});
+test('Cloudflare functions never expose private endpoint constants',async()=>{for(const path of ['../site/functions/api/ai/chat.js','../site/functions/api/contact.js','../site/functions/api/public/supporters.js']){const src=await readFile(new URL(path,import.meta.url),'utf8');assert.doesNotMatch(src,/hf\.space|api[_-]?key\s*=|secret\s*=\s*['"]/i);}});

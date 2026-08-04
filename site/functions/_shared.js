@@ -1,0 +1,5 @@
+export const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store',...headers}});
+export const methodNotAllowed=(allow)=>new Response(null,{status:405,headers:{allow}});
+export const requestId=request=>request.headers.get('x-client-request-id')||crypto.randomUUID();
+export const sameOrigin=request=>{const url=new URL(request.url);const origin=request.headers.get('origin');return !origin||origin===url.origin;};
+export const limitedText=(value,max)=>String(value||'').trim().slice(0,max);

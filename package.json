@@ -1,0 +1,12 @@
+{
+  "name": "astera-official-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22"},
+  "scripts": {
+    "build": "node site/scripts/build.mjs",
+    "validate": "node site/scripts/validate.mjs",
+    "test": "npm run build && npm run validate && node --test test/*.test.mjs"
+  }
+}
