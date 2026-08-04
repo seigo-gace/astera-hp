@@ -14,6 +14,30 @@ function screenshotName(projectName, route) {
   return join('test-results', 'screenshots', projectName, `${slug}.jpg`);
 }
 
+async function loadLazyAssets(page) {
+  await page.evaluate(async () => {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const step = Math.max(280, Math.floor(window.innerHeight * 0.72));
+    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
+      window.scrollTo({top: y, behavior: 'instant'});
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+    window.scrollTo({top: document.documentElement.scrollHeight, behavior: 'instant'});
+    await delay(120);
+  });
+  await page.waitForLoadState('networkidle');
+  await page.locator('img').evaluateAll(async (images) => {
+    await Promise.all(images.map((image) => {
+      if (image.complete) return undefined;
+      return new Promise((resolve) => {
+        image.addEventListener('load', resolve, {once: true});
+        image.addEventListener('error', resolve, {once: true});
+      });
+    }));
+  });
+  await page.evaluate(() => window.scrollTo({top: 0, behavior: 'instant'}));
+}
+
 for (const route of routes) {
   test(`${route} renders without browser or layout failures`, async ({ page }, testInfo) => {
     const browserErrors = [];
@@ -46,6 +70,7 @@ for (const route of routes) {
     expect(layout.scrollWidth, `Horizontal overflow in ${route}`).toBeLessThanOrEqual(layout.width + 2);
     expect(layout.bodyWidth, `Body overflow in ${route}`).toBeLessThanOrEqual(layout.width + 2);
 
+    await loadLazyAssets(page);
     const brokenImages = await page.locator('img').evaluateAll((images) => images
       .filter((image) => !image.complete || image.naturalWidth === 0)
       .map((image) => image.currentSrc || image.src));
