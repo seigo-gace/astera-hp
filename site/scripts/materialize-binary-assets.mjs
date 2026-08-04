@@ -8,7 +8,10 @@ const site = join(here, '..');
 const partsDirectory = join(site, 'assets-source', 'astera-globe-top');
 const output = join(site, 'assets', 'images', 'astera-globe-top.png');
 const expectedSha256 = 'a9f277573e81d96176eb8879fc06c619ec9ca1c8501dd5a9caaaa7ec8b77165a';
-const partNames = Array.from({ length: 31 }, (_, index) => `globe8.part${String(index).padStart(2, '0')}`);
+const partNames = [
+  ...Array.from({ length: 4 }, (_, index) => `globe8.part${String(index).padStart(2, '0')}`),
+  ...Array.from({ length: 14 }, (_, index) => `globe-tail16.part${String(index).padStart(2, '0')}`)
+];
 
 const encodedParts = await Promise.all(partNames.map((name) => readFile(join(partsDirectory, name), 'utf8')));
 const bytes = Buffer.from(encodedParts.join(''), 'base64');
