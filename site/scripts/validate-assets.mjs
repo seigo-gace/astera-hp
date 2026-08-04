@@ -20,10 +20,11 @@ for (const asset of manifest.visual) {
   if (asset.id === 'astera-globe-top') {
     if (asset.status !== 'user-provided-web-optimized') throw new Error('HERO_SOURCE_STATUS_INVALID');
     if (asset.file !== '/assets/images/astera-globe-top.webp') throw new Error('HERO_SOURCE_PATH_INVALID');
-    if (details.size !== asset.bytes || details.size > 100000) throw new Error(`HERO_SOURCE_SIZE_INVALID ${details.size}`);
+    if (details.size !== asset.bytes || details.size !== 178672) throw new Error(`HERO_SOURCE_SIZE_INVALID ${details.size}`);
+    if (asset.psnrDb < 43.5) throw new Error(`HERO_SOURCE_QUALITY_INVALID ${asset.psnrDb}`);
     const source = await readFile(absolute);
     const sha256 = createHash('sha256').update(source).digest('hex');
-    if (sha256 !== asset.sha256) throw new Error(`HERO_SOURCE_HASH_INVALID ${sha256}`);
+    if (sha256 !== asset.sha256 || sha256 !== '64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2') throw new Error(`HERO_SOURCE_HASH_INVALID ${sha256}`);
     if (source.subarray(0, 4).toString('ascii') !== 'RIFF' || source.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SOURCE_SIGNATURE_INVALID');
     continue;
   }
@@ -35,4 +36,4 @@ for (const asset of manifest.visual) {
   if (!/viewBox=/u.test(source)) throw new Error(`VISUAL_VIEWBOX_MISSING ${asset.id}`);
 }
 
-console.log('Visual asset contract PASS (1 user-provided high-quality WebP + 11 original SVG); official brand bytes remain an explicit production gate');
+console.log('Visual asset contract PASS (latest user-provided premium WebP + 11 supporting SVG); official brand bytes remain an explicit production gate');
