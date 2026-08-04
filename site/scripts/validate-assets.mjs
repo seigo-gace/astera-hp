@@ -22,14 +22,19 @@ const heroCss = await readFile(join(site, 'assets/astera-hero-image.css'), 'utf8
 const heroScript = await readFile(join(site, 'assets/astera-hero-image.js'), 'utf8');
 const patchBase64 = heroCss.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
 if (!patchBase64) throw new Error('HERO_SPARKLE_PATCH_DATA_MISSING');
-const patchBytes = Buffer.from(patchBase64, 'base64');
+const encodedPatchBytes = Buffer.from(patchBase64, 'base64');
+if (encodedPatchBytes.subarray(0, 4).toString('ascii') !== 'RIFF' || encodedPatchBytes.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SPARKLE_PATCH_SIGNATURE_INVALID');
+const declaredPatchBytes = encodedPatchBytes.readUInt32LE(4) + 8;
+if (declaredPatchBytes < 12 || declaredPatchBytes > encodedPatchBytes.length) throw new Error(`HERO_SPARKLE_PATCH_RIFF_LENGTH_INVALID ${declaredPatchBytes} ${encodedPatchBytes.length}`);
+const transportRemainder = encodedPatchBytes.subarray(declaredPatchBytes);
+if (transportRemainder.length > 1 || transportRemainder.some((byte) => byte !== 0)) throw new Error(`HERO_SPARKLE_PATCH_TRAILING_DATA_INVALID ${transportRemainder.length} ${transportRemainder.toString('hex')}`);
+const patchBytes = encodedPatchBytes.subarray(0, declaredPatchBytes);
 const patchSha256 = createHash('sha256').update(patchBytes).digest('hex');
-if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID ${patchBytes.length} ${patchSha256}`);
-if (patchBytes.subarray(0, 4).toString('ascii') !== 'RIFF' || patchBytes.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SPARKLE_PATCH_SIGNATURE_INVALID');
+if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID canonical=${patchBytes.length}:${patchSha256} encoded=${encodedPatchBytes.length}`);
 for (const marker of ['left:80.56640625%', 'top:87.109375%', 'width:10.7421875%', 'height:7.291666667%', 'is-sparkle-patch-in-svg']) {
   if (!heroCss.includes(marker)) throw new Error(`HERO_SPARKLE_CSS_MARKER_MISSING ${marker}`);
 }
-for (const marker of ['lower-right-sparkle-removal', 'x: 825', 'y: 1338', 'width: 110', 'height: 112', 'installSparkleRemoval(svg)']) {
+for (const marker of ['lower-right-sparkle-removal', 'x: 825', 'y: 1338', 'width: 110', 'height: 112', 'installSparkleRemoval(svg)', 'canonicalizeWebpDataUri']) {
   if (!heroScript.includes(marker)) throw new Error(`HERO_SPARKLE_SCRIPT_MARKER_MISSING ${marker}`);
 }
 if ((heroScript + heroCss).includes('✦')) throw new Error('HERO_REJECTED_SPARKLE_CHARACTER_PRESENT');
@@ -75,4 +80,4 @@ for (const asset of manifest.visual) {
   if (!/viewBox=/u.test(source)) throw new Error(`VISUAL_VIEWBOX_MISSING ${asset.id}`);
 }
 
-console.log('Visual asset contract PASS (premium WebP base + deterministic sparkle removal + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate');
+console.log('Visual asset contract PASS (premium WebP base + canonical deterministic sparkle removal + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate');
