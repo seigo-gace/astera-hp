@@ -1,13 +1,43 @@
-name: Verify website
-on: [push, pull_request]
+name: Verify and materialize website
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: write
+
 jobs:
   website:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
-        with: {node-version: 22, cache: npm}
+        with:
+          node-version: '22'
+          cache: npm
       - run: npm ci
       - run: npm test
       - name: Build evidence manifest
-        run: find site/dist -type f -print0 | sort -z | xargs -0 sha256sum
+        shell: bash
+        run: |
+          set -euo pipefail
+          find site/dist -type f -print0 | sort -z | xargs -0 sha256sum > site/dist/SHA256SUMS.txt
+          test "$(find site/dist -type f | wc -l)" -ge 33
+      - name: Commit generated website to main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[generated-site]')
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f site/dist
+          if git diff --cached --quiet; then
+            echo "Generated website is already current."
+            exit 0
+          fi
+          git commit -m "build: commit 26-route static website [generated-site]"
+          git push origin HEAD:main
