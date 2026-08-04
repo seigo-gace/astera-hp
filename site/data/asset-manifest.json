@@ -1,10 +1,11 @@
 {
   "status": "hero-source-image-integrated-brand-byte-production-blocked",
-  "updatedAt": "2026-08-04T21:34:00+09:00",
+  "updatedAt": "2026-08-04T22:05:00+09:00",
   "visualDirection": {
     "reference": "user-provided Astera globe image",
-    "method": "user-provided original bytes, unmodified; no HUD, labels, canvas or UI overlay; external CSS depth and light only",
-    "sha256": "a9f277573e81d96176eb8879fc06c619ec9ca1c8501dd5a9caaaa7ec8b77165a",
+    "method": "user-provided image content; web-delivery encoding only; no generation, redrawing, HUD, labels, canvas or UI overlay; external CSS depth and light only",
+    "sourceSha256": "a9f277573e81d96176eb8879fc06c619ec9ca1c8501dd5a9caaaa7ec8b77165a",
+    "deliverySha256": "e1fa4148097b8c8fabbc25ab9ed3cc4b04be8c331391354c10fc1d24e314e94a",
     "palette": ["#020b12", "#071c29", "#0c3346", "#0f718f", "#26b5d1", "#7be5ec", "#f2a34a"]
   },
   "brand": [
@@ -20,7 +21,7 @@
     {"file":"/assets/brand/apple-touch-icon.png","required":true,"status":"pending-generation-after-approval"}
   ],
   "visual": [
-    {"id":"astera-globe-top","file":"/assets/images/astera-globe-top.png","width":1024,"height":1536,"required":true,"status":"user-provided-original-unmodified","source":"current conversation upload","sha256":"a9f277573e81d96176eb8879fc06c619ec9ca1c8501dd5a9caaaa7ec8b77165a"},
+    {"id":"astera-globe-top","file":"/assets/images/astera-globe-top.webp","width":1024,"height":1536,"required":true,"status":"user-provided-web-optimized","source":"current conversation upload; visual content preserved","bytes":93914,"sha256":"e1fa4148097b8c8fabbc25ab9ed3cc4b04be8c331391354c10fc1d24e314e94a","psnrDb":43.5},
     {"id":"process-purpose","file":"/assets/visual/process/process-purpose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
     {"id":"process-materialize","file":"/assets/visual/process/process-materialize.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
     {"id":"process-recompose","file":"/assets/visual/process/process-recompose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},

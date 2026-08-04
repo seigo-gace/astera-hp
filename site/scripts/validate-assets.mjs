@@ -18,13 +18,13 @@ for (const asset of manifest.visual) {
   if (!details.isFile() || details.size < 500) throw new Error(`VISUAL_FILE_INVALID ${asset.id}`);
 
   if (asset.id === 'astera-globe-top') {
-    if (asset.status !== 'user-provided-original-unmodified') throw new Error('HERO_SOURCE_STATUS_INVALID');
-    if (asset.file !== '/assets/images/astera-globe-top.png') throw new Error('HERO_SOURCE_PATH_INVALID');
+    if (asset.status !== 'user-provided-web-optimized') throw new Error('HERO_SOURCE_STATUS_INVALID');
+    if (asset.file !== '/assets/images/astera-globe-top.webp') throw new Error('HERO_SOURCE_PATH_INVALID');
+    if (details.size !== asset.bytes || details.size > 100000) throw new Error(`HERO_SOURCE_SIZE_INVALID ${details.size}`);
     const source = await readFile(absolute);
     const sha256 = createHash('sha256').update(source).digest('hex');
     if (sha256 !== asset.sha256) throw new Error(`HERO_SOURCE_HASH_INVALID ${sha256}`);
-    if (details.size !== 180582) throw new Error(`HERO_SOURCE_SIZE_INVALID ${details.size}`);
-    if (!(source[0] === 0xff && source[1] === 0xd8 && source.at(-2) === 0xff && source.at(-1) === 0xd9)) throw new Error('HERO_SOURCE_SIGNATURE_INVALID');
+    if (source.subarray(0, 4).toString('ascii') !== 'RIFF' || source.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SOURCE_SIGNATURE_INVALID');
     continue;
   }
 
@@ -35,4 +35,4 @@ for (const asset of manifest.visual) {
   if (!/viewBox=/u.test(source)) throw new Error(`VISUAL_VIEWBOX_MISSING ${asset.id}`);
 }
 
-console.log('Visual asset contract PASS (1 user-provided original hero image + 11 original SVG); official brand bytes remain an explicit production gate');
+console.log('Visual asset contract PASS (1 user-provided high-quality WebP + 11 original SVG); official brand bytes remain an explicit production gate');
