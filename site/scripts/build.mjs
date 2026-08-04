@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readChunkedData } from './lib-data.mjs';
 import { renderSourceMarkdown } from './lib-markdown.mjs';
+import './materialize-binary-assets.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const site = join(here, '..');
@@ -19,10 +20,30 @@ const routeFile = (route) => route === '/' ? join(dist, 'index.html') : join(dis
 
 const main8HeaderLinks = config.main8.map((item) => `<a href="${item.route}"><span>${String(item.order).padStart(2, '0')}</span><strong>${esc(item.label)}</strong></a>`).join('');
 const main8FooterLinks = config.main8.map((item) => `<a href="${item.route}">${String(item.order).padStart(2, '0')} ${esc(item.label)}</a>`).join('');
+const main8VisualByRoute = new Map([
+  ['/product/what-is-astera/', '/assets/visual/process/process-purpose.svg'],
+  ['/product/why-astera/', '/assets/visual/comparison/comparison-portal.svg'],
+  ['/product/value/', '/assets/visual/capsule/capsule-radar.svg'],
+  ['/product/process/', '/assets/visual/process/process-materialize.svg'],
+  ['/product/engine/', '/assets/visual/hero/hero-core.svg'],
+  ['/product/usage/', '/assets/visual/audience/audience-personal.svg'],
+  ['/product/technology/', '/assets/visual/process/process-recompose.svg'],
+  ['/product/integration/', '/assets/visual/audience/audience-developer.svg']
+]);
 const main8Cards = config.main8.map((item) => {
   const page = data.find((candidate) => candidate.route === item.route);
-  return `<a class="main-eight-card" href="${item.route}" data-reveal><span class="number">${String(item.order).padStart(2, '0')}</span><h3>${esc(item.label)}</h3><p>${esc(page?.lead || page?.description || '')}</p><span class="card-link">詳しく見る</span></a>`;
+  const number = String(item.order).padStart(2, '0');
+  const visual = main8VisualByRoute.get(item.route);
+  if (!visual) throw new Error(`MAIN8_VISUAL_MISSING ${item.route}`);
+  return `<a class="main-eight-card" href="${item.route}" data-reveal data-main-eight="${number}"><span class="main-eight-card-visual" aria-hidden="true"><img src="${visual}" width="320" height="320" loading="lazy" decoding="async" alt="" data-required-asset></span><span class="number">${number}</span><h3>${esc(item.label)}</h3><p>${esc(page?.lead || page?.description || '')}</p><span class="card-link">詳しく見る</span></a>`;
 }).join('');
+
+const homeSummaryItems = [
+  ['主役AIの外側で働く', 'AsteraはAIを置き換えず、問いと回答の外側で前提・事実・Risk・反対視点・比較案を整理します。'],
+  ['8つの判断材料', '本当の目的から主役AIへの再指示までを、再利用できる8項目として分離します。'],
+  ['目的別の入口', 'Main 8、App、開発支援、投資家、法人相談へ、役割を混ぜずに進めます。']
+];
+const homeSummary = `<section class="home-summary page-visual visual-summary section-frame" aria-labelledby="home-summary-title"><header class="section-heading" data-reveal><p>AT A GLANCE</p><h2 id="home-summary-title">このページで分かること</h2></header><div class="visual-contract">${homeSummaryItems.map(([label, text], index) => `<article class="visual-item" data-reveal><span>${String(index + 1).padStart(2, '0')}</span><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div></section>`;
 
 const capsuleItems = [
   ['purpose', '本当の目的', '表面的な作業名ではなく、達成したい結果、成功条件、優先順位を明確にします。'],
@@ -42,9 +63,10 @@ const visualHtml = (page) => {
   if (!visual) throw new Error(`VISUAL_MISSING ${page.route}`);
   const items = visual.items.map((item, index) => `<article class="visual-item" data-reveal><span>${String(index + 1).padStart(2, '0')}</span><h3>${esc(item.label)}</h3><p>${esc(item.text)}</p></article>`).join('');
   const center = visual.kind === 'hub' ? '<div class="visual-center" aria-hidden="true"><span>ASTERA</span></div>' : '';
-  return `<section class="page-visual visual-${esc(visual.kind)}" aria-labelledby="visual-title-${esc(page.key)}"><header class="section-heading"><p>VISUAL GUIDE</p><h2 id="visual-title-${esc(page.key)}">${esc(visual.title)}</h2></header><div class="visual-contract">${center}${items}</div></section>`;
+  return `<section class="page-visual visual-${esc(visual.kind)} section-frame" data-visual-kind="${esc(visual.kind)}" aria-labelledby="visual-title-${esc(page.key)}"><header class="section-heading" data-reveal><p>VISUAL GUIDE</p><h2 id="visual-title-${esc(page.key)}">${esc(visual.title)}</h2></header><div class="visual-contract">${center}${items}</div></section>`;
 };
 const tocHtml = (items) => items.map((item, index) => `<a href="#${esc(item.id)}">${String(index + 1).padStart(2, '0')} ${esc(item.title)}</a>`).join('');
+const tocBlock = (items) => items.length ? `<aside class="toc" aria-label="目次">${tocHtml(items)}</aside>` : '';
 const related = (page) => `<aside class="related"><h2>関連ページ</h2><div class="related-links">${page.related.map((route) => `<a href="${esc(route)}"${route.startsWith('http') ? ' rel="external noopener"' : ''}>${esc(route)}</a>`).join('')}</div></aside>`;
 const crumbs = (page) => page.route === '/' ? '' : `<nav class="breadcrumbs" aria-label="パンくず"><a href="/">ホーム</a><span aria-hidden="true">/</span><span>${esc(page.h1)}</span></nav>`;
 
@@ -56,11 +78,24 @@ const special = (page) => {
   if (page.route === '/docs/') return '<section class="filter-tools"><label>資料を検索<input type="search" data-doc-search></label><p>Category、対象者、Version、更新日、形式、Statusを確認できます。</p></section>';
   return '';
 };
+const specialBlock = (page) => {
+  const html = special(page);
+  return html ? `<div class="page-tools section-frame">${html}</div>` : '';
+};
 
 const jsonLd = (page) => JSON.stringify({'@context': 'https://schema.org', '@graph': [
   {'@type': 'WebSite', '@id': `${base}/#website`, name: 'Astera', url: `${base}/`, inLanguage: 'ja-JP'},
   {'@type': page.template === 'qa' ? 'FAQPage' : page.route === '/' ? 'SoftwareApplication' : 'WebPage', '@id': `${base}${page.route}#page`, url: `${base}${page.route}`, name: page.title, description: page.description, inLanguage: 'ja-JP'}
 ]}).replaceAll('<', '\\u003c');
+
+const templateFiles = {
+  article: 'article.html',
+  index: 'index.html',
+  qa: 'qa.html',
+  chat: 'chat.html',
+  contact: 'contact.html',
+  legal: 'legal.html'
+};
 
 await rm(dist, {recursive: true, force: true});
 await mkdir(dist, {recursive: true});
@@ -74,7 +109,12 @@ for (const page of data) {
   let content;
   if (page.route === '/') {
     const template = await read('templates/home.html');
-    content = repl(template, {MAIN8_CARDS: main8Cards, CAPSULE_TABS: capsuleTabs, CAPSULE_PANELS: capsulePanels});
+    content = repl(template, {
+      HOME_SUMMARY: homeSummary,
+      MAIN8_CARDS: main8Cards,
+      CAPSULE_TABS: capsuleTabs,
+      CAPSULE_PANELS: capsulePanels
+    });
   } else {
     const sourcePath = `content/${page.key}.md`;
     let source;
@@ -85,16 +125,18 @@ for (const page of data) {
     }
     const rendered = renderSourceMarkdown(source, {qaItems: page.template === 'qa'});
     if (source.length < 500) throw new Error(`NOTION_PUBLIC_SOURCE_TOO_SHORT ${page.route} ${source.length}`);
-    const template = await read('templates/article.html');
+    const templateFile = templateFiles[page.template] || templateFiles.article;
+    const template = await read(`templates/${templateFile}`);
     content = repl(template, {
       BREADCRUMB: crumbs(page),
       EYEBROW: esc(page.eyebrow),
       H1: esc(page.h1),
       LEAD: esc(page.lead),
       HERO_CTA: '',
-      TOC: tocHtml(rendered.toc),
+      TOC_BLOCK: tocBlock(rendered.toc),
+      SHELL_CLASS: rendered.toc.length ? 'has-toc' : 'is-single-column',
       PAGE_VISUAL: visualHtml(page),
-      SPECIAL: special(page),
+      SPECIAL_BLOCK: specialBlock(page),
       SECTIONS: `<div class="source-content" data-source-id="${esc(page.sourceContent || '')}">${rendered.html}</div>`,
       RELATED: related(page)
     });
@@ -119,4 +161,4 @@ await cp(join(site, 'assets'), join(dist, 'assets'), {recursive: true});
 for (const file of ['_headers', '_redirects', 'robots.txt']) await cp(join(site, 'public', file), join(dist, file));
 await writeFile(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${data.map((page) => `<url><loc>${base}${page.route}</loc></url>`).join('\n')}\n</urlset>`);
 await writeFile(join(dist, '404.html'), repl(baseTemplate, {TITLE: 'ページが見つかりません｜Astera', DESCRIPTION: '指定されたページは見つかりません。', CANONICAL: `${base}/404`, ROUTE_KEY: 'not-found', JSONLD: '{}', HEADER: header, CONTENT: '<article class="page"><header class="page-hero section-frame"><p class="eyebrow">404</p><h1>ページが見つかりません</h1><p>URLを確認するか、サイトマップから目的のページへ進んでください。</p><a class="button is-primary" href="/">ホームへ戻る</a></header></article>', FOOTER: footer}));
-console.log(`Built ${data.length} Notion-canonical routes with full public sources`);
+console.log(`Built ${data.length} Notion-canonical routes with full public sources and route-specific templates`);
