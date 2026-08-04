@@ -1,5 +1,11 @@
 {
-  "status": "notion-canonical-source-production-blocked",
+  "status": "visual-assets-complete-brand-byte-production-blocked",
+  "updatedAt": "2026-08-04T20:14:00+09:00",
+  "visualDirection": {
+    "reference": "243.png",
+    "method": "original SVG reconstruction; uploaded reference is not redistributed",
+    "palette": ["#020b12", "#071c29", "#0c3346", "#0f718f", "#26b5d1", "#7be5ec", "#f2a34a"]
+  },
   "brand": [
     {"file":"/assets/brand/astera-logo-light.svg","required":true,"status":"pending-byte-verification"},
     {"file":"/assets/brand/astera-logo-dark.svg","required":true,"status":"pending-byte-verification"},
@@ -13,17 +19,17 @@
     {"file":"/assets/brand/apple-touch-icon.png","required":true,"status":"pending-generation-after-approval"}
   ],
   "visual": [
-    {"id":"hero-core","file":"/assets/visual/hero/hero-core.png","width":480,"height":470,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"process-purpose","file":"/assets/visual/process/process-purpose.png","width":90,"height":100,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"process-materialize","file":"/assets/visual/process/process-materialize.png","width":95,"height":100,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"process-recompose","file":"/assets/visual/process/process-recompose.png","width":95,"height":105,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"comparison-portal","file":"/assets/visual/comparison/comparison-portal.png","width":240,"height":135,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"capsule-radar","file":"/assets/visual/capsule/capsule-radar.png","width":190,"height":185,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"audience-personal","file":"/assets/visual/audience/audience-personal.png","width":80,"height":75,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"audience-developer","file":"/assets/visual/audience/audience-developer.png","width":85,"height":75,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"audience-corporate","file":"/assets/visual/audience/audience-corporate.png","width":85,"height":75,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"cta-support","file":"/assets/visual/cta/cta-support.png","width":80,"height":80,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"cta-investors","file":"/assets/visual/cta/cta-investors.png","width":85,"height":80,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"},
-    {"id":"cta-corporate","file":"/assets/visual/cta/cta-corporate.png","width":85,"height":80,"required":true,"status":"source-recorded-binary-unavailable","source":"アステラの未来的なAIインターフェース.png"}
+    {"id":"hero-core","file":"/assets/visual/hero/hero-core.svg","width":1400,"height":1400,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"process-purpose","file":"/assets/visual/process/process-purpose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"process-materialize","file":"/assets/visual/process/process-materialize.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"process-recompose","file":"/assets/visual/process/process-recompose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"comparison-portal","file":"/assets/visual/comparison/comparison-portal.svg","width":360,"height":280,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"capsule-radar","file":"/assets/visual/capsule/capsule-radar.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"audience-personal","file":"/assets/visual/audience/audience-personal.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"audience-developer","file":"/assets/visual/audience/audience-developer.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"audience-corporate","file":"/assets/visual/audience/audience-corporate.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"cta-support","file":"/assets/visual/cta/cta-support.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"cta-investors","file":"/assets/visual/cta/cta-investors.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"},
+    {"id":"cta-corporate","file":"/assets/visual/cta/cta-corporate.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"243.png visual direction; independently reconstructed"}
   ]
 }
