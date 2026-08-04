@@ -65,15 +65,15 @@ for (const route of routes) {
     expect([...new Set(badInternalLinks)], `Unknown internal links in ${route}`).toEqual([]);
 
     if (testInfo.project.name.startsWith('mobile')) {
-      const menu = page.locator('[data-menu-button]');
+      const menu = page.locator('[data-nav-toggle]');
       await expect(menu).toBeVisible();
       await menu.click();
       await expect(menu).toHaveAttribute('aria-expanded', 'true');
-      await expect(page.locator('#site-nav')).toHaveClass(/is-open/);
+      await expect(page.locator('#global-nav')).toHaveClass(/is-open/);
       await page.keyboard.press('Escape');
       await expect(menu).toHaveAttribute('aria-expanded', 'false');
     } else {
-      await expect(page.locator('#site-nav')).toBeVisible();
+      await expect(page.locator('#global-nav')).toBeVisible();
     }
 
     if (route === '/contact/') {
@@ -99,6 +99,6 @@ for (const route of routes) {
 
 test('Cloudflare pricing redirects point only to the Astera app', async () => {
   const redirects = await readFile(new URL('../../site/dist/_redirects', import.meta.url), 'utf8');
-  expect(redirects).toContain('/pricing https://app.asterav8.jp/pricing 308');
-  expect(redirects).toContain('/pricing/ https://app.asterav8.jp/pricing 308');
+  expect(redirects).toContain('/pricing https://app.asterav8.jp/pricing 301');
+  expect(redirects).toContain('/pricing/ https://app.asterav8.jp/pricing 301');
 });
