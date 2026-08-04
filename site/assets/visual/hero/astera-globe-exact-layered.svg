@@ -10,7 +10,8 @@
   <metadata>
     source-sha256:e68cfdcba00e64a7afae7beac39afc5dac77402241a3b014247397607ec673cf;
     delivery-image:/assets/images/astera-globe-top.webp;
-    no-ui-overlay:true
+    no-ui-overlay:true;
+    styles:external-csp-safe
   </metadata>
   <defs>
     <radialGradient id="cyan-halo" cx="50%" cy="50%" r="50%">
@@ -50,22 +51,6 @@
       <ellipse cx="520" cy="792" rx="492" ry="506" fill="white"/>
       <ellipse cx="520" cy="792" rx="505" ry="519" fill="none" stroke="white" stroke-width="18" opacity=".24"/>
     </mask>
-    <style><![CDATA[
-      #base-image{pointer-events:none}
-      #effects-behind,#effects-orbits,#effects-particles,#effects-front{pointer-events:none;transform-box:view-box;transform-origin:50% 52%}
-      .orbit-shell{fill:none;vector-effect:non-scaling-stroke;mix-blend-mode:screen}
-      .data-line{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;mix-blend-mode:screen;opacity:.72}
-      .data-line.cyan{stroke:url(#cyan-stream);filter:url(#soft-cyan)}
-      .data-line.amber{stroke:url(#amber-stream);filter:url(#soft-amber)}
-      .glow-node{transform-box:fill-box;transform-origin:center;mix-blend-mode:screen}
-      .node-core{fill:#effeff;filter:url(#soft-cyan)}
-      .node-cyan{fill:#7af1ff;filter:url(#soft-cyan)}
-      .node-amber{fill:#ffc481;filter:url(#soft-amber)}
-      .ambient-particle{mix-blend-mode:screen;opacity:.34}
-      .detail-desktop{display:inline}
-      @media(max-width:700px){.detail-desktop{display:none}.data-line{opacity:.6}}
-      @media(prefers-reduced-motion:reduce){.data-line{stroke-dasharray:none!important;stroke-dashoffset:0!important}.glow-node{opacity:.78!important;transform:none!important}}
-    ]]></style>
   </defs>
 
   <g clip-path="url(#frame-clip)">
