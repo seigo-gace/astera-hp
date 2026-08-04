@@ -11,11 +11,11 @@ permissions:
 
 concurrency:
   group: astera-hp-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name != 'push' || !contains(github.event.head_commit.message, '[generated-site]') }}
 
 jobs:
   website:
-    if: github.event_name != 'push' || !contains(github.event.head_commit.message, '[no-ci]')
+    if: github.event_name != 'push' || (!contains(github.event.head_commit.message, '[no-ci]') && !contains(github.event.head_commit.message, '[generated-site]'))
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -109,10 +109,10 @@ jobs:
           - Repository evidence screenshots retained: 8
           - Direct visual preview images: 4
 
-          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, layered SVG and GSAP asset loading, WebP fallback visibility, lazy visual asset loading, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
+          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, layered SVG and GSAP asset loading, WebP fallback visibility, data stream movement, glow-node contract, desktop pointer tilt, zero hero UI overlay, lazy visual asset loading, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
           EOF
       - name: Commit generated website and browser evidence to main
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[generated-site]')
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           set -euo pipefail
