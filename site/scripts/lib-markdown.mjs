@@ -33,14 +33,10 @@ function inlineMarkdown(value) {
 function sanitizeTrustedTable(block) {
   return block
     .replace(/<table[^>]*>/i, '<div class="source-table"><table>')
-    .replace(/<\/table>/i, '</table></div>')
-    .replace(/<td>/g, '<td>')
-    .replace(/<\/td>/g, '</td>')
-    .replace(/<tr>/g, '<tr>')
-    .replace(/<\/tr>/g, '</tr>');
+    .replace(/<\/table>/i, '</table></div>');
 }
 
-export function renderSourceMarkdown(source) {
+export function renderSourceMarkdown(source, options = {}) {
   const lines = String(source).replaceAll('\r\n', '\n').replaceAll('\r', '\n').split('\n');
   const html = [];
   const toc = [];
@@ -51,6 +47,8 @@ export function renderSourceMarkdown(source) {
   let code = null;
   let codeLanguage = '';
   let table = null;
+  let sectionOpen = false;
+  let sectionIndex = 0;
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -64,6 +62,7 @@ export function renderSourceMarkdown(source) {
     listType = null;
   };
   const flushAll = () => { flushParagraph(); flushList(); };
+  const closeSection = () => { if (sectionOpen) { html.push('</section>'); sectionOpen = false; } };
 
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index];
@@ -112,8 +111,16 @@ export function renderSourceMarkdown(source) {
       const title = heading[2].trim();
       if (level === 1) continue;
       const id = slugify(title, usedSlugs);
-      if (level === 2) toc.push({id, title});
-      html.push(`<h${level} id="${id}">${inlineMarkdown(title)}</h${level}>`);
+      if (level === 2) {
+        closeSection();
+        sectionIndex += 1;
+        toc.push({id, title});
+        const qa = options.qaItems ? ' data-qa-item' : '';
+        html.push(`<section class="content-section source-section" id="${id}"${qa} data-reveal><p class="section-number">${String(sectionIndex).padStart(2, '0')}</p><h2>${inlineMarkdown(title)}</h2>`);
+        sectionOpen = true;
+      } else {
+        html.push(`<h${level} id="${id}">${inlineMarkdown(title)}</h${level}>`);
+      }
       continue;
     }
 
@@ -145,7 +152,9 @@ export function renderSourceMarkdown(source) {
   }
 
   flushAll();
+  closeSection();
   if (code !== null) throw new Error('UNCLOSED_MARKDOWN_FENCE');
   if (table !== null) throw new Error('UNCLOSED_NOTION_TABLE');
+  if (!toc.length) throw new Error('SOURCE_MARKDOWN_HAS_NO_H2');
   return {html: html.join('\n'), toc};
 }
