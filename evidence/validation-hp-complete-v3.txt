@@ -1,0 +1,3 @@
+Astera HP complete validation v3
+Base main: 4c55fb619202e846a50ee81231a6b8c34096cc01
+Fetches the public transfer source, requires 178672 bytes and SHA-256 64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2, then validates all 26 routes on desktop and mobile.
