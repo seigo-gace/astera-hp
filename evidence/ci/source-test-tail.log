@@ -1,0 +1,26 @@
+
+> astera-official-website@2.0.0 test
+> npm run build && npm run validate && node --test test/*.test.mjs
+
+
+> astera-official-website@2.0.0 build
+> node site/scripts/build.mjs
+
+Materialized latest user-provided hero image from repository-cache: /home/runner/work/astera-hp/astera-hp/site/assets/images/astera-globe-top.webp (178672 bytes, sha256 64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2)
+Materialized pinned GSAP runtime: /home/runner/work/astera-hp/astera-hp/site/assets/vendor/gsap-3.12.2.min.js (71520 characters)
+Built 26 Notion-canonical routes with full public sources and route-specific templates
+
+> astera-official-website@2.0.0 validate
+> node site/scripts/validate.mjs
+
+Redirect PASS
+Content PASS: 26 routes
+Link contract PASS
+file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:27
+if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID ${patchBytes.length} ${patchSha256}`);
+                                                                                 ^
+
+Error: HERO_SPARKLE_PATCH_HASH_INVALID 1835 e4699b2d2917a70e765cad52aa41a9701e557117f936d39b465b234540d1e507
+    at file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:27:82
+
+Node.js v22.23.1
