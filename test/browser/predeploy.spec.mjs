@@ -43,20 +43,35 @@ async function verifyLayeredHero(page, projectName) {
   await expect(hero).toBeVisible();
   await expect(page.locator('.astera-hero-image')).toHaveAttribute('src', '/assets/images/astera-globe-top.webp');
   await expect(page.locator('svg[data-astera-layered-svg]')).toHaveCount(1, {timeout: 10_000});
+  await expect(page.locator('#lower-right-sparkle-removal')).toHaveCount(1, {timeout: 10_000});
   await expect.poll(() => page.evaluate(() => Boolean(window.gsap))).toBe(true);
 
-  const contract = await hero.evaluate((node) => ({
-    svgMounted: node.classList.contains('is-svg-mounted'),
-    svgFailed: node.classList.contains('is-svg-failed') || node.classList.contains('is-svg-image-failed'),
-    dataLines: node.querySelectorAll('.data-line').length,
-    glowNodes: node.querySelectorAll('.glow-node').length,
-    canvases: node.querySelectorAll('canvas').length,
-    forbiddenUi: node.querySelectorAll('.astera-hero-hud,.concept-labels,.astera-data-node,button,a,[role="button"]').length,
-    fallbackLoaded: Boolean(node.querySelector('.astera-hero-image')?.complete && node.querySelector('.astera-hero-image')?.naturalWidth > 0),
-    svgOpacity: Number.parseFloat(getComputedStyle(node.querySelector('.astera-hero-svg')).opacity)
-  }));
+  const contract = await hero.evaluate((node) => {
+    const patch = node.querySelector('#lower-right-sparkle-removal');
+    const depth = node.querySelector('[data-astera-depth]');
+    return {
+      svgMounted: node.classList.contains('is-svg-mounted'),
+      svgFailed: node.classList.contains('is-svg-failed') || node.classList.contains('is-svg-image-failed'),
+      sparklePatchInSvg: node.classList.contains('is-sparkle-patch-in-svg'),
+      sparklePatchCount: node.querySelectorAll('#lower-right-sparkle-removal').length,
+      sparklePatchBounds: patch ? [patch.getAttribute('x'), patch.getAttribute('y'), patch.getAttribute('width'), patch.getAttribute('height')] : [],
+      sparklePatchIsWebp: patch?.getAttribute('href')?.startsWith('data:image/webp;base64,') || false,
+      fallbackPatchOpacity: depth ? Number.parseFloat(getComputedStyle(depth, '::after').opacity) : 1,
+      dataLines: node.querySelectorAll('.data-line').length,
+      glowNodes: node.querySelectorAll('.glow-node').length,
+      canvases: node.querySelectorAll('canvas').length,
+      forbiddenUi: node.querySelectorAll('.astera-hero-hud,.concept-labels,.astera-data-node,button,a,[role="button"]').length,
+      fallbackLoaded: Boolean(node.querySelector('.astera-hero-image')?.complete && node.querySelector('.astera-hero-image')?.naturalWidth > 0),
+      svgOpacity: Number.parseFloat(getComputedStyle(node.querySelector('.astera-hero-svg')).opacity)
+    };
+  });
   expect(contract.svgMounted).toBe(true);
   expect(contract.svgFailed).toBe(false);
+  expect(contract.sparklePatchInSvg).toBe(true);
+  expect(contract.sparklePatchCount).toBe(1);
+  expect(contract.sparklePatchBounds).toEqual(['825', '1338', '110', '112']);
+  expect(contract.sparklePatchIsWebp).toBe(true);
+  expect(contract.fallbackPatchOpacity).toBeLessThan(0.01);
   expect(contract.dataLines).toBeGreaterThanOrEqual(10);
   expect(contract.glowNodes).toBeGreaterThanOrEqual(18);
   expect(contract.canvases).toBe(0);
