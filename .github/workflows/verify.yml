@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: astera-hp-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   website:
     if: github.event_name != 'push' || !contains(github.event.head_commit.message, '[no-ci]')
@@ -93,7 +97,7 @@ jobs:
 
           - GitHub Actions run: ${GITHUB_RUN_ID}
           - Tested commit: ${GITHUB_SHA}
-          - Source tests: 28/28 PASS
+          - Source tests: 33/33 PASS
           - Browser tests: 54/54 PASS
           - Route renders: 26 desktop + 26 mobile
           - Pricing redirect checks: desktop + mobile PASS
@@ -105,7 +109,7 @@ jobs:
           - Repository evidence screenshots retained: 8
           - Direct visual preview images: 4
 
-          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, lazy visual asset loading, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
+          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, layered SVG and GSAP asset loading, WebP fallback visibility, lazy visual asset loading, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
           EOF
       - name: Commit generated website and browser evidence to main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[generated-site]')
