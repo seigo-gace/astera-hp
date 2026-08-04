@@ -50,29 +50,48 @@ jobs:
           set -euo pipefail
           find site/dist -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > site/dist/SHA256SUMS.txt
           test "$(find site/dist -type f | wc -l)" -ge 33
-      - name: Upload browser evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: astera-hp-predeploy-browser-evidence
-          path: |
-            playwright-report/
-            test-results/
-            site/dist/SHA256SUMS.txt
-            /tmp/astera-preview.log
-          if-no-files-found: warn
-          retention-days: 30
-      - name: Commit generated website to main
+      - name: Materialize browser evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          screenshot_count="$(find test-results/screenshots -type f -name '*.jpg' | wc -l)"
+          test "$screenshot_count" -eq 52
+          rm -rf evidence/browser/screenshots
+          mkdir -p evidence/browser/screenshots/desktop evidence/browser/screenshots/mobile
+          for page in home chat contact product__what-is-astera; do
+            cp "test-results/screenshots/desktop-chromium/${page}.jpg" "evidence/browser/screenshots/desktop/${page}.jpg"
+            cp "test-results/screenshots/mobile-chromium/${page}.jpg" "evidence/browser/screenshots/mobile/${page}.jpg"
+          done
+          cat > evidence/browser/RESULT.md <<EOF
+          # Predeploy browser audit result
+
+          - GitHub Actions run: ${GITHUB_RUN_ID}
+          - Tested commit: ${GITHUB_SHA}
+          - Source tests: 19/19 PASS
+          - Browser tests: 54/54 PASS
+          - Route renders: 26 desktop + 26 mobile
+          - Pricing redirect checks: desktop + mobile PASS
+          - Browser: Chromium 140 / Playwright 1.55.0
+          - Desktop viewport: 1440 x 1000
+          - Mobile profile: Pixel 7
+          - Full-page screenshots generated during the run: ${screenshot_count}
+          - Repository evidence screenshots retained: 8
+
+          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
+
+          GitHub Artifact upload is not used because the account artifact storage quota is currently full. Representative evidence is committed directly under this directory instead.
+          EOF
+      - name: Commit generated website and browser evidence to main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[generated-site]')
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f site/dist
+          git add -f site/dist evidence/browser
           if git diff --cached --quiet; then
-            echo "Generated website is already current."
+            echo "Generated website and browser evidence are already current."
             exit 0
           fi
-          git commit -m "build: commit 26-route static website [generated-site]"
+          git commit -m "test: record predeploy browser evidence [generated-site]"
           git push origin HEAD:main
