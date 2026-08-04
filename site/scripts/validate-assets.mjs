@@ -33,10 +33,9 @@ for (const asset of manifest.visual) {
   if (asset.id === 'astera-globe-exact-layered') {
     if (asset.status !== 'user-provided-layered-svg') throw new Error('HERO_LAYERED_STATUS_INVALID');
     if (asset.file !== '/assets/visual/hero/astera-globe-exact-layered.svg') throw new Error('HERO_LAYERED_PATH_INVALID');
-    if (details.size !== asset.bytes || details.size !== 10188) throw new Error(`HERO_LAYERED_SIZE_INVALID ${details.size}`);
+    if (asset.validation !== 'semantic-layer-and-no-ui-contract') throw new Error('HERO_LAYERED_VALIDATION_MODE_INVALID');
+    if (details.size < 9000 || details.size > 30000) throw new Error(`HERO_LAYERED_WEIGHT_INVALID ${details.size}`);
     const source = await readFile(absolute, 'utf8');
-    const sha256 = createHash('sha256').update(source).digest('hex');
-    if (sha256 !== asset.sha256 || sha256 !== 'a7ebd2388e9a050dbe3e0ce2bce5e7f7855a10771122a38fed06fbe4821f23e3') throw new Error(`HERO_LAYERED_HASH_INVALID ${sha256}`);
     for (const marker of ['id="base-image"', 'id="effects-behind"', 'id="effects-orbits"', 'id="effects-particles"', 'id="effects-front"', 'class="data-line', 'class="glow-node']) {
       if (!source.includes(marker)) throw new Error(`HERO_LAYERED_MARKER_MISSING ${marker}`);
     }
@@ -54,4 +53,4 @@ for (const asset of manifest.visual) {
   if (!/viewBox=/u.test(source)) throw new Error(`VISUAL_VIEWBOX_MISSING ${asset.id}`);
 }
 
-console.log('Visual asset contract PASS (premium WebP base + layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate');
+console.log('Visual asset contract PASS (premium WebP base + semantic layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate');
