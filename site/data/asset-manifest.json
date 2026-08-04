@@ -1,6 +1,6 @@
 {
   "status": "layered-hero-integrated-brand-byte-production-blocked",
-  "updatedAt": "2026-08-05T00:25:00+09:00",
+  "updatedAt": "2026-08-05T00:52:00+09:00",
   "visualDirection": {
     "reference": "latest user-provided Astera globe image and astera-globe-exact-layered.svg structure",
     "method": "latest user-provided image content remains the base; lightweight SVG effect layers add data streams, glow nodes and particles; the unwanted baked-in lower-right sparkle is removed with a deterministic feathered restoration patch; no image generation, redrawing, HUD, labels, canvas or UI overlay",
@@ -12,8 +12,8 @@
       "bounds": {"x": 825, "y": 1338, "width": 110, "height": 112},
       "format": "webp-with-alpha",
       "bytes": 1834,
-      "sha256": "de76fb497204bd9f8d2b281f4e2bfcfb1f04665a34e2a31234c337031465186d",
-      "delivery": "CSS fallback before boot; one SVG image immediately after base-image after boot",
+      "sha256": "6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a",
+      "delivery": "CSS fallback before boot; canonical RIFF bytes inserted as one SVG image immediately after base-image after boot",
       "svgElementId": "lower-right-sparkle-removal"
     },
     "animationRuntime": {
