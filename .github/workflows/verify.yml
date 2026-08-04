@@ -24,9 +24,10 @@ jobs:
         run: npm ci
       - name: Build and run source tests
         run: npm test
-      - name: Install browser test runtime
+      - name: Install and audit browser test runtime
         run: |
-          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          npm install --no-save @playwright/test@1.62.0
+          npm audit --audit-level=high
           npx playwright install --with-deps chromium
       - name: Start local predeploy preview
         shell: bash
@@ -71,7 +72,8 @@ jobs:
           - Browser tests: 54/54 PASS
           - Route renders: 26 desktop + 26 mobile
           - Pricing redirect checks: desktop + mobile PASS
-          - Browser: Chromium 140 / Playwright 1.55.0
+          - Browser test runtime: Playwright 1.62.0
+          - Dependency security gate: npm audit HIGH/CRITICAL = 0
           - Desktop viewport: 1440 x 1000
           - Mobile profile: Pixel 7
           - Full-page screenshots generated during the run: ${screenshot_count}
@@ -88,6 +90,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git restore package-lock.json package.json || true
           git add -f site/dist evidence/browser
           if git diff --cached --quiet; then
             echo "Generated website and browser evidence are already current."
