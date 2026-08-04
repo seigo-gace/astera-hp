@@ -46,6 +46,25 @@ jobs:
           exit 1
       - name: Run desktop and mobile predeploy browser tests
         run: npx playwright test --config=playwright.config.mjs
+      - name: Capture direct visual previews
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf evidence/browser/preview
+          mkdir -p evidence/browser/preview
+          node --input-type=module <<'NODE'
+          import { chromium } from '@playwright/test';
+          const browser = await chromium.launch({ headless: true });
+          const desktop = await browser.newPage({ viewport: { width: 960, height: 640 }, deviceScaleFactor: 1 });
+          await desktop.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+          await desktop.screenshot({ path: 'evidence/browser/preview/home-desktop.jpg', type: 'jpeg', quality: 24, fullPage: false });
+          const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
+          await mobile.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+          await mobile.screenshot({ path: 'evidence/browser/preview/home-mobile.jpg', type: 'jpeg', quality: 28, fullPage: false });
+          await browser.close();
+          NODE
+          test "$(stat -c%s evidence/browser/preview/home-desktop.jpg)" -gt 1000
+          test "$(stat -c%s evidence/browser/preview/home-mobile.jpg)" -gt 1000
       - name: Build evidence manifest
         shell: bash
         run: |
@@ -79,10 +98,9 @@ jobs:
           - Mobile profile: Pixel 7
           - Full-page screenshots generated during the run: ${screenshot_count}
           - Repository evidence screenshots retained: 8
+          - Direct visual preview images: 2
 
           Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
-
-          GitHub Artifact upload is not used because the account artifact storage quota is currently full. Representative evidence is committed directly under this directory instead.
           EOF
       - name: Commit generated website and browser evidence to main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[generated-site]')
@@ -97,5 +115,5 @@ jobs:
             echo "Generated website and browser evidence are already current."
             exit 0
           fi
-          git commit -m "test: record predeploy browser evidence [generated-site]"
+          git commit -m "test: record direct visual preview [generated-site]"
           git push origin HEAD:main
