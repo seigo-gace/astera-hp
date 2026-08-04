@@ -1,7 +1,7 @@
 # CI verification failure
 
-- GitHub Actions run: 30926046467
-- Tested commit: f617b070d24407aa01a56f36575f3ef931a0f32d
+- GitHub Actions run: 30926240342
+- Tested commit: 762a3b0c9fbacaae73f0f82217223fc36054a8eb
 - Source recheck exit status: 1
 - Workflow: Verify and materialize website
 

@@ -1,8 +1,4 @@
 
-> astera-official-website@2.0.0 test
-> npm run build && npm run validate && node --test test/*.test.mjs
-
-
 > astera-official-website@2.0.0 build
 > node site/scripts/build.mjs
 
@@ -16,11 +12,489 @@ Built 26 Notion-canonical routes with full public sources and route-specific tem
 Redirect PASS
 Content PASS: 26 routes
 Link contract PASS
-file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:33
-if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID canonical=${patchBytes.length}:${patchSha256} encoded=${encodedPatchBytes.length}`);
-                                                                                 ^
-
-Error: HERO_SPARKLE_PATCH_HASH_INVALID canonical=1834:6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a encoded=1835
-    at file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:33:82
-
-Node.js v22.23.1
+Source coverage PASS: 22 management, 26 routes, 5 references
+Visual asset contract PASS (premium WebP base + canonical deterministic sparkle removal + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate
+TAP version 13
+# Subtest: layered globe keeps the supplied image as the base and contains effect layers only
+ok 1 - layered globe keeps the supplied image as the base and contains effect layers only
+  ---
+  duration_ms: 5.433543
+  type: 'test'
+  ...
+# Subtest: hero controller uses pinned local GSAP with viewport and accessibility guards
+ok 2 - hero controller uses pinned local GSAP with viewport and accessibility guards
+  ---
+  duration_ms: 2.604936
+  type: 'test'
+  ...
+# Subtest: baked-in lower-right sparkle is removed in fallback and moving SVG states
+not ok 3 - baked-in lower-right sparkle is removed in fallback and moving SVG states
+  ---
+  duration_ms: 2.385408
+  type: 'test'
+  location: '/home/runner/work/astera-hp/astera-hp/test/hero-layered-animation.test.mjs:45:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a'
+    - 'de76fb497204bd9f8d2b281f4e2bfcfb1f04665a34e2a31234c337031465186d'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'de76fb497204bd9f8d2b281f4e2bfcfb1f04665a34e2a31234c337031465186d'
+  actual: '6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/astera-hp/astera-hp/test/hero-layered-animation.test.mjs:81:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors
+ok 4 - hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors
+  ---
+  duration_ms: 1.449186
+  type: 'test'
+  ...
+# Subtest: build pins and self-hosts GSAP instead of weakening CSP
+ok 5 - build pins and self-hosts GSAP instead of weakening CSP
+  ---
+  duration_ms: 3.469322
+  type: 'test'
+  ...
+# Subtest: built TOP keeps the fallback image and ships the layered effect asset
+ok 6 - built TOP keeps the fallback image and ships the layered effect asset
+  ---
+  duration_ms: 1.912872
+  type: 'test'
+  ...
+# Subtest: Notion canonical shared shell is retained
+ok 7 - Notion canonical shared shell is retained
+  ---
+  duration_ms: 7.518425
+  type: 'test'
+  ...
+# Subtest: TOP retains canonical section order and a clean latest user-provided hero image
+ok 8 - TOP retains canonical section order and a clean latest user-provided hero image
+  ---
+  duration_ms: 2.133704
+  type: 'test'
+  ...
+# Subtest: base loads canonical, hero and completion layers without inline image UI
+ok 9 - base loads canonical, hero and completion layers without inline image UI
+  ---
+  duration_ms: 1.745117
+  type: 'test'
+  ...
+# Subtest: built TOP exposes Main 8 and the required summary in order
+ok 10 - built TOP exposes Main 8 and the required summary in order
+  ---
+  duration_ms: 4.133429
+  type: 'test'
+  ...
+# Subtest: pricing remains an external App link, never an HP pricing page
+ok 11 - pricing remains an external App link, never an HP pricing page
+  ---
+  duration_ms: 1.886897
+  type: 'test'
+  ...
+# Subtest: latest user-provided TOP image and supporting visual assets are materialized while brand remains blocked
+not ok 12 - latest user-provided TOP image and supporting visual assets are materialized while brand remains blocked
+  ---
+  duration_ms: 3.486076
+  type: 'test'
+  location: '/home/runner/work/astera-hp/astera-hp/test/notion-canonical.test.mjs:72:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /^<svg\b/. Input:
+    
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<svg xmlns="http://www.w3.org/2000/svg"\n' +
+      '     xmlns:xlink="http://www.w3.org/1999/xlink"\n' +
+      '     width="1024" height="1536" viewBox="0 0 1024 1536"\n' +
+      '     preserveAspectRatio="xMidYMid slice"\n' +
+      '     role="img" aria-labelledby="title desc"\n' +
+      '     data-astera-layered-svg="true">\n' +
+      '  <title id="title">Astera Globe</title>\n' +
+      '  <desc id="desc">提供画像を基礎に、通信線・発光点・粒子を独立レイヤー化したAsteraトップビジュアル。</desc>\n' +
+      '  <metadata>\n' +
+      '    source-sha256:e68cfdcba00e64a7afae7beac39afc5dac77402241a3b014247397607ec673cf;\n' +
+      '    delivery-image:/assets/images/astera-globe-top.webp;\n' +
+      '    no-ui-overlay:true;\n' +
+      '    styles:external-csp-safe\n' +
+      '  </metadata>\n' +
+      '  <defs>\n' +
+      '    <radialGradient id="cyan-halo" cx="50%" cy="50%" r="50%">\n' +
+      '      <stop offset="0" stop-color="#d8fbff" stop-opacity=".82"/>\n' +
+      '      <stop offset=".18" stop-color="#62e9ff" stop-opacity=".55"/>\n' +
+      '      <stop offset=".55" stop-color="#11bcd9" stop-opacity=".16"/>\n' +
+      '      <stop offset="1" stop-color="#11bcd9" stop-opacity="0"/>\n' +
+      '    </radialGradient>\n' +
+      '    <radialGradient id="amber-halo" cx="50%" cy="50%" r="50%">\n' +
+      '      <stop offset="0" stop-color="#fff2d8" stop-opacity=".85"/>\n' +
+      '      <stop offset=".2" stop-color="#f3ac63" stop-opacity=".58"/>\n' +
+      '      <stop offset=".62" stop-color="#f3ac63" stop-opacity=".12"/>\n' +
+      '      <stop offset="1" stop-color="#f3ac63" stop-opacity="0"/>\n' +
+      '    </radialGradient>\n' +
+      '    <linearGradient id="cyan-stream" x1="0" y1="0" x2="1" y2="1">\n' +
+      '      <stop offset="0" stop-color="#75f1ff" stop-opacity="0"/>\n' +
+      '      <stop offset=".28" stop-color="#75f1ff" stop-opacity=".42"/>\n' +
+      '      <stop offset=".58" stop-color="#dbfbff" stop-opacity=".94"/>\n' +
+      '      <stop offset="1" stop-color="#17b7d4" stop-opacity=".08"/>\n' +
+      '    </linearGradient>\n' +
+      '    <linearGradient id="amber-stream" x1="1" y1="0" x2="0" y2="1">\n' +
+      '      <stop offset="0" stop-color="#f4b26d" stop-opacity="0"/>\n' +
+      '      <stop offset=".3" stop-color="#f4b26d" stop-opacity=".4"/>\n' +
+      '      <stop offset=".62" stop-color="#fff0d0" stop-opacity=".9"/>\n' +
+      '      <stop offset="1" stop-color="#e49a52" stop-opacity=".06"/>\n' +
+      '    </linearGradient>\n' +
+      '    <filter id="soft-cyan" x="-120%" y="-120%" width="340%" height="340%" color-interpolation-filters="sRGB">\n' +
+      '      <feGaussianBlur stdDeviation="7" result="blur"/>\n' +
+      '      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>\n' +
+      '    </filter>\n' +
+      '    <filter id="soft-amber" x="-140%" y="-140%" width="380%" height="380%" color-interpolation-filters="sRGB">\n' +
+      '      <feGaussianBlur stdDeviation="8" result="blur"/>\n' +
+      '      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>\n' +
+      '    </filter>\n' +
+      '    <clipPath id="frame-clip"><rect width="1024" height="1536" rx="34"/></clipPath>\n' +
+      '    <mask id="globe-fade">\n' +
+      '      <ellipse cx="520" cy="792" rx="492" ry="506" fill="white"/>\n' +
+      '      <ellipse cx="520" cy="792" rx="505" ry="519" fill="none" stroke="white" stroke-width="18" opacity=".24"/>\n' +
+      '    </mask>\n' +
+      '  </defs>\n' +
+      '\n' +
+      '  <g clip-path="url(#frame-clip)">\n' +
+      '    <g id="base-image">\n' +
+      '      <image x="0" y="0" width="1024" height="1536"\n' +
+      '             preserveAspectRatio="xMidYMid slice"\n' +
+      '             image-rendering="optimizeQuality"\n' +
+      '             href="/assets/images/astera-globe-top.webp"\n' +
+      '             xlink:href="/assets/images/astera-globe-top.webp"/>\n' +
+      '    </g>\n' +
+      '\n' +
+      '    <g id="effects-behind" pointer-events="none" mask="url(#globe-fade)">\n' +
+      '      <ellipse cx="520" cy="786" rx="438" ry="430" fill="none" stroke="#65e9ff" stroke-opacity=".16" stroke-width="2" class="orbit-shell"/>\n' +
+      '      <ellipse cx="520" cy="786" rx="472" ry="458" fill="none" stroke="#f1a158" stroke-opacity=".08" stroke-width="1.5" class="orbit-shell detail-desktop"/>\n' +
+      '      <ellipse cx="522" cy="784" rx="400" ry="392" fill="none" stroke="#8ff5ff" stroke-opacity=".1" stroke-width="1" class="orbit-shell detail-desktop"/>\n' +
+      '    </g>\n' +
+      '\n' +
+      '    <g id="effects-orbits" pointer-events="none" mask="url(#globe-fade)">\n' +
+      '      <path class="data-line cyan" stroke-width="2.2" d="M108 758 C206 410 759 329 930 690 C1018 875 816 1083 570 1108 C316 1133 123 974 108 758"/>\n' +
+      '      <path class="data-line amber" stroke-width="1.8" d="M177 974 C224 558 650 381 893 620 C1031 756 916 1016 652 1098 C388 1180 198 1100 177 974"/>\n' +
+      '      <path class="data-line cyan" stroke-width="1.6" d="M219 551 C436 431 770 476 883 756 C951 927 829 1073 653 1124"/>\n' +
+      '      <path class="data-line cyan" stroke-width="1.4" d="M137 845 C317 976 625 1041 871 877 C942 830 977 744 956 655"/>\n' +
+      '      <path class="data-line amber" stroke-width="1.5" d="M258 1078 C225 863 337 586 585 478 C728 416 850 478 905 603"/>\n' +
+      '      <path class="data-line cyan" stroke-width="1.3" d="M274 456 C428 619 451 924 330 1090"/>\n' +
+      '      <path class="data-line cyan detail-desktop" stroke-width="1.2" d="M455 383 C675 506 811 805 754 1066"/>\n' +
+      '      <path class="data-line amber detail-desktop" stroke-width="1.2" d="M750 450 C557 589 422 834 447 1110"/>\n' +
+      '      <path class="data-line cyan detail-desktop" stroke-width="1" d="M95 695 C278 709 390 622 518 497 C650 368 799 381 944 509"/>\n' +
+      '      <path class="data-line amber detail-desktop" stroke-width="1" d="M125 926 C289 858 434 871 580 958 C700 1029 817 1037 925 976"/>\n' +
+      '    </g>\n' +
+      '\n' +
+      '    <g id="effects-particles" pointer-events="none">\n' +
+      '      <g class="glow-node" data-depth="1.15" transform="translate(241 633)"><circle r="20" fill="url(#cyan-halo)"/><circle class="node-core" r="3.4"/></g>\n' +
+      '      <g class="glow-node" data-depth=".95" transform="translate(334 497)"><circle r="14" fill="url(#amber-halo)"/><circle class="node-amber" r="2.8"/></g>\n' +
+      '      <g class="glow-node" data-depth="1.05" transform="translate(443 563)"><circle r="13" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.6"/></g>\n' +
+      '      <g class="glow-node" data-depth="1.18" transform="translate(563 489)"><circle r="18" fill="url(#cyan-halo)"/><circle class="node-core" r="3.2"/></g>\n' +
+      '      <g class="glow-node" data-depth=".9" transform="translate(700 541)"><circle r="15" fill="url(#amber-halo)"/><circle class="node-amber" r="2.9"/></g>\n' +
+      '      <g class="glow-node" data-depth="1.1" transform="translate(811 671)"><circle r="17" fill="url(#cyan-halo)"/><circle class="node-cyan" r="3"/></g>\n' +
+      '      <g class="glow-node" data-depth="1" transform="translate(747 818)"><circle r="13" fill="url(#cyan-halo)"/><circle class="node-core" r="2.4"/></g>\n' +
+      '      <g class="glow-node" data-depth="1.2" transform="translate(853 922)"><circle r="20" fill="url(#amber-halo)"/><circle class="node-amber" r="3.3"/></g>\n' +
+      '      <g class="glow-node" data-depth="1.08" transform="translate(674 1007)"><circle r="14" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.7"/></g>\n' +
+      '      <g class="glow-node" data-depth=".9" transform="translate(518 1089)"><circle r="17" fill="url(#cyan-halo)"/><circle class="node-core" r="3"/></g>\n' +
+      '      <g class="glow-node" data-depth="1.18" transform="translate(359 1034)"><circle r="18" fill="url(#amber-halo)"/><circle class="node-amber" r="3"/></g>\n' +
+      '      <g class="glow-node" data-depth="1" transform="translate(208 913)"><circle r="15" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.8"/></g>\n' +
+      '      <g class="glow-node detail-desktop" data-depth=".85" transform="translate(154 741)"><circle r="12" fill="url(#cyan-halo)"/><circle class="node-core" r="2.4"/></g>\n' +
+      '      <g class="glow-node detail-desktop" data-depth="1.12" transform="translate(289 782)"><circle r="12" fill="url(#amber-halo)"/><circle class="node-amber" r="2.5"/></g>\n' +
+      '      <g class="glow-node detail-desktop" data-depth=".96" transform="translate(481 704)"><circle r="11" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.2"/></g>\n' +
+      '      <g class="glow-node detail-desktop" data-depth="1.14" transform="translate(632 695)"><circle r="13" fill="url(#cyan-halo)"/><circle class="node-core" r="2.6"/></g>\n' +
+      '      <g class="glow-node detail-desktop" data-depth=".92" transform="translate(587 892)"><circle r="12" fill="url(#amber-halo)"/><circle class="node-amber" r="2.4"/></g>\n' +
+      '      <g class="glow-node detail-desktop" data-depth="1.1" transform="translate(405 897)"><circle r="11" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.3"/></g>\n' +
+      '\n' +
+      '      <circle class="ambient-particle detail-desktop" cx="93" cy="460" r="2.1" fill="#7befff"/>\n' +
+      '      <circle class="ambient-particle" cx="151" cy="1192" r="1.8" fill="#f0ac68"/>\n' +
+      '      <circle class="ambient-particle" cx="908" cy="394" r="2.3" fill="#7befff"/>\n' +
+      '      <circle class="ambient-particle detail-desktop" cx="950" cy="1112" r="1.7" fill="#7befff"/>\n' +
+      '      <circle class="ambient-particle" cx="70" cy="1004" r="1.6" fill="#f0ac68"/>\n' +
+      '      <circle class="ambient-particle detail-desktop" cx="873" cy="1262" r="2" fill="#7befff"/>\n' +
+      '    </g>\n' +
+      '\n' +
+      '    <g id="effects-front" pointer-events="none">\n' +
+      '      <circle cx="205" cy="596" r="58" fill="url(#amber-halo)" opacity=".18" class="front-flare detail-desktop"/>\n' +
+      '      <circle cx="846" cy="771" r="72" fill="url(#cyan-halo)" opacity=".15" class="front-flare"/>\n' +
+      '      <ellipse cx="520" cy="790" rx="445" ry="438" fill="none" stroke="#d9fbff" stroke-opacity=".07" stroke-width="2" class="front-rim"/>\n' +
+      '    </g>\n' +
+      '  </g>\n' +
+      '</svg>\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         width="1024" height="1536" viewBox="0 0 1024 1536"
+         preserveAspectRatio="xMidYMid slice"
+         role="img" aria-labelledby="title desc"
+         data-astera-layered-svg="true">
+      <title id="title">Astera Globe</title>
+      <desc id="desc">提供画像を基礎に、通信線・発光点・粒子を独立レイヤー化したAsteraトップビジュアル。</desc>
+      <metadata>
+        source-sha256:e68cfdcba00e64a7afae7beac39afc5dac77402241a3b014247397607ec673cf;
+        delivery-image:/assets/images/astera-globe-top.webp;
+        no-ui-overlay:true;
+        styles:external-csp-safe
+      </metadata>
+      <defs>
+        <radialGradient id="cyan-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#d8fbff" stop-opacity=".82"/>
+          <stop offset=".18" stop-color="#62e9ff" stop-opacity=".55"/>
+          <stop offset=".55" stop-color="#11bcd9" stop-opacity=".16"/>
+          <stop offset="1" stop-color="#11bcd9" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="amber-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#fff2d8" stop-opacity=".85"/>
+          <stop offset=".2" stop-color="#f3ac63" stop-opacity=".58"/>
+          <stop offset=".62" stop-color="#f3ac63" stop-opacity=".12"/>
+          <stop offset="1" stop-color="#f3ac63" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="cyan-stream" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#75f1ff" stop-opacity="0"/>
+          <stop offset=".28" stop-color="#75f1ff" stop-opacity=".42"/>
+          <stop offset=".58" stop-color="#dbfbff" stop-opacity=".94"/>
+          <stop offset="1" stop-color="#17b7d4" stop-opacity=".08"/>
+        </linearGradient>
+        <linearGradient id="amber-stream" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f4b26d" stop-opacity="0"/>
+          <stop offset=".3" stop-color="#f4b26d" stop-opacity=".4"/>
+          <stop offset=".62" stop-color="#fff0d0" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#e49a52" stop-opacity=".06"/>
+        </linearGradient>
+        <filter id="soft-cyan" x="-120%" y="-120%" width="340%" height="340%" color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="7" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="soft-amber" x="-140%" y="-140%" width="380%" height="380%" color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <clipPath id="frame-clip"><rect width="1024" height="1536" rx="34"/></clipPath>
+        <mask id="globe-fade">
+          <ellipse cx="520" cy="792" rx="492" ry="506" fill="white"/>
+          <ellipse cx="520" cy="792" rx="505" ry="519" fill="none" stroke="white" stroke-width="18" opacity=".24"/>
+        </mask>
+      </defs>
+    
+      <g clip-path="url(#frame-clip)">
+        <g id="base-image">
+          <image x="0" y="0" width="1024" height="1536"
+                 preserveAspectRatio="xMidYMid slice"
+                 image-rendering="optimizeQuality"
+                 href="/assets/images/astera-globe-top.webp"
+                 xlink:href="/assets/images/astera-globe-top.webp"/>
+        </g>
+    
+        <g id="effects-behind" pointer-events="none" mask="url(#globe-fade)">
+          <ellipse cx="520" cy="786" rx="438" ry="430" fill="none" stroke="#65e9ff" stroke-opacity=".16" stroke-width="2" class="orbit-shell"/>
+          <ellipse cx="520" cy="786" rx="472" ry="458" fill="none" stroke="#f1a158" stroke-opacity=".08" stroke-width="1.5" class="orbit-shell detail-desktop"/>
+          <ellipse cx="522" cy="784" rx="400" ry="392" fill="none" stroke="#8ff5ff" stroke-opacity=".1" stroke-width="1" class="orbit-shell detail-desktop"/>
+        </g>
+    
+        <g id="effects-orbits" pointer-events="none" mask="url(#globe-fade)">
+          <path class="data-line cyan" stroke-width="2.2" d="M108 758 C206 410 759 329 930 690 C1018 875 816 1083 570 1108 C316 1133 123 974 108 758"/>
+          <path class="data-line amber" stroke-width="1.8" d="M177 974 C224 558 650 381 893 620 C1031 756 916 1016 652 1098 C388 1180 198 1100 177 974"/>
+          <path class="data-line cyan" stroke-width="1.6" d="M219 551 C436 431 770 476 883 756 C951 927 829 1073 653 1124"/>
+          <path class="data-line cyan" stroke-width="1.4" d="M137 845 C317 976 625 1041 871 877 C942 830 977 744 956 655"/>
+          <path class="data-line amber" stroke-width="1.5" d="M258 1078 C225 863 337 586 585 478 C728 416 850 478 905 603"/>
+          <path class="data-line cyan" stroke-width="1.3" d="M274 456 C428 619 451 924 330 1090"/>
+          <path class="data-line cyan detail-desktop" stroke-width="1.2" d="M455 383 C675 506 811 805 754 1066"/>
+          <path class="data-line amber detail-desktop" stroke-width="1.2" d="M750 450 C557 589 422 834 447 1110"/>
+          <path class="data-line cyan detail-desktop" stroke-width="1" d="M95 695 C278 709 390 622 518 497 C650 368 799 381 944 509"/>
+          <path class="data-line amber detail-desktop" stroke-width="1" d="M125 926 C289 858 434 871 580 958 C700 1029 817 1037 925 976"/>
+        </g>
+    
+        <g id="effects-particles" pointer-events="none">
+          <g class="glow-node" data-depth="1.15" transform="translate(241 633)"><circle r="20" fill="url(#cyan-halo)"/><circle class="node-core" r="3.4"/></g>
+          <g class="glow-node" data-depth=".95" transform="translate(334 497)"><circle r="14" fill="url(#amber-halo)"/><circle class="node-amber" r="2.8"/></g>
+          <g class="glow-node" data-depth="1.05" transform="translate(443 563)"><circle r="13" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.6"/></g>
+          <g class="glow-node" data-depth="1.18" transform="translate(563 489)"><circle r="18" fill="url(#cyan-halo)"/><circle class="node-core" r="3.2"/></g>
+          <g class="glow-node" data-depth=".9" transform="translate(700 541)"><circle r="15" fill="url(#amber-halo)"/><circle class="node-amber" r="2.9"/></g>
+          <g class="glow-node" data-depth="1.1" transform="translate(811 671)"><circle r="17" fill="url(#cyan-halo)"/><circle class="node-cyan" r="3"/></g>
+          <g class="glow-node" data-depth="1" transform="translate(747 818)"><circle r="13" fill="url(#cyan-halo)"/><circle class="node-core" r="2.4"/></g>
+          <g class="glow-node" data-depth="1.2" transform="translate(853 922)"><circle r="20" fill="url(#amber-halo)"/><circle class="node-amber" r="3.3"/></g>
+          <g class="glow-node" data-depth="1.08" transform="translate(674 1007)"><circle r="14" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.7"/></g>
+          <g class="glow-node" data-depth=".9" transform="translate(518 1089)"><circle r="17" fill="url(#cyan-halo)"/><circle class="node-core" r="3"/></g>
+          <g class="glow-node" data-depth="1.18" transform="translate(359 1034)"><circle r="18" fill="url(#amber-halo)"/><circle class="node-amber" r="3"/></g>
+          <g class="glow-node" data-depth="1" transform="translate(208 913)"><circle r="15" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.8"/></g>
+          <g class="glow-node detail-desktop" data-depth=".85" transform="translate(154 741)"><circle r="12" fill="url(#cyan-halo)"/><circle class="node-core" r="2.4"/></g>
+          <g class="glow-node detail-desktop" data-depth="1.12" transform="translate(289 782)"><circle r="12" fill="url(#amber-halo)"/><circle class="node-amber" r="2.5"/></g>
+          <g class="glow-node detail-desktop" data-depth=".96" transform="translate(481 704)"><circle r="11" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.2"/></g>
+          <g class="glow-node detail-desktop" data-depth="1.14" transform="translate(632 695)"><circle r="13" fill="url(#cyan-halo)"/><circle class="node-core" r="2.6"/></g>
+          <g class="glow-node detail-desktop" data-depth=".92" transform="translate(587 892)"><circle r="12" fill="url(#amber-halo)"/><circle class="node-amber" r="2.4"/></g>
+          <g class="glow-node detail-desktop" data-depth="1.1" transform="translate(405 897)"><circle r="11" fill="url(#cyan-halo)"/><circle class="node-cyan" r="2.3"/></g>
+    
+          <circle class="ambient-particle detail-desktop" cx="93" cy="460" r="2.1" fill="#7befff"/>
+          <circle class="ambient-particle" cx="151" cy="1192" r="1.8" fill="#f0ac68"/>
+          <circle class="ambient-particle" cx="908" cy="394" r="2.3" fill="#7befff"/>
+          <circle class="ambient-particle detail-desktop" cx="950" cy="1112" r="1.7" fill="#7befff"/>
+          <circle class="ambient-particle" cx="70" cy="1004" r="1.6" fill="#f0ac68"/>
+          <circle class="ambient-particle detail-desktop" cx="873" cy="1262" r="2" fill="#7befff"/>
+        </g>
+    
+        <g id="effects-front" pointer-events="none">
+          <circle cx="205" cy="596" r="58" fill="url(#amber-halo)" opacity=".18" class="front-flare detail-desktop"/>
+          <circle cx="846" cy="771" r="72" fill="url(#cyan-halo)" opacity=".15" class="front-flare"/>
+          <ellipse cx="520" cy="790" rx="445" ry="438" fill="none" stroke="#d9fbff" stroke-opacity=".07" stroke-width="2" class="front-rim"/>
+        </g>
+      </g>
+    </svg>
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/astera-hp/astera-hp/test/notion-canonical.test.mjs:86:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: every non-home route uses a complete Notion public source file
+ok 13 - every non-home route uses a complete Notion public source file
+  ---
+  duration_ms: 18.071115
+  type: 'test'
+  ...
+# Subtest: use-cases keeps all canonical public anchors
+ok 14 - use-cases keeps all canonical public anchors
+  ---
+  duration_ms: 1.156661
+  type: 'test'
+  ...
+# Subtest: legal and pricing sources point to the App pricing source of truth
+ok 15 - legal and pricing sources point to the App pricing source of truth
+  ---
+  duration_ms: 1.953036
+  type: 'test'
+  ...
+# Subtest: 01 26 routes
+ok 16 - 01 26 routes
+  ---
+  duration_ms: 0.778158
+  type: 'test'
+  ...
+# Subtest: 02 route uniqueness
+ok 17 - 02 route uniqueness
+  ---
+  duration_ms: 0.108791
+  type: 'test'
+  ...
+# Subtest: 03 Main 8 count and order
+ok 18 - 03 Main 8 count and order
+  ---
+  duration_ms: 0.545041
+  type: 'test'
+  ...
+# Subtest: 04 pricing page absent
+ok 19 - 04 pricing page absent
+  ---
+  duration_ms: 0.101281
+  type: 'test'
+  ...
+# Subtest: 05 pricing external canonical
+ok 20 - 05 pricing external canonical
+  ---
+  duration_ms: 0.076193
+  type: 'test'
+  ...
+# Subtest: 06 management source coverage
+ok 21 - 06 management source coverage
+  ---
+  duration_ms: 0.077085
+  type: 'test'
+  ...
+# Subtest: 07 route source coverage
+ok 22 - 07 route source coverage
+  ---
+  duration_ms: 0.062623
+  type: 'test'
+  ...
+# Subtest: 08 reference source coverage
+ok 23 - 08 reference source coverage
+  ---
+  duration_ms: 0.094271
+  type: 'test'
+  ...
+# Subtest: 09 route contracts
+ok 24 - 09 route contracts
+  ---
+  duration_ms: 0.211665
+  type: 'test'
+  ...
+# Subtest: 10 visual contracts
+ok 25 - 10 visual contracts
+  ---
+  duration_ms: 0.272095
+  type: 'test'
+  ...
+# Subtest: 11 every route has visual
+ok 26 - 11 every route has visual
+  ---
+  duration_ms: 0.193358
+  type: 'test'
+  ...
+# Subtest: 12 every route has spec and content source
+ok 27 - 12 every route has spec and content source
+  ---
+  duration_ms: 0.12075
+  type: 'test'
+  ...
+# Subtest: 13 all pages have metadata
+ok 28 - 13 all pages have metadata
+  ---
+  duration_ms: 0.06668
+  type: 'test'
+  ...
+# Subtest: 14 Main 8 detailed sections
+ok 29 - 14 Main 8 detailed sections
+  ---
+  duration_ms: 0.071847
+  type: 'test'
+  ...
+# Subtest: 15 legal anchors present
+ok 30 - 15 legal anchors present
+  ---
+  duration_ms: 0.084055
+  type: 'test'
+  ...
+# Subtest: 16 forms and API routes
+ok 31 - 16 forms and API routes
+  ---
+  duration_ms: 0.061251
+  type: 'test'
+  ...
+# Subtest: 17 hero image is clean, premium and bounded
+ok 32 - 17 hero image is clean, premium and bounded
+  ---
+  duration_ms: 12.852925
+  type: 'test'
+  ...
+# Subtest: 18 external routes
+ok 33 - 18 external routes
+  ---
+  duration_ms: 0.117625
+  type: 'test'
+  ...
+# Subtest: 19 build output exists
+ok 34 - 19 build output exists
+  ---
+  duration_ms: 2.916569
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 32
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 281.866217
