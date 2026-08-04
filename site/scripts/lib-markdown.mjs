@@ -64,9 +64,7 @@ export function renderSourceMarkdown(source, options = {}) {
   const flushAll = () => { flushParagraph(); flushList(); };
   const closeSection = () => { if (sectionOpen) { html.push('</section>'); sectionOpen = false; } };
 
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index];
-
+  for (const line of lines) {
     if (table !== null) {
       table.push(line);
       if (line.trim() === '</table>') {
@@ -112,9 +110,14 @@ export function renderSourceMarkdown(source, options = {}) {
       const explicit = rawTitle.match(/^(.*?)\s*\{#([A-Za-z0-9_-]+)\}$/);
       const title = (explicit ? explicit[1] : rawTitle).trim();
       if (level === 1) continue;
-      const id = explicit ? explicit[2] : slugify(title, usedSlugs);
-      if (usedSlugs.has(id) && !explicit) throw new Error(`DUPLICATE_HEADING_ID ${id}`);
-      usedSlugs.add(id);
+      let id;
+      if (explicit) {
+        id = explicit[2];
+        if (usedSlugs.has(id)) throw new Error(`DUPLICATE_HEADING_ID ${id}`);
+        usedSlugs.add(id);
+      } else {
+        id = slugify(title, usedSlugs);
+      }
       if (level === 2) {
         closeSection();
         sectionIndex += 1;
