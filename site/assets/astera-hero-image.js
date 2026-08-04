@@ -76,11 +76,11 @@
         gsap.set(lines, {strokeDasharray: 'none', strokeDashoffset: 0, opacity: 0.58});
         gsap.set(nodes, {opacity: 0.78, scale: 1});
         gsap.set(particles, {opacity: 0.3});
-        gsap.set([depth, orbitLayer, particleLayer, behindLayer, frontLayer].filter(Boolean), {clearProps: 'transform'});
+        gsap.set([svg, depth, orbitLayer, particleLayer, behindLayer, frontLayer].filter(Boolean), {clearProps: 'transform'});
         return;
       }
 
-      track(gsap.to(depth, {
+      track(gsap.to(svg, {
         y: -7,
         rotationZ: 0.16,
         scale: 1.006,
@@ -102,14 +102,6 @@
         duration: 120,
         ease: 'none',
         repeat: -1
-      }));
-      if (particleLayer) track(gsap.to(particleLayer, {
-        x: 4,
-        y: -6,
-        duration: 9.5,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true
       }));
       if (frontLayer) track(gsap.to(frontLayer, {
         opacity: 0.9,
@@ -204,11 +196,11 @@
         rotateX(0);
         rotateY(0);
         translateX(0);
-        translateY(-7);
+        translateY(0);
         orbitX(0);
         orbitY(0);
         particleX(0);
-        particleY(-6);
+        particleY(0);
       };
       const onPointerMove = (event) => {
         if (document.hidden) return;
@@ -219,11 +211,11 @@
         rotateX(normalizedY * -5.4);
         rotateY(normalizedX * 6.2);
         translateX(normalizedX * 7);
-        translateY(-7 + normalizedY * 5);
+        translateY(normalizedY * 5);
         orbitX(normalizedX * 10);
         orbitY(normalizedY * 8);
         particleX(normalizedX * -7);
-        particleY(-6 + normalizedY * -6);
+        particleY(normalizedY * -6);
       };
       visual.addEventListener('pointermove', onPointerMove, {passive: true});
       visual.addEventListener('pointerleave', resetPointer, {passive: true});
