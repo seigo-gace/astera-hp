@@ -9,8 +9,7 @@ const deprecatedPatterns = [
   /Enterprise\s*(?:月額)?\s*29[,，]?800/u,
   /6,600,000\s*クレ/u,
   /640,000\s*クレ/u,
-  /180,000\s*クレ/u,
-  /旧Plan|旧料金|旧Credit/u
+  /180,000\s*クレ/u
 ];
 const privatePatterns = [
   /https?:\/\/(?:app\.)?notion\.(?:com|so)\//i,
