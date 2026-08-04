@@ -133,7 +133,7 @@ jobs:
           - Source recheck exit status: ${source_recheck_status}
           - Workflow: Verify and materialize website
 
-          `source-test-tail.log` contains the last 500 lines of a clean source-test rerun. `playwright-results.json` is included when browser execution reached Playwright. `preview-server.log` is included when the local preview server was started.
+          source-test-tail.log contains the last 500 lines of a clean source-test rerun. playwright-results.json is included when browser execution reached Playwright. preview-server.log is included when the local preview server was started.
           EOF
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -151,7 +151,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git restore package-lock.json package.json || true
+          rm -rf evidence/ci
           git add -f site/dist evidence/browser
+          git add -A evidence/ci
           if git diff --cached --quiet; then
             echo "Generated website and browser evidence are already current."
             exit 0
