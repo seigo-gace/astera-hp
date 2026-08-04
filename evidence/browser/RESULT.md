@@ -1,12 +1,13 @@
 # Predeploy browser audit result
 
-- GitHub Actions run: 30888337394
-- Tested commit: 8582b7769befcacbde791ce3b8eb5c27b7d90ee5
+- GitHub Actions run: 30888730553
+- Tested commit: 103979d1a6ed67410cfec9839a71db1cebadd206
 - Source tests: 19/19 PASS
 - Browser tests: 54/54 PASS
 - Route renders: 26 desktop + 26 mobile
 - Pricing redirect checks: desktop + mobile PASS
-- Browser: Chromium 140 / Playwright 1.55.0
+- Browser test runtime: Playwright 1.62.0
+- Dependency security gate: npm audit HIGH/CRITICAL = 0
 - Desktop viewport: 1440 x 1000
 - Mobile profile: Pixel 7
 - Full-page screenshots generated during the run: 52
