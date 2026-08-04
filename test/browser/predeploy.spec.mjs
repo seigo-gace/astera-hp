@@ -11,7 +11,7 @@ routeSet.add('/404.html');
 
 function screenshotName(projectName, route) {
   const slug = route === '/' ? 'home' : route.replace(/^\//, '').replace(/\/$/, '').replaceAll('/', '__');
-  return join('test-results', 'screenshots', projectName, `${slug}.png`);
+  return join('test-results', 'screenshots', projectName, `${slug}.jpg`);
 }
 
 for (const route of routes) {
@@ -91,7 +91,7 @@ for (const route of routes) {
 
     const path = screenshotName(testInfo.project.name, route);
     await mkdir(dirname(path), { recursive: true });
-    await page.screenshot({ path, fullPage: true });
+    await page.screenshot({ path, type: 'jpeg', quality: 68, fullPage: true });
 
     expect(browserErrors, `Browser errors in ${route}`).toEqual([]);
   });
