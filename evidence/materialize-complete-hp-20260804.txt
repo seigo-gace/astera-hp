@@ -1,0 +1,5 @@
+Astera HP main materialization trigger
+Validated source commit: 18c8bb362e046b854af0cbbc96d500ab8515787a
+Validation PR: #15
+Validation run: 30916052160
+Result: source tests PASS, browser tests 54/54 PASS, exact TOP image hash PASS.
