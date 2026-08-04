@@ -1,1 +1,27 @@
-<header class="site-header" data-site-header><div class="header-inner"><a class="brand" href="/" aria-label="Astera ホーム"><span class="brand-text">Astera</span><small>v8</small></a><button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-nav">MENU</button><nav id="site-nav" class="site-nav" aria-label="主要ナビゲーション"><details class="product-menu"><summary>製品</summary><div class="mega-menu">{{MAIN8_LINKS}}</div></details><a href="/use-cases/">活用シーン</a><a href="/support/">支援・投資</a><a href="/docs/">ドキュメント</a><a href="/company/">会社情報</a><a href="https://app.asterav8.jp/pricing">プラン・料金</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a><a class="launch" href="https://app.asterav8.jp/">LAUNCH APP</a><button type="button" data-language-button>言語</button></nav></div></header>
+<header class="site-header" data-header>
+  <div class="header-shell">
+    <a class="brand" href="/" aria-label="Astera ホーム">
+      <img src="/assets/brand/astera-logo-dark.svg" alt="Astera v8" width="188" height="44" data-brand-image>
+      <span class="brand-fallback" aria-hidden="true">Astera</span>
+    </a>
+    <a class="mobile-launch button is-primary" href="https://app.asterav8.jp/">LAUNCH APP</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="global-nav" data-nav-toggle>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      <span class="sr-only">メニューを開く</span>
+    </button>
+    <nav id="global-nav" class="global-nav" aria-label="主要ナビゲーション" data-global-nav>
+      <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>製品</button>
+      <a class="nav-item" href="/use-cases/">活用シーン</a>
+      <a class="nav-item" href="/support/">支援・投資</a>
+      <a class="nav-item" href="/docs/">ドキュメント</a>
+      <a class="nav-item" href="/company/">会社情報</a>
+      <a class="nav-item" href="https://app.asterav8.jp/pricing">プラン・料金</a>
+      <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a>
+      <a class="button is-primary desktop-launch" href="https://app.asterav8.jp/">LAUNCH APP</a>
+      <button type="button" class="language-button" data-language-open>Language</button>
+    </nav>
+    <div id="product-menu" class="product-menu" hidden data-product-menu>
+      {{MAIN8_LINKS}}
+    </div>
+  </div>
+</header>
