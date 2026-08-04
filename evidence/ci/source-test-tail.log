@@ -16,11 +16,11 @@ Built 26 Notion-canonical routes with full public sources and route-specific tem
 Redirect PASS
 Content PASS: 26 routes
 Link contract PASS
-file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:27
-if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID ${patchBytes.length} ${patchSha256}`);
+file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:33
+if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID canonical=${patchBytes.length}:${patchSha256} encoded=${encodedPatchBytes.length}`);
                                                                                  ^
 
-Error: HERO_SPARKLE_PATCH_HASH_INVALID 1835 e4699b2d2917a70e765cad52aa41a9701e557117f936d39b465b234540d1e507
-    at file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:27:82
+Error: HERO_SPARKLE_PATCH_HASH_INVALID canonical=1834:6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a encoded=1835
+    at file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:33:82
 
 Node.js v22.23.1
