@@ -1,0 +1,1 @@
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!reduced){const header=document.querySelector('[data-site-header]');addEventListener('scroll',()=>header?.classList.toggle('scrolled',scrollY>12),{passive:true});}
