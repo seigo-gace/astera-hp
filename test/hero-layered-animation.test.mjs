@@ -34,6 +34,11 @@ test('hero controller uses pinned local GSAP with viewport and accessibility gua
     'is-svg-failed'
   ]) assert.match(script, new RegExp(marker.replaceAll('.', '\\.').replaceAll('(', '\\(').replaceAll(')', '\\)')));
   assert.doesNotMatch(script, /canvas|getContext\(|requestAnimationFrame\(draw|astera-hero-hud|innerHTML\s*=/);
+
+  const compatibility = await read('site/assets/astera-bootstrap.js');
+  assert.match(compatibility, /astera-globe-exact-layered\.svg/);
+  assert.match(compatibility, /astera-globe-top\.webp/);
+  assert.doesNotMatch(compatibility, /<canvas|network-canvas|data-network-canvas|concept-labels|network-orbit|astera-hero-hud/);
 });
 
 test('hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors', async () => {
@@ -63,6 +68,7 @@ test('build pins and self-hosts GSAP instead of weakening CSP', async () => {
 test('built TOP keeps the fallback image and ships the layered effect asset', async () => {
   const html = await read('site/dist/index.html');
   assert.match(html, /assets\/images\/astera-globe-top\.webp/);
+  assert.match(html, /data-svg-src="\/assets\/visual\/hero\/astera-globe-exact-layered\.svg"/);
   assert.doesNotMatch(html, /astera-hero-hud|ASTERA \/ JUDGMENT NETWORK|<canvas/);
   const layered = await stat(new URL('../site/dist/assets/visual/hero/astera-globe-exact-layered.svg', import.meta.url));
   const runtime = await stat(new URL('../site/dist/assets/vendor/gsap-3.12.2.min.js', import.meta.url));
