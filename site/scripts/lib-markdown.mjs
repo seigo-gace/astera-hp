@@ -108,9 +108,13 @@ export function renderSourceMarkdown(source, options = {}) {
     if (heading) {
       flushAll();
       const level = heading[1].length;
-      const title = heading[2].trim();
+      const rawTitle = heading[2].trim();
+      const explicit = rawTitle.match(/^(.*?)\s*\{#([A-Za-z0-9_-]+)\}$/);
+      const title = (explicit ? explicit[1] : rawTitle).trim();
       if (level === 1) continue;
-      const id = slugify(title, usedSlugs);
+      const id = explicit ? explicit[2] : slugify(title, usedSlugs);
+      if (usedSlugs.has(id) && !explicit) throw new Error(`DUPLICATE_HEADING_ID ${id}`);
+      usedSlugs.add(id);
       if (level === 2) {
         closeSection();
         sectionIndex += 1;
