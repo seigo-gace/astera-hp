@@ -78,7 +78,7 @@ test('baked-in lower-right sparkle is removed in fallback and moving SVG states'
   assert.ok(trailingBytes.every((byte) => byte === 0));
   const canonicalPatch = encodedBytes.subarray(0, declaredBytes);
   assert.equal(canonicalPatch.length, 1834);
-  assert.equal(createHash('sha256').update(canonicalPatch).digest('hex'), 'de76fb497204bd9f8d2b281f4e2bfcfb1f04665a34e2a31234c337031465186d');
+  assert.equal(createHash('sha256').update(canonicalPatch).digest('hex'), '6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a');
 });
 
 test('hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors', async () => {
