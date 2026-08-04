@@ -120,6 +120,48 @@
 }
 .astera-hero-visual .asset-fallback{inset:14%;border-radius:24px}
 
+/* Layered SVG classes live in the site's self-hosted stylesheet so the
+   strict style-src 'self' policy remains intact. */
+.astera-hero-svg #base-image{pointer-events:none}
+.astera-hero-svg #effects-behind,
+.astera-hero-svg #effects-orbits,
+.astera-hero-svg #effects-particles,
+.astera-hero-svg #effects-front{
+  pointer-events:none;
+  transform-box:view-box;
+  transform-origin:50% 52%;
+}
+.astera-hero-svg .orbit-shell{
+  fill:none;
+  vector-effect:non-scaling-stroke;
+  mix-blend-mode:screen;
+}
+.astera-hero-svg .data-line{
+  fill:none;
+  stroke-linecap:round;
+  vector-effect:non-scaling-stroke;
+  mix-blend-mode:screen;
+  opacity:.72;
+}
+.astera-hero-svg .data-line.cyan{
+  stroke:url(#cyan-stream);
+  filter:url(#soft-cyan);
+}
+.astera-hero-svg .data-line.amber{
+  stroke:url(#amber-stream);
+  filter:url(#soft-amber);
+}
+.astera-hero-svg .glow-node{
+  transform-box:fill-box;
+  transform-origin:center;
+  mix-blend-mode:screen;
+}
+.astera-hero-svg .node-core{fill:#effeff;filter:url(#soft-cyan)}
+.astera-hero-svg .node-cyan{fill:#7af1ff;filter:url(#soft-cyan)}
+.astera-hero-svg .node-amber{fill:#ffc481;filter:url(#soft-amber)}
+.astera-hero-svg .ambient-particle{mix-blend-mode:screen;opacity:.34}
+.astera-hero-svg .detail-desktop{display:inline}
+
 @keyframes asteraEnvironmentBreathe{
   0%,100%{opacity:.68;transform:translate3d(0,2%,0) scale(.96)}
   50%{opacity:.95;transform:translate3d(0,0,0) scale(1.045)}
@@ -136,6 +178,8 @@
   .astera-hero-depth{border-radius:24px;will-change:auto}
   .hero-stage-wrap::before{width:98%;filter:blur(29px)}
   .hero-stage-wrap::after{inset:7% -4% 3%}
+  .astera-hero-svg .detail-desktop{display:none}
+  .astera-hero-svg .data-line{opacity:.6}
 }
 @media(pointer:coarse){
   .astera-hero-depth{will-change:auto}
@@ -147,4 +191,6 @@
   .astera-hero-image,
   .astera-hero-fallback,
   .astera-hero-svg{transition:none!important}
+  .astera-hero-svg .data-line{stroke-dasharray:none!important;stroke-dashoffset:0!important}
+  .astera-hero-svg .glow-node{opacity:.78!important;transform:none!important}
 }
