@@ -8,6 +8,7 @@ const ensureStylesheet = (id, href) => {
 };
 
 ensureStylesheet('astera-aurora-styles', '/assets/astera-aurora.css');
+ensureStylesheet('astera-hero-image-styles', '/assets/astera-hero-image.css');
 
 const legacyShell = document.querySelector('.header-inner, main > .page > .page-hero');
 if (legacyShell) ensureStylesheet('astera-legacy-bridge-styles', '/assets/astera-legacy-bridge.css');
@@ -23,7 +24,7 @@ function upgradeLegacyShell() {
 function upgradeLegacyHome() {
   if (document.body.dataset.route !== 'home') return;
   const article = document.querySelector('main#main > .page');
-  if (!article || article.querySelector('[data-network-stage]')) return;
+  if (!article || article.querySelector('[data-astera-hero]')) return;
   const oldHero = article.querySelector(':scope > .page-hero');
   if (!oldHero) return;
 
@@ -40,17 +41,15 @@ function upgradeLegacyHome() {
       <p>Asteraは、問いと主役AIの回答から、目的、前提、事実、Risk、反対視点、比較案、推奨判断、主役AIへの再指示を整理する判断材料生成Runtimeです。</p>
       <div class="hero-actions"><a class="button is-primary" href="https://app.asterav8.jp/">Asteraを使う</a><a class="button" href="/product/what-is-astera/">Asteraとは？</a><a class="text-link" href="https://app.asterav8.jp/pricing">プラン・料金</a></div>
     </div>
-    <div class="visual-stage hero-visual network-stage" data-network-stage data-motion-root data-motion-strength="18" data-reveal>
-      <canvas class="network-canvas" data-network-canvas aria-hidden="true"></canvas>
-      <div class="visual-glow" aria-hidden="true"></div>
-      <span class="network-orbit is-a" aria-hidden="true"></span>
-      <span class="network-orbit is-b" aria-hidden="true"></span>
-      <picture class="visual-base network-globe"><img src="/assets/visual/hero/hero-core.svg" width="1400" height="1400" fetchpriority="high" decoding="async" alt="青緑色に発光する地球型ネットワークと、Asteraが判断材料を接続する構造の概念図" data-required-asset></picture>
-      <span class="network-flare is-cyan" aria-hidden="true"></span>
-      <span class="network-flare is-amber" aria-hidden="true"></span>
-      <div class="asset-fallback" hidden data-asset-fallback><strong>Hero Visualを読み込めません</strong><span>本文と全導線は利用できます。</span></div>
-      <div class="scan-layer" aria-hidden="true"></div>
-      <div class="concept-labels" aria-hidden="true"><span>PURPOSE</span><span>FACT</span><span>RISK</span><span>COMPARE</span><span>RE-INSTRUCTION</span></div>
+    <div class="hero-stage-wrap reveal" aria-label="Astera global judgment network visual" data-reveal>
+      <figure class="astera-hero-visual" data-astera-hero data-svg-src="/assets/visual/hero/astera-globe-exact-layered.svg">
+        <div class="astera-hero-environment" aria-hidden="true"></div>
+        <div class="astera-hero-depth" data-astera-depth data-astera-svg-mount>
+          <img class="astera-hero-image" src="/assets/images/astera-globe-top.webp" alt="世界を結ぶ光のネットワークと地球を表現したAsteraのトップビジュアル" width="1024" height="1536" decoding="async" fetchpriority="high" data-required-asset>
+        </div>
+        <figcaption class="sr-only">Asteraが判断材料、根拠、比較、Risk、再指示を接続する世界観を示すトップイメージ</figcaption>
+        <div class="asset-fallback" hidden data-asset-fallback><strong>Hero Visualを読み込めません</strong><span>本文と全導線は利用できます。</span></div>
+      </figure>
     </div>
     <aside class="hero-concept" data-reveal><p class="eyebrow">DOCKING EXOSHELL</p><h2>主役AIの外側で働く。</h2><dl><div><dt>INPUT</dt><dd>問い・資料・AI回答</dd></div><div><dt>PROCESS</dt><dd>確認・反対・比較</dd></div><div><dt>OUTPUT</dt><dd>8項目と再指示</dd></div></dl></aside>`;
   oldHero.replaceWith(hero);
