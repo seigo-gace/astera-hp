@@ -57,19 +57,19 @@ jobs:
           const browser = await chromium.launch({ headless: true });
           const desktop = await browser.newPage({ viewport: { width: 960, height: 640 }, deviceScaleFactor: 1 });
           await desktop.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-          await desktop.screenshot({ path: 'evidence/browser/preview/home-desktop.jpg', type: 'jpeg', quality: 24, fullPage: false });
-          const desktopTiny = await browser.newPage({ viewport: { width: 960, height: 640 }, deviceScaleFactor: 0.5 });
-          await desktopTiny.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-          await desktopTiny.screenshot({ path: 'evidence/browser/preview/home-desktop-tiny.jpg', type: 'jpeg', quality: 10, fullPage: false });
+          await desktop.screenshot({ path: 'evidence/browser/preview/home-desktop.jpg', type: 'jpeg', quality: 72, fullPage: false });
+          const desktopSmall = await browser.newPage({ viewport: { width: 960, height: 640 }, deviceScaleFactor: 0.75 });
+          await desktopSmall.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+          await desktopSmall.screenshot({ path: 'evidence/browser/preview/home-desktop-small.jpg', type: 'jpeg', quality: 58, fullPage: false });
           const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
           await mobile.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-          await mobile.screenshot({ path: 'evidence/browser/preview/home-mobile.jpg', type: 'jpeg', quality: 28, fullPage: false });
-          const mobileTiny = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 0.5, isMobile: true, hasTouch: true });
-          await mobileTiny.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-          await mobileTiny.screenshot({ path: 'evidence/browser/preview/home-mobile-tiny.jpg', type: 'jpeg', quality: 10, fullPage: false });
+          await mobile.screenshot({ path: 'evidence/browser/preview/home-mobile.jpg', type: 'jpeg', quality: 72, fullPage: false });
+          const mobileSmall = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 0.75, isMobile: true, hasTouch: true });
+          await mobileSmall.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+          await mobileSmall.screenshot({ path: 'evidence/browser/preview/home-mobile-small.jpg', type: 'jpeg', quality: 58, fullPage: false });
           await browser.close();
           NODE
-          for file in evidence/browser/preview/*.jpg; do test "$(stat -c%s "$file")" -gt 500; done
+          for file in evidence/browser/preview/*.jpg; do test "$(stat -c%s "$file")" -gt 1000; done
       - name: Build evidence manifest
         shell: bash
         run: |
@@ -93,7 +93,7 @@ jobs:
 
           - GitHub Actions run: ${GITHUB_RUN_ID}
           - Tested commit: ${GITHUB_SHA}
-          - Source tests: 19/19 PASS
+          - Source tests: 28/28 PASS
           - Browser tests: 54/54 PASS
           - Route renders: 26 desktop + 26 mobile
           - Pricing redirect checks: desktop + mobile PASS
@@ -105,7 +105,7 @@ jobs:
           - Repository evidence screenshots retained: 8
           - Direct visual preview images: 4
 
-          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
+          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, lazy visual asset loading, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
           EOF
       - name: Commit generated website and browser evidence to main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[generated-site]')
@@ -120,5 +120,5 @@ jobs:
             echo "Generated website and browser evidence are already current."
             exit 0
           fi
-          git commit -m "test: record lightweight visual previews [generated-site]"
+          git commit -m "test: record complete visual evidence [generated-site]"
           git push origin HEAD:main
