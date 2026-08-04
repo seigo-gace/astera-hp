@@ -1,11 +1,17 @@
 {
-  "status": "hero-source-image-integrated-brand-byte-production-blocked",
-  "updatedAt": "2026-08-04T22:40:00+09:00",
+  "status": "layered-hero-integrated-brand-byte-production-blocked",
+  "updatedAt": "2026-08-04T23:16:00+09:00",
   "visualDirection": {
-    "reference": "latest user-provided Astera globe image",
-    "method": "latest user-provided image content; high-quality WebP delivery encoding only; no generation, redrawing, HUD, labels, canvas or UI overlay; external CSS depth and light only",
+    "reference": "latest user-provided Astera globe image and asterа-globe-exact-layered.svg structure",
+    "method": "latest user-provided image content remains the base; lightweight SVG effect layers add data streams, glow nodes and particles; no image generation, redrawing, HUD, labels, canvas or UI overlay",
     "sourceSha256": "e68cfdcba00e64a7afae7beac39afc5dac77402241a3b014247397607ec673cf",
     "deliverySha256": "64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2",
+    "animationRuntime": {
+      "engine": "GSAP",
+      "version": "3.12.2",
+      "delivery": "self-hosted-from-pinned-npm-package",
+      "performance": "transform/opacity-first, viewport pause, page-visibility pause, reduced-motion static fallback"
+    },
     "palette": ["#020b12", "#071c29", "#0c3346", "#0f718f", "#26b5d1", "#7be5ec", "#f2a34a"]
   },
   "brand": [
@@ -22,6 +28,7 @@
   ],
   "visual": [
     {"id":"astera-globe-top","file":"/assets/images/astera-globe-top.webp","width":1024,"height":1536,"required":true,"status":"user-provided-web-optimized","source":"latest current-conversation upload; visual content preserved","bytes":178672,"sha256":"64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2","psnrDb":43.7},
+    {"id":"astera-globe-exact-layered","file":"/assets/visual/hero/astera-globe-exact-layered.svg","width":1024,"height":1536,"required":true,"status":"user-provided-layered-svg","source":"provided layered SVG contract; production shell references the verified WebP base and fills the four effect groups","bytes":10188,"sha256":"a7ebd2388e9a050dbe3e0ce2bce5e7f7855a10771122a38fed06fbe4821f23e3"},
     {"id":"process-purpose","file":"/assets/visual/process/process-purpose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
     {"id":"process-materialize","file":"/assets/visual/process/process-materialize.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
     {"id":"process-recompose","file":"/assets/visual/process/process-recompose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
