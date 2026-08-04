@@ -14,8 +14,8 @@ Built 26 Notion-canonical routes with full public sources and route-specific tem
 > node site/scripts/validate.mjs
 
 Redirect PASS
-Link contract PASS
 Content PASS: 26 routes
+Link contract PASS
 file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-assets.mjs:33
 if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID canonical=${patchBytes.length}:${patchSha256} encoded=${encodedPatchBytes.length}`);
                                                                                  ^
