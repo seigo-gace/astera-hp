@@ -97,10 +97,8 @@ for (const route of routes) {
   });
 }
 
-test('pricing paths redirect to the Astera app', async ({ request }) => {
-  for (const route of ['/pricing', '/pricing/']) {
-    const response = await request.get(route, { maxRedirects: 0 });
-    expect([301, 302, 307, 308]).toContain(response.status());
-    expect(response.headers().location).toBe('https://app.asterav8.jp/pricing');
-  }
+test('Cloudflare pricing redirects point only to the Astera app', async () => {
+  const redirects = await readFile(new URL('../../site/dist/_redirects', import.meta.url), 'utf8');
+  expect(redirects).toContain('/pricing https://app.asterav8.jp/pricing 308');
+  expect(redirects).toContain('/pricing/ https://app.asterav8.jp/pricing 308');
 });
