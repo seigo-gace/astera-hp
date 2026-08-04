@@ -40,10 +40,30 @@
     return match?.[2] || '';
   }
 
+  function canonicalizeWebpDataUri(value) {
+    const prefix = 'data:image/webp;base64,';
+    if (!value.startsWith(prefix)) return '';
+    try {
+      const binary = atob(value.slice(prefix.length));
+      if (binary.length < 12 || binary.slice(0, 4) !== 'RIFF' || binary.slice(8, 12) !== 'WEBP') return '';
+      const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+      const declaredBytes = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength).getUint32(4, true) + 8;
+      if (declaredBytes < 12 || declaredBytes > bytes.length) return '';
+      const canonicalBytes = bytes.subarray(0, declaredBytes);
+      let canonicalBinary = '';
+      for (let offset = 0; offset < canonicalBytes.length; offset += 0x8000) {
+        canonicalBinary += String.fromCharCode(...canonicalBytes.subarray(offset, offset + 0x8000));
+      }
+      return `${prefix}${btoa(canonicalBinary)}`;
+    } catch {
+      return '';
+    }
+  }
+
   function installSparkleRemoval(svg) {
-    const patchSource = cssUrl(getComputedStyle(depth, '::after').backgroundImage);
+    const patchSource = canonicalizeWebpDataUri(cssUrl(getComputedStyle(depth, '::after').backgroundImage));
     const baseLayer = svg.querySelector('#base-image');
-    if (!patchSource.startsWith('data:image/webp;base64,') || !baseLayer) return false;
+    if (!patchSource || !baseLayer) return false;
 
     const patch = document.createElementNS(SVG_NAMESPACE, 'image');
     patch.id = 'lower-right-sparkle-removal';
