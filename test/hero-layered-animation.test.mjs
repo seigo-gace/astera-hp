@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFile, stat} from 'node:fs/promises';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -41,6 +42,38 @@ test('hero controller uses pinned local GSAP with viewport and accessibility gua
   assert.doesNotMatch(compatibility, /<canvas|network-canvas|data-network-canvas|concept-labels|network-orbit|astera-hero-hud/);
 });
 
+test('baked-in lower-right sparkle is removed in fallback and moving SVG states', async () => {
+  const script = await read('site/assets/astera-hero-image.js');
+  const css = await read('site/assets/astera-hero-image.css');
+
+  for (const marker of [
+    "x: 825",
+    "y: 1338",
+    "width: 110",
+    "height: 112",
+    "lower-right-sparkle-removal",
+    "installSparkleRemoval(svg)",
+    "is-sparkle-patch-in-svg"
+  ]) assert.ok(script.includes(marker), `Missing sparkle-removal controller marker: ${marker}`);
+
+  assert.match(css, /\.astera-hero-depth::after/);
+  assert.match(css, /left:80\.56640625%/);
+  assert.match(css, /top:87\.109375%/);
+  assert.match(css, /width:10\.7421875%/);
+  assert.match(css, /height:7\.291666667%/);
+  assert.match(css, /data:image\/webp;base64,/);
+  assert.match(css, /is-sparkle-patch-in-svg/);
+  assert.doesNotMatch(script + css, /✦/u);
+
+  const encodedPatch = css.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
+  assert.ok(encodedPatch, 'Sparkle-removal WebP patch is missing');
+  const patch = Buffer.from(encodedPatch, 'base64');
+  assert.equal(patch.subarray(0, 4).toString('ascii'), 'RIFF');
+  assert.equal(patch.subarray(8, 12).toString('ascii'), 'WEBP');
+  assert.equal(patch.length, 1834);
+  assert.equal(createHash('sha256').update(patch).digest('hex'), 'de76fb497204bd9f8d2b281f4e2bfcfb1f04665a34e2a31234c337031465186d');
+});
+
 test('hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors', async () => {
   const css = await read('site/assets/astera-hero-image.css');
   assert.match(css, /\.astera-hero-image/);
@@ -59,6 +92,8 @@ test('build pins and self-hosts GSAP instead of weakening CSP', async () => {
   const headers = await read('site/public/_headers');
   assert.match(headers, /script-src 'self'/);
   assert.doesNotMatch(headers, /cdnjs|jsdelivr|unsafe-inline/);
+  const layeredSource = await read('site/assets/visual/hero/astera-globe-exact-layered.svg');
+  assert.doesNotMatch(layeredSource, /<style\b/);
   const runtimePath = new URL('../site/assets/vendor/gsap-3.12.2.min.js', import.meta.url);
   const runtimeInfo = await stat(runtimePath);
   assert.ok(runtimeInfo.size > 50000);
