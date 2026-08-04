@@ -1,14 +1,17 @@
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const site = join(here, '..');
+const repositoryRoot = join(site, '..');
 const output = join(site, 'assets', 'images', 'astera-globe-top.webp');
 const expectedSha256 = '64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2';
 const expectedSize = 178672;
 const sourceUrl = 'https://drive.usercontent.google.com/download?id=1ZXXKJJ9C8fRQwHkIc5_BHhzUB2aszYcV&export=download&confirm=t';
+const gsapSource = join(repositoryRoot, 'node_modules', 'gsap', 'dist', 'gsap.min.js');
+const gsapOutput = join(site, 'assets', 'vendor', 'gsap-3.12.2.min.js');
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const verify = (bytes, source) => {
@@ -41,3 +44,9 @@ try {
 
 const actualSha256 = verify(bytes, source);
 console.log(`Materialized latest user-provided hero image from ${source}: ${output} (${bytes.length} bytes, sha256 ${actualSha256})`);
+
+await mkdir(dirname(gsapOutput), {recursive: true});
+await copyFile(gsapSource, gsapOutput);
+const gsapRuntime = await readFile(gsapOutput, 'utf8');
+if (!gsapRuntime.includes('GSAP 3.12.2') || gsapRuntime.length < 50000) throw new Error('ASTERA_GSAP_RUNTIME_INVALID');
+console.log(`Materialized pinned GSAP runtime: ${gsapOutput} (${gsapRuntime.length} characters)`);
