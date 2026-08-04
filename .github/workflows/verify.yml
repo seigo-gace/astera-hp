@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,14 +20,48 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - run: npm ci
-      - run: npm test
+      - name: Install repository dependencies
+        run: npm ci
+      - name: Build and run source tests
+        run: npm test
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start local predeploy preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --directory site/dist > /tmp/astera-preview.log 2>&1 &
+          echo $! > /tmp/astera-preview.pid
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/astera-preview.log
+          exit 1
+      - name: Run desktop and mobile predeploy browser tests
+        run: npx playwright test --config=playwright.config.mjs
       - name: Build evidence manifest
         shell: bash
         run: |
           set -euo pipefail
-          find site/dist -type f -print0 | sort -z | xargs -0 sha256sum > site/dist/SHA256SUMS.txt
+          find site/dist -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > site/dist/SHA256SUMS.txt
           test "$(find site/dist -type f | wc -l)" -ge 33
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astera-hp-predeploy-browser-evidence
+          path: |
+            playwright-report/
+            test-results/
+            site/dist/SHA256SUMS.txt
+            /tmp/astera-preview.log
+          if-no-files-found: warn
+          retention-days: 30
       - name: Commit generated website to main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[generated-site]')
         shell: bash
