@@ -19,9 +19,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - name: Upload build evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: astera-hp-dist
-          path: site/dist
-          if-no-files-found: error
+      - name: Record build evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          find site/dist -type f -print0 | sort -z | xargs -0 sha256sum > build-manifest.sha256
+          test "$(wc -l < build-manifest.sha256)" -ge 33
+          cat build-manifest.sha256
