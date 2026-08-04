@@ -16,5 +16,8 @@
     "validate": "node site/scripts/validate.mjs",
     "test": "npm run build && npm run validate && node --test test/*.test.mjs",
     "export:notion": "node site/scripts/export-notion-content.mjs"
+  },
+  "dependencies": {
+    "gsap": "3.12.2"
   }
 }
