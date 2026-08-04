@@ -9,6 +9,9 @@
   const svgSource = visual.dataset.svgSrc || '/assets/visual/hero/astera-globe-exact-layered.svg';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(pointer: fine)');
+  const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+  const XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink';
+  const sparkleRemovalBounds = Object.freeze({x: 825, y: 1338, width: 110, height: 112});
   let disposeMotion = () => {};
   let disposed = false;
 
@@ -30,6 +33,31 @@
       script.addEventListener('error', () => reject(new Error('ASTERA_GSAP_LOAD_FAILED')), {once: true});
       document.head.append(script);
     });
+  }
+
+  function cssUrl(value) {
+    const match = String(value || '').trim().match(/^url\((['"]?)(.*)\1\)$/s);
+    return match?.[2] || '';
+  }
+
+  function installSparkleRemoval(svg) {
+    const patchSource = cssUrl(getComputedStyle(depth, '::after').backgroundImage);
+    const baseLayer = svg.querySelector('#base-image');
+    if (!patchSource.startsWith('data:image/webp;base64,') || !baseLayer) return false;
+
+    const patch = document.createElementNS(SVG_NAMESPACE, 'image');
+    patch.id = 'lower-right-sparkle-removal';
+    patch.setAttribute('x', String(sparkleRemovalBounds.x));
+    patch.setAttribute('y', String(sparkleRemovalBounds.y));
+    patch.setAttribute('width', String(sparkleRemovalBounds.width));
+    patch.setAttribute('height', String(sparkleRemovalBounds.height));
+    patch.setAttribute('preserveAspectRatio', 'none');
+    patch.setAttribute('pointer-events', 'none');
+    patch.setAttribute('aria-hidden', 'true');
+    patch.setAttribute('href', patchSource);
+    patch.setAttributeNS(XLINK_NAMESPACE, 'xlink:href', patchSource);
+    baseLayer.after(patch);
+    return true;
   }
 
   function parseLayeredSvg(source) {
@@ -240,12 +268,14 @@
     const response = await fetch(svgSource, {credentials: 'same-origin', cache: 'force-cache'});
     if (!response.ok) throw new Error(`ASTERA_GLOBE_SVG_FETCH_FAILED_${response.status}`);
     const svg = parseLayeredSvg(await response.text());
-    const embeddedImage = svg.querySelector('image');
+    const sparklePatchInstalled = installSparkleRemoval(svg);
+    const embeddedImage = svg.querySelector('#base-image image');
 
     embeddedImage?.addEventListener('load', () => visual.classList.add('is-svg-image-ready'), {once: true});
     embeddedImage?.addEventListener('error', () => visual.classList.add('is-svg-image-failed'), {once: true});
     mount.append(svg);
     visual.classList.add('is-svg-mounted');
+    if (sparklePatchInstalled) visual.classList.add('is-sparkle-patch-in-svg');
     await ensureGsap();
     disposeMotion = createMotion(svg);
   }
