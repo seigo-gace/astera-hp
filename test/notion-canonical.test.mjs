@@ -16,9 +16,9 @@ test('Notion canonical shared shell is retained', async () => {
   for (const expected of ['問いを星図に変える。','利用規約','Privacy','特商法']) assert.match(footer, new RegExp(expected));
 });
 
-test('TOP retains canonical section order and new network-globe visual system', async () => {
+test('TOP retains canonical section order and a clean user-provided hero image', async () => {
   const source = await read('site/templates/home.html');
-  const expectedOrder = ['class="hero ', 'class="process ', 'class="comparison ', 'class="main-eight ', 'class="capsule ', 'class="audiences ', 'class="evidence ', 'class="final-cta '];
+  const expectedOrder = ['class="hero ', '{{HOME_SUMMARY}}', 'class="process ', 'class="comparison ', 'class="main-eight ', 'class="capsule ', 'class="audiences ', 'class="evidence ', 'class="final-cta '];
   let previous = -1;
   for (const marker of expectedOrder) {
     const current = source.indexOf(marker);
@@ -26,24 +26,26 @@ test('TOP retains canonical section order and new network-globe visual system', 
     previous = current;
   }
   for (const expected of [
-    'assets/visual/hero/hero-core.svg', 'assets/visual/process/process-purpose.svg',
+    'assets/images/astera-globe-top.png', 'assets/visual/process/process-purpose.svg',
     'assets/visual/comparison/comparison-portal.svg', 'assets/visual/capsule/capsule-radar.svg',
     'assets/visual/audience/audience-personal.svg', 'assets/visual/cta/cta-support.svg',
-    'data-network-canvas', 'data-network-hero'
+    'data-astera-hero', 'data-network-hero'
   ]) assert.match(source, new RegExp(expected.replaceAll('.', '\\.')));
-  assert.doesNotMatch(source, /STABLE|LOAD 62%|128K TOKENS|旧衛星/);
+  assert.doesNotMatch(source, /STABLE|LOAD 62%|128K TOKENS|旧衛星|astera-hero-canvas|astera-hero-hud|astera-hero-orbit|astera-data-node/);
 });
 
-test('base loads the independent visual layer without replacing canonical CSS or JS', async () => {
+test('base loads canonical, hero and completion layers without inline image UI', async () => {
   const source = await read('site/templates/base.html');
   assert.match(source, /assets\/style\.css/);
   assert.match(source, /assets\/astera-aurora\.css/);
+  assert.match(source, /assets\/astera-hero-image\.css/);
+  assert.match(source, /assets\/notion-complete\.css/);
   assert.match(source, /assets\/app\.js/);
   assert.match(source, /assets\/motion\.js/);
-  assert.match(source, /assets\/astera-aurora\.js/);
+  assert.doesNotMatch(source, /<canvas|astera-hero-hud/);
 });
 
-test('built TOP exposes all Main 8 routes in order', async () => {
+test('built TOP exposes Main 8 and the required summary in order', async () => {
   const html = await read('site/dist/index.html');
   let previous = -1;
   for (const route of main8) {
@@ -51,6 +53,8 @@ test('built TOP exposes all Main 8 routes in order', async () => {
     assert.ok(current > previous, `${route} must exist in Main 8 order`);
     previous = current;
   }
+  assert.match(html, /このページで分かること/);
+  assert.match(html, /main-eight-card-visual/);
   assert.match(html, /AI USAGE QUALITY LAYER/);
   assert.match(html, /JUDGMENT CAPSULE/);
   assert.match(html, /Astera総合案内AI/);
@@ -64,13 +68,15 @@ test('pricing remains an external App link, never an HP pricing page', async () 
   assert.doesNotMatch(home, /料金表|Credit表|Plan比較/);
 });
 
-test('all 12 visual assets are implemented original SVG files while brand remains blocked', async () => {
+test('user-provided TOP image and supporting visual assets are materialized while brand remains blocked', async () => {
   const manifest = JSON.parse(await read('site/data/asset-manifest.json'));
-  assert.equal(manifest.visual.length, 12);
-  assert.equal(manifest.visual[0].file, '/assets/visual/hero/hero-core.svg');
-  assert.ok(manifest.visual.every((asset) => asset.status === 'implemented-original-svg'));
+  const hero = manifest.visual.find((asset) => asset.id === 'astera-globe-top');
+  assert.equal(hero.file, '/assets/images/astera-globe-top.png');
+  assert.equal(hero.status, 'user-provided-original-unmodified');
   assert.match(manifest.status, /brand-byte-production-blocked/);
-  for (const asset of manifest.visual) {
+  const heroInfo = await stat(new URL('../site/assets/images/astera-globe-top.png', import.meta.url));
+  assert.equal(heroInfo.size, 180582);
+  for (const asset of manifest.visual.filter((item) => item.file.endsWith('.svg'))) {
     const url = new URL(`../site/${asset.file.replace(/^\//, '')}`, import.meta.url);
     const info = await stat(url);
     assert.ok(info.size > 500, `${asset.id} must be materialized`);
