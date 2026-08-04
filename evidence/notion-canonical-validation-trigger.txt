@@ -1,0 +1,3 @@
+Notion canonical full-rebuild validation trigger.
+Base main: 96cb515131c1591fa4db46542c25773f04e9ea38
+This branch contains no source change beyond this CI trigger.
