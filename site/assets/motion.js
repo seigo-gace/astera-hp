@@ -1,3 +1,5 @@
+import './astera-bootstrap.js';
+
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(pointer: fine)');
 const header = document.querySelector('[data-header]');
