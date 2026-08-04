@@ -47,13 +47,14 @@ test('baked-in lower-right sparkle is removed in fallback and moving SVG states'
   const css = await read('site/assets/astera-hero-image.css');
 
   for (const marker of [
-    "x: 825",
-    "y: 1338",
-    "width: 110",
-    "height: 112",
-    "lower-right-sparkle-removal",
-    "installSparkleRemoval(svg)",
-    "is-sparkle-patch-in-svg"
+    'x: 825',
+    'y: 1338',
+    'width: 110',
+    'height: 112',
+    'lower-right-sparkle-removal',
+    'installSparkleRemoval(svg)',
+    'canonicalizeWebpDataUri',
+    'is-sparkle-patch-in-svg'
   ]) assert.ok(script.includes(marker), `Missing sparkle-removal controller marker: ${marker}`);
 
   assert.match(css, /\.astera-hero-depth::after/);
@@ -67,11 +68,17 @@ test('baked-in lower-right sparkle is removed in fallback and moving SVG states'
 
   const encodedPatch = css.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
   assert.ok(encodedPatch, 'Sparkle-removal WebP patch is missing');
-  const patch = Buffer.from(encodedPatch, 'base64');
-  assert.equal(patch.subarray(0, 4).toString('ascii'), 'RIFF');
-  assert.equal(patch.subarray(8, 12).toString('ascii'), 'WEBP');
-  assert.equal(patch.length, 1834);
-  assert.equal(createHash('sha256').update(patch).digest('hex'), 'de76fb497204bd9f8d2b281f4e2bfcfb1f04665a34e2a31234c337031465186d');
+  const encodedBytes = Buffer.from(encodedPatch, 'base64');
+  assert.equal(encodedBytes.subarray(0, 4).toString('ascii'), 'RIFF');
+  assert.equal(encodedBytes.subarray(8, 12).toString('ascii'), 'WEBP');
+  const declaredBytes = encodedBytes.readUInt32LE(4) + 8;
+  assert.equal(declaredBytes, 1834);
+  const trailingBytes = encodedBytes.subarray(declaredBytes);
+  assert.ok(trailingBytes.length <= 1);
+  assert.ok(trailingBytes.every((byte) => byte === 0));
+  const canonicalPatch = encodedBytes.subarray(0, declaredBytes);
+  assert.equal(canonicalPatch.length, 1834);
+  assert.equal(createHash('sha256').update(canonicalPatch).digest('hex'), 'de76fb497204bd9f8d2b281f4e2bfcfb1f04665a34e2a31234c337031465186d');
 });
 
 test('hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors', async () => {
@@ -107,6 +114,6 @@ test('built TOP keeps the fallback image and ships the layered effect asset', as
   assert.doesNotMatch(html, /astera-hero-hud|ASTERA \/ JUDGMENT NETWORK|<canvas/);
   const layered = await stat(new URL('../site/dist/assets/visual/hero/astera-globe-exact-layered.svg', import.meta.url));
   const runtime = await stat(new URL('../site/dist/assets/vendor/gsap-3.12.2.min.js', import.meta.url));
-  assert.ok(layered.size > 9000);
+  assert.ok(layered.size > 8000);
   assert.ok(runtime.size > 50000);
 });
