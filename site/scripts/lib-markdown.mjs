@@ -49,6 +49,7 @@ export function renderSourceMarkdown(source, options = {}) {
   let table = null;
   let sectionOpen = false;
   let sectionIndex = 0;
+  let titleSeen = false;
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -109,7 +110,17 @@ export function renderSourceMarkdown(source, options = {}) {
       const rawTitle = heading[2].trim();
       const explicit = rawTitle.match(/^(.*?)\s*\{#([A-Za-z0-9_-]+)\}$/);
       const title = (explicit ? explicit[1] : rawTitle).trim();
-      if (level === 1) continue;
+      if (level === 1 && !titleSeen) { titleSeen = true; continue; }
+      if (level === 1) {
+        closeSection();
+        const id = explicit ? explicit[2] : slugify(title, usedSlugs);
+        if (explicit) {
+          if (usedSlugs.has(id)) throw new Error(`DUPLICATE_HEADING_ID ${id}`);
+          usedSlugs.add(id);
+        }
+        html.push(`<h2 class="source-category" id="${id}">${inlineMarkdown(title)}</h2>`);
+        continue;
+      }
       let id;
       if (explicit) {
         id = explicit[2];
