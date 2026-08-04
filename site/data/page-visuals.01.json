@@ -1,0 +1,115 @@
+[
+  {
+    "route": "/",
+    "kind": "summary",
+    "title": "このページで分かること",
+    "items": [
+      {"label":"Asteraが解決する問題","text":"AIの文章が自然でも、判断に必要な材料が揃っているとは限りません。目的のずれ、前提不足、事実と推測の混在、迎合、Risk、比較不足を独立して確認します。"},
+      {"label":"Asteraが返す8項目","text":"一つの長文へ押し込まず、人間と主役AIが再利用できる8項目へ分けます。"},
+      {"label":"AIの答え → 判断材料化 → 再構成","text":"主役AIが作った回答をAsteraが検証・比較できる判断材料へ変え、その材料を主役AIへ戻して再構成します。"},
+      {"label":"AIのみ／Astera通過後","text":"効果保証ではなく、Asteraが追加する確認工程の違いを示します。"},
+      {"label":"Main 8","text":"名称・順序・Routeを固定し、Mobileでも01〜08を縦方向に全件表示します。"},
+      {"label":"Judgment Capsule","text":"本当の目的から主役AIへの再指示までを、KeyboardとNo-JSでも確認できる構造にします。"}
+    ]
+  },
+  {
+    "route": "/product/value/",
+    "kind": "cards",
+    "title": "要点を分類",
+    "items": [
+      {"label":"結論","text":"導入価値を抽象的な品質表現ではなく、確認・会議・差し戻し・再調査・外部委託の実測時間と費用で判断します。"},
+      {"label":"公開根拠","text":"公的統計、意思決定研究、構造化分析資料、生成AI支援研究、各社公式情報をSourceと非保証範囲付きで扱います。"},
+      {"label":"代替・併用手段との比較","text":"コンサル、汎用AI、専門Tool、人の実務、Asteraの役割・費用・範囲・最終判断を同じ軸で比較します。"},
+      {"label":"構造化分析との整合","text":"前提確認、情報品質、競合仮説、反対、代替未来、Red Team等の考え方との共通点を説明します。"},
+      {"label":"AI支援の効果と限界","text":"能力範囲内の生産性向上と、範囲外で正確性が落ちる可能性の両方を示します。"},
+      {"label":"人件費との対比","text":"利用者自身の時間単価を使い、会議・差し戻し・確認作業のCostを計算します。"}
+    ]
+  },
+  {
+    "route": "/product/usage/",
+    "kind": "cards",
+    "title": "要点を分類",
+    "items": [
+      {"label":"結論","text":"API接続なしのコピー＆ペーストから始め、Web App、API、Webhookへ段階的に拡張できます。"},
+      {"label":"入力できるもの","text":"問い、資料、AI回答、Code、計画、研究、会議記録、URL等を入力できます。"},
+      {"label":"基本操作Flow","text":"目的を選ぶ→入力→8項目を確認→不足を補う→再指示を主役AIへ渡す→最終判断。"},
+      {"label":"接続方法","text":"コピー＆ペースト、Web App、API、Webhook、Private Knowledge等を責務別に選びます。"},
+      {"label":"個人","text":"購入・契約、学習・Career、生活上の判断、文章・申請を比較します。"},
+      {"label":"AI回答検証","text":"前提、事実、Source、Risk、反対、別案を確認し、再指示を作ります。"}
+    ]
+  },
+  {
+    "route": "/news/",
+    "kind": "timeline",
+    "title": "時系列で確認",
+    "items": [
+      {"label":"現在公開中のお知らせ","text":"現在公開中のお知らせはありません。初回公開記事は承認後に追加します。"},
+      {"label":"Category","text":"Service、Product、Security・Privacy、Development、Supportで分類します。"},
+      {"label":"公開規則","text":"未来日、重複ID、古い料金値を禁止し、料金変更はApp料金PageへLinkします。"}
+    ]
+  },
+  {
+    "route": "/developers/",
+    "kind": "flow",
+    "title": "流れを一目で確認",
+    "items": [
+      {"label":"Astera APIが返すもの","text":"Cognitive Map、8項目、Evidence、Candidate Ranking、主役AIへの再指示を返します。"},
+      {"label":"利用開始Flow","text":"Account確認→Developer Mode→Key／Scope→Sandbox→Error／Rate／Retry→Production前Security確認。"},
+      {"label":"Authentication","text":"API Keyを公開Sourceへ埋め込まず、Tenant、Scope、環境、失効状態を関連付けます."},
+      {"label":"Request／Response","text":"JSON、Request ID、必要な操作のIdempotency Key、Tenant／Scope検証を共通化します。"},
+      {"label":"Error形式","text":"公開Code、Message、Request ID、retryableだけを返し、Stack、Secret、Network情報は返しません。"},
+      {"label":"Webhook Gateway","text":"署名検証、正規化、保存、Queue、Retry、Replay、Auditを独立Systemで扱います。"}
+    ]
+  },
+  {
+    "route": "/contact/",
+    "kind": "cards",
+    "title": "要点を分類",
+    "items": [
+      {"label":"問い合わせCategory","text":"Product、Billing、Account、Privacy、Security、Incident、Corporate、Support、Investor、Development、Other。"},
+      {"label":"入力項目","text":"返信Email、表示名、件名、本文、添付0〜5件、Privacy同意、Turnstile。"},
+      {"label":"添付制限","text":"最大5件・合計25MB。画像、PDF、Text、Office、ZIP。実行File、Script、Password付Archiveは禁止。"},
+      {"label":"受付State","text":"Initial、Validating、Uploading、Sending、Accepted、Validation Error、Rate Limited、Unavailable。失敗時に本文を消しません。"},
+      {"label":"Privacy","text":"保存目的、期間、添付、返信、削除請求をForm付近に表示します。"}
+    ]
+  },
+  {
+    "route": "/support/sponsor/",
+    "kind": "flow",
+    "title": "流れを一目で確認",
+    "items": [
+      {"label":"掲載できる情報","text":"公開名称、Logo、短い紹介文、公開Link、Sponsor区分、掲載期間。App内には表示しません。"},
+      {"label":"公開までの流れ","text":"問い合わせ→本人・法人確認→内容・権利確認→契約→決済→公開承認→掲載開始。"},
+      {"label":"小規模固定条件","text":"承認済み条件のみServer発行Square Checkoutを使用し、HPへ金額を固定しません。"},
+      {"label":"個別・大型Sponsor","text":"NDA、契約、請求へ分離します。"},
+      {"label":"掲載できない内容","text":"法令違反、誤認、安全・Privacy侵害、権利不明、危険Link、判断への介入。"},
+      {"label":"独立性","text":"Sponsorは判断材料、Evidence、Customer AI回答、利用者Dataへ介入できません。"}
+    ]
+  },
+  {
+    "route": "/investors/",
+    "kind": "flow",
+    "title": "流れを一目で確認",
+    "items": [
+      {"label":"解決する問題","text":"AI導入後も残る前提確認、再調査、会議、差し戻し、専門家確認の判断工程を製品化します。"},
+      {"label":"製品","text":"Multi-Perspective Cognition Runtimeとして8項目と再指示を生成し、既存AIを主役のまま残します。"},
+      {"label":"顧客","text":"個人・Team、開発者、法人、自社AI事業者、研究・専門業務。"},
+      {"label":"利用方法","text":"コピー＆ペーストからWeb App、API、Webhook、KB、Storage、Vaultへ段階拡張。"},
+      {"label":"初期Evidence","text":"実回答例、5社横断評価、Version付き公開Test。第三者認証や効果保証ではありません。"},
+      {"label":"事業上の位置付け","text":"基盤Model競争ではなく、複数AI・業務Systemの外側で再利用できる判断工程。"}
+    ]
+  },
+  {
+    "route": "/legal/privacy/",
+    "kind": "flow",
+    "title": "流れを一目で確認",
+    "items": [
+      {"label":"Version・施行","text":"Version、Published At、Effective Atを表示します。"},
+      {"label":"取得情報","text":"HP、App、Customer AI、Contact、決済、Log等で取得する情報を目的別に分けます。"},
+      {"label":"利用目的","text":"Service提供、Security、問い合わせ、決済・契約、改善、法令対応の範囲を示します。"},
+      {"label":"Cookie・Local Storage","text":"必須・設定・計測の目的を分け、会話本文や機微情報を自動保存しません。"},
+      {"label":"外部Service・国外移転","text":"Cloudflare、Square、外部AI、Storage等の役割、送信範囲、国外処理を示します。"},
+      {"label":"Security・Data保持・削除","text":"最小権限、暗号化、検証、Log分離、保持期間、Account終了・削除請求を示します。旧Plan条件を固定しません。"}
+    ]
+  }
+]

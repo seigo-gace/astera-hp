@@ -1,0 +1,141 @@
+{
+  "status": "source-complete-production-blocked",
+  "brand": [
+    {
+      "file": "/assets/brand/astera-logo-light.svg",
+      "required": true,
+      "status": "pending-byte-verification"
+    },
+    {
+      "file": "/assets/brand/astera-logo-dark.svg",
+      "required": true,
+      "status": "pending-byte-verification"
+    },
+    {
+      "file": "/assets/brand/astera-symbol-light.svg",
+      "required": true,
+      "status": "pending-byte-verification"
+    },
+    {
+      "file": "/assets/brand/astera-symbol-dark.svg",
+      "required": true,
+      "status": "pending-byte-verification"
+    },
+    {
+      "file": "/assets/brand/astera-wordmark-light.svg",
+      "required": true,
+      "status": "pending-byte-verification"
+    },
+    {
+      "file": "/assets/brand/astera-wordmark-dark.svg",
+      "required": true,
+      "status": "pending-byte-verification"
+    },
+    {
+      "file": "/assets/brand/favicon.svg",
+      "required": true,
+      "status": "pending-generation-after-approval"
+    },
+    {
+      "file": "/assets/brand/favicon.png",
+      "required": true,
+      "status": "pending-generation-after-approval"
+    },
+    {
+      "file": "/assets/brand/favicon.ico",
+      "required": true,
+      "status": "pending-generation-after-approval"
+    },
+    {
+      "file": "/assets/brand/apple-touch-icon.png",
+      "required": true,
+      "status": "pending-generation-after-approval"
+    }
+  ],
+  "visual": [
+    {
+      "id": "hero-core",
+      "file": "/assets/visual/hero-core.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "process-purpose",
+      "file": "/assets/visual/process-purpose.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "process-materialize",
+      "file": "/assets/visual/process-materialize.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "process-recompose",
+      "file": "/assets/visual/process-recompose.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "comparison-portal",
+      "file": "/assets/visual/comparison-portal.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "capsule-radar",
+      "file": "/assets/visual/capsule-radar.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "audience-personal",
+      "file": "/assets/visual/audience-personal.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "audience-developer",
+      "file": "/assets/visual/audience-developer.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "audience-corporate",
+      "file": "/assets/visual/audience-corporate.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "cta-support",
+      "file": "/assets/visual/cta-support.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "cta-investors",
+      "file": "/assets/visual/cta-investors.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    },
+    {
+      "id": "cta-corporate",
+      "file": "/assets/visual/cta-corporate.png",
+      "required": true,
+      "status": "source-recorded-binary-unavailable",
+      "source": "アステラの未来的なAIインターフェース.png"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "siteName":"Astera",
+  "baseUrl":"https://asterav8.jp",
+  "language":"ja",
+  "tagline":"問いを星図に変える。",
+  "externalRoutes":{"app":"https://app.asterav8.jp/","pricing":"https://app.asterav8.jp/pricing","campfire":"https://camp-fire.jp/projects/968933/view"},
+  "main8":[
+    {"order":1,"route":"/product/what-is-astera/","label":"Asteraとは？"},
+    {"order":2,"route":"/product/why-astera/","label":"なぜAsteraを使うのか"},
+    {"order":3,"route":"/product/value/","label":"費用対効果・導入価値"},
+    {"order":4,"route":"/product/process/","label":"判断材料生成プロセス"},
+    {"order":5,"route":"/product/engine/","label":"多角的判断エンジン"},
+    {"order":6,"route":"/product/usage/","label":"利用方法・活用範囲"},
+    {"order":7,"route":"/product/technology/","label":"技術基盤"},
+    {"order":8,"route":"/product/integration/","label":"連携・拡張性"}
+  ],
+  "productionGate":{"officialBrandAssets":"blocked","liveNotionExport":"not_run","cloudflarePreview":"not_run","production":"no_go"}
+}

@@ -1,0 +1,406 @@
+[
+  {
+    "route": "/product/what-is-astera/",
+    "key": "what-is-astera",
+    "title": "Asteraとは？｜Astera",
+    "description": "主役AIを置き換えず、判断前の確認・比較工程を外側から追加するRuntime。",
+    "eyebrow": "MAIN 8",
+    "h1": "Asteraとは？",
+    "lead": "主役AIを置き換えず、判断前の確認・比較工程を外側から追加するRuntime。",
+    "template": "article",
+    "sections": [
+      {
+        "title": "結論",
+        "body": "Astera v8は、もう一つのチャットAIではなく、問い・資料・AI回答を人間または主役AIが判断に使える材料へ変換する認知実行基盤です。"
+      },
+      {
+        "title": "Asteraが受け取れるもの",
+        "body": "質問、AI回答、事業計画、設計、Repository、論文、会議記録、URL等、採用可否を判断したい対象を入力できます。"
+      },
+      {
+        "title": "Asteraが返すもの",
+        "body": "Cognitive Map、8項目の判断材料、Compact Output、主役AIへの再指示、任意の最終回答へ分離します。"
+      },
+      {
+        "title": "主役AIとの責務差",
+        "body": "主役AIは最終回答やCodeを生成し、Asteraは目的・前提・Evidence・Risk・比較条件を整理します。"
+      },
+      {
+        "title": "Astera Docking Exoshell",
+        "body": "主役AIを入れ替えず、外側から目的確認、Fact、Risk、反対、比較、Evidence、再指示を加える外付け強化外装です。"
+      },
+      {
+        "title": "Model非依存",
+        "body": "ChatGPT、Claude、Gemini、自作AI、自社AI、人間の判断資料へ同じ判断材料を渡せます。"
+      },
+      {
+        "title": "人間との関係",
+        "body": "迷いを消すのではなく原因を分解し、推奨候補と採用・見送り条件を示し、最終決定権を人へ残します。"
+      },
+      {
+        "title": "目指す価値",
+        "body": "流暢さと正しさの分離、見落とし発見、分野別確認、複合分野の衝突、一案固定の防止、判断工程の共通化です。"
+      },
+      {
+        "title": "向く問い／向かない問い",
+        "body": "複数案、重大な手戻り、Evidence、Risk、AI回答検証に向きます。単純計算や軽い雑談では通常AIだけで十分な場合があります。"
+      },
+      {
+        "title": "重要事項",
+        "body": "Asteraの出力は判断材料であり、医療・法律・金融・契約・組織決裁の最終判断を代行しません。"
+      }
+    ],
+    "related": [
+      "/",
+      "/product/why-astera/",
+      "/product/value/",
+      "/product/process/",
+      "/product/engine/",
+      "/product/usage/",
+      "/product/technology/",
+      "/product/integration/",
+      "https://app.asterav8.jp/",
+      "https://app.asterav8.jp/pricing"
+    ],
+    "visual": "flow",
+    "sourceSpec": "3aecdcf128e4818ba069ea91f2e99575",
+    "sourceContent": "3a9cdcf128e481e3be41d4efd75c2057",
+    "metadata": {}
+  },
+  {
+    "route": "/product/engine/",
+    "key": "engine",
+    "title": "多角的判断エンジン｜Astera",
+    "description": "Domain Router、Lens、Overlay、独立Worker、候補比較を分離して扱う。",
+    "eyebrow": "MAIN 8",
+    "h1": "多角的判断エンジン",
+    "lead": "Domain Router、Lens、Overlay、独立Worker、候補比較を分離して扱う。",
+    "template": "article",
+    "sections": [
+      {
+        "title": "結論",
+        "body": "確認方法を分野で切り替え、異なる責務を分離し、複数候補を競わせ、同じ基準で比較します。"
+      },
+      {
+        "title": "全体構造",
+        "body": "入力→Domain Router→Primary／Secondary Lens＋Overlay→Fact／Risk／Inquiry→Multi→Dialectic→Compare→8項目。"
+      },
+      {
+        "title": "Domain Router",
+        "body": "主分野、副分野、最新情報、高Risk、Evidence条件、General処理可否を判定します。"
+      },
+      {
+        "title": "21 Domain Lens",
+        "body": "Business、Finance、Legal、Medical、Engineering、Security、AI、Research等21分野で確認基準を切り替えます。"
+      },
+      {
+        "title": "Lensが切り替える基準",
+        "body": "Fact、Risk、Multi、Inquiry、Compare、収集Evidence、Safety Gateを分野別に定義します。"
+      },
+      {
+        "title": "5 Overlay",
+        "body": "High-Stakes Legal、Medical Safety、Current Information、Evidence Strict、Safety／Abuseを追加します。"
+      },
+      {
+        "title": "5本柱",
+        "body": "Fact、Risk、Multi、Inquiry、Compareを独立した責務として扱います。"
+      },
+      {
+        "title": "Human Reader",
+        "body": "緊急度、怒り、疲労、混乱、精度要求、範囲圧、実行要求を説明順・質問量調整に使います。"
+      },
+      {
+        "title": "Dialectic候補",
+        "body": "主案、悪手案、反対案、第三案、人読み最適案を異なる性質で生成します。"
+      },
+      {
+        "title": "Compare",
+        "body": "目的適合、Evidence、Risk、費用、時間、実現性、撤退、拡張、矛盾で比較します。"
+      },
+      {
+        "title": "Evidence",
+        "body": "発行主体、一次性、更新日、適用条件、反対Evidence、未確認を確認可能な形で残します。"
+      },
+      {
+        "title": "必要性と限界",
+        "body": "多角化しても全情報や将来変化を保証せず、見落としと不確実性を発見しやすくします。"
+      }
+    ],
+    "related": [
+      "/",
+      "/product/what-is-astera/",
+      "/product/why-astera/",
+      "/product/value/",
+      "/product/process/",
+      "/product/usage/",
+      "/product/technology/",
+      "/product/integration/",
+      "https://app.asterav8.jp/",
+      "https://app.asterav8.jp/pricing"
+    ],
+    "visual": "hub",
+    "sourceSpec": "3aecdcf128e4816aa952d7a19eea6ba0",
+    "sourceContent": "3a9cdcf128e48141ba32d78970e1e898",
+    "metadata": {}
+  },
+  {
+    "route": "/news/",
+    "key": "news",
+    "title": "News｜Astera",
+    "description": "Asteraの製品、Service、Security、Privacy、開発、支援に関する公式更新情報。",
+    "eyebrow": "OFFICIAL UPDATES",
+    "h1": "News",
+    "lead": "確定済み情報を時系列・Category・影響・必要な対応で確認できます。",
+    "template": "index",
+    "sections": [
+      {
+        "title": "現在公開中のお知らせ",
+        "body": "現在公開中のお知らせはありません。初回公開記事は承認後に追加します。"
+      },
+      {
+        "title": "Category",
+        "body": "Service、Product、Security・Privacy、Development、Supportで分類します。"
+      },
+      {
+        "title": "公開規則",
+        "body": "未来日、重複ID、古い料金値を禁止し、料金変更はApp料金PageへLinkします。"
+      }
+    ],
+    "related": [
+      "/",
+      "/docs/"
+    ],
+    "visual": "timeline",
+    "sourceSpec": "3aecdcf128e481ad9993c0f9ab6f779f",
+    "sourceContent": "3a9cdcf128e48102b1aaf1fb9a0bc96f",
+    "metadata": {}
+  },
+  {
+    "route": "/qa/",
+    "key": "qa",
+    "title": "Q&A｜Astera",
+    "description": "Asteraの製品、使い方、技術、料金、Privacy、法人利用に関する正式回答。",
+    "eyebrow": "CANONICAL ANSWERS",
+    "h1": "Q&A",
+    "lead": "Version管理されたCanonical Answerを検索できます。Customer AIとは統合せず相互Linkします。",
+    "template": "qa",
+    "sections": [
+      {
+        "title": "AsteraはAIですか？",
+        "body": "Asteraは生成AIそのものではありません。主役AIの外側で目的、前提、事実、Risk、反対視点、比較案、再指示を整理するRuntimeです。"
+      },
+      {
+        "title": "何を入力できますか？",
+        "body": "質問、資料、計画、設計、AI回答、Code、研究、会議記録等を入力できます。"
+      },
+      {
+        "title": "料金はどこで確認しますか？",
+        "body": "現在のプラン・料金はAstera Appのプラン料金Pageで確認してください。HPへ金額やCredit値を複製しません。"
+      },
+      {
+        "title": "最終判断を任せられますか？",
+        "body": "いいえ。Asteraは判断材料を提供し、医療・法律・金融・契約・組織決裁の最終判断を代行しません。"
+      },
+      {
+        "title": "APIは利用できますか？",
+        "body": "提供StatusはDeveloper Modeと公開Documentationで確認します。preparingやinternal-onlyを利用可能とは表示しません。"
+      },
+      {
+        "title": "個人情報はどう扱われますか？",
+        "body": "必要最小限のData、保存・削除・外部Serviceの範囲をPrivacy Policyで確認できます。"
+      }
+    ],
+    "related": [
+      "/chat/",
+      "/contact/",
+      "https://app.asterav8.jp/pricing"
+    ],
+    "visual": "cards",
+    "sourceSpec": "3aecdcf128e481d684acc28bf7515933",
+    "sourceContent": "3aacdcf128e4815590f2e47d5725900c",
+    "metadata": {}
+  },
+  {
+    "route": "/support/development/",
+    "key": "support-development",
+    "title": "開発支援｜Astera",
+    "description": "Asteraの開発、検証、Security、Server、法務、専門KBを支える任意支援。",
+    "eyebrow": "DEVELOPMENT SUPPORT",
+    "h1": "開発支援",
+    "lead": "単発、継続、用途指定支援をApp利用契約・Sponsor・投資と分離します。",
+    "template": "article",
+    "sections": [
+      {
+        "title": "単発開発支援",
+        "body": "開発、検証、Server、API、Security、法務、専門Knowledge等への返礼なし任意支援。"
+      },
+      {
+        "title": "継続開発支援",
+        "body": "Astera App月額利用とは分離し、利用権やCreditを自動付与しません。"
+      },
+      {
+        "title": "開発費指定支援",
+        "body": "公開された用途から使用目的を選びます。個別成果や納期を保証しません。"
+      },
+      {
+        "title": "用途",
+        "body": "Product、品質・検証、Security・Privacy、Knowledge・Documentation、運用。"
+      },
+      {
+        "title": "決済",
+        "body": "Serverで許可項目を検証してSquare Hosted Checkoutへ移動し、Card情報をAstera側で保持しません。"
+      },
+      {
+        "title": "支援者掲載",
+        "body": "初期値は掲載しない。明示同意と公開承認後に公開名等だけを掲載します。"
+      },
+      {
+        "title": "提供しないもの",
+        "body": "利用権、Credit、個別開発、内部Data、判断への影響力、株式・配当等。"
+      },
+      {
+        "title": "非保証",
+        "body": "Service開始日、全機能、正確性、費用削減、事業成功、特定成果を保証しません。"
+      }
+    ],
+    "related": [
+      "/support/",
+      "/supporters/",
+      "https://camp-fire.jp/projects/968933/view"
+    ],
+    "visual": "flow",
+    "sourceSpec": "3aecdcf128e4815cbb58e7bcf484fc85",
+    "sourceContent": "3afcdcf128e481b584f8eb9576aecca0",
+    "metadata": {}
+  },
+  {
+    "route": "/investors/",
+    "key": "investors",
+    "title": "投資家向け情報｜Astera",
+    "description": "Asteraの市場、製品、初期Evidence、Business Model、資金用途、事業提携情報。",
+    "eyebrow": "INVESTOR INFORMATION",
+    "h1": "投資家向け情報",
+    "lead": "事業の必要性、製品、Evidence、収益、Risk、資金用途を一般向けに説明します。",
+    "template": "article",
+    "sections": [
+      {
+        "title": "解決する問題",
+        "body": "AI導入後も残る前提確認、再調査、会議、差し戻し、専門家確認の判断工程を製品化します。"
+      },
+      {
+        "title": "製品",
+        "body": "Multi-Perspective Cognition Runtimeとして8項目と再指示を生成し、既存AIを主役のまま残します。"
+      },
+      {
+        "title": "顧客",
+        "body": "個人・Team、開発者、法人、自社AI事業者、研究・専門業務。"
+      },
+      {
+        "title": "利用方法",
+        "body": "コピー＆ペーストからWeb App、API、Webhook、KB、Storage、Vaultへ段階拡張。"
+      },
+      {
+        "title": "初期Evidence",
+        "body": "実回答例、5社横断評価、Version付き公開Test。第三者認証や効果保証ではありません。"
+      },
+      {
+        "title": "事業上の位置付け",
+        "body": "基盤Model競争ではなく、複数AI・業務Systemの外側で再利用できる判断工程。"
+      },
+      {
+        "title": "収益化",
+        "body": "App利用、追加利用、法人、API、専門Knowledge、個別契約。料金はApp料金Pageが唯一の公開正本。"
+      },
+      {
+        "title": "顧客獲得",
+        "body": "公式HP、Documentation、CAMPFIRE、Evidence、Web App、法人PoC、API組込み、Sponsor。"
+      },
+      {
+        "title": "開発体制",
+        "body": "個人運営から開始し、AIは補助に使うが公開・契約・決済・Securityの責任を移しません。"
+      },
+      {
+        "title": "主なRisk",
+        "body": "実装差、本番負荷、外部Provider、法務・Privacy・Security、一人運営、顧客獲得、Claim不一致。"
+      },
+      {
+        "title": "資金用途",
+        "body": "Server、AI・API、Security、Test、法務、Accessibility、専門Knowledge、PoC、運用。"
+      },
+      {
+        "title": "次の手続き",
+        "body": "面談・事業提携、開発支援、公開Evidenceへ進みます。"
+      }
+    ],
+    "related": [
+      "/contact/?category=investor",
+      "/support/",
+      "/docs/#evidence",
+      "/developers/"
+    ],
+    "visual": "flow",
+    "sourceSpec": "3aecdcf128e481968338c27764e9e0d1",
+    "sourceContent": "3afcdcf128e48167a324df552bd0ddf9",
+    "metadata": {}
+  },
+  {
+    "route": "/legal/commerce/",
+    "key": "commerce",
+    "title": "特定商取引法に基づく表記｜Astera",
+    "description": "Asteraの有料Serviceに関する販売者、価格確認方法、支払、提供、解約、返金等の法定表示。",
+    "eyebrow": "COMMERCE",
+    "h1": "特定商取引法に基づく表記",
+    "lead": "取引条件を正式本文とApp購入確認画面で確認できます。",
+    "template": "legal",
+    "sections": [
+      {
+        "title": "販売者・運営主体",
+        "body": "販売事業者、問い合わせ・開示請求方法を示します。",
+        "id": "seller"
+      },
+      {
+        "title": "料金確認先",
+        "body": "現在の販売価格と提供内容はApp料金Pageを唯一の確認先とし、HPへ固定値を置きません。",
+        "id": "pricing"
+      },
+      {
+        "title": "追加費用",
+        "body": "通信費、外部Service、税、Option等、購入前に確認すべき負担を示します。",
+        "id": "additional-cost"
+      },
+      {
+        "title": "支払方法・時期",
+        "body": "Square等の支払方法、請求・自動更新の時期を購入確認画面と整合させます。",
+        "id": "payment"
+      },
+      {
+        "title": "提供時期",
+        "body": "決済、Account、Credit反映、Service提供開始の条件を示します。",
+        "id": "delivery"
+      },
+      {
+        "title": "解約・返金・取消し",
+        "body": "更新停止、解約、返金、取消し、障害時対応を示します。",
+        "id": "refund"
+      },
+      {
+        "title": "CAMPFIREとの分離",
+        "body": "CAMPFIREのProject・Return契約をAstera App利用・直接支援と分離します。"
+      },
+      {
+        "title": "最終確認画面",
+        "body": "商品名、数量、総額、周期、更新、解約、返金、提供時期を申込み確定前に表示します。"
+      }
+    ],
+    "related": [
+      "/legal/terms/",
+      "/legal/privacy/",
+      "/contact/",
+      "https://app.asterav8.jp/pricing"
+    ],
+    "visual": "legal",
+    "sourceSpec": "3aecdcf128e481ae83c4f6c58ac0c623",
+    "sourceContent": "3a9cdcf128e481c19d2bdbd8535862df",
+    "metadata": {}
+  }
+]

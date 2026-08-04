@@ -1,0 +1,1 @@
+import {readChunkedData} from './lib-data.mjs';const p=await readChunkedData(new URL('../data/',import.meta.url),'content-bundle.index.json');const routes=new Set(p.map(x=>x.route));for(const x of p)for(const l of x.related||[]){if(l.startsWith('/')&&!l.includes('?')&&!l.includes('#')&&!routes.has(l))throw Error('BROKEN_INTERNAL '+x.route+' '+l)}console.log('Link contract PASS');

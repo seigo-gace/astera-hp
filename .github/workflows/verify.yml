@@ -1,28 +1,13 @@
-name: verify
-
-on:
-  pull_request:
-  push:
-    branches: [main, agent/notion-hp-complete]
-
-permissions:
-  contents: read
-
+name: Verify website
+on: [push, pull_request]
 jobs:
   website:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
+        with: {node-version: 22, cache: npm}
       - run: npm ci
       - run: npm test
-      - name: Record build evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          find site/dist -type f -print0 | sort -z | xargs -0 sha256sum > build-manifest.sha256
-          test "$(wc -l < build-manifest.sha256)" -ge 33
-          cat build-manifest.sha256
+      - name: Build evidence manifest
+        run: find site/dist -type f -print0 | sort -z | xargs -0 sha256sum

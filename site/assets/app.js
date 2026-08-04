@@ -1,49 +1,8 @@
-(() => {
-  'use strict';
-  const button = document.querySelector('[data-menu-button]');
-  const nav = document.querySelector('[data-nav]');
-  if (button && nav) button.addEventListener('click', () => {
-    const open = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('aria-expanded', String(!open));
-    nav.dataset.open = String(!open);
-  });
-
-  const qaInput = document.querySelector('[data-qa-search]');
-  if (qaInput) qaInput.addEventListener('input', () => {
-    const q = qaInput.value.trim().toLowerCase();
-    document.querySelectorAll('[data-qa-item]').forEach((item) => {
-      item.hidden = q && !item.textContent.toLowerCase().includes(q);
-    });
-    const url = new URL(location.href);
-    q ? url.searchParams.set('q', q) : url.searchParams.delete('q');
-    history.replaceState(null, '', url);
-  });
-
-  const chat = document.querySelector('[data-chat-form]');
-  if (chat) chat.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const status = chat.querySelector('[data-status]');
-    const message = chat.elements.message.value.trim();
-    if (!message) return;
-    status.textContent = '送信しています…';
-    try {
-      const response = await fetch('/api/ai/chat', {method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({answerType:chat.elements.answerType.value,message,history:[],pageContext:{route:location.pathname,title:document.title}})});
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      status.textContent = '回答を受信中です。';
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error('stream unavailable');
-      const decoder = new TextDecoder();
-      let text='';
-      while (true) { const {done,value}=await reader.read(); if(done) break; text += decoder.decode(value,{stream:true}); status.textContent=text.slice(-4000); }
-    } catch { status.textContent = '現在案内AIを利用できません。Q&Aまたはお問い合わせをご利用ください。'; }
-  });
-
-  const contact = document.querySelector('[data-contact-form]');
-  if (contact) contact.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const status=contact.querySelector('[data-status]');
-    status.textContent='送信しています…';
-    try { const response=await fetch('/api/contact',{method:'POST',body:new FormData(contact)}); const data=await response.json().catch(()=>({})); if(!response.ok) throw new Error(data?.error?.code||`HTTP ${response.status}`); status.textContent=`受付しました。受付ID: ${data.requestId}`; contact.reset(); }
-    catch(error){ status.textContent=`送信できませんでした。入力内容を保持したまま再試行してください。 (${error.message})`; }
-  });
-})();
+import { submitChat } from './customer-ai-transport.js';import { submitContact } from './contact-transport.js';
+const q=(s,r=document)=>r.querySelector(s);const qa=(s,r=document)=>[...r.querySelectorAll(s)];
+const menu=q('[data-menu-button]'),nav=q('#site-nav');menu?.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav?.classList.toggle('is-open',open);document.body.style.overflow=open?'hidden':''});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav?.classList.contains('is-open')){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');document.body.style.overflow='';menu.focus()}});
+const launcher=q('[data-ai-launcher]'),bubble=q('#customer-ai');launcher?.addEventListener('click',()=>{const open=bubble.hidden;bubble.hidden=!open;launcher.setAttribute('aria-expanded',String(open));if(open)q('[data-ai-close]',bubble)?.focus()});q('[data-ai-close]')?.addEventListener('click',()=>{bubble.hidden=true;launcher.setAttribute('aria-expanded','false');launcher.focus()});
+const search=q('[data-qa-search]');search?.addEventListener('input',()=>{const term=search.value.trim().toLowerCase();qa('[data-qa-item]').forEach(x=>x.hidden=!x.textContent.toLowerCase().includes(term))});
+q('[data-chat-form]')?.addEventListener('submit',async e=>{e.preventDefault();const status=q('[data-status]',e.currentTarget);status.textContent='送信中…';try{await submitChat(new FormData(e.currentTarget),status)}catch{status.textContent='現在利用できません。Q&Aまたはお問い合わせをご利用ください。'}});
+q('[data-contact-form]')?.addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget,status=q('[data-status]',form);status.textContent='送信中…';const id=crypto.randomUUID();form.elements.clientRequestId.value=id;try{const r=await submitContact(new FormData(form),id);status.textContent=r.ok?'受付しました。Request ID: '+(r.data.requestId||id):r.message}catch{status.textContent='一時的に送信できません。入力内容は保持されています。'}});
