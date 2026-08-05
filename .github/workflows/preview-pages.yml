@@ -1,0 +1,51 @@
+name: Publish HP preview
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: astera-hp-preview
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'push' || (!contains(github.event.head_commit.message, '[generated-site]') && !contains(github.event.head_commit.message, '[ci-failure]'))
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify current HP source
+        run: npm test
+      - name: Prepare project-path preview
+        env:
+          PREVIEW_BASE_PATH: /astera-hp
+        run: node site/scripts/build-preview.mjs
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload preview artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/preview-dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy preview
+        id: deployment
+        uses: actions/deploy-pages@v4
