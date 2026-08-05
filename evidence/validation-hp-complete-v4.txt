@@ -1,0 +1,3 @@
+Astera HP complete validation v4
+Base main: 9ec9500e8b0d6863a928ae012d894e8936368eef
+Validates exact 178672-byte TOP image, SHA-256, PSNR quality budget, clean image treatment, all 26 routes, desktop/mobile behavior and generated output.
