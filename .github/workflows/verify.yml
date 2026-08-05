@@ -48,6 +48,8 @@ jobs:
           done
           cat /tmp/astera-preview.log
           exit 1
+      - name: Diagnose TOP asset URLs
+        run: node test/browser/diagnose-home-assets.mjs
       - name: Run desktop and mobile predeploy browser tests
         run: npx playwright test --config=playwright.config.mjs
       - name: Capture direct visual previews
