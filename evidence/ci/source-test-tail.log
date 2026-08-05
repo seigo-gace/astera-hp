@@ -18,222 +18,222 @@ Content PASS: 26 routes
 Link contract PASS
 Source coverage PASS: 22 management, 26 routes, 5 references
 Visual asset contract PASS (premium WebP base + canonical restoration asset + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate
-Public repository safety PASS (207 tracked files; no common secrets, private keys, env files or Notion workspace URLs)
+Public repository safety PASS (210 tracked files; no common secrets, private keys, env files or Notion workspace URLs)
 TAP version 13
 # Subtest: hero controller is valid JavaScript and references the canonical restoration asset
 ok 1 - hero controller is valid JavaScript and references the canonical restoration asset
   ---
-  duration_ms: 5.788996
+  duration_ms: 4.113923
   type: 'test'
   ...
 # Subtest: hero controller validates one patch and rewrites it before mounting the SVG
 ok 2 - hero controller validates one patch and rewrites it before mounting the SVG
   ---
-  duration_ms: 1.692569
+  duration_ms: 2.449824
   type: 'test'
   ...
 # Subtest: layered globe keeps the supplied image as the base and contains effect layers only
 ok 3 - layered globe keeps the supplied image as the base and contains effect layers only
   ---
-  duration_ms: 8.303121
+  duration_ms: 6.005455
   type: 'test'
   ...
 # Subtest: hero controller uses pinned local GSAP with viewport and accessibility guards
 ok 4 - hero controller uses pinned local GSAP with viewport and accessibility guards
   ---
-  duration_ms: 3.372421
+  duration_ms: 2.887854
   type: 'test'
   ...
 # Subtest: baked-in lower-right sparkle is removed in fallback and moving SVG states
 ok 5 - baked-in lower-right sparkle is removed in fallback and moving SVG states
   ---
-  duration_ms: 2.287834
+  duration_ms: 1.715887
   type: 'test'
   ...
 # Subtest: hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors
 ok 6 - hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors
   ---
-  duration_ms: 1.024573
+  duration_ms: 0.772465
   type: 'test'
   ...
 # Subtest: build pins and self-hosts GSAP instead of weakening CSP
 ok 7 - build pins and self-hosts GSAP instead of weakening CSP
   ---
-  duration_ms: 3.36195
+  duration_ms: 3.905398
   type: 'test'
   ...
 # Subtest: built TOP keeps the fallback image and ships the layered effect asset
 ok 8 - built TOP keeps the fallback image and ships the layered effect asset
   ---
-  duration_ms: 2.49685
+  duration_ms: 2.024212
   type: 'test'
   ...
 # Subtest: Notion canonical shared shell is retained
 ok 9 - Notion canonical shared shell is retained
   ---
-  duration_ms: 5.668034
+  duration_ms: 6.414852
   type: 'test'
   ...
 # Subtest: TOP retains canonical section order and a clean latest user-provided hero image
 ok 10 - TOP retains canonical section order and a clean latest user-provided hero image
   ---
-  duration_ms: 1.292285
+  duration_ms: 1.500382
   type: 'test'
   ...
 # Subtest: base loads canonical, hero and completion layers without inline image UI
 ok 11 - base loads canonical, hero and completion layers without inline image UI
   ---
-  duration_ms: 1.036381
+  duration_ms: 2.010942
   type: 'test'
   ...
 # Subtest: built TOP exposes Main 8 and the required summary in order
 ok 12 - built TOP exposes Main 8 and the required summary in order
   ---
-  duration_ms: 1.971863
+  duration_ms: 2.090432
   type: 'test'
   ...
 # Subtest: pricing remains an external App link, never an HP pricing page
 ok 13 - pricing remains an external App link, never an HP pricing page
   ---
-  duration_ms: 1.268763
+  duration_ms: 1.887186
   type: 'test'
   ...
 # Subtest: latest user-provided TOP image and supporting visual assets are materialized while brand remains blocked
 ok 14 - latest user-provided TOP image and supporting visual assets are materialized while brand remains blocked
   ---
-  duration_ms: 5.353946
+  duration_ms: 7.541
   type: 'test'
   ...
 # Subtest: every non-home route uses a complete Notion public source file
 ok 15 - every non-home route uses a complete Notion public source file
   ---
-  duration_ms: 12.027039
+  duration_ms: 12.246134
   type: 'test'
   ...
 # Subtest: use-cases keeps all canonical public anchors
 ok 16 - use-cases keeps all canonical public anchors
   ---
-  duration_ms: 1.314586
+  duration_ms: 1.166839
   type: 'test'
   ...
 # Subtest: legal and pricing sources point to the App pricing source of truth
 ok 17 - legal and pricing sources point to the App pricing source of truth
   ---
-  duration_ms: 1.706188
+  duration_ms: 2.461862
   type: 'test'
   ...
 # Subtest: 01 26 routes
 ok 18 - 01 26 routes
   ---
-  duration_ms: 0.968015
+  duration_ms: 0.745534
   type: 'test'
   ...
 # Subtest: 02 route uniqueness
 ok 19 - 02 route uniqueness
   ---
-  duration_ms: 0.187816
+  duration_ms: 0.106321
   type: 'test'
   ...
 # Subtest: 03 Main 8 count and order
 ok 20 - 03 Main 8 count and order
   ---
-  duration_ms: 0.648606
+  duration_ms: 0.529148
   type: 'test'
   ...
 # Subtest: 04 pricing page absent
 ok 21 - 04 pricing page absent
   ---
-  duration_ms: 0.150095
+  duration_ms: 0.113641
   type: 'test'
   ...
 # Subtest: 05 pricing external canonical
 ok 22 - 05 pricing external canonical
   ---
-  duration_ms: 0.134197
+  duration_ms: 0.082574
   type: 'test'
   ...
 # Subtest: 06 management source coverage
 ok 23 - 06 management source coverage
   ---
-  duration_ms: 0.106059
+  duration_ms: 0.080502
   type: 'test'
   ...
 # Subtest: 07 route source coverage
 ok 24 - 07 route source coverage
   ---
-  duration_ms: 0.121878
+  duration_ms: 0.082675
   type: 'test'
   ...
 # Subtest: 08 reference source coverage
 ok 25 - 08 reference source coverage
   ---
-  duration_ms: 0.078028
+  duration_ms: 0.05998
   type: 'test'
   ...
 # Subtest: 09 route contracts
 ok 26 - 09 route contracts
   ---
-  duration_ms: 0.275557
+  duration_ms: 0.209325
   type: 'test'
   ...
 # Subtest: 10 visual contracts
 ok 27 - 10 visual contracts
   ---
-  duration_ms: 0.396395
+  duration_ms: 0.276707
   type: 'test'
   ...
 # Subtest: 11 every route has visual
 ok 28 - 11 every route has visual
   ---
-  duration_ms: 0.27728
+  duration_ms: 0.227663
   type: 'test'
   ...
 # Subtest: 12 every route has spec and content source
 ok 29 - 12 every route has spec and content source
   ---
-  duration_ms: 0.079669
+  duration_ms: 0.093961
   type: 'test'
   ...
 # Subtest: 13 all pages have metadata
 ok 30 - 13 all pages have metadata
   ---
-  duration_ms: 0.092765
+  duration_ms: 0.064066
   type: 'test'
   ...
 # Subtest: 14 Main 8 detailed sections
 ok 31 - 14 Main 8 detailed sections
   ---
-  duration_ms: 0.079734
+  duration_ms: 0.067271
   type: 'test'
   ...
 # Subtest: 15 legal anchors present
 ok 32 - 15 legal anchors present
   ---
-  duration_ms: 0.092539
+  duration_ms: 0.086641
   type: 'test'
   ...
 # Subtest: 16 forms and API routes
 ok 33 - 16 forms and API routes
   ---
-  duration_ms: 0.060609
+  duration_ms: 0.064678
   type: 'test'
   ...
 # Subtest: 17 hero image is clean, premium and bounded
 ok 34 - 17 hero image is clean, premium and bounded
   ---
-  duration_ms: 10.908052
+  duration_ms: 8.088225
   type: 'test'
   ...
 # Subtest: 18 external routes
 ok 35 - 18 external routes
   ---
-  duration_ms: 0.144107
+  duration_ms: 0.128624
   type: 'test'
   ...
 # Subtest: 19 build output exists
 ok 36 - 19 build output exists
   ---
-  duration_ms: 1.591653
+  duration_ms: 1.647575
   type: 'test'
   ...
 1..36
@@ -244,4 +244,4 @@ ok 36 - 19 build output exists
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 136.973524
+# duration_ms 138.326601
