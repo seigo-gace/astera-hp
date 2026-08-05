@@ -8,14 +8,9 @@
   const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
   const XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink';
   const DATA_URI_PREFIX = 'data:image/webp;base64,';
+  const RAW_PATCH_SOURCE = `${DATA_URI_PREFIX}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`;
   const bounds = Object.freeze({x: 825, y: 1338, width: 110, height: 112});
   const mount = visual.querySelector('[data-astera-svg-mount]') || depth;
-  let patchSource = '';
-
-  function cssUrl(value) {
-    const match = String(value || '').trim().match(/^url\((['"]?)(.*)\1\)$/s);
-    return match?.[2] || '';
-  }
 
   function canonicalizeWebpDataUri(value) {
     if (!value.startsWith(DATA_URI_PREFIX)) return '';
@@ -36,44 +31,10 @@
     }
   }
 
-  function patchFromCssText(source) {
-    const base64 = String(source || '').match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
-    return base64 ? canonicalizeWebpDataUri(`${DATA_URI_PREFIX}${base64}`) : '';
-  }
-
-  function patchFromLoadedStyles() {
-    const computed = canonicalizeWebpDataUri(cssUrl(getComputedStyle(depth, '::after').backgroundImage));
-    if (computed) return computed;
-
-    for (const sheet of document.styleSheets) {
-      let rules;
-      try {
-        rules = sheet.cssRules;
-      } catch {
-        continue;
-      }
-      for (const rule of rules) {
-        if (!(rule instanceof CSSStyleRule)) continue;
-        if (!rule.selectorText?.split(',').some((selector) => selector.trim() === '.astera-hero-depth::after')) continue;
-        const source = canonicalizeWebpDataUri(cssUrl(rule.style.backgroundImage));
-        if (source) return source;
-      }
-    }
-    return '';
-  }
-
-  async function resolvePatchSource() {
-    const loaded = patchFromLoadedStyles();
-    if (loaded) return loaded;
-
-    const response = await fetch('/assets/astera-hero-image.css', {
-      credentials: 'same-origin',
-      cache: 'force-cache'
-    });
-    if (!response.ok) throw new Error(`ASTERA_SPARKLE_PATCH_CSS_FETCH_FAILED_${response.status}`);
-    const source = patchFromCssText(await response.text());
-    if (!source) throw new Error('ASTERA_SPARKLE_PATCH_DATA_MISSING');
-    return source;
+  const patchSource = canonicalizeWebpDataUri(RAW_PATCH_SOURCE);
+  if (!patchSource) {
+    console.error('[Astera Hero Patch] ASTERA_SPARKLE_PATCH_DATA_INVALID');
+    return;
   }
 
   function install(svg) {
@@ -82,7 +43,6 @@
       visual.classList.add('is-sparkle-patch-in-svg');
       return true;
     }
-    if (!patchSource) return false;
 
     const baseLayer = svg.querySelector('#base-image');
     if (!baseLayer) return false;
@@ -104,18 +64,12 @@
   }
 
   const attempt = () => install(mount.querySelector('svg[data-astera-layered-svg]'));
+  if (attempt()) return;
+
   const observer = new MutationObserver(() => {
     if (!attempt()) return;
     observer.disconnect();
   });
   observer.observe(mount, {childList: true, subtree: true});
-
-  resolvePatchSource()
-    .then((source) => {
-      patchSource = source;
-      if (attempt()) observer.disconnect();
-    })
-    .catch((error) => console.error('[Astera Hero Patch]', error));
-
   addEventListener('pagehide', () => observer.disconnect(), {once: true});
 })();
