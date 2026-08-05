@@ -24,7 +24,6 @@ file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-public-repo.m
 
 Error: PUBLIC_REPOSITORY_SAFETY_FAILED
 site/data/notion-hierarchy-audit.json: Notion workspace URL
-site/data/notion-source-inventory.json: Notion workspace URL
     at file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-public-repo.mjs:68:9
 
 Node.js v22.23.1
