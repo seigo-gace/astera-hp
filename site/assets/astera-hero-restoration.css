@@ -1,0 +1,6 @@
+/* Canonical lower-right restoration patch.
+   Keep the fallback and mounted SVG on the same public WebP asset so the
+   browser never needs to parse a duplicated embedded data URI. */
+.astera-hero-depth::after{
+  background-image:url("/assets/images/astera-globe-lower-right-restoration.webp");
+}
