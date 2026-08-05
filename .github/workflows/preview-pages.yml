@@ -32,8 +32,10 @@ jobs:
         env:
           PREVIEW_BASE_PATH: /astera-hp
         run: node site/scripts/build-preview.mjs
-      - name: Configure GitHub Pages
+      - name: Configure or enable GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Upload preview artifact
         uses: actions/upload-pages-artifact@v4
         with:
