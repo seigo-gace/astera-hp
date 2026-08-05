@@ -1,6 +1,6 @@
 {
   "status": "layered-hero-integrated-brand-byte-production-blocked",
-  "updatedAt": "2026-08-05T00:52:00+09:00",
+  "updatedAt": "2026-08-05T18:24:00+09:00",
   "visualDirection": {
     "reference": "latest user-provided Astera globe image and astera-globe-exact-layered.svg structure",
     "method": "latest user-provided image content remains the base; lightweight SVG effect layers add data streams, glow nodes and particles; the unwanted baked-in lower-right sparkle is removed with a deterministic feathered restoration patch; no image generation, redrawing, HUD, labels, canvas or UI overlay",
@@ -10,10 +10,11 @@
       "target": "baked-in lower-right four-point sparkle",
       "sourceCoordinateSpace": [1024, 1536],
       "bounds": {"x": 825, "y": 1338, "width": 110, "height": 112},
+      "file": "/assets/images/astera-globe-lower-right-restoration.webp",
       "format": "webp-with-alpha",
       "bytes": 1834,
       "sha256": "6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a",
-      "delivery": "CSS fallback before boot; canonical RIFF bytes inserted as one SVG image immediately after base-image after boot",
+      "delivery": "CSS fallback before boot; Layered SVG patch reference rewritten to the canonical WebP asset before mount",
       "svgElementId": "lower-right-sparkle-removal"
     },
     "animationRuntime": {
@@ -38,7 +39,7 @@
   ],
   "visual": [
     {"id":"astera-globe-top","file":"/assets/images/astera-globe-top.webp","width":1024,"height":1536,"required":true,"status":"user-provided-web-optimized","source":"latest current-conversation upload; visual content preserved except the explicitly rejected sparkle is removed at render time","bytes":178672,"sha256":"64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2","psnrDb":43.7},
-    {"id":"astera-globe-exact-layered","file":"/assets/visual/hero/astera-globe-exact-layered.svg","width":1024,"height":1536,"required":true,"status":"user-provided-layered-svg","source":"provided layered SVG contract; production shell references the verified WebP base, inserts the deterministic sparkle-removal patch and fills the four effect groups","validation":"semantic-layer-no-ui-and-sparkle-removal-contract"},
+    {"id":"astera-globe-exact-layered","file":"/assets/visual/hero/astera-globe-exact-layered.svg","width":1024,"height":1536,"required":true,"status":"user-provided-layered-svg","source":"provided layered SVG contract; production shell references the verified WebP base, validates the deterministic restoration patch and fills the four effect groups","validation":"semantic-layer-no-ui-and-sparkle-removal-contract"},
     {"id":"process-purpose","file":"/assets/visual/process/process-purpose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
     {"id":"process-materialize","file":"/assets/visual/process/process-materialize.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
     {"id":"process-recompose","file":"/assets/visual/process/process-recompose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
