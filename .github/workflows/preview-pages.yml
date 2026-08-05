@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -42,6 +42,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-24.04
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -49,3 +51,84 @@ jobs:
       - name: Deploy preview
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify-live:
+    needs: deploy
+    runs-on: ubuntu-24.04
+    env:
+      LIVE_URL: ${{ needs.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify published GitHub Pages website
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${LIVE_URL}"
+          root="${LIVE_URL%/}"
+          mkdir -p /tmp/astera-pages
+
+          curl --fail --location --silent --show-error \
+            --retry 12 --retry-delay 5 --retry-all-errors \
+            "${root}/" -o /tmp/astera-pages/index.html
+          grep -q '<title>.*Astera' /tmp/astera-pages/index.html
+          grep -q '/astera-hp/assets/astera-hero-image.css' /tmp/astera-pages/index.html
+          grep -q '/astera-hp/assets/astera-hero-restoration.css' /tmp/astera-pages/index.html
+
+          curl --fail --location --silent --show-error \
+            --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/assets/astera-hero-image.css" -o /tmp/astera-pages/hero.css
+          ! grep -q 'data:image/webp;base64,' /tmp/astera-pages/hero.css
+          grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/hero.css
+
+          curl --fail --location --silent --show-error \
+            --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/assets/astera-hero-restoration.css" -o /tmp/astera-pages/restoration.css
+          grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/restoration.css
+
+          curl --fail --location --silent --show-error \
+            --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/assets/visual/hero/astera-globe-exact-layered.svg" -o /tmp/astera-pages/hero.svg
+          grep -q '/astera-hp/assets/images/astera-globe-top.webp' /tmp/astera-pages/hero.svg
+
+          curl --fail --location --silent --show-error \
+            --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/assets/images/astera-globe-lower-right-restoration.webp" -o /tmp/astera-pages/restoration.webp
+          test "$(stat -c%s /tmp/astera-pages/restoration.webp)" -eq 1834
+
+          curl --fail --location --silent --show-error \
+            --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/preview/BUILD.txt" -o /tmp/astera-pages/BUILD.txt
+          grep -q 'basePath=/astera-hp' /tmp/astera-pages/BUILD.txt
+
+      - name: Record live publication evidence
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --rebase origin main
+          mkdir -p evidence/pages
+          cat > evidence/pages/RESULT.md <<EOF
+          # GitHub Pages live publication result
+
+          - Status: PASS
+          - Public test URL: ${LIVE_URL}
+          - GitHub Actions run: ${GITHUB_RUN_ID}
+          - Published source commit: ${GITHUB_SHA}
+          - Verification time: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          - TOP HTML: HTTP PASS
+          - Project base path `/astera-hp`: PASS
+          - Hero delivery CSS contains no embedded WebP Data URI: PASS
+          - Layered SVG base image path: PASS
+          - Lower-right restoration WebP: PASS (1834 bytes)
+          - Preview build marker: PASS
+
+          This URL is the public GitHub Pages test environment. It is not the Cloudflare production deployment.
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/pages/RESULT.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "test: record GitHub Pages live evidence [generated-site]"
+          git push origin HEAD:main
