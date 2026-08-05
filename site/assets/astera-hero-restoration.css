@@ -5,8 +5,8 @@
   background-image:url("/assets/images/astera-globe-lower-right-restoration.webp");
 }
 
-/* Canonical TOP presentation: no card, panel, frame or decorative backdrop.
-   The supplied globe and its layered SVG effects sit directly on pure black. */
+/* Canonical TOP presentation: remove only the card-like exterior.
+   The supplied globe and every surrounding SVG light effect remain. */
 body[data-route="home"],
 body:has(.home-page),
 .home-page,
@@ -51,6 +51,18 @@ body:has(.home-page)::before,
   background:#000 !important;
 }
 
+/* These are the required effects around the globe. Never hide them when
+   removing the surrounding card treatment. */
+.astera-hero-svg #effects-behind,
+.astera-hero-svg #effects-orbits,
+.astera-hero-svg #effects-particles,
+.astera-hero-svg #effects-front,
+.astera-hero-svg .data-line,
+.astera-hero-svg .glow-node,
+.astera-hero-svg .ambient-particle{
+  display:inline !important;
+  visibility:visible !important;
+}
 .astera-hero-svg #effects-behind,
 .astera-hero-svg #effects-orbits,
 .astera-hero-svg #effects-particles,
@@ -58,8 +70,8 @@ body:has(.home-page)::before,
   opacity:1;
 }
 
-/* Motion fallback when GSAP is unavailable: effects still move without
-   reintroducing any background panel or card treatment. */
+/* Motion fallback when GSAP is unavailable: the light streams, nodes and
+   particles still move, without reintroducing a panel or frame. */
 .astera-hero-visual.is-svg-static .astera-hero-svg #effects-orbits{
   animation:asteraBlackStageOrbit 96s linear infinite;
 }
@@ -68,6 +80,13 @@ body:has(.home-page)::before,
 }
 .astera-hero-visual.is-svg-static .astera-hero-svg #effects-front{
   animation:asteraBlackStagePulse 4.8s ease-in-out infinite alternate;
+}
+.astera-hero-visual.is-svg-static .astera-hero-svg .data-line{
+  stroke-dasharray:48 160;
+  animation:asteraBlackStageStream 7s linear infinite;
+}
+.astera-hero-visual.is-svg-static .astera-hero-svg .glow-node{
+  animation:asteraBlackStageNode 2.4s ease-in-out infinite alternate;
 }
 
 @keyframes asteraBlackStageOrbit{
@@ -81,11 +100,21 @@ body:has(.home-page)::before,
   from{opacity:.58;transform:scale(.994)}
   to{opacity:1;transform:scale(1.012)}
 }
+@keyframes asteraBlackStageStream{
+  from{stroke-dashoffset:208}
+  to{stroke-dashoffset:-208}
+}
+@keyframes asteraBlackStageNode{
+  from{opacity:.42}
+  to{opacity:1}
+}
 
 @media(prefers-reduced-motion:reduce){
   .astera-hero-visual.is-svg-static .astera-hero-svg #effects-orbits,
   .astera-hero-visual.is-svg-static .astera-hero-svg #effects-particles,
-  .astera-hero-visual.is-svg-static .astera-hero-svg #effects-front{
+  .astera-hero-visual.is-svg-static .astera-hero-svg #effects-front,
+  .astera-hero-visual.is-svg-static .astera-hero-svg .data-line,
+  .astera-hero-visual.is-svg-static .astera-hero-svg .glow-node{
     animation:none !important;
   }
 }
