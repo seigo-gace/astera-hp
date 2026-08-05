@@ -1,0 +1,2101 @@
+{
+  "config": {
+    "argv": [
+      "/opt/hostedtoolcache/node/22.23.1/x64/bin/node",
+      "/home/runner/work/astera-hp/astera-hp/node_modules/.bin/playwright",
+      "test",
+      "--config=playwright.config.mjs"
+    ],
+    "configFile": "/home/runner/work/astera-hp/astera-hp/playwright.config.mjs",
+    "rootDir": "/home/runner/work/astera-hp/astera-hp/test/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "ci": {
+        "commitHref": "https://github.com/seigo-gace/astera-hp/commit/47424e876717446a3f2a6e3196c852f863aec90a",
+        "commitHash": "47424e876717446a3f2a6e3196c852f863aec90a",
+        "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30994049998"
+      },
+      "gitCommit": {
+        "shortHash": "47424e8",
+        "hash": "47424e876717446a3f2a6e3196c852f863aec90a",
+        "subject": "fix: rewrite SVG asset paths for GitHub Pages preview",
+        "body": "fix: rewrite SVG asset paths for GitHub Pages preview",
+        "author": {
+          "name": "Seigo.k",
+          "email": "216270240+seigo-gace@users.noreply.github.com",
+          "time": 1785922656000
+        },
+        "committer": {
+          "name": "Seigo.k",
+          "email": "216270240+seigo-gace@users.noreply.github.com",
+          "time": 1785922656000
+        },
+        "branch": "main"
+      },
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/runner/work/astera-hp/astera-hp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/seigo-gace/astera-hp/commit/47424e876717446a3f2a6e3196c852f863aec90a",
+            "commitHash": "47424e876717446a3f2a6e3196c852f863aec90a",
+            "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30994049998"
+          },
+          "gitCommit": {
+            "shortHash": "47424e8",
+            "hash": "47424e876717446a3f2a6e3196c852f863aec90a",
+            "subject": "fix: rewrite SVG asset paths for GitHub Pages preview",
+            "body": "fix: rewrite SVG asset paths for GitHub Pages preview",
+            "author": {
+              "name": "Seigo.k",
+              "email": "216270240+seigo-gace@users.noreply.github.com",
+              "time": 1785922656000
+            },
+            "committer": {
+              "name": "Seigo.k",
+              "email": "216270240+seigo-gace@users.noreply.github.com",
+              "time": 1785922656000
+            },
+            "branch": "main"
+          },
+          "actualWorkers": 1
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/home/runner/work/astera-hp/astera-hp/test/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/home/runner/work/astera-hp/astera-hp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/seigo-gace/astera-hp/commit/47424e876717446a3f2a6e3196c852f863aec90a",
+            "commitHash": "47424e876717446a3f2a6e3196c852f863aec90a",
+            "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30994049998"
+          },
+          "gitCommit": {
+            "shortHash": "47424e8",
+            "hash": "47424e876717446a3f2a6e3196c852f863aec90a",
+            "subject": "fix: rewrite SVG asset paths for GitHub Pages preview",
+            "body": "fix: rewrite SVG asset paths for GitHub Pages preview",
+            "author": {
+              "name": "Seigo.k",
+              "email": "216270240+seigo-gace@users.noreply.github.com",
+              "time": 1785922656000
+            },
+            "committer": {
+              "name": "Seigo.k",
+              "email": "216270240+seigo-gace@users.noreply.github.com",
+              "time": 1785922656000
+            },
+            "branch": "main"
+          },
+          "actualWorkers": 1
+        },
+        "id": "mobile-chromium",
+        "name": "mobile-chromium",
+        "testDir": "/home/runner/work/astera-hp/astera-hp/test/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "predeploy.spec.mjs",
+      "file": "predeploy.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "/ renders without browser or layout failures",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 7639,
+                  "error": {
+                    "message": "Error: Browser errors in /\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"console: Failed to load resource: net::ERR_INVALID_URL\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: Browser errors in /\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"console: Failed to load resource: net::ERR_INVALID_URL\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:183:57",
+                    "location": {
+                      "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
+                      "column": 57,
+                      "line": 183
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 181 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m,\u001b[39m type\u001b[33m:\u001b[39m \u001b[32m'jpeg'\u001b[39m\u001b[33m,\u001b[39m quality\u001b[33m:\u001b[39m \u001b[35m68\u001b[39m\u001b[33m,\u001b[39m fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 182 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 183 |\u001b[39m     expect(browserErrors\u001b[33m,\u001b[39m \u001b[32m`Browser errors in ${route}`\u001b[39m)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 184 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 185 |\u001b[39m }\n \u001b[90m 186 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
+                        "column": 57,
+                        "line": 183
+                      },
+                      "message": "Error: Browser errors in /\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"console: Failed to load resource: net::ERR_INVALID_URL\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  181 |     await page.screenshot({ path, type: 'jpeg', quality: 68, fullPage: true });\n  182 |\n> 183 |     expect(browserErrors, `Browser errors in ${route}`).toEqual([]);\n      |                                                         ^\n  184 |   });\n  185 | }\n  186 |\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:183:57"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:38:45.449Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-desktop-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-desktop-chromium/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-desktop-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-desktop-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
+                    "column": 57,
+                    "line": 183
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-0df60ddb08333f2c8727",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/chat/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2663,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:38:54.927Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-956031453d9bd71561bf",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/company/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2635,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:38:57.688Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-77a64cae14123b117fce",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/contact/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2535,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:00.340Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-e57ed6deb1c019c0f7d9",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/corporate/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2440,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:02.883Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-6e9ce98f5a7e0d1c5de0",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/developers/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2785,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:05.333Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-4310ba2b09adcd46330e",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/docs/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2532,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:08.127Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-bf3f434c9c2cc69181de",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/investors/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2588,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:10.668Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-f967b195715abd04fcea",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/legal/commerce/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2321,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:13.268Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-28525d037221be61d624",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/legal/privacy/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2590,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:15.597Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-c5ffa640ff5192ae8b94",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/legal/terms/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2556,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:18.195Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-647a65b54b68e20ffe77",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/news/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2206,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:20.758Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-926162b74c92f5b78b26",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/engine/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3183,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:22.975Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-68f93c7d698340bd4f04",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/integration/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3444,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:26.167Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-ac5d44c04140ce171bc9",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/process/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3126,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:29.620Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-af37576c4e841dc9ed73",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/technology/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3071,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:32.754Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-88cf1ec78b5a8d527c9f",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/usage/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2967,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:35.833Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-b8238ed9ff9960717d1a",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/value/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3039,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:38.811Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-45951e7aa11335df4040",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/what-is-astera/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2619,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:41.857Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-c338cba8f2acfa6344be",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/why-astera/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2531,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:44.484Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-f5927501d97cba7308a2",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/qa/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3898,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:47.024Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-a2b29be3b82a38135a05",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/support/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2217,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:50.932Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-0457c11c651b15d2f755",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/support/development/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2431,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:53.158Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-bbf0e78f5dd2758f35ba",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/support/sponsor/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2130,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:55.597Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-d2f5e17e91a6197f15d6",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/supporters/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2176,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:57.737Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-916342313b81d2b0aa4e",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/use-cases/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2325,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:39:59.925Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-513b2250336823d6d802",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "Cloudflare pricing redirects point only to the Astera app",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:02.258Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-6553b1118fa4b40e14b1",
+          "file": "predeploy.spec.mjs",
+          "line": 187,
+          "column": 1
+        },
+        {
+          "title": "/ renders without browser or layout failures",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 9791,
+                  "error": {
+                    "message": "Error: Browser errors in /\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"console: Failed to load resource: net::ERR_INVALID_URL\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: Browser errors in /\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"console: Failed to load resource: net::ERR_INVALID_URL\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:183:57",
+                    "location": {
+                      "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
+                      "column": 57,
+                      "line": 183
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 181 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m,\u001b[39m type\u001b[33m:\u001b[39m \u001b[32m'jpeg'\u001b[39m\u001b[33m,\u001b[39m quality\u001b[33m:\u001b[39m \u001b[35m68\u001b[39m\u001b[33m,\u001b[39m fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 182 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 183 |\u001b[39m     expect(browserErrors\u001b[33m,\u001b[39m \u001b[32m`Browser errors in ${route}`\u001b[39m)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 184 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 185 |\u001b[39m }\n \u001b[90m 186 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
+                        "column": 57,
+                        "line": 183
+                      },
+                      "message": "Error: Browser errors in /\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"console: Failed to load resource: net::ERR_INVALID_URL\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  181 |     await page.screenshot({ path, type: 'jpeg', quality: 68, fullPage: true });\n  182 |\n> 183 |     expect(browserErrors, `Browser errors in ${route}`).toEqual([]);\n      |                                                         ^\n  184 |   });\n  185 | }\n  186 |\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:183:57"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:02.685Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-mobile-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-mobile-chromium/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-mobile-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/home/runner/work/astera-hp/astera-hp/test-results/predeploy--renders-without-browser-or-layout-failures-mobile-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
+                    "column": 57,
+                    "line": 183
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-383137d2e83b80f28331",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/chat/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4033,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:13.313Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-60cdb81a1abae9242372",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/company/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3928,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:17.439Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-3b3869267a1fd26968ef",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/contact/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3849,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:21.376Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-e82b7361148b3f9251e7",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/corporate/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3956,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:25.233Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-77fc53f8646afce5be18",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/developers/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4013,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:29.197Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-5277cdcf292bcf06c781",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/docs/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3975,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:33.220Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-0d16f8981e1e8c37f9c0",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/investors/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4583,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:37.205Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-e0d5f03b99453b837fe3",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/legal/commerce/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4211,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:41.798Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-7f291f73ea8fda5f4ceb",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/legal/privacy/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4336,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:46.017Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-a85676255abe314924cf",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/legal/terms/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4305,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:50.362Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-af24dff7719b718e0c00",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/news/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3442,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:54.677Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-84079fee19ba1e63f57c",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/engine/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5144,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:40:58.128Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-5eac325aef7e97039d33",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/integration/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5492,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:03.281Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-966c7c186f49d5a24d88",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/process/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5765,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:08.785Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-cc0b54937b1cbd02f501",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/technology/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5549,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:14.558Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-f07f3e28025249f7464c",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/usage/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5221,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:20.116Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-f140ee88de0ad2a4312d",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/value/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5410,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:25.347Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-5f65f93e5ed614c3b39d",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/what-is-astera/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4573,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:30.766Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-c4993a889e5643a37898",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/product/why-astera/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4407,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:35.347Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-e80ea5ec051d3d6fdab0",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/qa/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6591,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:39.762Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-8b5c86465d42653b213b",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/support/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3917,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:46.361Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-69a5094399a2a5d7c2c5",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/support/development/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4082,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:50.285Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-e99b60b975b69c59bb1b",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/support/sponsor/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4079,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:54.375Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-12a80edf129417a7d8f7",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/supporters/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3786,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:41:58.462Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-afcc72369f38c1021fb4",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "/use-cases/ renders without browser or layout failures",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3813,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:42:02.256Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-462b41e1ee9c8d0f79e5",
+          "file": "predeploy.spec.mjs",
+          "line": 102,
+          "column": 3
+        },
+        {
+          "title": "Cloudflare pricing redirects point only to the Astera app",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-chromium",
+              "projectName": "mobile-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-05T09:42:06.076Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44296cdaa1a5e11edf1e-9091f533b70f61bb7bbc",
+          "file": "predeploy.spec.mjs",
+          "line": 187,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-08-05T09:38:44.943Z",
+    "duration": 201217.341,
+    "expected": 52,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
