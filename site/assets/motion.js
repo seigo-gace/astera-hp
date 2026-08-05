@@ -1,6 +1,5 @@
 import './astera-aurora.js';
 import './astera-hero-image.js';
-import './astera-sparkle-handoff.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(pointer: fine)');
