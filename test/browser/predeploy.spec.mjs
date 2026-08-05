@@ -56,7 +56,7 @@ async function verifyLayeredHero(page, projectName) {
       sparklePatchInSvg: node.classList.contains('is-sparkle-patch-in-svg'),
       sparklePatchCount: node.querySelectorAll('#lower-right-sparkle-removal').length,
       sparklePatchBounds: patch ? [patch.getAttribute('x'), patch.getAttribute('y'), patch.getAttribute('width'), patch.getAttribute('height')] : [],
-      sparklePatchIsWebp: patch?.getAttribute('href')?.startsWith('data:image/webp;base64,') || false,
+      sparklePatchIsWebp: patch?.getAttribute('href') === '/assets/images/astera-globe-lower-right-restoration.webp',
       fallbackPatchOpacity: depth ? Number.parseFloat(getComputedStyle(depth, '::after').opacity) : 1,
       dataLines: node.querySelectorAll('.data-line').length,
       glowNodes: node.querySelectorAll('.glow-node').length,
