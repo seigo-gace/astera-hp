@@ -6,7 +6,7 @@ const site = fileURLToPath(new URL('../', import.meta.url));
 const source = join(site, 'dist');
 const preview = join(site, 'preview-dist');
 const basePath = String(process.env.PREVIEW_BASE_PATH || '/astera-hp').replace(/\/$/, '');
-const textExtensions = new Set(['.html', '.css', '.js', '.json', '.xml', '.txt', '.md']);
+const textExtensions = new Set(['.html', '.css', '.js', '.json', '.xml', '.svg', '.txt', '.md']);
 
 await rm(preview, {recursive: true, force: true});
 await cp(source, preview, {recursive: true});
@@ -25,10 +25,10 @@ async function walk(directory) {
 
 function rewrite(content, extension) {
   let output = content;
-  if (extension === '.html') {
+  if (extension === '.html' || extension === '.svg') {
     output = output
-      .replace(/\b(href|src|action|data-svg-src)="\/(?!\/)/g, `$1="${basePath}/`)
-      .replace(/\b(href|src|action|data-svg-src)='\/(?!\/)/g, `$1='${basePath}/`);
+      .replace(/\b(href|xlink:href|src|action|data-svg-src)="\/(?!\/)/g, `$1="${basePath}/`)
+      .replace(/\b(href|xlink:href|src|action|data-svg-src)='\/(?!\/)/g, `$1='${basePath}/`);
   }
   if (extension === '.css') {
     output = output
