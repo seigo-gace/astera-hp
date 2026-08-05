@@ -52,11 +52,11 @@
     {"route":"/legal/commerce/","specId":"3aecdcf128e481ae83c4f6c58ac0c623","contentId":"3a9cdcf128e481c19d2bdbd8535862df","status":"read-and-projected"}
   ],
   "references": [
-    {"key":"answer-examples","title":"Asteraを使った回答例","sourceUrl":"https://app.notion.com/p/3aacdcf128e481669d9cf129da485ebd","target":"/docs/#evidence"},
-    {"key":"high-risk","title":"AI・判断材料・高リスク領域免責","sourceUrl":"https://app.notion.com/p/3a9cdcf128e481dfb6f4f0f73ad949eb","target":"/legal/terms/#high-risk-disclaimer"},
-    {"key":"cookie","title":"Cookie・Local Storage Policy","sourceUrl":"https://app.notion.com/p/3afcdcf128e481de9ecafdc331228c59","target":"/legal/privacy/#cookie-local-storage"},
-    {"key":"external-services","title":"外部Service・国外移転","sourceUrl":"https://app.notion.com/p/3afcdcf128e48193a29fd104dffe5c42","target":"/legal/privacy/#external-services"},
-    {"key":"retention","title":"Security・Data保持・削除","sourceUrl":"https://app.notion.com/p/3afcdcf128e4815d8e6dc41870b741ad","target":"/legal/privacy/#security-retention-deletion"}
+    {"key":"answer-examples","title":"Asteraを使った回答例","sourceId":"3aacdcf128e481669d9cf129da485ebd","target":"/docs/#evidence"},
+    {"key":"high-risk","title":"AI・判断材料・高リスク領域免責","sourceId":"3a9cdcf128e481dfb6f4f0f73ad949eb","target":"/legal/terms/#high-risk-disclaimer"},
+    {"key":"cookie","title":"Cookie・Local Storage Policy","sourceId":"3afcdcf128e481de9ecafdc331228c59","target":"/legal/privacy/#cookie-local-storage"},
+    {"key":"external-services","title":"外部Service・国外移転","sourceId":"3afcdcf128e48193a29fd104dffe5c42","target":"/legal/privacy/#external-services"},
+    {"key":"retention","title":"Security・Data保持・削除","sourceId":"3afcdcf128e4815d8e6dc41870b741ad","target":"/legal/privacy/#security-retention-deletion"}
   ],
   "expected": {"management":22,"routes":26,"references":5}
 }
