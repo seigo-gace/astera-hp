@@ -1,0 +1,3 @@
+Astera HP complete validation v5
+Base main: 18c8bb362e046b854af0cbbc96d500ab8515787a
+Scrolls every route to load lazy assets before image integrity checks, while preserving lazy loading in production.
