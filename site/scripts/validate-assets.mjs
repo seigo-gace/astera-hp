@@ -16,27 +16,35 @@ const sparkle = manifest.visualDirection.sparkleRemoval;
 if (!sparkle || sparkle.target !== 'baked-in lower-right four-point sparkle') throw new Error('HERO_SPARKLE_REMOVAL_CONTRACT_MISSING');
 if (JSON.stringify(sparkle.sourceCoordinateSpace) !== '[1024,1536]') throw new Error('HERO_SPARKLE_COORDINATE_SPACE_INVALID');
 if (JSON.stringify(sparkle.bounds) !== '{"x":825,"y":1338,"width":110,"height":112}') throw new Error('HERO_SPARKLE_BOUNDS_INVALID');
+if (sparkle.file !== '/assets/images/astera-globe-lower-right-restoration.webp') throw new Error('HERO_SPARKLE_PATCH_PATH_INVALID');
 if (sparkle.format !== 'webp-with-alpha' || sparkle.bytes !== 1834 || sparkle.svgElementId !== 'lower-right-sparkle-removal') throw new Error('HERO_SPARKLE_PATCH_METADATA_INVALID');
+
+const patchAbsolute = join(site, sparkle.file.replace(/^\/assets\//, 'assets/'));
+const patchBytes = await readFile(patchAbsolute);
+if (patchBytes.length !== sparkle.bytes) throw new Error(`HERO_SPARKLE_PATCH_SIZE_INVALID ${patchBytes.length}`);
+if (patchBytes.subarray(0, 4).toString('ascii') !== 'RIFF' || patchBytes.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SPARKLE_PATCH_SIGNATURE_INVALID');
+if (patchBytes.readUInt32LE(4) + 8 !== patchBytes.length) throw new Error('HERO_SPARKLE_PATCH_RIFF_LENGTH_INVALID');
+const patchSha256 = createHash('sha256').update(patchBytes).digest('hex');
+if (patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID ${patchSha256}`);
 
 const heroCss = await readFile(join(site, 'assets/astera-hero-image.css'), 'utf8');
 const heroScript = await readFile(join(site, 'assets/astera-hero-image.js'), 'utf8');
-const patchBase64 = heroCss.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
-if (!patchBase64) throw new Error('HERO_SPARKLE_PATCH_DATA_MISSING');
-const encodedPatchBytes = Buffer.from(patchBase64, 'base64');
-if (encodedPatchBytes.subarray(0, 4).toString('ascii') !== 'RIFF' || encodedPatchBytes.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SPARKLE_PATCH_SIGNATURE_INVALID');
-const declaredPatchBytes = encodedPatchBytes.readUInt32LE(4) + 8;
-if (declaredPatchBytes < 12 || declaredPatchBytes > encodedPatchBytes.length) throw new Error(`HERO_SPARKLE_PATCH_RIFF_LENGTH_INVALID ${declaredPatchBytes} ${encodedPatchBytes.length}`);
-const transportRemainder = encodedPatchBytes.subarray(declaredPatchBytes);
-if (transportRemainder.length > 1 || transportRemainder.some((byte) => byte !== 0)) throw new Error(`HERO_SPARKLE_PATCH_TRAILING_DATA_INVALID ${transportRemainder.length} ${transportRemainder.toString('hex')}`);
-const patchBytes = encodedPatchBytes.subarray(0, declaredPatchBytes);
-const patchSha256 = createHash('sha256').update(patchBytes).digest('hex');
-if (patchBytes.length !== sparkle.bytes || patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID canonical=${patchBytes.length}:${patchSha256} encoded=${encodedPatchBytes.length}`);
+const layeredSvg = await readFile(join(site, 'assets/visual/hero/astera-globe-exact-layered.svg'), 'utf8');
+const fallbackBase64 = heroCss.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
+if (!fallbackBase64) throw new Error('HERO_SPARKLE_FALLBACK_DATA_MISSING');
+const fallbackTransport = Buffer.from(fallbackBase64, 'base64');
+const fallbackDeclaredLength = fallbackTransport.readUInt32LE(4) + 8;
+const fallbackCanonical = fallbackTransport.subarray(0, fallbackDeclaredLength);
+if (fallbackCanonical.length !== sparkle.bytes || createHash('sha256').update(fallbackCanonical).digest('hex') !== sparkle.sha256) throw new Error('HERO_SPARKLE_FALLBACK_HASH_INVALID');
+
 for (const marker of ['left:80.56640625%', 'top:87.109375%', 'width:10.7421875%', 'height:7.291666667%', 'is-sparkle-patch-in-svg']) {
   if (!heroCss.includes(marker)) throw new Error(`HERO_SPARKLE_CSS_MARKER_MISSING ${marker}`);
 }
-for (const marker of ['lower-right-sparkle-removal', 'x: 825', 'y: 1338', 'width: 110', 'height: 112', 'installSparkleRemoval(svg)', 'canonicalizeWebpDataUri']) {
+for (const marker of ['lower-right-sparkle-removal', 'x: 825', 'y: 1338', 'width: 110', 'height: 112', 'installSparkleRemoval(svg)', 'patch.setAttribute(\'href\', patchAsset)', sparkle.file]) {
   if (!heroScript.includes(marker)) throw new Error(`HERO_SPARKLE_SCRIPT_MARKER_MISSING ${marker}`);
 }
+if ((layeredSvg.match(/id="lower-right-sparkle-removal"/g) || []).length !== 1) throw new Error('HERO_SPARKLE_SVG_COUNT_INVALID');
+if (!/id="lower-right-sparkle-removal"[\s\S]*x="825" y="1338" width="110" height="112"/u.test(layeredSvg)) throw new Error('HERO_SPARKLE_SVG_BOUNDS_INVALID');
 if ((heroScript + heroCss).includes('✦')) throw new Error('HERO_REJECTED_SPARKLE_CHARACTER_PRESENT');
 
 for (const asset of manifest.visual) {
@@ -63,7 +71,7 @@ for (const asset of manifest.visual) {
     if (asset.validation !== 'semantic-layer-no-ui-and-sparkle-removal-contract') throw new Error('HERO_LAYERED_VALIDATION_MODE_INVALID');
     if (details.size < 8000 || details.size > 30000) throw new Error(`HERO_LAYERED_WEIGHT_INVALID ${details.size}`);
     const source = await readFile(absolute, 'utf8');
-    for (const marker of ['id="base-image"', 'id="effects-behind"', 'id="effects-orbits"', 'id="effects-particles"', 'id="effects-front"', 'class="data-line', 'class="glow-node']) {
+    for (const marker of ['id="base-image"', 'id="lower-right-sparkle-removal"', 'id="effects-behind"', 'id="effects-orbits"', 'id="effects-particles"', 'id="effects-front"', 'class="data-line', 'class="glow-node']) {
       if (!source.includes(marker)) throw new Error(`HERO_LAYERED_MARKER_MISSING ${marker}`);
     }
     if ((source.match(/class="data-line/g) || []).length < 10) throw new Error('HERO_DATA_STREAM_COUNT_INVALID');
@@ -80,4 +88,4 @@ for (const asset of manifest.visual) {
   if (!/viewBox=/u.test(source)) throw new Error(`VISUAL_VIEWBOX_MISSING ${asset.id}`);
 }
 
-console.log('Visual asset contract PASS (premium WebP base + canonical deterministic sparkle removal + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate');
+console.log('Visual asset contract PASS (premium WebP base + canonical restoration asset + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate');
