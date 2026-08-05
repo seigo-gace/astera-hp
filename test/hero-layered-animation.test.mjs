@@ -43,6 +43,7 @@ test('hero controller uses pinned local GSAP with viewport and accessibility gua
   for (const marker of [
     '/assets/vendor/gsap-3.12.2.min.js',
     '/assets/visual/hero/astera-globe-exact-layered.svg',
+    '/assets/images/astera-globe-lower-right-restoration.webp',
     'new DOMParser()',
     'gsap.quickTo',
     'strokeDashoffset',
@@ -70,7 +71,7 @@ test('baked-in lower-right sparkle is removed in fallback and moving SVG states'
     'height: 112',
     'lower-right-sparkle-removal',
     'installSparkleRemoval(svg)',
-    'canonicalizeWebpDataUri',
+    'patch.setAttribute(\'href\', patchAsset)',
     'is-sparkle-patch-in-svg'
   ]) assert.ok(script.includes(marker), `Missing sparkle-removal controller marker: ${marker}`);
 
@@ -88,6 +89,10 @@ test('baked-in lower-right sparkle is removed in fallback and moving SVG states'
   const canonicalPatch = canonicalWebp(encodedPatch);
   assert.equal(canonicalPatch.length, 1834);
   assert.equal(createHash('sha256').update(canonicalPatch).digest('hex'), '6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a');
+
+  const patchFile = await readFile(new URL('../site/assets/images/astera-globe-lower-right-restoration.webp', import.meta.url));
+  assert.equal(patchFile.length, 1834);
+  assert.equal(createHash('sha256').update(patchFile).digest('hex'), '6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a');
 });
 
 test('hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors', async () => {
@@ -122,7 +127,9 @@ test('built TOP keeps the fallback image and ships the layered effect asset', as
   assert.match(html, /data-svg-src="\/assets\/visual\/hero\/astera-globe-exact-layered\.svg"/);
   assert.doesNotMatch(html, /astera-hero-hud|ASTERA \/ JUDGMENT NETWORK|<canvas/);
   const layered = await stat(new URL('../site/dist/assets/visual/hero/astera-globe-exact-layered.svg', import.meta.url));
+  const patch = await stat(new URL('../site/dist/assets/images/astera-globe-lower-right-restoration.webp', import.meta.url));
   const runtime = await stat(new URL('../site/dist/assets/vendor/gsap-3.12.2.min.js', import.meta.url));
   assert.ok(layered.size > 8000);
+  assert.equal(patch.size, 1834);
   assert.ok(runtime.size > 50000);
 });
