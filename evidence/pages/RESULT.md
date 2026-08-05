@@ -2,9 +2,9 @@
 
 - Status: PASS
 - Public test URL: https://seigo-gace.github.io/astera-hp/
-- GitHub Actions run: 31012775683
-- Published source commit: 014a840dbc7736b28d7edccc9d4793bf7bf48349
-- Verification time: 2026-08-05T13:58:46Z
+- GitHub Actions run: 31012945147
+- Published source commit: c756d41463833bf130d11e09012f306db32ae400
+- Verification time: 2026-08-05T14:00:44Z
 - TOP HTML: HTTP PASS
 - Project base path : PASS
 - Hero delivery CSS contains no embedded WebP Data URI: PASS
