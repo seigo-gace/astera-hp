@@ -17,17 +17,14 @@ Redirect PASS
 Content PASS: 26 routes
 Link contract PASS
 Source coverage PASS: 22 management, 26 routes, 5 references
-node:internal/fs/promises:1037
-  const result = await PromisePrototypeThen(
-                 ^
+Visual asset contract PASS (premium WebP base + canonical deterministic sparkle removal + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate
+file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-public-repo.mjs:68
+  throw new Error(`PUBLIC_REPOSITORY_SAFETY_FAILED\n${violations.join('\n')}`);
+        ^
 
-Error: ENOENT: no such file or directory, stat 'evidence/ci/FAILURE.md'
-    at async stat (node:internal/fs/promises:1037:18)
-    at async file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-public-repo.mjs:46:19 {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: 'evidence/ci/FAILURE.md'
-}
+Error: PUBLIC_REPOSITORY_SAFETY_FAILED
+site/data/notion-hierarchy-audit.json: Notion workspace URL
+site/data/notion-source-inventory.json: Notion workspace URL
+    at file:///home/runner/work/astera-hp/astera-hp/site/scripts/validate-public-repo.mjs:68:9
 
 Node.js v22.23.1
