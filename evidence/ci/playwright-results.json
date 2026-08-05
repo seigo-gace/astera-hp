@@ -19,24 +19,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/seigo-gace/astera-hp/commit/547664358522831604581e5d1d9861a9e2c3fd8c",
-        "commitHash": "547664358522831604581e5d1d9861a9e2c3fd8c",
-        "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30990642502"
+        "commitHref": "https://github.com/seigo-gace/astera-hp/commit/fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+        "commitHash": "fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+        "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30991729768"
       },
       "gitCommit": {
-        "shortHash": "5476643",
-        "hash": "547664358522831604581e5d1d9861a9e2c3fd8c",
-        "subject": "fix: load deterministic hero restoration handoff directly",
-        "body": "fix: load deterministic hero restoration handoff directly",
+        "shortHash": "fe4275a",
+        "hash": "fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+        "subject": "refactor: remove obsolete hero patch helper",
+        "body": "refactor: remove obsolete hero patch helper",
         "author": {
           "name": "Seigo.k",
           "email": "216270240+seigo-gace@users.noreply.github.com",
-          "time": 1785919788000
+          "time": 1785920694000
         },
         "committer": {
           "name": "Seigo.k",
           "email": "216270240+seigo-gace@users.noreply.github.com",
-          "time": 1785919788000
+          "time": 1785920694000
         },
         "branch": "main"
       },
@@ -50,24 +50,24 @@
         "retries": 0,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/seigo-gace/astera-hp/commit/547664358522831604581e5d1d9861a9e2c3fd8c",
-            "commitHash": "547664358522831604581e5d1d9861a9e2c3fd8c",
-            "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30990642502"
+            "commitHref": "https://github.com/seigo-gace/astera-hp/commit/fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+            "commitHash": "fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+            "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30991729768"
           },
           "gitCommit": {
-            "shortHash": "5476643",
-            "hash": "547664358522831604581e5d1d9861a9e2c3fd8c",
-            "subject": "fix: load deterministic hero restoration handoff directly",
-            "body": "fix: load deterministic hero restoration handoff directly",
+            "shortHash": "fe4275a",
+            "hash": "fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+            "subject": "refactor: remove obsolete hero patch helper",
+            "body": "refactor: remove obsolete hero patch helper",
             "author": {
               "name": "Seigo.k",
               "email": "216270240+seigo-gace@users.noreply.github.com",
-              "time": 1785919788000
+              "time": 1785920694000
             },
             "committer": {
               "name": "Seigo.k",
               "email": "216270240+seigo-gace@users.noreply.github.com",
-              "time": 1785919788000
+              "time": 1785920694000
             },
             "branch": "main"
           },
@@ -88,24 +88,24 @@
         "retries": 0,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/seigo-gace/astera-hp/commit/547664358522831604581e5d1d9861a9e2c3fd8c",
-            "commitHash": "547664358522831604581e5d1d9861a9e2c3fd8c",
-            "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30990642502"
+            "commitHref": "https://github.com/seigo-gace/astera-hp/commit/fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+            "commitHash": "fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+            "buildHref": "https://github.com/seigo-gace/astera-hp/actions/runs/30991729768"
           },
           "gitCommit": {
-            "shortHash": "5476643",
-            "hash": "547664358522831604581e5d1d9861a9e2c3fd8c",
-            "subject": "fix: load deterministic hero restoration handoff directly",
-            "body": "fix: load deterministic hero restoration handoff directly",
+            "shortHash": "fe4275a",
+            "hash": "fe4275af9d8d69aab95b2cbf9e5ba112e4f990b6",
+            "subject": "refactor: remove obsolete hero patch helper",
+            "body": "refactor: remove obsolete hero patch helper",
             "author": {
               "name": "Seigo.k",
               "email": "216270240+seigo-gace@users.noreply.github.com",
-              "time": 1785919788000
+              "time": 1785920694000
             },
             "committer": {
               "name": "Seigo.k",
               "email": "216270240+seigo-gace@users.noreply.github.com",
-              "time": 1785919788000
+              "time": 1785920694000
             },
             "branch": "main"
           },
@@ -176,31 +176,31 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 14482,
+                  "duration": 12184,
                   "error": {
-                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#lower-right-sparkle-removal')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#lower-right-sparkle-removal')\u001b[22m\n\u001b[2m    22 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
-                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#lower-right-sparkle-removal')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#lower-right-sparkle-removal')\u001b[22m\n\u001b[2m    22 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:46:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24",
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('svg[data-astera-layered-svg]')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('svg[data-astera-layered-svg]')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('svg[data-astera-layered-svg]')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('svg[data-astera-layered-svg]')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:45:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24",
                     "location": {
                       "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
                       "column": 62,
-                      "line": 46
+                      "line": 45
                     },
-                    "snippet": "\u001b[0m \u001b[90m 44 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.astera-hero-image'\u001b[39m))\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'src'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'/assets/images/astera-globe-top.webp'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'svg[data-astera-layered-svg]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#lower-right-sparkle-removal'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m   \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m \u001b[33mBoolean\u001b[39m(window\u001b[33m.\u001b[39mgsap)))\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m220\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 49 |\u001b[39m\u001b[0m"
+                    "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m   \u001b[36mawait\u001b[39m expect(hero)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 44 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.astera-hero-image'\u001b[39m))\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'src'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'/assets/images/astera-globe-top.webp'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'svg[data-astera-layered-svg]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#lower-right-sparkle-removal'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n \u001b[90m 47 |\u001b[39m   \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m \u001b[33mBoolean\u001b[39m(window\u001b[33m.\u001b[39mgsap)))\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m220\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
                   },
                   "errors": [
                     {
                       "location": {
                         "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
                         "column": 62,
-                        "line": 46
+                        "line": 45
                       },
-                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#lower-right-sparkle-removal')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#lower-right-sparkle-removal')\u001b[22m\n\u001b[2m    22 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  44 |   await expect(page.locator('.astera-hero-image')).toHaveAttribute('src', '/assets/images/astera-globe-top.webp');\n  45 |   await expect(page.locator('svg[data-astera-layered-svg]')).toHaveCount(1, {timeout: 10_000});\n> 46 |   await expect(page.locator('#lower-right-sparkle-removal')).toHaveCount(1, {timeout: 10_000});\n     |                                                              ^\n  47 |   await expect.poll(() => page.evaluate(() => Boolean(window.gsap))).toBe(true);\n  48 |   await page.waitForTimeout(220);\n  49 |\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:46:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24"
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('svg[data-astera-layered-svg]')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('svg[data-astera-layered-svg]')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  43 |   await expect(hero).toBeVisible();\n  44 |   await expect(page.locator('.astera-hero-image')).toHaveAttribute('src', '/assets/images/astera-globe-top.webp');\n> 45 |   await expect(page.locator('svg[data-astera-layered-svg]')).toHaveCount(1, {timeout: 10_000});\n     |                                                              ^\n  46 |   await expect(page.locator('#lower-right-sparkle-removal')).toHaveCount(1, {timeout: 10_000});\n  47 |   await expect.poll(() => page.evaluate(() => Boolean(window.gsap))).toBe(true);\n  48 |   await page.waitForTimeout(220);\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:45:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:50:48.104Z",
+                  "startTime": "2026-08-05T09:05:33.444Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -227,7 +227,7 @@
                   "errorLocation": {
                     "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
                     "column": 62,
-                    "line": 46
+                    "line": 45
                   }
                 }
               ],
@@ -255,12 +255,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2924,
+                  "duration": 3320,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:03.780Z",
+                  "startTime": "2026-08-05T09:05:46.812Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -289,12 +289,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2906,
+                  "duration": 3343,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:06.823Z",
+                  "startTime": "2026-08-05T09:05:50.260Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -323,12 +323,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2941,
+                  "duration": 2843,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:09.743Z",
+                  "startTime": "2026-08-05T09:05:53.620Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -357,12 +357,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3213,
+                  "duration": 2824,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:12.694Z",
+                  "startTime": "2026-08-05T09:05:56.474Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -391,12 +391,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3263,
+                  "duration": 3100,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:15.920Z",
+                  "startTime": "2026-08-05T09:05:59.309Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -425,12 +425,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2801,
+                  "duration": 2442,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:19.199Z",
+                  "startTime": "2026-08-05T09:06:02.422Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -459,12 +459,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2698,
+                  "duration": 2802,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:22.016Z",
+                  "startTime": "2026-08-05T09:06:04.881Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -493,12 +493,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2639,
+                  "duration": 2624,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:24.727Z",
+                  "startTime": "2026-08-05T09:06:07.696Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -527,12 +527,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2980,
+                  "duration": 2989,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:27.376Z",
+                  "startTime": "2026-08-05T09:06:10.330Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -561,12 +561,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2947,
+                  "duration": 3059,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:30.367Z",
+                  "startTime": "2026-08-05T09:06:13.331Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -595,12 +595,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2482,
+                  "duration": 2339,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:33.326Z",
+                  "startTime": "2026-08-05T09:06:16.404Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -629,12 +629,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3934,
+                  "duration": 3503,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:35.817Z",
+                  "startTime": "2026-08-05T09:06:18.753Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -663,12 +663,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3848,
+                  "duration": 4067,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:39.761Z",
+                  "startTime": "2026-08-05T09:06:22.268Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -697,12 +697,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3237,
+                  "duration": 3409,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:43.621Z",
+                  "startTime": "2026-08-05T09:06:26.346Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -731,12 +731,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3452,
+                  "duration": 3380,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:46.869Z",
+                  "startTime": "2026-08-05T09:06:29.763Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -765,12 +765,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3221,
+                  "duration": 3143,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:50.331Z",
+                  "startTime": "2026-08-05T09:06:33.153Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -799,12 +799,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3611,
+                  "duration": 3975,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:53.564Z",
+                  "startTime": "2026-08-05T09:06:36.306Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -833,12 +833,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2803,
+                  "duration": 2747,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:57.185Z",
+                  "startTime": "2026-08-05T09:06:40.291Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -867,12 +867,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3240,
+                  "duration": 3176,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:51:59.998Z",
+                  "startTime": "2026-08-05T09:06:43.051Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -901,12 +901,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4237,
+                  "duration": 4120,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:03.249Z",
+                  "startTime": "2026-08-05T09:06:46.237Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -935,12 +935,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2612,
+                  "duration": 2609,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:07.497Z",
+                  "startTime": "2026-08-05T09:06:50.369Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -969,12 +969,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2850,
+                  "duration": 2753,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:10.119Z",
+                  "startTime": "2026-08-05T09:06:52.990Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1003,12 +1003,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2389,
+                  "duration": 2326,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:12.982Z",
+                  "startTime": "2026-08-05T09:06:55.752Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1037,12 +1037,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2440,
+                  "duration": 2441,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:15.380Z",
+                  "startTime": "2026-08-05T09:06:58.089Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1071,12 +1071,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2519,
+                  "duration": 2438,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:17.831Z",
+                  "startTime": "2026-08-05T09:07:00.541Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1110,7 +1110,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:20.360Z",
+                  "startTime": "2026-08-05T09:07:02.988Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1139,31 +1139,31 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 14618,
+                  "duration": 12871,
                   "error": {
-                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#lower-right-sparkle-removal')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#lower-right-sparkle-removal')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
-                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#lower-right-sparkle-removal')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#lower-right-sparkle-removal')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:46:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24",
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('svg[data-astera-layered-svg]')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('svg[data-astera-layered-svg]')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('svg[data-astera-layered-svg]')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('svg[data-astera-layered-svg]')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:45:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24",
                     "location": {
                       "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
                       "column": 62,
-                      "line": 46
+                      "line": 45
                     },
-                    "snippet": "\u001b[0m \u001b[90m 44 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.astera-hero-image'\u001b[39m))\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'src'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'/assets/images/astera-globe-top.webp'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'svg[data-astera-layered-svg]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#lower-right-sparkle-removal'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m   \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m \u001b[33mBoolean\u001b[39m(window\u001b[33m.\u001b[39mgsap)))\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m220\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 49 |\u001b[39m\u001b[0m"
+                    "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m   \u001b[36mawait\u001b[39m expect(hero)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 44 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.astera-hero-image'\u001b[39m))\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'src'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'/assets/images/astera-globe-top.webp'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'svg[data-astera-layered-svg]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#lower-right-sparkle-removal'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m1\u001b[39m\u001b[33m,\u001b[39m {timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000})\u001b[33m;\u001b[39m\n \u001b[90m 47 |\u001b[39m   \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m \u001b[33mBoolean\u001b[39m(window\u001b[33m.\u001b[39mgsap)))\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m220\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
                   },
                   "errors": [
                     {
                       "location": {
                         "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
                         "column": 62,
-                        "line": 46
+                        "line": 45
                       },
-                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#lower-right-sparkle-removal')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#lower-right-sparkle-removal')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  44 |   await expect(page.locator('.astera-hero-image')).toHaveAttribute('src', '/assets/images/astera-globe-top.webp');\n  45 |   await expect(page.locator('svg[data-astera-layered-svg]')).toHaveCount(1, {timeout: 10_000});\n> 46 |   await expect(page.locator('#lower-right-sparkle-removal')).toHaveCount(1, {timeout: 10_000});\n     |                                                              ^\n  47 |   await expect.poll(() => page.evaluate(() => Boolean(window.gsap))).toBe(true);\n  48 |   await page.waitForTimeout(220);\n  49 |\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:46:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24"
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('svg[data-astera-layered-svg]')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('svg[data-astera-layered-svg]')\u001b[22m\n\u001b[2m    24 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  43 |   await expect(hero).toBeVisible();\n  44 |   await expect(page.locator('.astera-hero-image')).toHaveAttribute('src', '/assets/images/astera-globe-top.webp');\n> 45 |   await expect(page.locator('svg[data-astera-layered-svg]')).toHaveCount(1, {timeout: 10_000});\n     |                                                              ^\n  46 |   await expect(page.locator('#lower-right-sparkle-removal')).toHaveCount(1, {timeout: 10_000});\n  47 |   await expect.poll(() => page.evaluate(() => Boolean(window.gsap))).toBe(true);\n  48 |   await page.waitForTimeout(220);\n    at verifyLayeredHero (/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:45:62)\n    at /home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs:133:24"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:20.903Z",
+                  "startTime": "2026-08-05T09:07:03.518Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -1190,7 +1190,7 @@
                   "errorLocation": {
                     "file": "/home/runner/work/astera-hp/astera-hp/test/browser/predeploy.spec.mjs",
                     "column": 62,
-                    "line": 46
+                    "line": 45
                   }
                 }
               ],
@@ -1218,12 +1218,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4403,
+                  "duration": 4368,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:36.565Z",
+                  "startTime": "2026-08-05T09:07:17.375Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1252,12 +1252,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4371,
+                  "duration": 4388,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:41.085Z",
+                  "startTime": "2026-08-05T09:07:21.860Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1286,12 +1286,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4439,
+                  "duration": 4397,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:45.466Z",
+                  "startTime": "2026-08-05T09:07:26.262Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1320,12 +1320,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4653,
+                  "duration": 4510,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:49.915Z",
+                  "startTime": "2026-08-05T09:07:30.671Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1354,12 +1354,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4558,
+                  "duration": 4460,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:54.580Z",
+                  "startTime": "2026-08-05T09:07:35.194Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1388,12 +1388,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4452,
+                  "duration": 4377,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:52:59.147Z",
+                  "startTime": "2026-08-05T09:07:39.663Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1422,12 +1422,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5025,
+                  "duration": 5054,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:03.608Z",
+                  "startTime": "2026-08-05T09:07:44.052Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1456,12 +1456,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4772,
+                  "duration": 4836,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:08.642Z",
+                  "startTime": "2026-08-05T09:07:49.120Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1490,12 +1490,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4736,
+                  "duration": 4805,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:13.427Z",
+                  "startTime": "2026-08-05T09:07:53.969Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1524,12 +1524,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4906,
+                  "duration": 4710,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:18.178Z",
+                  "startTime": "2026-08-05T09:07:58.785Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1558,12 +1558,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3768,
+                  "duration": 3738,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:23.095Z",
+                  "startTime": "2026-08-05T09:08:03.505Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1592,12 +1592,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5693,
+                  "duration": 6006,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:26.873Z",
+                  "startTime": "2026-08-05T09:08:07.254Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1626,12 +1626,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6135,
+                  "duration": 6057,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:32.576Z",
+                  "startTime": "2026-08-05T09:08:13.273Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1660,12 +1660,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6607,
+                  "duration": 6282,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:38.722Z",
+                  "startTime": "2026-08-05T09:08:19.339Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1694,12 +1694,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6470,
+                  "duration": 6075,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:45.341Z",
+                  "startTime": "2026-08-05T09:08:25.633Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1728,12 +1728,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5653,
+                  "duration": 5826,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:51.823Z",
+                  "startTime": "2026-08-05T09:08:31.719Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1762,12 +1762,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6273,
+                  "duration": 5938,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:53:57.488Z",
+                  "startTime": "2026-08-05T09:08:37.554Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1796,12 +1796,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4923,
+                  "duration": 5036,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:03.770Z",
+                  "startTime": "2026-08-05T09:08:43.503Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1830,12 +1830,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5005,
+                  "duration": 4923,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:08.704Z",
+                  "startTime": "2026-08-05T09:08:48.549Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1864,12 +1864,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 7270,
+                  "duration": 7161,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:13.719Z",
+                  "startTime": "2026-08-05T09:08:53.481Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1898,12 +1898,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4364,
+                  "duration": 4370,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:20.999Z",
+                  "startTime": "2026-08-05T09:09:00.653Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1932,12 +1932,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4532,
+                  "duration": 4487,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:25.375Z",
+                  "startTime": "2026-08-05T09:09:05.032Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1966,12 +1966,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4622,
+                  "duration": 4583,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:29.916Z",
+                  "startTime": "2026-08-05T09:09:09.529Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2000,12 +2000,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4091,
+                  "duration": 4093,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:34.548Z",
+                  "startTime": "2026-08-05T09:09:14.120Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2034,12 +2034,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4537,
+                  "duration": 4611,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:38.647Z",
+                  "startTime": "2026-08-05T09:09:18.223Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2068,12 +2068,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3,
+                  "duration": 2,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T08:54:43.194Z",
+                  "startTime": "2026-08-05T09:09:22.842Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2091,8 +2091,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-05T08:50:47.485Z",
-    "duration": 235830.28,
+    "startTime": "2026-08-05T09:05:32.821Z",
+    "duration": 230138.215,
     "expected": 52,
     "skipped": 0,
     "unexpected": 2,
