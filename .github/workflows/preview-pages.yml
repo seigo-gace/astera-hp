@@ -109,6 +109,7 @@ jobs:
           set -euo pipefail
           git pull --rebase origin main
           mkdir -p evidence/pages
+          rm -f evidence/pages/FAILURE.md
           cat > evidence/pages/RESULT.md <<EOF
           # GitHub Pages live publication result
 
@@ -128,7 +129,42 @@ jobs:
           EOF
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add evidence/pages/RESULT.md
+          git add -A evidence/pages
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "test: record GitHub Pages live evidence [generated-site]"
+          git push origin HEAD:main
+
+  record-failure:
+    needs: [build, deploy, verify-live]
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && (needs.build.result == 'failure' || needs.deploy.result == 'failure' || needs.verify-live.result == 'failure') }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Record GitHub Pages publication failure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --rebase origin main
+          mkdir -p evidence/pages
+          rm -f evidence/pages/RESULT.md
+          cat > evidence/pages/FAILURE.md <<EOF
+          # GitHub Pages publication failure
+
+          - Status: FAIL
+          - GitHub Actions run: ${GITHUB_RUN_ID}
+          - Tested source commit: ${GITHUB_SHA}
+          - Build result: ${{ needs.build.result }}
+          - Deploy result: ${{ needs.deploy.result }}
+          - Live verification result: ${{ needs.verify-live.result }}
+          - Recorded at: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          Inspect the Publish HP preview workflow run identified above. This failure is not a successful web publication.
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A evidence/pages
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "test: record GitHub Pages publication failure [ci-failure]"
           git push origin HEAD:main
