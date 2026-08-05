@@ -10,18 +10,21 @@
       <span class="sr-only">メニューを開く</span>
     </button>
     <nav id="global-nav" class="global-nav" aria-label="主要ナビゲーション" data-global-nav>
-      <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>製品</button>
-      <a class="nav-item" href="/use-cases/">活用シーン</a>
-      <a class="nav-item" href="/support/">支援・投資</a>
-      <a class="nav-item" href="/docs/">ドキュメント</a>
-      <a class="nav-item" href="/company/">会社情報</a>
-      <a class="nav-item" href="https://app.asterav8.jp/pricing">プラン・料金</a>
-      <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIRE</a>
+      <div class="mobile-nav-heading" aria-hidden="true"><span>MENU</span><strong>Astera Navigation</strong></div>
+      <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>
+        <span class="nav-label">製品</span><small class="nav-meta">MAIN 8</small><span class="nav-chevron" aria-hidden="true">＋</span>
+      </button>
+      <div id="product-menu" class="product-menu" hidden data-product-menu>
+        {{MAIN8_LINKS}}
+      </div>
+      <a class="nav-item" href="/use-cases/"><span class="nav-label">活用シーン</span><small class="nav-meta">USE CASES</small></a>
+      <a class="nav-item" href="/support/"><span class="nav-label">支援・投資</span><small class="nav-meta">SUPPORT / INVEST</small></a>
+      <a class="nav-item" href="/docs/"><span class="nav-label">ドキュメント</span><small class="nav-meta">DOCUMENTS</small></a>
+      <a class="nav-item" href="/company/"><span class="nav-label">会社情報</span><small class="nav-meta">COMPANY</small></a>
+      <a class="nav-item" href="https://app.asterav8.jp/pricing"><span class="nav-label">プラン・料金</span><small class="nav-meta">PRICING</small></a>
+      <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener"><span class="nav-label">CAMPFIRE</span><small class="nav-meta">CROWDFUNDING</small></a>
       <a class="button is-primary desktop-launch" href="https://app.asterav8.jp/">LAUNCH APP</a>
-      <button type="button" class="language-button" data-language-open>Language</button>
+      <button type="button" class="language-button" data-language-open><span class="nav-label">Language</span><small class="nav-meta">日本語</small></button>
     </nav>
-    <div id="product-menu" class="product-menu" hidden data-product-menu>
-      {{MAIN8_LINKS}}
-    </div>
   </div>
 </header>
