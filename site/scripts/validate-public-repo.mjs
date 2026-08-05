@@ -43,7 +43,13 @@ for (const path of tracked) {
   }
   if (binaryExtensions.has(extname(path).toLowerCase())) continue;
 
-  const details = await stat(path);
+  let details;
+  try {
+    details = await stat(path);
+  } catch (error) {
+    if (error?.code === 'ENOENT') continue;
+    throw error;
+  }
   if (!details.isFile() || details.size > 2_000_000) continue;
 
   let source;
