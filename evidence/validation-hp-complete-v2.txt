@@ -1,0 +1,3 @@
+Astera HP complete validation v2
+Base main: 2a3eef15be670c006c1336e3ab40dc3bb3709312
+Validates latest user-provided TOP image bytes, clean image treatment, all 26 routes, desktop/mobile browser behavior, links, forms, pricing redirect and generated site output.
