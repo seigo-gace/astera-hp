@@ -4,6 +4,17 @@ import {createHash} from 'node:crypto';
 import {readFile, stat} from 'node:fs/promises';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
+const canonicalWebp = (encoded) => {
+  const transport = Buffer.from(encoded, 'base64');
+  assert.equal(transport.subarray(0, 4).toString('ascii'), 'RIFF');
+  assert.equal(transport.subarray(8, 12).toString('ascii'), 'WEBP');
+  const declaredBytes = transport.readUInt32LE(4) + 8;
+  assert.equal(declaredBytes, 1834);
+  const remainder = transport.subarray(declaredBytes);
+  assert.ok(remainder.length <= 1);
+  assert.ok(remainder.every((byte) => byte === 0));
+  return transport.subarray(0, declaredBytes);
+};
 
 test('layered globe keeps the supplied image as the base and contains effect layers only', async () => {
   const svg = await read('site/assets/visual/hero/astera-globe-exact-layered.svg');
@@ -18,7 +29,13 @@ test('layered globe keeps the supplied image as the base and contains effect lay
   ]) assert.match(svg, new RegExp(marker.replaceAll('.', '\\.')));
   assert.ok((svg.match(/class="data-line/g) || []).length >= 10);
   assert.ok((svg.match(/class="glow-node/g) || []).length >= 18);
-  assert.doesNotMatch(svg, /<text\b|<foreignObject\b|<script\b|data:image\//);
+  assert.doesNotMatch(svg, /<text\b|<foreignObject\b|<script\b|<style\b/);
+  assert.equal((svg.match(/id="lower-right-sparkle-removal"/g) || []).length, 1);
+  assert.match(svg, /id="lower-right-sparkle-removal"[\s\S]*x="825" y="1338" width="110" height="112"/);
+  const svgPatch = svg.match(/id="lower-right-sparkle-removal"[\s\S]*?href="data:image\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1];
+  assert.ok(svgPatch, 'Layered SVG restoration patch is missing');
+  const canonical = canonicalWebp(svgPatch);
+  assert.equal(createHash('sha256').update(canonical).digest('hex'), '6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a');
 });
 
 test('hero controller uses pinned local GSAP with viewport and accessibility guards', async () => {
@@ -68,15 +85,7 @@ test('baked-in lower-right sparkle is removed in fallback and moving SVG states'
 
   const encodedPatch = css.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
   assert.ok(encodedPatch, 'Sparkle-removal WebP patch is missing');
-  const encodedBytes = Buffer.from(encodedPatch, 'base64');
-  assert.equal(encodedBytes.subarray(0, 4).toString('ascii'), 'RIFF');
-  assert.equal(encodedBytes.subarray(8, 12).toString('ascii'), 'WEBP');
-  const declaredBytes = encodedBytes.readUInt32LE(4) + 8;
-  assert.equal(declaredBytes, 1834);
-  const trailingBytes = encodedBytes.subarray(declaredBytes);
-  assert.ok(trailingBytes.length <= 1);
-  assert.ok(trailingBytes.every((byte) => byte === 0));
-  const canonicalPatch = encodedBytes.subarray(0, declaredBytes);
+  const canonicalPatch = canonicalWebp(encodedPatch);
   assert.equal(canonicalPatch.length, 1834);
   assert.equal(createHash('sha256').update(canonicalPatch).digest('hex'), '6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a');
 });
