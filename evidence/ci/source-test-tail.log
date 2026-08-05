@@ -23,205 +23,205 @@ TAP version 13
 # Subtest: layered globe keeps the supplied image as the base and contains effect layers only
 ok 1 - layered globe keeps the supplied image as the base and contains effect layers only
   ---
-  duration_ms: 7.065477
+  duration_ms: 7.231286
   type: 'test'
   ...
 # Subtest: hero controller uses pinned local GSAP with viewport and accessibility guards
 ok 2 - hero controller uses pinned local GSAP with viewport and accessibility guards
   ---
-  duration_ms: 4.001669
+  duration_ms: 4.857152
   type: 'test'
   ...
 # Subtest: baked-in lower-right sparkle is removed in fallback and moving SVG states
 ok 3 - baked-in lower-right sparkle is removed in fallback and moving SVG states
   ---
-  duration_ms: 2.527672
+  duration_ms: 3.25747
   type: 'test'
   ...
 # Subtest: hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors
 ok 4 - hero CSS preserves a visible WebP fallback and contains no overlaid UI selectors
   ---
-  duration_ms: 1.265278
+  duration_ms: 2.332803
   type: 'test'
   ...
 # Subtest: build pins and self-hosts GSAP instead of weakening CSP
 ok 5 - build pins and self-hosts GSAP instead of weakening CSP
   ---
-  duration_ms: 3.503225
+  duration_ms: 6.567437
   type: 'test'
   ...
 # Subtest: built TOP keeps the fallback image and ships the layered effect asset
 ok 6 - built TOP keeps the fallback image and ships the layered effect asset
   ---
-  duration_ms: 3.022722
+  duration_ms: 4.263136
   type: 'test'
   ...
 # Subtest: Notion canonical shared shell is retained
 ok 7 - Notion canonical shared shell is retained
   ---
-  duration_ms: 10.144633
+  duration_ms: 7.240082
   type: 'test'
   ...
 # Subtest: TOP retains canonical section order and a clean latest user-provided hero image
 ok 8 - TOP retains canonical section order and a clean latest user-provided hero image
   ---
-  duration_ms: 2.188603
+  duration_ms: 1.71491
   type: 'test'
   ...
 # Subtest: base loads canonical, hero and completion layers without inline image UI
 ok 9 - base loads canonical, hero and completion layers without inline image UI
   ---
-  duration_ms: 2.670097
+  duration_ms: 1.520948
   type: 'test'
   ...
 # Subtest: built TOP exposes Main 8 and the required summary in order
 ok 10 - built TOP exposes Main 8 and the required summary in order
   ---
-  duration_ms: 3.555463
+  duration_ms: 2.225393
   type: 'test'
   ...
 # Subtest: pricing remains an external App link, never an HP pricing page
 ok 11 - pricing remains an external App link, never an HP pricing page
   ---
-  duration_ms: 2.109957
+  duration_ms: 1.870721
   type: 'test'
   ...
 # Subtest: latest user-provided TOP image and supporting visual assets are materialized while brand remains blocked
 ok 12 - latest user-provided TOP image and supporting visual assets are materialized while brand remains blocked
   ---
-  duration_ms: 10.243947
+  duration_ms: 7.650728
   type: 'test'
   ...
 # Subtest: every non-home route uses a complete Notion public source file
 ok 13 - every non-home route uses a complete Notion public source file
   ---
-  duration_ms: 24.801499
+  duration_ms: 23.916844
   type: 'test'
   ...
 # Subtest: use-cases keeps all canonical public anchors
 ok 14 - use-cases keeps all canonical public anchors
   ---
-  duration_ms: 1.867877
+  duration_ms: 1.445839
   type: 'test'
   ...
 # Subtest: legal and pricing sources point to the App pricing source of truth
 ok 15 - legal and pricing sources point to the App pricing source of truth
   ---
-  duration_ms: 3.115203
+  duration_ms: 3.762732
   type: 'test'
   ...
 # Subtest: 01 26 routes
 ok 16 - 01 26 routes
   ---
-  duration_ms: 1.021967
+  duration_ms: 1.582213
   type: 'test'
   ...
 # Subtest: 02 route uniqueness
 ok 17 - 02 route uniqueness
   ---
-  duration_ms: 0.145631
+  duration_ms: 0.231272
   type: 'test'
   ...
 # Subtest: 03 Main 8 count and order
 ok 18 - 03 Main 8 count and order
   ---
-  duration_ms: 0.693668
+  duration_ms: 1.057554
   type: 'test'
   ...
 # Subtest: 04 pricing page absent
 ok 19 - 04 pricing page absent
   ---
-  duration_ms: 0.147023
+  duration_ms: 0.21965
   type: 'test'
   ...
 # Subtest: 05 pricing external canonical
 ok 20 - 05 pricing external canonical
   ---
-  duration_ms: 0.121295
+  duration_ms: 0.193492
   type: 'test'
   ...
 # Subtest: 06 management source coverage
 ok 21 - 06 management source coverage
   ---
-  duration_ms: 0.120775
+  duration_ms: 0.193291
   type: 'test'
   ...
 # Subtest: 07 route source coverage
 ok 22 - 07 route source coverage
   ---
-  duration_ms: 0.115174
+  duration_ms: 0.157785
   type: 'test'
   ...
 # Subtest: 08 reference source coverage
 ok 23 - 08 reference source coverage
   ---
-  duration_ms: 0.101158
+  duration_ms: 0.157443
   type: 'test'
   ...
 # Subtest: 09 route contracts
 ok 24 - 09 route contracts
   ---
-  duration_ms: 0.298294
+  duration_ms: 0.4875
   type: 'test'
   ...
 # Subtest: 10 visual contracts
 ok 25 - 10 visual contracts
   ---
-  duration_ms: 0.372111
+  duration_ms: 0.567529
   type: 'test'
   ...
 # Subtest: 11 every route has visual
 ok 26 - 11 every route has visual
   ---
-  duration_ms: 0.292974
+  duration_ms: 0.415115
   type: 'test'
   ...
 # Subtest: 12 every route has spec and content source
 ok 27 - 12 every route has spec and content source
   ---
-  duration_ms: 0.118951
+  duration_ms: 0.207738
   type: 'test'
   ...
 # Subtest: 13 all pages have metadata
 ok 28 - 13 all pages have metadata
   ---
-  duration_ms: 0.098733
+  duration_ms: 0.186888
   type: 'test'
   ...
 # Subtest: 14 Main 8 detailed sections
 ok 29 - 14 Main 8 detailed sections
   ---
-  duration_ms: 0.104785
+  duration_ms: 0.124062
   type: 'test'
   ...
 # Subtest: 15 legal anchors present
 ok 30 - 15 legal anchors present
   ---
-  duration_ms: 0.130683
+  duration_ms: 0.139851
   type: 'test'
   ...
 # Subtest: 16 forms and API routes
 ok 31 - 16 forms and API routes
   ---
-  duration_ms: 0.10791
+  duration_ms: 0.135873
   type: 'test'
   ...
 # Subtest: 17 hero image is clean, premium and bounded
 ok 32 - 17 hero image is clean, premium and bounded
   ---
-  duration_ms: 12.137382
+  duration_ms: 14.838511
   type: 'test'
   ...
 # Subtest: 18 external routes
 ok 33 - 18 external routes
   ---
-  duration_ms: 0.169575
+  duration_ms: 0.182521
   type: 'test'
   ...
 # Subtest: 19 build output exists
 ok 34 - 19 build output exists
   ---
-  duration_ms: 1.678025
+  duration_ms: 2.531815
   type: 'test'
   ...
 1..34
@@ -232,4 +232,4 @@ ok 34 - 19 build output exists
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 158.025423
+# duration_ms 173.824531
