@@ -106,6 +106,7 @@ html{scroll-padding-top:var(--header-total-height)}
   pointer-events:none;
 }
 
+/* Header operation row under the upper row. */
 .header-action-row{
   height:var(--header-action-height);
   background:
@@ -217,6 +218,8 @@ html{scroll-padding-top:var(--header-total-height)}
 }
 
 .nav-toggle{
+  display:grid;
+  margin:0;
   position:relative;
   gap:4px;
   border-color:rgba(103,232,255,.38);
@@ -237,6 +240,7 @@ html{scroll-padding-top:var(--header-total-height)}
 .nav-toggle[aria-expanded="true"]>span:not(.sr-only):nth-child(2){opacity:0}
 .nav-toggle[aria-expanded="true"]>span:not(.sr-only):nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 
+/* GPT-style right drawer. */
 .nav-backdrop{
   position:fixed;
   inset:0;
@@ -251,6 +255,11 @@ html{scroll-padding-top:var(--header-total-height)}
 
 .global-nav{
   position:fixed;
+  left:auto;
+  margin:0;
+  max-height:none;
+  align-items:stretch;
+  gap:0;
   top:0;
   right:0;
   bottom:0;
@@ -349,8 +358,16 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto}
   border-radius:12px;
 }
 
-.side-menu-link span{font-size:.93rem;font-weight:650}
-.side-menu-link small{color:#87939a;font-size:.63rem;letter-spacing:.08em}
+.side-menu-link span{
+  font-size:.93rem;
+  font-weight:650;
+}
+
+.side-menu-link small{
+  color:#87939a;
+  font-size:.63rem;
+  letter-spacing:.08em;
+}
 
 .side-menu-link:hover,
 .side-menu-link:focus-visible,
@@ -364,7 +381,9 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto}
   outline:none;
 }
 
-.side-menu-accordion{border-top:1px solid rgba(255,255,255,.08)}
+.side-menu-accordion{
+  border-top:1px solid rgba(255,255,255,.08);
+}
 
 .side-menu-accordion__trigger{
   min-height:58px;
@@ -405,6 +424,8 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto}
 }
 
 .hero{min-height:calc(100svh - var(--header-total-height))}
+
+/* The AI panel now opens only from the Header AI icon. */
 .ai-launcher{display:none!important}
 
 @media(max-width:599px){
