@@ -1,6 +1,6 @@
 {
   "status": "top-rebuild-source-and-brand-verified",
-  "updatedAt": "2026-08-06T20:55:00+09:00",
+  "updatedAt": "2026-08-06T21:10:00+09:00",
   "topVisual": {
     "id": "astera-original-transparent",
     "file": "/assets/visual/hero/astera-original-transparent.svg",
@@ -15,8 +15,9 @@
   },
   "brandSource": {
     "repository": "seigo-gace/astera-hp",
-    "commit": "aa8a40d84dee94c81bf614cbd19adf307593f87e",
-    "selection": "unique basename from fixed commit tree",
+    "mode": "verified-git-history-or-archive-object",
+    "archiveSha256": "8f075dbdf8941cdd7fd226c546574591c3b4d02ae1974477fe3983196f785810",
+    "selection": "known filename plus exact SHA-256 over all reachable Git objects; fallback to exact 11-part archive",
     "validation": "SHA-256 plus SVG/viewBox and no embedded raster"
   },
   "brand": [
