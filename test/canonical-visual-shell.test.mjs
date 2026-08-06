@@ -25,7 +25,7 @@ test('TOP globe sits on pure black without a card while all SVG effects remain v
   assert.doesNotMatch(css, /\.astera-hero-depth[^{]*\{[^}]*border-radius:(?!0)/s);
 });
 
-test('Header upper row keeps an extensible language dropdown on the left and verified Astera assets on the right', async () => {
+test('Header upper row keeps the official Astera logo on the left and an extensible language dropdown on the right', async () => {
   const header = await read('site/templates/partials/header.html');
   const css = await read('site/assets/navigation-canonical.css');
   const app = await read('site/assets/app.js');
@@ -35,18 +35,18 @@ test('Header upper row keeps an extensible language dropdown on the left and ver
 
   const upperStart = header.indexOf('<div class="header-upper">');
   const upperEnd = header.indexOf('</div>\n  </div>\n  <div class="header-action-row">', upperStart);
-  const language = header.indexOf('class="language-select"', upperStart);
   const brand = header.indexOf('class="brand brand-official"', upperStart);
+  const language = header.indexOf('class="language-select-field"', upperStart);
   assert.ok(upperStart >= 0 && upperEnd > upperStart, 'Canonical header upper row is missing');
-  assert.ok(language > upperStart && language < brand, 'Language dropdown must be left of the official logo');
-  assert.ok(brand < upperEnd, 'Official logo must remain inside the header upper row');
+  assert.ok(brand > upperStart && brand < language, 'Official logo must be left of the language dropdown');
+  assert.ok(language < upperEnd, 'Language dropdown must remain inside the header upper row');
 
   assert.match(header, /<select[^>]+data-language-select/);
   assert.match(header, /<option value="ja" selected>日本語<\/option>/);
   assert.match(header, /<option value="en" disabled>English（準備中）<\/option>/);
   assert.doesNotMatch(header, /data-language-open|language-switch__divider|language-switch__option/);
   assert.ok(header.includes('/assets/brand/astera-logo-dark.svg'));
-  assert.ok(header.includes('/assets/brand/astera-symbol-dark.svg'));
+  assert.doesNotMatch(header, /astera-symbol-dark\.svg/);
 
   const navStart = header.indexOf('<nav id="global-nav"');
   const navEnd = header.indexOf('</nav>', navStart);
@@ -82,18 +82,9 @@ test('Header upper row keeps an extensible language dropdown on the left and ver
     sha256: 'cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52',
     usage: 'dark header desktop and tablet'
   });
-  assert.deepEqual(verified.get('/assets/brand/astera-symbol-dark.svg'), {
-    file: '/assets/brand/astera-symbol-dark.svg',
-    required: true,
-    status: 'verified-notion-hash',
-    bytes: 26011,
-    sha256: 'd576d9cc6c4cb09914e807dc2dab62e5b0a2aca049e774599ca43efd24a947bd',
-    usage: 'dark header mobile'
-  });
 
   for (const marker of [
     "file: 'astera-logo-dark.svg'",
-    "file: 'astera-symbol-dark.svg'",
     'ASTERA_BRAND_HASH_MISMATCH',
     "join(site, 'assets', 'brand', asset.file)"
   ]) assert.ok(materializer.includes(marker), `Missing deterministic brand materialization marker: ${marker}`);
