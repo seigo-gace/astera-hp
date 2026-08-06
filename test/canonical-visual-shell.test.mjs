@@ -25,35 +25,53 @@ test('TOP globe sits on pure black without a card while all SVG effects remain v
   assert.doesNotMatch(css, /\.astera-hero-depth[^{]*\{[^}]*border-radius:(?!0)/s);
 });
 
-test('Header upper row keeps Language on the left and verified Astera assets on the right', async () => {
+test('Header upper row keeps an extensible language dropdown on the left and verified Astera assets on the right', async () => {
   const header = await read('site/templates/partials/header.html');
   const css = await read('site/assets/navigation-canonical.css');
+  const app = await read('site/assets/app.js');
+  const base = await read('site/templates/base.html');
   const materializer = await read('site/scripts/materialize-binary-assets.mjs');
   const manifest = JSON.parse(await read('site/data/asset-manifest.json'));
 
   const upperStart = header.indexOf('<div class="header-upper">');
   const upperEnd = header.indexOf('</div>\n  </div>\n  <div class="header-action-row">', upperStart);
-  const language = header.indexOf('class="language-switch"', upperStart);
+  const language = header.indexOf('class="language-select"', upperStart);
   const brand = header.indexOf('class="brand brand-official"', upperStart);
   assert.ok(upperStart >= 0 && upperEnd > upperStart, 'Canonical header upper row is missing');
-  assert.ok(language > upperStart && language < brand, 'Language must be left of the official logo');
+  assert.ok(language > upperStart && language < brand, 'Language dropdown must be left of the official logo');
   assert.ok(brand < upperEnd, 'Official logo must remain inside the header upper row');
+
+  assert.match(header, /<select[^>]+data-language-select/);
+  assert.match(header, /<option value="ja" selected>日本語<\/option>/);
+  assert.match(header, /<option value="en" disabled>English（準備中）<\/option>/);
+  assert.doesNotMatch(header, /data-language-open|language-switch__divider|language-switch__option/);
   assert.ok(header.includes('/assets/brand/astera-logo-dark.svg'));
   assert.ok(header.includes('/assets/brand/astera-symbol-dark.svg'));
 
   const navStart = header.indexOf('<nav id="global-nav"');
   const navEnd = header.indexOf('</nav>', navStart);
   const navSource = header.slice(navStart, navEnd);
-  assert.doesNotMatch(navSource, /data-language-open|language-button/, 'Language must not be duplicated in the side menu');
+  assert.doesNotMatch(navSource, /data-language-select|data-language-open|language-button/, 'Language must not be duplicated in the side menu');
 
   for (const marker of [
     '--header-upper-height:46px',
     '--header-action-height:70px',
     '.header-upper-shell',
-    '.language-switch__option.is-current',
+    '.language-select-field',
+    '.language-select option:disabled',
+    '.language-select-arrow',
+    'appearance:none',
     'inset:var(--header-total-height) 0 0',
     '@media(max-width:599px)'
   ]) assert.ok(css.includes(marker), `Missing canonical upper-header CSS marker: ${marker}`);
+
+  for (const marker of [
+    "q('[data-language-select]')",
+    "localStorage.getItem('astera-language')",
+    "localStorage.setItem('astera-language', next)",
+    "document.documentElement.lang = next"
+  ]) assert.ok(app.includes(marker), `Missing language dropdown behavior marker: ${marker}`);
+  assert.doesNotMatch(base, /data-language-dialog|language-dialog|data-language-close/);
 
   const verified = new Map(manifest.brand.map((asset) => [asset.file, asset]));
   assert.deepEqual(verified.get('/assets/brand/astera-logo-dark.svg'), {
