@@ -1,55 +1,58 @@
 {
-  "status": "layered-hero-integrated-brand-byte-production-blocked",
-  "updatedAt": "2026-08-05T18:24:00+09:00",
-  "visualDirection": {
-    "reference": "latest user-provided Astera globe image and astera-globe-exact-layered.svg structure",
-    "method": "latest user-provided image content remains the base; lightweight SVG effect layers add data streams, glow nodes and particles; the unwanted baked-in lower-right sparkle is removed with a deterministic feathered restoration patch; no image generation, redrawing, HUD, labels, canvas or UI overlay",
-    "sourceSha256": "e68cfdcba00e64a7afae7beac39afc5dac77402241a3b014247397607ec673cf",
-    "deliverySha256": "64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2",
-    "sparkleRemoval": {
-      "target": "baked-in lower-right four-point sparkle",
-      "sourceCoordinateSpace": [1024, 1536],
-      "bounds": {"x": 825, "y": 1338, "width": 110, "height": 112},
-      "file": "/assets/images/astera-globe-lower-right-restoration.webp",
-      "format": "webp-with-alpha",
-      "bytes": 1834,
-      "sha256": "6ae36d248ac206ec4e7785991ef9df8c60feab1bd466371aa3500ec92188357a",
-      "delivery": "CSS fallback before boot; Layered SVG patch reference rewritten to the canonical WebP asset before mount",
-      "svgElementId": "lower-right-sparkle-removal"
-    },
-    "animationRuntime": {
-      "engine": "GSAP",
-      "version": "3.12.2",
-      "delivery": "self-hosted-from-pinned-npm-package",
-      "performance": "transform/opacity-first, viewport pause, page-visibility pause, reduced-motion static fallback"
-    },
-    "palette": ["#020b12", "#071c29", "#0c3346", "#0f718f", "#26b5d1", "#7be5ec", "#f2a34a"]
+  "status": "top-rebuild-source-and-brand-verified",
+  "updatedAt": "2026-08-06T20:55:00+09:00",
+  "topVisual": {
+    "id": "astera-original-transparent",
+    "file": "/assets/visual/hero/astera-original-transparent.svg",
+    "width": 1536,
+    "height": 1433,
+    "bytes": 3097567,
+    "sha256": "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2",
+    "source": "user-uploaded SVG preserved byte-identically",
+    "delivery": "public transfer source plus size/hash/dimension hard gate",
+    "activeOnTop": true,
+    "uiOverlayAllowed": false
+  },
+  "brandSource": {
+    "repository": "seigo-gace/astera-hp",
+    "commit": "aa8a40d84dee94c81bf614cbd19adf307593f87e",
+    "selection": "unique basename from fixed commit tree",
+    "validation": "SHA-256 plus SVG/viewBox and no embedded raster"
   },
   "brand": [
-    {"file":"/assets/brand/astera-logo-light.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/astera-logo-dark.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/astera-symbol-light.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/astera-symbol-dark.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/astera-wordmark-light.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/astera-wordmark-dark.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/favicon.svg","required":true,"status":"pending-generation-after-approval"},
-    {"file":"/assets/brand/favicon.png","required":true,"status":"pending-generation-after-approval"},
-    {"file":"/assets/brand/favicon.ico","required":true,"status":"pending-generation-after-approval"},
-    {"file":"/assets/brand/apple-touch-icon.png","required":true,"status":"pending-generation-after-approval"}
+    {"file":"/assets/brand/astera-symbol-light.svg","required":true,"status":"hash-verified","sha256":"3e5c62a81f450df3336e67110fe840ff6a1acca7af78e9862ce35c51cceb3c20"},
+    {"file":"/assets/brand/astera-symbol-dark.svg","required":true,"status":"hash-verified","sha256":"d576d9cc6c4cb09914e807dc2dab62e5b0a2aca049e774599ca43efd24a947bd"},
+    {"file":"/assets/brand/astera-wordmark-light.svg","required":true,"status":"hash-verified","sha256":"700a3ab3610ac40f194d028a4ab51faf2cdd14f2284b69d266d18700d7fe6de4"},
+    {"file":"/assets/brand/astera-wordmark-dark.svg","required":true,"status":"hash-verified","sha256":"b4f2c7eee4a50efc6d67668dba85567eb04545c3562053d6d029899258d6b6a4"},
+    {"file":"/assets/brand/astera-logo-light.svg","required":true,"status":"hash-verified","sha256":"b9bc0b8afcdfb1ca72182960bc049d4518f1790e22e95a66187e1f860badc004"},
+    {"file":"/assets/brand/astera-logo-dark.svg","required":true,"status":"hash-verified","sha256":"cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52"},
+    {"file":"/assets/brand/favicon.svg","required":true,"status":"exact-alias-of-astera-symbol-dark","sha256":"d576d9cc6c4cb09914e807dc2dab62e5b0a2aca049e774599ca43efd24a947bd"},
+    {"file":"/assets/brand/favicon.png","required":false,"status":"not-used-by-current-shell"},
+    {"file":"/assets/brand/favicon.ico","required":false,"status":"not-used-by-current-shell"},
+    {"file":"/assets/brand/apple-touch-icon.png","required":false,"status":"not-used-by-current-shell"}
   ],
-  "visual": [
-    {"id":"astera-globe-top","file":"/assets/images/astera-globe-top.webp","width":1024,"height":1536,"required":true,"status":"user-provided-web-optimized","source":"latest current-conversation upload; visual content preserved except the explicitly rejected sparkle is removed at render time","bytes":178672,"sha256":"64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2","psnrDb":43.7},
-    {"id":"astera-globe-exact-layered","file":"/assets/visual/hero/astera-globe-exact-layered.svg","width":1024,"height":1536,"required":true,"status":"user-provided-layered-svg","source":"provided layered SVG contract; production shell references the verified WebP base, validates the deterministic restoration patch and fills the four effect groups","validation":"semantic-layer-no-ui-and-sparkle-removal-contract"},
-    {"id":"process-purpose","file":"/assets/visual/process/process-purpose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"process-materialize","file":"/assets/visual/process/process-materialize.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"process-recompose","file":"/assets/visual/process/process-recompose.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"comparison-portal","file":"/assets/visual/comparison/comparison-portal.svg","width":360,"height":280,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"capsule-radar","file":"/assets/visual/capsule/capsule-radar.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"audience-personal","file":"/assets/visual/audience/audience-personal.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"audience-developer","file":"/assets/visual/audience/audience-developer.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"audience-corporate","file":"/assets/visual/audience/audience-corporate.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"cta-support","file":"/assets/visual/cta/cta-support.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"cta-investors","file":"/assets/visual/cta/cta-investors.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"},
-    {"id":"cta-corporate","file":"/assets/visual/cta/cta-corporate.svg","width":320,"height":320,"required":true,"status":"implemented-original-svg","source":"current visual direction; independently reconstructed"}
-  ]
+  "supportingVisuals": [
+    "/assets/visual/process/process-purpose.svg",
+    "/assets/visual/comparison/comparison-portal.svg",
+    "/assets/visual/capsule/capsule-radar.svg",
+    "/assets/visual/process/process-materialize.svg",
+    "/assets/visual/hero/hero-core.svg",
+    "/assets/visual/audience/audience-personal.svg",
+    "/assets/visual/process/process-recompose.svg",
+    "/assets/visual/audience/audience-developer.svg"
+  ],
+  "runtime": {
+    "language": "site/assets/top-rebuild.js",
+    "customerAI": "site/assets/customer-ai-transport.js",
+    "animationLibraryRetained": {"engine":"GSAP","version":"3.12.2","activeOnTop":false}
+  },
+  "legacyAssets": {
+    "retainedForHistoryOrOtherRoutes": true,
+    "activeOnTop": false,
+    "includes": [
+      "/assets/images/astera-globe-top.webp",
+      "/assets/visual/hero/astera-globe-exact-layered.svg",
+      "/assets/images/astera-globe-lower-right-restoration.webp"
+    ]
+  }
 }
