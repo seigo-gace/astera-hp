@@ -11,24 +11,34 @@ const main8 = [
 test('Notion canonical shared shell is retained', async () => {
   const header = await read('site/templates/partials/header.html');
   const footer = await read('site/templates/partials/footer.html');
+
   for (const expected of [
     'header-upper', 'data-language-select', '>JP<', '>EN<',
     '/assets/brand/astera-logo-dark.svg',
-    '製品', '活用シーン', '支援・投資', 'ドキュメント', '会社情報',
-    'https://app.asterav8.jp/pricing', 'CAMPFIRE', 'LAUNCH APP'
-  ]) assert.match(header, new RegExp(expected.replaceAll('.', '\\.')));
+    'header-action-row', 'data-app-route="/app/"', '/assets/icons/ai-guide-robot.svg',
+    'data-ai-launcher', 'data-nav-toggle',
+    'data-nav-route="/news/"', 'data-nav-route="/qa/"', 'data-nav-route="/pricing/"',
+    '>開発者<', '>開発支援<', 'https://camp-fire.jp/projects/968933/view'
+  ]) assert.ok(header.includes(expected), `Missing canonical shell marker: ${expected}`);
+
   assert.doesNotMatch(header, /brand-text|data-official-logo-pending|data-language-open|astera-symbol-dark\.svg/);
   assert.match(header, /<a class="brand brand-official" href="\/" aria-label="Asteraトップページへ戻る">/);
 
   const upperStart = header.indexOf('<div class="header-upper"');
+  const actionStart = header.indexOf('<div class="header-action-row"', upperStart);
   const brand = header.indexOf('class="brand brand-official"', upperStart);
   const language = header.indexOf('class="language-select-field"', upperStart);
-  assert.ok(brand > upperStart && brand < language, 'Header upper order must be official logo then language dropdown');
+  assert.ok(brand > upperStart && brand < language && language < actionStart, 'Header upper order must be logo then language');
+
+  const appEntry = header.indexOf('data-app-entry', actionStart);
+  const aiEntry = header.indexOf('data-ai-launcher', actionStart);
+  const menuEntry = header.indexOf('data-nav-toggle', actionStart);
+  assert.ok(appEntry < aiEntry && aiEntry < menuEntry, 'Header action order must be App, AI, Menu');
 
   const navStart = header.indexOf('<nav id="global-nav"');
   const navEnd = header.indexOf('</nav>', navStart);
-  assert.ok(navStart >= 0 && navEnd > navStart, 'global navigation must exist');
-  assert.doesNotMatch(header.slice(navStart, navEnd), /data-language-select|data-language-open|language-button/, 'Language must not be duplicated in navigation');
+  assert.ok(navStart >= 0 && navEnd > navStart, 'Side menu must exist');
+  assert.doesNotMatch(header.slice(navStart, navEnd), /data-language-select|data-ai-launcher|data-app-entry|MAIN 8|\/docs\/|use-cases/, 'Header controls and forbidden categories must not be duplicated in Side Menu');
 
   for (const expected of ['問いを星図に変える。','利用規約','Privacy','特商法']) assert.match(footer, new RegExp(expected));
 });
@@ -51,15 +61,18 @@ test('TOP retains canonical section order and a clean latest user-provided hero 
   assert.doesNotMatch(source, /STABLE|LOAD 62%|128K TOKENS|旧衛星|astera-hero-canvas|astera-hero-hud|astera-hero-orbit|astera-data-node|<canvas/);
 });
 
-test('base loads canonical, hero and completion layers without inline image UI or obsolete language dialog', async () => {
+test('base loads canonical, hero and completion layers without a duplicate floating AI launcher', async () => {
   const source = await read('site/templates/base.html');
   assert.match(source, /assets\/style\.css/);
+  assert.match(source, /assets\/navigation-canonical\.css/);
   assert.match(source, /assets\/astera-aurora\.css/);
   assert.match(source, /assets\/astera-hero-image\.css/);
   assert.match(source, /assets\/notion-complete\.css/);
   assert.match(source, /assets\/app\.js/);
+  assert.match(source, /assets\/navigation-canonical\.js/);
   assert.match(source, /assets\/motion\.js/);
-  assert.doesNotMatch(source, /<canvas|astera-hero-hud|data-language-dialog|language-dialog/);
+  assert.match(source, /id="customer-ai"/);
+  assert.doesNotMatch(source, /<canvas|astera-hero-hud|data-language-dialog|language-dialog|<button class="ai-launcher"/);
 });
 
 test('built TOP exposes Main 8 and the required summary in order', async () => {
