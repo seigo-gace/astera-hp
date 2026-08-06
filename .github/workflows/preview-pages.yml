@@ -71,36 +71,31 @@ jobs:
           root="${LIVE_URL%/}"
           mkdir -p /tmp/astera-pages
 
-          curl --fail --location --silent --show-error \
-            --retry 12 --retry-delay 5 --retry-all-errors \
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors \
             "${root}/" -o /tmp/astera-pages/index.html
           grep -q '<title>.*Astera' /tmp/astera-pages/index.html
-          grep -q '/astera-hp/assets/astera-hero-image.css' /tmp/astera-pages/index.html
-          grep -q '/astera-hp/assets/astera-hero-restoration.css' /tmp/astera-pages/index.html
+          grep -q '/astera-hp/assets/top-rebuild.css' /tmp/astera-pages/index.html
+          grep -q '/astera-hp/assets/visual/hero/astera-original-transparent.svg' /tmp/astera-pages/index.html
+          grep -q '/astera-hp/assets/brand/astera-logo-dark.svg' /tmp/astera-pages/index.html
+          grep -q '/astera-hp/evidence/' /tmp/astera-pages/index.html
+          test "$(grep -o 'class="top-topic"' /tmp/astera-pages/index.html | wc -l)" -eq 9
+          ! grep -q 'astera-globe-top.webp' /tmp/astera-pages/index.html
+          ! grep -q '<footer class="site-footer">' /tmp/astera-pages/index.html
 
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/astera-hero-image.css" -o /tmp/astera-pages/hero.css
-          ! grep -q 'data:image/webp;base64,' /tmp/astera-pages/hero.css
-          grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/hero.css
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/assets/visual/hero/astera-original-transparent.svg" -o /tmp/astera-pages/top.svg
+          test "$(stat -c%s /tmp/astera-pages/top.svg)" -eq 3097567
+          test "$(sha256sum /tmp/astera-pages/top.svg | cut -d' ' -f1)" = "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
 
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/astera-hero-restoration.css" -o /tmp/astera-pages/restoration.css
-          grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/restoration.css
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/assets/brand/astera-logo-dark.svg" -o /tmp/astera-pages/logo.svg
+          test "$(sha256sum /tmp/astera-pages/logo.svg | cut -d' ' -f1)" = "cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52"
 
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/visual/hero/astera-globe-exact-layered.svg" -o /tmp/astera-pages/hero.svg
-          grep -q '/astera-hp/assets/images/astera-globe-top.webp' /tmp/astera-pages/hero.svg
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/evidence/" -o /tmp/astera-pages/evidence.html
+          grep -q '回答例・Astera実行結果・5社横断評価' /tmp/astera-pages/evidence.html
 
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/images/astera-globe-lower-right-restoration.webp" -o /tmp/astera-pages/restoration.webp
-          test "$(stat -c%s /tmp/astera-pages/restoration.webp)" -eq 1834
-
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors \
             "${root}/preview/BUILD.txt" -o /tmp/astera-pages/BUILD.txt
           grep -q 'basePath=/astera-hp' /tmp/astera-pages/BUILD.txt
 
@@ -120,12 +115,12 @@ jobs:
           - GitHub Actions run: ${GITHUB_RUN_ID}
           - Published source commit: ${GITHUB_SHA}
           - Verification time: $(date -u +%Y-%m-%dT%H:%M:%SZ)
-          - TOP HTML: HTTP PASS
+          - TOP HTML and two-tier header: PASS
+          - Main 9 count: PASS
+          - Uploaded TOP SVG: PASS (3,097,567 bytes / SHA-256 exact)
+          - Official Astera dark logo: PASS (SHA-256 exact)
+          - Evidence route: PASS
           - Project base path `/astera-hp`: PASS
-          - Hero delivery CSS contains no embedded WebP Data URI: PASS
-          - Layered SVG base image path: PASS
-          - Lower-right restoration WebP: PASS (1834 bytes)
-          - Preview build marker: PASS
 
           This URL is the public GitHub Pages test environment. It is not the Cloudflare production deployment.
           EOF
