@@ -11,8 +11,19 @@ const main8 = [
 test('Notion canonical shared shell is retained', async () => {
   const header = await read('site/templates/partials/header.html');
   const footer = await read('site/templates/partials/footer.html');
-  for (const expected of ['data-official-logo-pending','製品','活用シーン','支援・投資','ドキュメント','会社情報','https://app.asterav8.jp/pricing','CAMPFIRE','LAUNCH APP','Language']) assert.match(header, new RegExp(expected.replaceAll('.', '\\.')));
-  assert.doesNotMatch(header, /brand-text/);
+  for (const expected of [
+    'header-upper', 'data-language-open', '日本語', 'English',
+    '/assets/brand/astera-logo-dark.svg', '/assets/brand/astera-symbol-dark.svg',
+    '製品', '活用シーン', '支援・投資', 'ドキュメント', '会社情報',
+    'https://app.asterav8.jp/pricing', 'CAMPFIRE', 'LAUNCH APP'
+  ]) assert.match(header, new RegExp(expected.replaceAll('.', '\\.')));
+  assert.doesNotMatch(header, /brand-text|data-official-logo-pending/);
+
+  const navStart = header.indexOf('<nav id="global-nav"');
+  const navEnd = header.indexOf('</nav>', navStart);
+  assert.ok(navStart >= 0 && navEnd > navStart, 'global navigation must exist');
+  assert.doesNotMatch(header.slice(navStart, navEnd), /data-language-open|language-button/, 'Language must not be duplicated in navigation');
+
   for (const expected of ['問いを星図に変える。','利用規約','Privacy','特商法']) assert.match(footer, new RegExp(expected));
 });
 
@@ -69,7 +80,7 @@ test('pricing remains an external App link, never an HP pricing page', async () 
   assert.doesNotMatch(home, /料金表|Credit表|Plan比較/);
 });
 
-test('latest user-provided TOP image and supporting visual assets are materialized while brand remains blocked', async () => {
+test('latest user-provided TOP image and supporting visual assets are materialized while remaining brand assets stay blocked', async () => {
   const manifest = JSON.parse(await read('site/data/asset-manifest.json'));
   const hero = manifest.visual.find((asset) => asset.id === 'astera-globe-top');
   assert.equal(hero.file, '/assets/images/astera-globe-top.webp');
@@ -77,6 +88,13 @@ test('latest user-provided TOP image and supporting visual assets are materializ
   assert.equal(hero.sha256, '64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2');
   assert.ok(hero.psnrDb >= 43.5);
   assert.match(manifest.status, /brand-byte-production-blocked/);
+
+  const darkLogo = manifest.brand.find((asset) => asset.file === '/assets/brand/astera-logo-dark.svg');
+  const darkSymbol = manifest.brand.find((asset) => asset.file === '/assets/brand/astera-symbol-dark.svg');
+  assert.equal(darkLogo?.status, 'verified-notion-hash');
+  assert.equal(darkSymbol?.status, 'verified-notion-hash');
+  assert.ok(manifest.brand.some((asset) => asset.status === 'pending-byte-verification'));
+
   const heroInfo = await stat(new URL('../site/assets/images/astera-globe-top.webp', import.meta.url));
   assert.equal(heroInfo.size, 178672);
   for (const asset of manifest.visual.filter((item) => item.file.endsWith('.svg'))) {
