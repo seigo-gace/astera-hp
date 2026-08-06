@@ -14,29 +14,69 @@
       </div>
     </div>
   </div>
-  <div class="header-action-row">
-    <div class="header-shell">
-      <a class="mobile-launch button is-primary" href="https://app.asterav8.jp/">LAUNCH APP</a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="global-nav" data-nav-toggle>
-        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
-        <span class="sr-only">メニューを開く</span>
-      </button>
-      <nav id="global-nav" class="global-nav" aria-label="主要ナビゲーション" data-global-nav>
-        <div class="mobile-nav-heading" aria-hidden="true"><span>MENU</span><strong>Astera Navigation</strong></div>
-        <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>
-          <span class="nav-label">製品</span><small class="nav-meta">MAIN 8</small><span class="nav-chevron" aria-hidden="true">＋</span>
+
+  <div class="header-action-row" aria-label="主要操作">
+    <div class="header-action-shell">
+      <div class="header-action-controls">
+        <button class="header-app-entry" type="button" data-app-entry data-app-route="/app/" aria-label="Astera Appの機能・オプションページを開く">
+          <span class="header-app-entry__mark" aria-hidden="true">A</span>
+          <span class="header-app-entry__label">Asteraを使う</span>
         </button>
-        <div id="product-menu" class="product-menu" hidden data-product-menu>
-          {{MAIN8_LINKS}}
-        </div>
-        <a class="nav-item" href="/use-cases/"><span class="nav-label">活用シーン</span><small class="nav-meta">USE CASES</small></a>
-        <a class="nav-item" href="/support/"><span class="nav-label">支援・投資</span><small class="nav-meta">SUPPORT / INVEST</small></a>
-        <a class="nav-item" href="/docs/"><span class="nav-label">ドキュメント</span><small class="nav-meta">DOCUMENTS</small></a>
-        <a class="nav-item" href="/company/"><span class="nav-label">会社情報</span><small class="nav-meta">COMPANY</small></a>
-        <a class="nav-item" href="https://app.asterav8.jp/pricing"><span class="nav-label">プラン・料金</span><small class="nav-meta">PRICING</small></a>
-        <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener"><span class="nav-label">CAMPFIRE</span><small class="nav-meta">CROWDFUNDING</small></a>
-        <a class="button is-primary desktop-launch" href="https://app.asterav8.jp/">LAUNCH APP</a>
-      </nav>
+
+        <button class="header-icon-button header-ai-launcher" type="button" data-ai-launcher aria-expanded="false" aria-controls="customer-ai" aria-label="Astera案内AIを開く">
+          <img src="/assets/icons/ai-guide-robot.svg" alt="" width="36" height="32" decoding="async" aria-hidden="true">
+        </button>
+
+        <button class="header-icon-button nav-toggle" type="button" aria-expanded="false" aria-controls="global-nav" data-nav-toggle>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span class="sr-only">サイドメニューを開く</span>
+        </button>
+      </div>
     </div>
   </div>
+
+  <button class="nav-backdrop" type="button" tabindex="-1" aria-label="サイドメニューを閉じる" data-nav-close></button>
+
+  <nav id="global-nav" class="global-nav" aria-label="サイドメニュー" aria-hidden="true" inert data-global-nav>
+    <header class="side-menu-header">
+      <strong>Menu</strong>
+      <button class="side-menu-close" type="button" aria-label="サイドメニューを閉じる" data-nav-close>×</button>
+    </header>
+
+    <div class="side-menu-body">
+      <button class="side-menu-link" type="button" data-nav-route="/news/"><span>News</span><small>最新情報</small></button>
+      <button class="side-menu-link" type="button" data-nav-route="/qa/"><span>Q&amp;A</span><small>正式回答</small></button>
+      <button class="side-menu-link" type="button" data-nav-route="/pricing/"><span>料金プラン</span><small>料金・Credit</small></button>
+
+      <section class="side-menu-accordion">
+        <button class="side-menu-accordion__trigger" type="button" aria-expanded="false" aria-controls="side-menu-developer" data-nav-accordion>
+          <span>開発者</span><span aria-hidden="true">⌄</span>
+        </button>
+        <div id="side-menu-developer" class="side-menu-accordion__panel" hidden>
+          <button type="button" data-nav-route="/developer/">開発者プロフィール</button>
+          <button type="button" data-nav-route="/developer/achievements/">公開実績</button>
+          <button type="button" data-nav-route="/developer/prototypes/">試作実績</button>
+          <button type="button" data-nav-route="/developer/theories/">理論・研究</button>
+          <button type="button" data-nav-route="/corporate/">法人・協業相談</button>
+          <button type="button" data-nav-route="/contact/">お問い合わせ</button>
+          <button type="button" data-nav-route="/legal/terms/">利用規約</button>
+          <button type="button" data-nav-route="/legal/privacy/">Privacy Policy</button>
+          <button type="button" data-nav-route="/legal/commerce/">特定商取引法表記</button>
+        </div>
+      </section>
+
+      <section class="side-menu-accordion">
+        <button class="side-menu-accordion__trigger" type="button" aria-expanded="false" aria-controls="side-menu-support" data-nav-accordion>
+          <span>開発支援</span><span aria-hidden="true">⌄</span>
+        </button>
+        <div id="side-menu-support" class="side-menu-accordion__panel" hidden>
+          <button type="button" data-nav-route="/support/">個人支援／スポンサー</button>
+          <a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a>
+          <button type="button" data-nav-route="/investors/">投資家</button>
+        </div>
+      </section>
+    </div>
+  </nav>
 </header>
