@@ -25,6 +25,62 @@ test('TOP globe sits on pure black without a card while all SVG effects remain v
   assert.doesNotMatch(css, /\.astera-hero-depth[^{]*\{[^}]*border-radius:(?!0)/s);
 });
 
+test('Header upper row keeps Language on the left and verified Astera assets on the right', async () => {
+  const header = await read('site/templates/partials/header.html');
+  const css = await read('site/assets/navigation-canonical.css');
+  const materializer = await read('site/scripts/materialize-binary-assets.mjs');
+  const manifest = JSON.parse(await read('site/data/asset-manifest.json'));
+
+  const upperStart = header.indexOf('<div class="header-upper">');
+  const upperEnd = header.indexOf('</div>\n  </div>\n  <div class="header-action-row">', upperStart);
+  const language = header.indexOf('class="language-switch"', upperStart);
+  const brand = header.indexOf('class="brand brand-official"', upperStart);
+  assert.ok(upperStart >= 0 && upperEnd > upperStart, 'Canonical header upper row is missing');
+  assert.ok(language > upperStart && language < brand, 'Language must be left of the official logo');
+  assert.ok(brand < upperEnd, 'Official logo must remain inside the header upper row');
+  assert.ok(header.includes('/assets/brand/astera-logo-dark.svg'));
+  assert.ok(header.includes('/assets/brand/astera-symbol-dark.svg'));
+
+  const navStart = header.indexOf('<nav id="global-nav"');
+  const navEnd = header.indexOf('</nav>', navStart);
+  const navSource = header.slice(navStart, navEnd);
+  assert.doesNotMatch(navSource, /data-language-open|language-button/, 'Language must not be duplicated in the side menu');
+
+  for (const marker of [
+    '--header-upper-height:46px',
+    '--header-action-height:70px',
+    '.header-upper-shell',
+    '.language-switch__option.is-current',
+    'inset:var(--header-total-height) 0 0',
+    '@media(max-width:599px)'
+  ]) assert.ok(css.includes(marker), `Missing canonical upper-header CSS marker: ${marker}`);
+
+  const verified = new Map(manifest.brand.map((asset) => [asset.file, asset]));
+  assert.deepEqual(verified.get('/assets/brand/astera-logo-dark.svg'), {
+    file: '/assets/brand/astera-logo-dark.svg',
+    required: true,
+    status: 'verified-notion-hash',
+    bytes: 35733,
+    sha256: 'cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52',
+    usage: 'dark header desktop and tablet'
+  });
+  assert.deepEqual(verified.get('/assets/brand/astera-symbol-dark.svg'), {
+    file: '/assets/brand/astera-symbol-dark.svg',
+    required: true,
+    status: 'verified-notion-hash',
+    bytes: 26011,
+    sha256: 'd576d9cc6c4cb09914e807dc2dab62e5b0a2aca049e774599ca43efd24a947bd',
+    usage: 'dark header mobile'
+  });
+
+  for (const marker of [
+    "file: 'astera-logo-dark.svg'",
+    "file: 'astera-symbol-dark.svg'",
+    'ASTERA_BRAND_HASH_MISMATCH',
+    "join(site, 'assets', 'brand', asset.file)"
+  ]) assert.ok(materializer.includes(marker), `Missing deterministic brand materialization marker: ${marker}`);
+});
+
 test('mobile navigation contains Main 8 inside the same readable menu flow', async () => {
   const header = await read('site/templates/partials/header.html');
   const css = await read('site/assets/navigation-canonical.css');
