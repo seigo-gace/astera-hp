@@ -12,17 +12,17 @@ test('Notion canonical shared shell is retained', async () => {
   const header = await read('site/templates/partials/header.html');
   const footer = await read('site/templates/partials/footer.html');
   for (const expected of [
-    'header-upper', 'data-language-open', '日本語', 'English',
+    'header-upper', 'data-language-select', '日本語', 'English（準備中）',
     '/assets/brand/astera-logo-dark.svg', '/assets/brand/astera-symbol-dark.svg',
     '製品', '活用シーン', '支援・投資', 'ドキュメント', '会社情報',
     'https://app.asterav8.jp/pricing', 'CAMPFIRE', 'LAUNCH APP'
   ]) assert.match(header, new RegExp(expected.replaceAll('.', '\\.')));
-  assert.doesNotMatch(header, /brand-text|data-official-logo-pending/);
+  assert.doesNotMatch(header, /brand-text|data-official-logo-pending|data-language-open/);
 
   const navStart = header.indexOf('<nav id="global-nav"');
   const navEnd = header.indexOf('</nav>', navStart);
   assert.ok(navStart >= 0 && navEnd > navStart, 'global navigation must exist');
-  assert.doesNotMatch(header.slice(navStart, navEnd), /data-language-open|language-button/, 'Language must not be duplicated in navigation');
+  assert.doesNotMatch(header.slice(navStart, navEnd), /data-language-select|data-language-open|language-button/, 'Language must not be duplicated in navigation');
 
   for (const expected of ['問いを星図に変える。','利用規約','Privacy','特商法']) assert.match(footer, new RegExp(expected));
 });
@@ -45,7 +45,7 @@ test('TOP retains canonical section order and a clean latest user-provided hero 
   assert.doesNotMatch(source, /STABLE|LOAD 62%|128K TOKENS|旧衛星|astera-hero-canvas|astera-hero-hud|astera-hero-orbit|astera-data-node|<canvas/);
 });
 
-test('base loads canonical, hero and completion layers without inline image UI', async () => {
+test('base loads canonical, hero and completion layers without inline image UI or obsolete language dialog', async () => {
   const source = await read('site/templates/base.html');
   assert.match(source, /assets\/style\.css/);
   assert.match(source, /assets\/astera-aurora\.css/);
@@ -53,7 +53,7 @@ test('base loads canonical, hero and completion layers without inline image UI',
   assert.match(source, /assets\/notion-complete\.css/);
   assert.match(source, /assets\/app\.js/);
   assert.match(source, /assets\/motion\.js/);
-  assert.doesNotMatch(source, /<canvas|astera-hero-hud/);
+  assert.doesNotMatch(source, /<canvas|astera-hero-hud|data-language-dialog|language-dialog/);
 });
 
 test('built TOP exposes Main 8 and the required summary in order', async () => {
