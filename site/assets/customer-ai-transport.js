@@ -1,56 +1,9 @@
-function parseEventBlock(block) {
-  const event = {type: 'message', data: ''};
-  for (const line of block.split(/\r?\n/)) {
-    if (line.startsWith('event:')) event.type = line.slice(6).trim();
-    if (line.startsWith('data:')) event.data += `${line.slice(5).trim()}\n`;
-  }
-  event.data = event.data.trim();
-  try { event.json = event.data ? JSON.parse(event.data) : null; } catch { event.json = null; }
-  return event;
-}
-
-export async function submitChat(formData, status, options = {}) {
-  const timeoutController = new AbortController();
-  const timer = setTimeout(() => timeoutController.abort(new DOMException('Timeout', 'TimeoutError')), 30000);
-  const abort = () => timeoutController.abort(new DOMException('Aborted', 'AbortError'));
-  options.signal?.addEventListener('abort', abort, {once: true});
-  const payload = {
-    sessionId: crypto.randomUUID(),
-    answerType: formData.get('answerType'),
-    message: formData.get('message'),
-    history: [],
-    pageContext: {route: location.pathname, title: document.title}
-  };
-  let answer = '';
-  let sourceCount = 0;
-  try {
-    const response = await fetch('/api/ai/chat', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(payload), signal: timeoutController.signal});
-    if (response.status === 429) throw new Error('RATE_LIMITED');
-    if (!response.ok || !response.body) throw new Error('UNAVAILABLE');
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-    for (;;) {
-      const {done, value} = await reader.read();
-      buffer += decoder.decode(value || new Uint8Array(), {stream: !done});
-      const blocks = buffer.split(/\r?\n\r?\n/);
-      buffer = blocks.pop() || '';
-      for (const block of blocks) {
-        const event = parseEventBlock(block);
-        if (event.type === 'delta') { answer += event.json?.text ?? event.json?.delta ?? event.data; status.textContent = answer.slice(-12000); }
-        else if (event.type === 'source' && options.sources) { const source = event.json || {}; const link = document.createElement('a'); link.href = source.url || '#'; link.textContent = source.title || 'Source'; if (/^https?:/.test(link.href)) link.rel = 'external noopener'; options.sources.append(link); sourceCount += 1; }
-        else if (event.type === 'error') throw new Error(event.json?.code || 'STREAM_ERROR');
-        else if (event.type === 'done') status.textContent = answer || '回答を受信しました。';
-      }
-      if (done) break;
-    }
-    if (!answer && sourceCount === 0) status.textContent = '回答を受信できませんでした。Q&Aまたはお問い合わせをご利用ください。';
-  } catch (error) {
-    if (timeoutController.signal.reason?.name === 'TimeoutError') throw timeoutController.signal.reason;
-    if (options.signal?.aborted) throw new DOMException('Aborted', 'AbortError');
-    throw error;
-  } finally {
-    clearTimeout(timer);
-    options.signal?.removeEventListener('abort', abort);
-  }
-}
+const DEFAULT_EDGE_ROOT='https://api.asterav8.jp/v1/customer-ai';
+const wait=(ms,signal)=>new Promise((resolve,reject)=>{const timer=setTimeout(resolve,ms);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(signal.reason||new DOMException('Aborted','AbortError'))},{once:true})});
+function edgeRoot(){return document.querySelector('meta[name="customer-ai-api"]')?.content?.replace(/\/$/,'')||DEFAULT_EDGE_ROOT}
+function sessionId(){try{const current=sessionStorage.getItem('astera.customer-ai.session');if(current?.startsWith('session_'))return current;const created=`session_${crypto.randomUUID().replaceAll('-','')}`;sessionStorage.setItem('astera.customer-ai.session',created);return created}catch{return `session_${crypto.randomUUID().replaceAll('-','')}`}}
+function answerFrom(result){return String(result?.answer??result?.result?.answer??result?.payload?.answer??result?.data?.answer??result?.message??'').trim()}
+function citationsFrom(result){const value=result?.citations??result?.sources??result?.result?.citations??result?.payload?.citations??[];return Array.isArray(value)?value:[]}
+function renderSources(container,sources){if(!container)return;container.replaceChildren();for(const source of sources){const title=String(source?.title||source?.label||'Source');const url=String(source?.url||'');if(!/^https:\/\//.test(url))continue;const link=document.createElement('a');link.href=url;link.textContent=title;link.rel='external noopener';container.append(link)}}
+async function requestJson(url,init){const response=await fetch(url,init);const data=await response.json().catch(()=>({}));if(response.status===429){const error=new Error('RATE_LIMITED');error.retryAfter=Number(response.headers.get('retry-after')||60);throw error}if(!response.ok&&response.status!==202){const error=new Error(String(data.error||`HTTP_${response.status}`));error.status=response.status;throw error}return{response,data}}
+export async function submitChat(formData,status,options={}){const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(new DOMException('Timeout','TimeoutError')),45000);const forwardAbort=()=>controller.abort(options.signal?.reason||new DOMException('Aborted','AbortError'));options.signal?.addEventListener('abort',forwardAbort,{once:true});const root=edgeRoot();const headers={'content-type':'application/json','x-astera-source':'astera-hp','x-request-id':crypto.randomUUID()};const turnstile=String(formData.get('turnstileToken')||document.querySelector('input[name="turnstileToken"]')?.value||'').trim();if(turnstile)headers['x-turnstile-token']=turnstile;try{status.textContent='受付中…';const payload={message:String(formData.get('message')||'').trim(),session_id:sessionId(),locale:document.documentElement.lang==='en'?'en-US':'ja-JP',source:'astera-hp',answer_type:String(formData.get('answerType')||'general'),page_context:{route:location.pathname,title:document.title}};if(!payload.message)throw new Error('MESSAGE_REQUIRED');const accepted=await requestJson(`${root}/messages`,{method:'POST',headers,body:JSON.stringify(payload),signal:controller.signal});const jobId=String(accepted.data.job_id||'');if(!jobId.startsWith('job_'))throw new Error('JOB_ID_MISSING');status.textContent='回答を準備しています…';const started=Date.now();for(;;){await wait(900,controller.signal);const current=await requestJson(`${root}/jobs/${encodeURIComponent(jobId)}`,{method:'GET',headers:{'x-astera-source':'astera-hp','x-request-id':crypto.randomUUID()},signal:controller.signal});const state=String(current.data.status||'pending');if(current.response.status===202||['accepted','pending','processing','queued'].includes(state)){const seconds=Math.max(1,Math.round((Date.now()-started)/1000));status.textContent=`回答を準備しています… ${seconds}秒`;continue}const answer=answerFrom(current.data);if(state==='failed')throw new Error(String(current.data.error||'CUSTOMER_AI_FAILED'));if(!answer)throw new Error('ANSWER_MISSING');status.textContent=answer.slice(0,12000);renderSources(options.sources,citationsFrom(current.data));return current.data}}catch(error){if(controller.signal.reason?.name==='TimeoutError')throw controller.signal.reason;if(options.signal?.aborted)throw new DOMException('Aborted','AbortError');throw error}finally{clearTimeout(timeout);options.signal?.removeEventListener('abort',forwardAbort)}}

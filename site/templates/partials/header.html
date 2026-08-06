@@ -1,30 +1,40 @@
-<header class="site-header" data-header>
-  <div class="header-shell">
-    <a class="brand asset-missing" href="/" aria-label="Astera ホーム" data-official-logo-pending="/assets/brand/astera-logo-dark.svg">
-      <span class="brand-fallback is-visible">Astera</span>
-      <span class="sr-only">正式ロゴAssetはByte検証完了後に表示します</span>
-    </a>
-    <a class="mobile-launch button is-primary" href="https://app.asterav8.jp/">LAUNCH APP</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="global-nav" data-nav-toggle>
-      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
-      <span class="sr-only">メニューを開く</span>
-    </button>
-    <nav id="global-nav" class="global-nav" aria-label="主要ナビゲーション" data-global-nav>
-      <div class="mobile-nav-heading" aria-hidden="true"><span>MENU</span><strong>Astera Navigation</strong></div>
-      <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>
-        <span class="nav-label">製品</span><small class="nav-meta">MAIN 8</small><span class="nav-chevron" aria-hidden="true">＋</span>
-      </button>
-      <div id="product-menu" class="product-menu" hidden data-product-menu>
-        {{MAIN8_LINKS}}
-      </div>
-      <a class="nav-item" href="/use-cases/"><span class="nav-label">活用シーン</span><small class="nav-meta">USE CASES</small></a>
-      <a class="nav-item" href="/support/"><span class="nav-label">支援・投資</span><small class="nav-meta">SUPPORT / INVEST</small></a>
-      <a class="nav-item" href="/docs/"><span class="nav-label">ドキュメント</span><small class="nav-meta">DOCUMENTS</small></a>
-      <a class="nav-item" href="/company/"><span class="nav-label">会社情報</span><small class="nav-meta">COMPANY</small></a>
-      <a class="nav-item" href="https://app.asterav8.jp/pricing"><span class="nav-label">プラン・料金</span><small class="nav-meta">PRICING</small></a>
-      <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener"><span class="nav-label">CAMPFIRE</span><small class="nav-meta">CROWDFUNDING</small></a>
-      <a class="button is-primary desktop-launch" href="https://app.asterav8.jp/">LAUNCH APP</a>
-      <button type="button" class="language-button" data-language-open><span class="nav-label">Language</span><small class="nav-meta">日本語</small></button>
-    </nav>
+<header class="site-header astera-two-tier-header" data-header>
+  <div class="header-language-row">
+    <button class="top-language-switch" type="button" data-language-cycle aria-label="表示言語を切り替える"><span data-language-current>日本語</span><span aria-hidden="true">／</span><span>English</span></button>
+    <span class="astera-top-brand-slot" aria-hidden="true"></span>
   </div>
+  <div class="header-action-row">
+    <a class="header-primary-action" href="https://app.asterav8.jp/" data-ja="Asteraを使う" data-en="Use Astera">Asteraを使う</a>
+    <button class="header-action" type="button" data-ai-open data-ja="案内AI" data-en="Guide AI">案内AI</button>
+    <button class="header-action nav-toggle" type="button" aria-expanded="false" aria-controls="global-nav" data-nav-toggle><span data-ja="サイドメニュー" data-en="Menu">サイドメニュー</span></button>
+  </div>
+  <nav id="global-nav" class="global-nav astera-side-menu" aria-label="主要ナビゲーション" data-global-nav>
+    <div class="mobile-nav-heading"><span>MENU</span><strong>Astera Navigation</strong></div>
+    <a class="nav-item" href="https://app.asterav8.jp/"><span class="nav-label" data-ja="Asteraを使う" data-en="Use Astera">Asteraを使う</span><small class="nav-meta">APP</small></a>
+    <a class="nav-item" href="/news/"><span class="nav-label" data-ja="お知らせ" data-en="News">お知らせ</span><small class="nav-meta">NEWS</small></a>
+    <p class="nav-section-label" data-ja="Asteraを知る" data-en="Explore Astera">Asteraを知る</p>
+    <button type="button" class="nav-item product-trigger" aria-expanded="false" aria-controls="product-menu" data-product-toggle>
+      <span class="nav-label" data-ja="Main 9" data-en="Main 9">Main 9</span><small class="nav-meta">01–09</small><span class="nav-chevron" aria-hidden="true">＋</span>
+    </button>
+    <div id="product-menu" class="product-menu" hidden data-product-menu>{{MAIN8_LINKS}}<a href="/evidence/" data-ja="09 回答例・実行結果・5社横断評価" data-en="09 Examples, results and cross-AI review">09 回答例・実行結果・5社横断評価</a></div>
+    <a class="nav-item" href="/use-cases/"><span class="nav-label" data-ja="活用シーン" data-en="Use cases">活用シーン</span><small class="nav-meta">USE CASES</small></a>
+    <p class="nav-section-label" data-ja="独自開発・エコシステム" data-en="Development ecosystem">独自開発・エコシステム</p>
+    <a class="nav-item" href="/developers/"><span class="nav-label" data-ja="独自開発・技術・連携" data-en="Development, technology and integrations">独自開発・技術・連携</span><small class="nav-meta">ECOSYSTEM</small></a>
+    <a class="nav-item" href="/docs/"><span class="nav-label" data-ja="公開ドキュメント" data-en="Public documents">公開ドキュメント</span><small class="nav-meta">DOCUMENTS</small></a>
+    <p class="nav-section-label" data-ja="プラン・決済" data-en="Plans and billing">プラン・決済</p>
+    <a class="nav-item" href="https://app.asterav8.jp/pricing"><span class="nav-label" data-ja="プラン・料金" data-en="Plans and pricing">プラン・料金</span><small class="nav-meta">APP PRICING</small></a>
+    <p class="nav-section-label" data-ja="開発者情報・IR・リーガル" data-en="Developer, IR and legal">開発者情報・IR・リーガル</p>
+    <a class="nav-item" href="/developers/"><span class="nav-label" data-ja="開発者プロフィール・公開実績・理論" data-en="Developer profile, work and theory">開発者プロフィール・公開実績・理論</span><small class="nav-meta">PROFILE</small></a>
+    <a class="nav-item" href="/corporate/"><span class="nav-label" data-ja="法人・協業相談" data-en="Corporate partnerships">法人・協業相談</span><small class="nav-meta">CORPORATE</small></a>
+    <a class="nav-item" href="/investors/"><span class="nav-label" data-ja="投資家向け情報" data-en="Investor information">投資家向け情報</span><small class="nav-meta">INVESTORS</small></a>
+    <a class="nav-item" href="/legal/terms/"><span class="nav-label" data-ja="利用規約" data-en="Terms">利用規約</span><small class="nav-meta">TERMS</small></a>
+    <a class="nav-item" href="/legal/privacy/"><span class="nav-label" data-ja="Privacy Policy" data-en="Privacy Policy">Privacy Policy</span><small class="nav-meta">PRIVACY</small></a>
+    <a class="nav-item" href="/legal/commerce/"><span class="nav-label" data-ja="特定商取引法表記" data-en="Commercial disclosure">特定商取引法表記</span><small class="nav-meta">COMMERCE</small></a>
+    <p class="nav-section-label" data-ja="開発支援" data-en="Support development">開発支援</p>
+    <a class="nav-item" href="/support/development/"><span class="nav-label" data-ja="個人支援" data-en="Individual support">個人支援</span><small class="nav-meta">SUPPORT</small></a>
+    <a class="nav-item" href="/support/sponsor/"><span class="nav-label" data-ja="スポンサー" data-en="Sponsors">スポンサー</span><small class="nav-meta">SPONSOR</small></a>
+    <a class="nav-item is-external" href="https://camp-fire.jp/projects/968933/view" rel="external noopener"><span class="nav-label">CAMPFIRE</span><small class="nav-meta">CROWDFUNDING</small></a>
+    <a class="nav-item" href="/investors/"><span class="nav-label" data-ja="投資・事業提携" data-en="Investment and partnerships">投資・事業提携</span><small class="nav-meta">INVEST</small></a>
+    <a class="nav-item" href="/contact/"><span class="nav-label" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</span><small class="nav-meta">CONTACT</small></a>
+  </nav>
 </header>

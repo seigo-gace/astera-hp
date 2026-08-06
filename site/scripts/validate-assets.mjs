@@ -1,91 +1,54 @@
-import { createHash } from 'node:crypto';
-import { readFile, stat } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import {createHash} from 'node:crypto';
+import {readFile,stat} from 'node:fs/promises';
+import {join,dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
 
-const here = dirname(fileURLToPath(import.meta.url));
-const site = join(here, '..');
-const manifest = JSON.parse(await readFile(join(site, 'data/asset-manifest.json'), 'utf8'));
+const here=dirname(fileURLToPath(import.meta.url));
+const site=join(here,'..');
+const manifest=JSON.parse(await readFile(join(site,'data/asset-manifest.json'),'utf8'));
+const sha256=value=>createHash('sha256').update(value).digest('hex');
 
-if (manifest.brand.length !== 10 || manifest.visual.length !== 13) throw new Error('ASSET_CONTRACT_COUNT');
-if (!manifest.status.includes('brand-byte-production-blocked')) throw new Error('BRAND_BLOCKER_MUST_REMAIN_EXPLICIT');
-if (manifest.brand.some((asset) => !asset.status)) throw new Error('BRAND_STATUS_MISSING');
-if (manifest.visualDirection.animationRuntime?.engine !== 'GSAP' || manifest.visualDirection.animationRuntime?.version !== '3.12.2') throw new Error('HERO_ANIMATION_RUNTIME_INVALID');
+if(manifest.status!=='top-rebuild-svg-verified-logo-pending')throw new Error('ASSET_MANIFEST_STATUS_INVALID');
+if(!manifest.topVisual?.activeOnTop||manifest.topVisual.uiOverlayAllowed!==false)throw new Error('TOP_VISUAL_ROLE_INVALID');
+if(manifest.brandStatus?.officialLogo!=='pending-design-and-approval')throw new Error('OFFICIAL_LOGO_STATUS_INVALID');
+if(manifest.brandStatus?.repositoryAssetRequired!==false||manifest.brandStatus?.temporaryHeaderLabelIsLogo!==false)throw new Error('PENDING_LOGO_POLICY_INVALID');
+if(!Array.isArray(manifest.brand)||manifest.brand.length!==10||manifest.brand.some(asset=>asset.required!==false||asset.status!=='pending-official-design'||asset.sha256))throw new Error('PENDING_BRAND_SLOTS_INVALID');
 
-const sparkle = manifest.visualDirection.sparkleRemoval;
-if (!sparkle || sparkle.target !== 'baked-in lower-right four-point sparkle') throw new Error('HERO_SPARKLE_REMOVAL_CONTRACT_MISSING');
-if (JSON.stringify(sparkle.sourceCoordinateSpace) !== '[1024,1536]') throw new Error('HERO_SPARKLE_COORDINATE_SPACE_INVALID');
-if (JSON.stringify(sparkle.bounds) !== '{"x":825,"y":1338,"width":110,"height":112}') throw new Error('HERO_SPARKLE_BOUNDS_INVALID');
-if (sparkle.file !== '/assets/images/astera-globe-lower-right-restoration.webp') throw new Error('HERO_SPARKLE_PATCH_PATH_INVALID');
-if (sparkle.format !== 'webp-with-alpha' || sparkle.bytes !== 1834 || sparkle.svgElementId !== 'lower-right-sparkle-removal') throw new Error('HERO_SPARKLE_PATCH_METADATA_INVALID');
+const topPath=join(site,manifest.topVisual.file.replace(/^\/assets\//,'assets/'));
+const top=await readFile(topPath);
+if(top.length!==manifest.topVisual.bytes||top.length!==3097567)throw new Error(`TOP_SVG_SIZE_INVALID ${top.length}`);
+const topHash=sha256(top);
+if(topHash!==manifest.topVisual.sha256||topHash!=='84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2')throw new Error(`TOP_SVG_HASH_INVALID ${topHash}`);
+const topText=top.toString('utf8');
+if(!topText.includes('width="1536" height="1433"')||!topText.includes('viewBox="0 0 1536 1433"'))throw new Error('TOP_SVG_DIMENSION_INVALID');
 
-const patchAbsolute = join(site, sparkle.file.replace(/^\/assets\//, 'assets/'));
-const patchBytes = await readFile(patchAbsolute);
-if (patchBytes.length !== sparkle.bytes) throw new Error(`HERO_SPARKLE_PATCH_SIZE_INVALID ${patchBytes.length}`);
-if (patchBytes.subarray(0, 4).toString('ascii') !== 'RIFF' || patchBytes.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SPARKLE_PATCH_SIGNATURE_INVALID');
-if (patchBytes.readUInt32LE(4) + 8 !== patchBytes.length) throw new Error('HERO_SPARKLE_PATCH_RIFF_LENGTH_INVALID');
-const patchSha256 = createHash('sha256').update(patchBytes).digest('hex');
-if (patchSha256 !== sparkle.sha256) throw new Error(`HERO_SPARKLE_PATCH_HASH_INVALID ${patchSha256}`);
-
-const heroCss = await readFile(join(site, 'assets/astera-hero-image.css'), 'utf8');
-const heroScript = await readFile(join(site, 'assets/astera-hero-image.js'), 'utf8');
-const layeredSvg = await readFile(join(site, 'assets/visual/hero/astera-globe-exact-layered.svg'), 'utf8');
-const fallbackBase64 = heroCss.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
-if (!fallbackBase64) throw new Error('HERO_SPARKLE_FALLBACK_DATA_MISSING');
-const fallbackTransport = Buffer.from(fallbackBase64, 'base64');
-const fallbackDeclaredLength = fallbackTransport.readUInt32LE(4) + 8;
-const fallbackCanonical = fallbackTransport.subarray(0, fallbackDeclaredLength);
-if (fallbackCanonical.length !== sparkle.bytes || createHash('sha256').update(fallbackCanonical).digest('hex') !== sparkle.sha256) throw new Error('HERO_SPARKLE_FALLBACK_HASH_INVALID');
-
-for (const marker of ['left:80.56640625%', 'top:87.109375%', 'width:10.7421875%', 'height:7.291666667%', 'is-sparkle-patch-in-svg']) {
-  if (!heroCss.includes(marker)) throw new Error(`HERO_SPARKLE_CSS_MARKER_MISSING ${marker}`);
-}
-for (const marker of ['lower-right-sparkle-removal', 'x: 825', 'y: 1338', 'width: 110', 'height: 112', 'installSparkleRemoval(svg)', 'patch.setAttribute(\'href\', patchAsset)', sparkle.file]) {
-  if (!heroScript.includes(marker)) throw new Error(`HERO_SPARKLE_SCRIPT_MARKER_MISSING ${marker}`);
-}
-if ((layeredSvg.match(/id="lower-right-sparkle-removal"/g) || []).length !== 1) throw new Error('HERO_SPARKLE_SVG_COUNT_INVALID');
-if (!/id="lower-right-sparkle-removal"[\s\S]*x="825" y="1338" width="110" height="112"/u.test(layeredSvg)) throw new Error('HERO_SPARKLE_SVG_BOUNDS_INVALID');
-if ((heroScript + heroCss).includes('✦')) throw new Error('HERO_REJECTED_SPARKLE_CHARACTER_PRESENT');
-
-for (const asset of manifest.visual) {
-  const relative = asset.file.replace(/^\/assets\//, 'assets/');
-  const absolute = join(site, relative);
-  const details = await stat(absolute);
-  if (!details.isFile() || details.size < 500) throw new Error(`VISUAL_FILE_INVALID ${asset.id}`);
-
-  if (asset.id === 'astera-globe-top') {
-    if (asset.status !== 'user-provided-web-optimized') throw new Error('HERO_SOURCE_STATUS_INVALID');
-    if (asset.file !== '/assets/images/astera-globe-top.webp') throw new Error('HERO_SOURCE_PATH_INVALID');
-    if (details.size !== asset.bytes || details.size !== 178672) throw new Error(`HERO_SOURCE_SIZE_INVALID ${details.size}`);
-    if (asset.psnrDb < 43.5) throw new Error(`HERO_SOURCE_QUALITY_INVALID ${asset.psnrDb}`);
-    const source = await readFile(absolute);
-    const sha256 = createHash('sha256').update(source).digest('hex');
-    if (sha256 !== asset.sha256 || sha256 !== '64f34c997275d1769c8b767957038eaf1bfe3f0f0dd672e68ea550bc5314b8b2') throw new Error(`HERO_SOURCE_HASH_INVALID ${sha256}`);
-    if (source.subarray(0, 4).toString('ascii') !== 'RIFF' || source.subarray(8, 12).toString('ascii') !== 'WEBP') throw new Error('HERO_SOURCE_SIGNATURE_INVALID');
-    continue;
-  }
-
-  if (asset.id === 'astera-globe-exact-layered') {
-    if (asset.status !== 'user-provided-layered-svg') throw new Error('HERO_LAYERED_STATUS_INVALID');
-    if (asset.file !== '/assets/visual/hero/astera-globe-exact-layered.svg') throw new Error('HERO_LAYERED_PATH_INVALID');
-    if (asset.validation !== 'semantic-layer-no-ui-and-sparkle-removal-contract') throw new Error('HERO_LAYERED_VALIDATION_MODE_INVALID');
-    if (details.size < 8000 || details.size > 30000) throw new Error(`HERO_LAYERED_WEIGHT_INVALID ${details.size}`);
-    const source = await readFile(absolute, 'utf8');
-    for (const marker of ['id="base-image"', 'id="lower-right-sparkle-removal"', 'id="effects-behind"', 'id="effects-orbits"', 'id="effects-particles"', 'id="effects-front"', 'class="data-line', 'class="glow-node']) {
-      if (!source.includes(marker)) throw new Error(`HERO_LAYERED_MARKER_MISSING ${marker}`);
-    }
-    if ((source.match(/class="data-line/g) || []).length < 10) throw new Error('HERO_DATA_STREAM_COUNT_INVALID');
-    if ((source.match(/class="glow-node/g) || []).length < 18) throw new Error('HERO_GLOW_NODE_COUNT_INVALID');
-    if (!source.includes('href="/assets/images/astera-globe-top.webp"')) throw new Error('HERO_LAYERED_BASE_REFERENCE_INVALID');
-    if (/<(?:script|foreignObject|text|style)\b/u.test(source)) throw new Error('HERO_LAYERED_UI_SCRIPT_OR_INLINE_STYLE_FORBIDDEN');
-    continue;
-  }
-
-  if (asset.status !== 'implemented-original-svg') throw new Error(`VISUAL_STATUS_INVALID ${asset.id}`);
-  if (!asset.file.endsWith('.svg')) throw new Error(`VISUAL_NOT_SVG ${asset.id}`);
-  const source = await readFile(absolute, 'utf8');
-  if (!/^<svg\b/u.test(source.trim())) throw new Error(`VISUAL_XML_INVALID ${asset.id}`);
-  if (!/viewBox=/u.test(source)) throw new Error(`VISUAL_VIEWBOX_MISSING ${asset.id}`);
+for(const file of manifest.supportingVisuals){
+  const path=join(site,file.replace(/^\/assets\//,'assets/'));
+  const info=await stat(path);
+  if(!info.isFile()||info.size<500)throw new Error(`SUPPORTING_VISUAL_INVALID ${file}`);
+  const text=await readFile(path,'utf8');
+  if(!/^<svg\b/.test(text.trim())||!/viewBox=/.test(text))throw new Error(`SUPPORTING_VISUAL_NOT_SVG ${file}`);
 }
 
-console.log('Visual asset contract PASS (premium WebP base + canonical restoration asset + CSP-safe layered SVG effects + 11 supporting SVG); official brand bytes remain an explicit production gate');
+const home=await readFile(join(site,'templates','home.html'),'utf8');
+if((home.match(/<details class="top-topic"/g)||[]).length!==9)throw new Error('TOP_MAIN9_COUNT_INVALID');
+if(!home.includes(manifest.topVisual.file))throw new Error('TOP_ACTIVE_VISUAL_REFERENCE_MISSING');
+if(/astera-globe-top\.webp|astera-globe-exact-layered|data-astera-hero|<canvas/.test(home))throw new Error('TOP_LEGACY_VISUAL_REFERENCE_PRESENT');
+if(!home.includes('/supporters/')||!home.includes('/evidence/'))throw new Error('TOP_REQUIRED_ROUTE_LINK_MISSING');
+
+const header=await readFile(join(site,'templates','partials','header.html'),'utf8');
+if(!header.includes('header-language-row')||!header.includes('header-action-row')||!header.includes('data-brand-status="pending-official-logo"'))throw new Error('TOP_HEADER_STRUCTURE_OR_LOGO_STATUS_INVALID');
+if(/<img[^>]+astera-top-brand|\/assets\/brand\/astera-(?:logo|symbol|wordmark)/.test(header))throw new Error('UNAPPROVED_LOGO_ASSET_REFERENCE_PRESENT');
+if(!header.includes('astera-top-brand-label')||!header.includes('>Astera<'))throw new Error('TEMPORARY_BRAND_LABEL_MISSING');
+
+const transport=await readFile(join(site,'assets','customer-ai-transport.js'),'utf8');
+if(!transport.includes('https://api.asterav8.jp/v1/customer-ai')||!transport.includes('/messages')||!transport.includes('/jobs/'))throw new Error('CUSTOMER_AI_EDGE_CONTRACT_INVALID');
+if(/HF_TOKEN|huggingface\.co|G-ACE\/astera-customerAI/.test(transport))throw new Error('CUSTOMER_AI_PRIVATE_SPACE_LEAK');
+
+const packageJson=JSON.parse(await readFile(join(site,'..','package.json'),'utf8'));
+if(packageJson.dependencies?.gsap!=='3.12.2')throw new Error('GSAP_PIN_INVALID');
+if(packageJson.scripts?.build?.includes('materialize-official-brand-assets'))throw new Error('REMOVED_LOGO_RECOVERY_STILL_IN_BUILD');
+const headers=await readFile(join(site,'public','_headers'),'utf8');
+if(!/script-src 'self'/.test(headers)||/cdnjs|jsdelivr|unsafe-inline/.test(headers))throw new Error('CSP_INVALID');
+
+console.log('Visual asset contract PASS (uploaded TOP SVG exact + official logo pending without substitute + Main 9 supporting SVG + private Customer AI boundary)');

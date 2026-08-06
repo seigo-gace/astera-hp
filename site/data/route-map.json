@@ -8,6 +8,7 @@
   {"route":"/product/usage/","key":"usage","template":"article"},
   {"route":"/product/technology/","key":"technology","template":"article"},
   {"route":"/product/integration/","key":"integration","template":"article"},
+  {"route":"/evidence/","key":"evidence","template":"article"},
   {"route":"/news/","key":"news","template":"index"},
   {"route":"/use-cases/","key":"use-cases","template":"index"},
   {"route":"/docs/","key":"docs","template":"index"},

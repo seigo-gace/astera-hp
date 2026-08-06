@@ -6,13 +6,14 @@
   <title>{{TITLE}}</title>
   <meta name="description" content="{{DESCRIPTION}}">
   <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="customer-ai-api" content="https://api.asterav8.jp/v1/customer-ai">
   <link rel="canonical" href="{{CANONICAL}}">
   <meta property="og:type" content="website"><meta property="og:site_name" content="Astera"><meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="{{TITLE}}"><meta property="og:description" content="{{DESCRIPTION}}"><meta property="og:url" content="{{CANONICAL}}">
   <meta property="og:image" content="https://asterav8.jp/assets/og/astera-home.png">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{{TITLE}}"><meta name="twitter:description" content="{{DESCRIPTION}}">
   <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="/assets/images/astera-globe-top.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="/assets/visual/hero/astera-original-transparent.svg" as="image" type="image/svg+xml" fetchpriority="high">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/navigation-canonical.css">
   <link rel="stylesheet" href="/assets/source-content.css">
@@ -20,6 +21,7 @@
   <link rel="stylesheet" href="/assets/astera-hero-image.css">
   <link rel="stylesheet" href="/assets/astera-hero-restoration.css">
   <link rel="stylesheet" href="/assets/notion-complete.css">
+  <link rel="stylesheet" href="/assets/top-rebuild.css">
   <script type="application/ld+json">{{JSONLD}}</script>
 </head>
 <body data-route="{{ROUTE_KEY}}">
@@ -27,17 +29,22 @@
   {{HEADER}}
   <main id="main">{{CONTENT}}</main>
   {{FOOTER}}
-  <button class="ai-launcher" type="button" data-ai-launcher aria-expanded="false" aria-controls="customer-ai"><span aria-hidden="true">✦</span><span>案内AI</span></button>
+  <button class="ai-launcher" type="button" data-ai-launcher data-ai-draggable aria-expanded="false" aria-controls="customer-ai"><span aria-hidden="true">✦</span><span data-ja="案内AI" data-en="Guide AI">案内AI</span></button>
   <section id="customer-ai" class="ai-bubble" hidden role="dialog" aria-modal="true" aria-labelledby="customer-ai-title" data-ai-panel>
     <div class="ai-sheet-handle" aria-hidden="true"></div>
-    <header><div><p class="eyebrow">PUBLIC GUIDE</p><h2 id="customer-ai-title">Astera総合案内AI</h2></div><button type="button" data-ai-close aria-label="閉じる">×</button></header>
-    <p>公開情報に基づいて案内します。Password、API Key、Card情報、医療等の機微情報は入力しないでください。</p>
-    <form data-bubble-chat-form class="bubble-chat-form"><label>回答Type<select name="answerType"><option value="general">一般</option><option value="technical">技術</option><option value="corporate">法人</option><option value="investor">投資家</option><option value="operation">操作説明</option></select></label><label>質問<textarea name="message" maxlength="12000" required></textarea></label><button class="button is-primary" type="submit">送信</button><div data-bubble-answer aria-live="polite"></div></form>
-    <nav aria-label="案内AIの代替導線"><a href="/chat/">Full Chat</a><a href="/qa/">Q&amp;A</a><a href="/contact/">お問い合わせ</a></nav>
+    <header><div><p class="eyebrow">PUBLIC GUIDE</p><h2 id="customer-ai-title" data-ja="Astera総合案内AI" data-en="Astera Guide AI">Astera総合案内AI</h2></div><button type="button" data-ai-close aria-label="閉じる">×</button></header>
+    <p data-ja="公開情報に基づいて案内します。Password、API Key、Card情報、医療等の機微情報は入力しないでください。" data-en="Answers use approved public information. Do not enter passwords, API keys, card details, medical data, or other sensitive information.">公開情報に基づいて案内します。Password、API Key、Card情報、医療等の機微情報は入力しないでください。</p>
+    <form data-bubble-chat-form class="bubble-chat-form">
+      <label><span data-ja="回答タイプ" data-en="Answer type">回答タイプ</span><select name="answerType"><option value="general">一般</option><option value="technical">技術</option><option value="corporate">法人</option><option value="investor">投資家</option><option value="operation">操作説明</option></select></label>
+      <label><span data-ja="質問" data-en="Question">質問</span><textarea name="message" maxlength="12000" required></textarea></label>
+      <input type="hidden" name="turnstileToken" value="">
+      <button class="button is-primary" type="submit" data-ja="送信" data-en="Send">送信</button><div data-bubble-answer aria-live="polite"></div>
+    </form>
+    <nav aria-label="案内AIの代替導線"><a href="/chat/">Full Chat</a><a href="/qa/">Q&amp;A</a><a href="/contact/" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a></nav>
   </section>
-  <section class="language-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="language-title" data-language-dialog><div class="dialog-card"><button type="button" data-language-close aria-label="閉じる">×</button><h2 id="language-title">Language</h2><p>現在の公開本文は日本語です。対応言語は実装・検証済みのものだけを追加します。</p></div></section>
   <script type="module" src="/assets/app.js"></script>
   <script type="module" src="/assets/navigation-canonical.js"></script>
   <script type="module" src="/assets/motion.js"></script>
+  <script type="module" src="/assets/top-rebuild.js"></script>
 </body>
 </html>
