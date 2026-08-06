@@ -89,6 +89,10 @@ test('Header action row is directly below upper row and keeps App, AI, Menu in t
     '.header-action-controls',
     '.header-app-entry',
     '.header-ai-launcher',
+    '.nav-toggle{\n  display:grid',
+    'left:auto',
+    'max-height:none',
+    'align-items:stretch',
     '.global-nav.is-open',
     'body.nav-open .nav-backdrop',
     '.side-menu-accordion__trigger'
@@ -97,9 +101,9 @@ test('Header action row is directly below upper row and keeps App, AI, Menu in t
   for (const marker of [
     "document.querySelector('[data-nav-toggle]')",
     "document.querySelector('[data-app-entry]')",
-    'window.location.assign(route)',
+    "window.location.assign(route)",
     "document.querySelectorAll('[data-nav-accordion]')",
-    'globalNav.inert = !open'
+    "globalNav.inert = !open"
   ]) assert.ok(script.includes(marker), `Missing action behavior marker: ${marker}`);
 
   assert.doesNotMatch(base, /<button class="ai-launcher"/);
