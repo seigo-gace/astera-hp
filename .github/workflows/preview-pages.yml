@@ -28,10 +28,17 @@ jobs:
         run: npm ci
       - name: Verify current HP source
         run: npm test
-      - name: Prepare project-path preview
+      - name: Prepare commit-identified project-path preview
         env:
           PREVIEW_BASE_PATH: /astera-hp
         run: node site/scripts/build-preview.mjs
+      - name: Verify preview artifact identifies this exact source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q "sourceCommit=${GITHUB_SHA}" site/preview-dist/preview/BUILD.txt
+          grep -q "\"sourceCommit\": \"${GITHUB_SHA}\"" site/preview-dist/preview/BUILD.json
+          grep -q "name=\"astera-preview-build\" content=\"${GITHUB_SHA}\"" site/preview-dist/index.html
       - name: Configure or enable GitHub Pages
         uses: actions/configure-pages@v5
         with:
@@ -63,46 +70,54 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify published GitHub Pages website
+      - name: Verify published GitHub Pages website is this exact commit
         shell: bash
         run: |
           set -euo pipefail
           test -n "${LIVE_URL}"
           root="${LIVE_URL%/}"
+          build="${GITHUB_SHA:0:12}"
           mkdir -p /tmp/astera-pages
 
           curl --fail --location --silent --show-error \
             --retry 12 --retry-delay 5 --retry-all-errors \
-            "${root}/" -o /tmp/astera-pages/index.html
+            "${root}/?build=${build}" -o /tmp/astera-pages/index.html
           grep -q '<title>.*Astera' /tmp/astera-pages/index.html
+          grep -q "name=\"astera-preview-build\" content=\"${GITHUB_SHA}\"" /tmp/astera-pages/index.html
           grep -q '/astera-hp/assets/astera-hero-image.css' /tmp/astera-pages/index.html
           grep -q '/astera-hp/assets/astera-hero-restoration.css' /tmp/astera-pages/index.html
 
           curl --fail --location --silent --show-error \
             --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/astera-hero-image.css" -o /tmp/astera-pages/hero.css
+            "${root}/assets/astera-hero-image.css?build=${build}" -o /tmp/astera-pages/hero.css
           ! grep -q 'data:image/webp;base64,' /tmp/astera-pages/hero.css
           grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/hero.css
 
           curl --fail --location --silent --show-error \
             --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/astera-hero-restoration.css" -o /tmp/astera-pages/restoration.css
+            "${root}/assets/astera-hero-restoration.css?build=${build}" -o /tmp/astera-pages/restoration.css
           grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/restoration.css
 
           curl --fail --location --silent --show-error \
             --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/visual/hero/astera-globe-exact-layered.svg" -o /tmp/astera-pages/hero.svg
+            "${root}/assets/visual/hero/astera-globe-exact-layered.svg?build=${build}" -o /tmp/astera-pages/hero.svg
           grep -q '/astera-hp/assets/images/astera-globe-top.webp' /tmp/astera-pages/hero.svg
 
           curl --fail --location --silent --show-error \
             --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/images/astera-globe-lower-right-restoration.webp" -o /tmp/astera-pages/restoration.webp
+            "${root}/assets/images/astera-globe-lower-right-restoration.webp?build=${build}" -o /tmp/astera-pages/restoration.webp
           test "$(stat -c%s /tmp/astera-pages/restoration.webp)" -eq 1834
 
           curl --fail --location --silent --show-error \
             --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/preview/BUILD.txt" -o /tmp/astera-pages/BUILD.txt
+            "${root}/preview/BUILD.txt?build=${build}" -o /tmp/astera-pages/BUILD.txt
           grep -q 'basePath=/astera-hp' /tmp/astera-pages/BUILD.txt
+          grep -q "sourceCommit=${GITHUB_SHA}" /tmp/astera-pages/BUILD.txt
+
+          curl --fail --location --silent --show-error \
+            --retry 8 --retry-delay 3 --retry-all-errors \
+            "${root}/preview/?build=${build}" -o /tmp/astera-pages/preview-status.html
+          grep -q "${GITHUB_SHA}" /tmp/astera-pages/preview-status.html
 
       - name: Record live publication evidence
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -112,22 +127,25 @@ jobs:
           git pull --rebase origin main
           mkdir -p evidence/pages
           rm -f evidence/pages/FAILURE.md
+          build="${GITHUB_SHA:0:12}"
           cat > evidence/pages/RESULT.md <<EOF
           # GitHub Pages live publication result
 
           - Status: PASS
-          - Public test URL: ${LIVE_URL}
+          - Public confirmation URL: ${LIVE_URL}?build=${build}
+          - Preview status URL: ${LIVE_URL}preview/?build=${build}
           - GitHub Actions run: ${GITHUB_RUN_ID}
           - Published source commit: ${GITHUB_SHA}
           - Verification time: $(date -u +%Y-%m-%dT%H:%M:%SZ)
           - TOP HTML: HTTP PASS
+          - Exact commit marker: PASS
           - Project base path `/astera-hp`: PASS
           - Hero delivery CSS contains no embedded WebP Data URI: PASS
           - Layered SVG base image path: PASS
           - Lower-right restoration WebP: PASS (1834 bytes)
           - Preview build marker: PASS
 
-          This URL is the public GitHub Pages test environment. It is not the Cloudflare production deployment.
+          This URL is the public GitHub Pages confirmation environment. It is not the Cloudflare production deployment.
           EOF
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
