@@ -76,7 +76,8 @@ jobs:
           grep -q '<title>.*Astera' /tmp/astera-pages/index.html
           grep -q '/astera-hp/assets/top-rebuild.css' /tmp/astera-pages/index.html
           grep -q '/astera-hp/assets/visual/hero/astera-original-transparent.svg' /tmp/astera-pages/index.html
-          grep -q '/astera-hp/assets/brand/astera-logo-dark.svg' /tmp/astera-pages/index.html
+          grep -q 'data-brand-status="pending-official-logo"' /tmp/astera-pages/index.html
+          ! grep -q '/assets/brand/astera-logo-' /tmp/astera-pages/index.html
           grep -q '/astera-hp/evidence/' /tmp/astera-pages/index.html
           test "$(grep -o 'class="top-topic"' /tmp/astera-pages/index.html | wc -l)" -eq 9
           ! grep -q 'astera-globe-top.webp' /tmp/astera-pages/index.html
@@ -86,10 +87,6 @@ jobs:
             "${root}/assets/visual/hero/astera-original-transparent.svg" -o /tmp/astera-pages/top.svg
           test "$(stat -c%s /tmp/astera-pages/top.svg)" -eq 3097567
           test "$(sha256sum /tmp/astera-pages/top.svg | cut -d' ' -f1)" = "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
-
-          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/brand/astera-logo-dark.svg" -o /tmp/astera-pages/logo.svg
-          test "$(sha256sum /tmp/astera-pages/logo.svg | cut -d' ' -f1)" = "cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52"
 
           curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors \
             "${root}/evidence/" -o /tmp/astera-pages/evidence.html
@@ -118,7 +115,7 @@ jobs:
           - TOP HTML and two-tier header: PASS
           - Main 9 count: PASS
           - Uploaded TOP SVG: PASS (3,097,567 bytes / SHA-256 exact)
-          - Official Astera dark logo: PASS (SHA-256 exact)
+          - Official logo: PENDING (no generated, recovered, or substitute asset)
           - Evidence route: PASS
           - Project base path `/astera-hp`: PASS
 
