@@ -4,122 +4,47 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow">
-  <title>Astera HP｜Header上段 実装確認</title>
+  <title>Astera Header確認</title>
   <style>
-    :root{color-scheme:dark;--header-upper-height:46px;--header-action-height:70px;--header-total-height:calc(var(--header-upper-height) + var(--header-action-height));--max:1240px}
     *{box-sizing:border-box}
-    html{background:#000;scroll-padding-top:var(--header-total-height)}
-    body{margin:0;background:#000;color:#f4f8f9;font-family:Inter,"Noto Sans JP",system-ui,-apple-system,sans-serif}
-    a{color:inherit}button,select{font:inherit}
-    .site-header{position:sticky;top:0;z-index:50;background:#000;border-bottom:1px solid rgba(255,255,255,.12)}
-    .header-upper{height:var(--header-upper-height);border-bottom:1px solid rgba(255,255,255,.09);background:#020304}
-    .header-upper-shell{width:min(calc(100% - 2.5rem),var(--max));height:100%;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-    .language-select-field{position:relative;display:inline-flex;align-items:center;min-width:132px}
-    .language-select{width:100%;min-height:32px;appearance:none;padding:.2rem 2rem .2rem .75rem;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#050708;color:#fff;cursor:pointer;font-size:.72rem;font-weight:650;letter-spacing:.04em}
-    .language-select:hover,.language-select:focus-visible{border-color:rgba(123,229,236,.55);background:rgba(123,229,236,.06);outline:none;box-shadow:0 0 0 3px rgba(123,229,236,.16)}
-    .language-select option{background:#050708;color:#fff}.language-select option:disabled{color:#717a7f}
-    .language-select-arrow{position:absolute;right:.72rem;top:50%;translate:0 -56%;color:#7be5ec;font-size:.86rem;pointer-events:none}
-    .brand{min-width:0;margin-left:auto;display:flex;align-items:center;justify-content:flex-end;text-decoration:none}
-    .brand img{display:block;object-fit:contain;object-position:right center}
-    .brand-logo--full{width:clamp(138px,13vw,190px);max-height:30px}
-    .brand-logo--symbol{display:none!important;width:42px;max-height:30px}
-    .brand-loading{color:#7f898e;font-size:.68rem;letter-spacing:.08em}
-    .header-action-row{height:var(--header-action-height);background:rgba(4,6,7,.96)}
-    .header-action-shell{width:min(calc(100% - 2.5rem),var(--max));height:100%;margin-inline:auto;display:flex;align-items:center;justify-content:flex-end;gap:.7rem}
-    .action-chip{min-height:38px;padding:.55rem .9rem;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#07090a;color:#dbe5e8;font-size:.76rem;letter-spacing:.04em}.action-chip.is-muted{color:#8f989d}
-    .preview-gate{position:fixed;right:16px;bottom:16px;z-index:20;width:min(390px,calc(100% - 32px));padding:14px 16px;border:1px solid rgba(123,229,236,.4);border-radius:14px;background:rgba(4,8,10,.94);box-shadow:0 18px 60px rgba(0,0,0,.45)}
-    .preview-gate strong{display:block;margin-bottom:4px;color:#7be5ec;font-size:.78rem;letter-spacing:.12em}.preview-gate p{margin:0;color:#c2cbd0;font-size:.78rem;line-height:1.55}
-    main{min-height:calc(100svh - var(--header-total-height));display:grid;place-items:center;padding:clamp(32px,6vw,88px) 20px;overflow:hidden}
-    .hero{width:min(1120px,100%);display:grid;grid-template-columns:minmax(0,.9fr) minmax(320px,1.1fr);align-items:center;gap:clamp(28px,5vw,72px)}
-    .eyebrow{margin:0 0 12px;color:#7be5ec;font-size:.68rem;font-weight:800;letter-spacing:.22em}h1{margin:0;font-size:clamp(2.2rem,6vw,5.8rem);line-height:.94;letter-spacing:-.055em}
-    .lead{max-width:39rem;margin:22px 0 0;color:#c4cdd1;font-size:clamp(1rem,1.8vw,1.24rem);line-height:1.8}
-    .hero-visual{position:relative;min-height:min(70svh,760px);display:grid;place-items:center}.hero-visual::before{content:"";position:absolute;inset:16% 6%;border-radius:50%;background:radial-gradient(circle,rgba(30,183,221,.14),rgba(0,0,0,0) 68%);filter:blur(16px)}
-    .hero-visual img{position:relative;width:min(100%,620px);max-height:min(72svh,760px);object-fit:contain;filter:saturate(1.04) contrast(1.02)}
-    .status{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}.status span{padding:.42rem .7rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#9faab0;font-size:.72rem}.status span:first-child{border-color:rgba(123,229,236,.34);color:#dffcff}
-    @media(max-width:760px){.hero{grid-template-columns:1fr;text-align:center}.lead{margin-inline:auto}.status{justify-content:center}.hero-visual{min-height:48svh}.preview-gate{position:static;width:min(100% - 32px,720px);margin:0 auto 18px}}
-    @media(max-width:599px){:root{--header-upper-height:40px;--header-action-height:64px}.header-upper-shell,.header-action-shell{width:min(calc(100% - 1.5rem),var(--max))}.brand-logo--full{display:none!important}.brand-logo--symbol{display:block!important}.language-select-field{min-width:116px}.language-select{min-height:29px;padding:.14rem 1.7rem .14rem .62rem;font-size:.65rem}.language-select-arrow{right:.6rem;font-size:.76rem}.action-chip{padding:.5rem .7rem;font-size:.68rem}.action-chip:nth-child(2){display:none}}
+    html,body{margin:0;min-height:100%;background:#000;color:#fff;font-family:Inter,"Noto Sans JP",system-ui,-apple-system,sans-serif}
+    .header-upper{height:56px;border-bottom:1px solid rgba(255,255,255,.12);background:#020304}
+    .header-upper-shell{width:min(calc(100% - 32px),1240px);height:100%;margin:auto;display:flex;align-items:center;gap:16px}
+    .brand{display:flex;align-items:center;text-decoration:none;min-width:0}
+    .brand img{display:block;width:clamp(132px,18vw,190px);height:auto;max-height:34px;object-fit:contain;object-position:left center}
+    .language-select-field{position:relative;display:inline-flex;align-items:center;min-width:128px;margin-left:auto}
+    .language-select{width:100%;min-height:34px;appearance:none;padding:4px 32px 4px 12px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:#050708;color:#fff;font:inherit;font-size:13px;font-weight:650;cursor:pointer}
+    .language-select:focus-visible{outline:2px solid #7be5ec;outline-offset:2px}
+    .language-select option{background:#050708;color:#fff}
+    .language-select option:disabled{color:#747d82}
+    .language-select-arrow{position:absolute;right:12px;top:50%;translate:0 -55%;color:#7be5ec;pointer-events:none}
+    main{min-height:calc(100dvh - 56px);background:#000}
+    @media(max-width:599px){
+      .header-upper{height:52px}
+      .header-upper-shell{width:calc(100% - 24px);gap:12px}
+      .brand img{width:128px;max-height:30px}
+      .language-select-field{min-width:116px}
+      .language-select{min-height:32px;font-size:12px;padding-right:28px}
+      main{min-height:calc(100dvh - 52px)}
+    }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-upper">
-      <div class="header-upper-shell">
-        <div class="language-select-field">
-          <label hidden for="preview-language">表示言語</label>
-          <select id="preview-language" class="language-select" aria-label="表示言語">
-            <option value="ja" selected>日本語</option>
-            <option value="en" disabled>English（準備中）</option>
-          </select>
-          <span class="language-select-arrow" aria-hidden="true">⌄</span>
-        </div>
-        <a class="brand" href="#top" aria-label="Astera ホーム">
-          <span class="brand-loading" data-brand-loading>正式ロゴ読込中</span>
-          <img class="brand-logo--full" data-brand-file="astera-logo-dark.svg" alt="Astera v8" hidden>
-          <img class="brand-logo--symbol" data-brand-file="astera-symbol-dark.svg" alt="" aria-hidden="true" hidden>
-        </a>
-      </div>
-    </div>
-    <div class="header-action-row">
-      <div class="header-action-shell">
-        <span class="action-chip is-muted">操作段は次工程</span>
-        <span class="action-chip">Asteraを使う</span>
-        <span class="action-chip">サイドメニュー</span>
+  <header class="header-upper">
+    <div class="header-upper-shell">
+      <a class="brand" href="#" aria-label="Astera ホーム">
+        <img src="data:image/webp;base64,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" alt="Astera v8">
+      </a>
+      <div class="language-select-field">
+        <label hidden for="preview-language">表示言語</label>
+        <select id="preview-language" class="language-select" aria-label="表示言語">
+          <option value="ja" selected>日本語</option>
+          <option value="en" disabled>English（準備中）</option>
+        </select>
+        <span class="language-select-arrow" aria-hidden="true">⌄</span>
       </div>
     </div>
   </header>
-
-  <main id="top">
-    <section class="hero" aria-labelledby="preview-title">
-      <div>
-        <p class="eyebrow">HEADER UPPER / IMPLEMENTATION CHECK</p>
-        <h1 id="preview-title">問いを星図に変える。</h1>
-        <p class="lead">確認対象はHeader上段です。左は今後の言語追加に対応できるプルダウン、右は検証済みAstera正式Logoです。スマートフォン幅では正式Symbolへ切り替わります。</p>
-        <div class="status" aria-label="実装状態"><span>正式Logo：表示修正済み</span><span>Language：プルダウン化</span><span>Branch変更：0</span><span>Header操作段：未改修</span></div>
-      </div>
-      <div class="hero-visual"><img data-hero-image alt="Asteraトップの暫定ビジュアル" width="1024" height="1536"></div>
-    </section>
-  </main>
-
-  <aside class="preview-gate" aria-label="確認範囲"><strong>CONFIRMATION SCOPE</strong><p>このページはHeader上段の修正版だけを確認する固定Previewです。正式Logoが実際に表示され、言語UIがプルダウンになっていることを確認してください。</p></aside>
-
-  <script>
-    const previewSource = decodeURIComponent(location.href.split('?').slice(1).join('?'));
-    const commit = previewSource.match(/github\.com\/seigo-gace\/astera-hp\/blob\/([^/]+)\//)?.[1] || 'main';
-    const rawBase = `https://raw.githubusercontent.com/seigo-gace/astera-hp/${commit}`;
-    document.querySelector('[data-hero-image]').src = `${rawBase}/site/assets/images/astera-globe-top.webp`;
-
-    const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const decodeBase64 = (value) => {
-      const binary = atob(value);
-      const bytes = new Uint8Array(binary.length);
-      for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
-      return bytes;
-    };
-
-    async function loadVerifiedBrandAssets() {
-      if (!('DecompressionStream' in window)) throw new Error('gzip decompression is unavailable');
-      const source = await fetch(`${rawBase}/site/scripts/materialize-binary-assets.mjs`, {cache:'no-store'}).then((response) => {
-        if (!response.ok) throw new Error(`brand source ${response.status}`);
-        return response.text();
-      });
-      for (const image of document.querySelectorAll('[data-brand-file]')) {
-        const file = image.dataset.brandFile;
-        const pattern = new RegExp(`file:\\s*'${escapeRegExp(file)}'[\\s\\S]*?gzipBase64:\\s*'([^']+)'`);
-        const compressed = source.match(pattern)?.[1];
-        if (!compressed) throw new Error(`brand asset missing: ${file}`);
-        const stream = new Blob([decodeBase64(compressed)]).stream().pipeThrough(new DecompressionStream('gzip'));
-        const bytes = await new Response(stream).arrayBuffer();
-        image.src = URL.createObjectURL(new Blob([bytes], {type:'image/svg+xml'}));
-        image.hidden = false;
-      }
-      document.querySelector('[data-brand-loading]')?.remove();
-    }
-
-    loadVerifiedBrandAssets().catch((error) => {
-      console.error(error);
-      const loading = document.querySelector('[data-brand-loading]');
-      if (loading) loading.textContent = '正式ロゴ読込失敗';
-    });
-  </script>
+  <main></main>
 </body>
 </html>
