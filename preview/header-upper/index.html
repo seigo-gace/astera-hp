@@ -6,80 +6,56 @@
   <meta name="robots" content="noindex,nofollow">
   <title>Astera HP｜Header上段 実装確認</title>
   <style>
-    :root{
-      color-scheme:dark;
-      --header-upper-height:46px;
-      --header-action-height:70px;
-      --header-total-height:calc(var(--header-upper-height) + var(--header-action-height));
-      --max:1240px;
-    }
+    :root{color-scheme:dark;--header-upper-height:46px;--header-action-height:70px;--header-total-height:calc(var(--header-upper-height) + var(--header-action-height));--max:1240px}
     *{box-sizing:border-box}
     html{background:#000;scroll-padding-top:var(--header-total-height)}
     body{margin:0;background:#000;color:#f4f8f9;font-family:Inter,"Noto Sans JP",system-ui,-apple-system,sans-serif}
-    a{color:inherit}
-    button{font:inherit}
+    a{color:inherit}button,select{font:inherit}
     .site-header{position:sticky;top:0;z-index:50;background:#000;border-bottom:1px solid rgba(255,255,255,.12)}
     .header-upper{height:var(--header-upper-height);border-bottom:1px solid rgba(255,255,255,.09);background:#020304}
     .header-upper-shell{width:min(calc(100% - 2.5rem),var(--max));height:100%;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-    .language-switch{display:inline-flex;align-items:center;min-height:30px;padding:.18rem .7rem;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.025);color:#8f989d;cursor:pointer;letter-spacing:.04em}
-    .language-switch:focus-visible{outline:3px solid #fff;outline-offset:3px}
-    .language-switch__option{font-size:.72rem;line-height:1}
-    .language-switch__option.is-current{color:#fff;font-weight:700}
-    .language-switch__divider{width:1px;height:12px;margin-inline:.55rem;background:rgba(255,255,255,.18)}
+    .language-select-field{position:relative;display:inline-flex;align-items:center;min-width:132px}
+    .language-select{width:100%;min-height:32px;appearance:none;padding:.2rem 2rem .2rem .75rem;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#050708;color:#fff;cursor:pointer;font-size:.72rem;font-weight:650;letter-spacing:.04em}
+    .language-select:hover,.language-select:focus-visible{border-color:rgba(123,229,236,.55);background:rgba(123,229,236,.06);outline:none;box-shadow:0 0 0 3px rgba(123,229,236,.16)}
+    .language-select option{background:#050708;color:#fff}.language-select option:disabled{color:#717a7f}
+    .language-select-arrow{position:absolute;right:.72rem;top:50%;translate:0 -56%;color:#7be5ec;font-size:.86rem;pointer-events:none}
     .brand{min-width:0;margin-left:auto;display:flex;align-items:center;justify-content:flex-end;text-decoration:none}
     .brand img{display:block;object-fit:contain;object-position:right center}
     .brand-logo--full{width:clamp(138px,13vw,190px);max-height:30px}
     .brand-logo--symbol{display:none!important;width:42px;max-height:30px}
+    .brand-loading{color:#7f898e;font-size:.68rem;letter-spacing:.08em}
     .header-action-row{height:var(--header-action-height);background:rgba(4,6,7,.96)}
     .header-action-shell{width:min(calc(100% - 2.5rem),var(--max));height:100%;margin-inline:auto;display:flex;align-items:center;justify-content:flex-end;gap:.7rem}
-    .action-chip{min-height:38px;padding:.55rem .9rem;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#07090a;color:#dbe5e8;font-size:.76rem;letter-spacing:.04em}
-    .action-chip.is-muted{color:#8f989d}
-    .preview-gate{position:fixed;right:16px;bottom:16px;z-index:20;width:min(360px,calc(100% - 32px));padding:14px 16px;border:1px solid rgba(123,229,236,.4);border-radius:14px;background:rgba(4,8,10,.94);box-shadow:0 18px 60px rgba(0,0,0,.45)}
-    .preview-gate strong{display:block;margin-bottom:4px;color:#7be5ec;font-size:.78rem;letter-spacing:.12em}
-    .preview-gate p{margin:0;color:#c2cbd0;font-size:.78rem;line-height:1.55}
+    .action-chip{min-height:38px;padding:.55rem .9rem;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#07090a;color:#dbe5e8;font-size:.76rem;letter-spacing:.04em}.action-chip.is-muted{color:#8f989d}
+    .preview-gate{position:fixed;right:16px;bottom:16px;z-index:20;width:min(390px,calc(100% - 32px));padding:14px 16px;border:1px solid rgba(123,229,236,.4);border-radius:14px;background:rgba(4,8,10,.94);box-shadow:0 18px 60px rgba(0,0,0,.45)}
+    .preview-gate strong{display:block;margin-bottom:4px;color:#7be5ec;font-size:.78rem;letter-spacing:.12em}.preview-gate p{margin:0;color:#c2cbd0;font-size:.78rem;line-height:1.55}
     main{min-height:calc(100svh - var(--header-total-height));display:grid;place-items:center;padding:clamp(32px,6vw,88px) 20px;overflow:hidden}
     .hero{width:min(1120px,100%);display:grid;grid-template-columns:minmax(0,.9fr) minmax(320px,1.1fr);align-items:center;gap:clamp(28px,5vw,72px)}
-    .eyebrow{margin:0 0 12px;color:#7be5ec;font-size:.68rem;font-weight:800;letter-spacing:.22em}
-    h1{margin:0;font-size:clamp(2.2rem,6vw,5.8rem);line-height:.94;letter-spacing:-.055em}
-    .lead{max-width:37rem;margin:22px 0 0;color:#c4cdd1;font-size:clamp(1rem,1.8vw,1.24rem);line-height:1.8}
-    .hero-visual{position:relative;min-height:min(70svh,760px);display:grid;place-items:center}
-    .hero-visual::before{content:"";position:absolute;inset:16% 6%;border-radius:50%;background:radial-gradient(circle,rgba(30,183,221,.14),rgba(0,0,0,0) 68%);filter:blur(16px)}
+    .eyebrow{margin:0 0 12px;color:#7be5ec;font-size:.68rem;font-weight:800;letter-spacing:.22em}h1{margin:0;font-size:clamp(2.2rem,6vw,5.8rem);line-height:.94;letter-spacing:-.055em}
+    .lead{max-width:39rem;margin:22px 0 0;color:#c4cdd1;font-size:clamp(1rem,1.8vw,1.24rem);line-height:1.8}
+    .hero-visual{position:relative;min-height:min(70svh,760px);display:grid;place-items:center}.hero-visual::before{content:"";position:absolute;inset:16% 6%;border-radius:50%;background:radial-gradient(circle,rgba(30,183,221,.14),rgba(0,0,0,0) 68%);filter:blur(16px)}
     .hero-visual img{position:relative;width:min(100%,620px);max-height:min(72svh,760px);object-fit:contain;filter:saturate(1.04) contrast(1.02)}
-    .status{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-    .status span{padding:.42rem .7rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#9faab0;font-size:.72rem}
-    .status span:first-child{border-color:rgba(123,229,236,.34);color:#dffcff}
-    @media(max-width:760px){
-      .hero{grid-template-columns:1fr;text-align:center}
-      .lead{margin-inline:auto}
-      .status{justify-content:center}
-      .hero-visual{min-height:48svh}
-      .preview-gate{position:static;width:min(100% - 32px,720px);margin:0 auto 18px}
-    }
-    @media(max-width:599px){
-      :root{--header-upper-height:40px;--header-action-height:64px}
-      .header-upper-shell,.header-action-shell{width:min(calc(100% - 1.5rem),var(--max))}
-      .brand-logo--full{display:none!important}
-      .brand-logo--symbol{display:block!important}
-      .language-switch{min-height:27px;padding:.14rem .55rem}
-      .language-switch__option{font-size:.65rem}
-      .language-switch__divider{height:10px;margin-inline:.42rem}
-      .action-chip{padding:.5rem .7rem;font-size:.68rem}
-      .action-chip:nth-child(2){display:none}
-    }
+    .status{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}.status span{padding:.42rem .7rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#9faab0;font-size:.72rem}.status span:first-child{border-color:rgba(123,229,236,.34);color:#dffcff}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;text-align:center}.lead{margin-inline:auto}.status{justify-content:center}.hero-visual{min-height:48svh}.preview-gate{position:static;width:min(100% - 32px,720px);margin:0 auto 18px}}
+    @media(max-width:599px){:root{--header-upper-height:40px;--header-action-height:64px}.header-upper-shell,.header-action-shell{width:min(calc(100% - 1.5rem),var(--max))}.brand-logo--full{display:none!important}.brand-logo--symbol{display:block!important}.language-select-field{min-width:116px}.language-select{min-height:29px;padding:.14rem 1.7rem .14rem .62rem;font-size:.65rem}.language-select-arrow{right:.6rem;font-size:.76rem}.action-chip{padding:.5rem .7rem;font-size:.68rem}.action-chip:nth-child(2){display:none}}
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="header-upper">
       <div class="header-upper-shell">
-        <button class="language-switch" type="button" aria-label="表示言語を選択" aria-expanded="false">
-          <span class="language-switch__option is-current" lang="ja">日本語</span>
-          <span class="language-switch__divider" aria-hidden="true"></span>
-          <span class="language-switch__option" lang="en">English</span>
-        </button>
+        <div class="language-select-field">
+          <label hidden for="preview-language">表示言語</label>
+          <select id="preview-language" class="language-select" aria-label="表示言語">
+            <option value="ja" selected>日本語</option>
+            <option value="en" disabled>English（準備中）</option>
+          </select>
+          <span class="language-select-arrow" aria-hidden="true">⌄</span>
+        </div>
         <a class="brand" href="#top" aria-label="Astera ホーム">
-          <img class="brand-logo--full" data-brand-file="astera-logo-dark.svg" alt="Astera v8">
-          <img class="brand-logo--symbol" data-brand-file="astera-symbol-dark.svg" alt="" aria-hidden="true">
+          <span class="brand-loading" data-brand-loading>正式ロゴ読込中</span>
+          <img class="brand-logo--full" data-brand-file="astera-logo-dark.svg" alt="Astera v8" hidden>
+          <img class="brand-logo--symbol" data-brand-file="astera-symbol-dark.svg" alt="" aria-hidden="true" hidden>
         </a>
       </div>
     </div>
@@ -97,26 +73,21 @@
       <div>
         <p class="eyebrow">HEADER UPPER / IMPLEMENTATION CHECK</p>
         <h1 id="preview-title">問いを星図に変える。</h1>
-        <p class="lead">確認対象はHeader上段です。左に日本語／English、右に検証済みAstera Logoを配置し、スマートフォンでは正式Symbolへ切り替わります。</p>
-        <div class="status" aria-label="実装状態">
-          <span>Header上段：実装済み</span>
-          <span>Branch変更：0</span>
-          <span>Header操作段：未改修</span>
-        </div>
+        <p class="lead">確認対象はHeader上段です。左は今後の言語追加に対応できるプルダウン、右は検証済みAstera正式Logoです。スマートフォン幅では正式Symbolへ切り替わります。</p>
+        <div class="status" aria-label="実装状態"><span>正式Logo：表示修正済み</span><span>Language：プルダウン化</span><span>Branch変更：0</span><span>Header操作段：未改修</span></div>
       </div>
-      <div class="hero-visual">
-        <img src="../../site/assets/images/astera-globe-top.webp" alt="Asteraトップの暫定ビジュアル" width="1024" height="1536">
-      </div>
+      <div class="hero-visual"><img data-hero-image alt="Asteraトップの暫定ビジュアル" width="1024" height="1536"></div>
     </section>
   </main>
 
-  <aside class="preview-gate" aria-label="確認範囲">
-    <strong>CONFIRMATION SCOPE</strong>
-    <p>このページは実装項目ごとの確認用です。現在はHeader上段だけを確認対象とし、次工程の操作段・Side Menuを完成表示にはしていません。</p>
-  </aside>
+  <aside class="preview-gate" aria-label="確認範囲"><strong>CONFIRMATION SCOPE</strong><p>このページはHeader上段の修正版だけを確認する固定Previewです。正式Logoが実際に表示され、言語UIがプルダウンになっていることを確認してください。</p></aside>
 
   <script>
-    const sourceUrl = '../../site/scripts/materialize-binary-assets.mjs';
+    const previewSource = decodeURIComponent(location.href.split('?').slice(1).join('?'));
+    const commit = previewSource.match(/github\.com\/seigo-gace\/astera-hp\/blob\/([^/]+)\//)?.[1] || 'main';
+    const rawBase = `https://raw.githubusercontent.com/seigo-gace/astera-hp/${commit}`;
+    document.querySelector('[data-hero-image]').src = `${rawBase}/site/assets/images/astera-globe-top.webp`;
+
     const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const decodeBase64 = (value) => {
       const binary = atob(value);
@@ -124,8 +95,10 @@
       for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
       return bytes;
     };
+
     async function loadVerifiedBrandAssets() {
-      const source = await fetch(sourceUrl, {cache:'no-store'}).then((response) => {
+      if (!('DecompressionStream' in window)) throw new Error('gzip decompression is unavailable');
+      const source = await fetch(`${rawBase}/site/scripts/materialize-binary-assets.mjs`, {cache:'no-store'}).then((response) => {
         if (!response.ok) throw new Error(`brand source ${response.status}`);
         return response.text();
       });
@@ -135,15 +108,17 @@
         const compressed = source.match(pattern)?.[1];
         if (!compressed) throw new Error(`brand asset missing: ${file}`);
         const stream = new Blob([decodeBase64(compressed)]).stream().pipeThrough(new DecompressionStream('gzip'));
-        const blob = await new Response(stream).blob();
-        image.src = URL.createObjectURL(new Blob([blob], {type:'image/svg+xml'}));
+        const bytes = await new Response(stream).arrayBuffer();
+        image.src = URL.createObjectURL(new Blob([bytes], {type:'image/svg+xml'}));
+        image.hidden = false;
       }
+      document.querySelector('[data-brand-loading]')?.remove();
     }
+
     loadVerifiedBrandAssets().catch((error) => {
       console.error(error);
-      document.querySelectorAll('[data-brand-file]').forEach((image) => {
-        image.alt = image.classList.contains('brand-logo--full') ? 'Astera v8' : '';
-      });
+      const loading = document.querySelector('[data-brand-loading]');
+      if (loading) loading.textContent = '正式ロゴ読込失敗';
     });
   </script>
 </body>
