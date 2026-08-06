@@ -1,6 +1,6 @@
 {
-  "status": "top-rebuild-source-and-brand-verified",
-  "updatedAt": "2026-08-06T21:10:00+09:00",
+  "status": "top-rebuild-svg-verified-logo-pending",
+  "updatedAt": "2026-08-06T21:46:00+09:00",
   "topVisual": {
     "id": "astera-original-transparent",
     "file": "/assets/visual/hero/astera-original-transparent.svg",
@@ -13,24 +13,24 @@
     "activeOnTop": true,
     "uiOverlayAllowed": false
   },
-  "brandSource": {
-    "repository": "seigo-gace/astera-hp",
-    "mode": "verified-git-history-or-archive-object",
-    "archiveSha256": "8f075dbdf8941cdd7fd226c546574591c3b4d02ae1974477fe3983196f785810",
-    "selection": "known filename plus exact SHA-256 over all reachable Git objects; fallback to exact 11-part archive",
-    "validation": "SHA-256 plus SVG/viewBox and no embedded raster"
+  "brandStatus": {
+    "officialLogo": "pending-design-and-approval",
+    "repositoryAssetRequired": false,
+    "temporaryHeaderLabel": "Astera",
+    "temporaryHeaderLabelIsLogo": false,
+    "substitutionPolicy": "Do not generate, recover, infer, or claim an unofficial logo. Add official bytes only after explicit approval."
   },
   "brand": [
-    {"file":"/assets/brand/astera-symbol-light.svg","required":true,"status":"hash-verified","sha256":"3e5c62a81f450df3336e67110fe840ff6a1acca7af78e9862ce35c51cceb3c20"},
-    {"file":"/assets/brand/astera-symbol-dark.svg","required":true,"status":"hash-verified","sha256":"d576d9cc6c4cb09914e807dc2dab62e5b0a2aca049e774599ca43efd24a947bd"},
-    {"file":"/assets/brand/astera-wordmark-light.svg","required":true,"status":"hash-verified","sha256":"700a3ab3610ac40f194d028a4ab51faf2cdd14f2284b69d266d18700d7fe6de4"},
-    {"file":"/assets/brand/astera-wordmark-dark.svg","required":true,"status":"hash-verified","sha256":"b4f2c7eee4a50efc6d67668dba85567eb04545c3562053d6d029899258d6b6a4"},
-    {"file":"/assets/brand/astera-logo-light.svg","required":true,"status":"hash-verified","sha256":"b9bc0b8afcdfb1ca72182960bc049d4518f1790e22e95a66187e1f860badc004"},
-    {"file":"/assets/brand/astera-logo-dark.svg","required":true,"status":"hash-verified","sha256":"cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52"},
-    {"file":"/assets/brand/favicon.svg","required":true,"status":"exact-alias-of-astera-symbol-dark","sha256":"d576d9cc6c4cb09914e807dc2dab62e5b0a2aca049e774599ca43efd24a947bd"},
-    {"file":"/assets/brand/favicon.png","required":false,"status":"not-used-by-current-shell"},
-    {"file":"/assets/brand/favicon.ico","required":false,"status":"not-used-by-current-shell"},
-    {"file":"/assets/brand/apple-touch-icon.png","required":false,"status":"not-used-by-current-shell"}
+    {"file":"/assets/brand/astera-symbol-light.svg","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/astera-symbol-dark.svg","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/astera-wordmark-light.svg","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/astera-wordmark-dark.svg","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/astera-logo-light.svg","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/astera-logo-dark.svg","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/favicon.svg","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/favicon.png","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/favicon.ico","required":false,"status":"pending-official-design"},
+    {"file":"/assets/brand/apple-touch-icon.png","required":false,"status":"pending-official-design"}
   ],
   "supportingVisuals": [
     "/assets/visual/process/process-purpose.svg",
