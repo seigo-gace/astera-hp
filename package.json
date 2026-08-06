@@ -1,13 +1,13 @@
 {
   "name": "astera-official-website",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "build": "node site/scripts/build.mjs && node site/scripts/normalize-hero-restoration.mjs",
+    "build": "node site/scripts/build.mjs",
     "validate:sources": "node site/scripts/validate-source-coverage.mjs",
     "validate:content": "node site/scripts/validate-content.mjs",
     "validate:links": "node site/scripts/validate-links.mjs",
