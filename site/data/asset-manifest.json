@@ -1,6 +1,6 @@
 {
   "status": "layered-hero-integrated-brand-byte-production-blocked",
-  "updatedAt": "2026-08-05T18:24:00+09:00",
+  "updatedAt": "2026-08-07T01:18:00+09:00",
   "visualDirection": {
     "reference": "latest user-provided Astera globe image and astera-globe-exact-layered.svg structure",
     "method": "latest user-provided image content remains the base; lightweight SVG effect layers add data streams, glow nodes and particles; the unwanted baked-in lower-right sparkle is removed with a deterministic feathered restoration patch; no image generation, redrawing, HUD, labels, canvas or UI overlay",
@@ -27,9 +27,9 @@
   },
   "brand": [
     {"file":"/assets/brand/astera-logo-light.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/astera-logo-dark.svg","required":true,"status":"pending-byte-verification"},
+    {"file":"/assets/brand/astera-logo-dark.svg","required":true,"status":"verified-notion-hash","bytes":35733,"sha256":"cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52","usage":"dark header desktop and tablet"},
     {"file":"/assets/brand/astera-symbol-light.svg","required":true,"status":"pending-byte-verification"},
-    {"file":"/assets/brand/astera-symbol-dark.svg","required":true,"status":"pending-byte-verification"},
+    {"file":"/assets/brand/astera-symbol-dark.svg","required":true,"status":"verified-notion-hash","bytes":26011,"sha256":"d576d9cc6c4cb09914e807dc2dab62e5b0a2aca049e774599ca43efd24a947bd","usage":"dark header mobile"},
     {"file":"/assets/brand/astera-wordmark-light.svg","required":true,"status":"pending-byte-verification"},
     {"file":"/assets/brand/astera-wordmark-dark.svg","required":true,"status":"pending-byte-verification"},
     {"file":"/assets/brand/favicon.svg","required":true,"status":"pending-generation-after-approval"},
