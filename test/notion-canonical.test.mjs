@@ -13,11 +13,16 @@ test('Notion canonical shared shell is retained', async () => {
   const footer = await read('site/templates/partials/footer.html');
   for (const expected of [
     'header-upper', 'data-language-select', '日本語', 'English（準備中）',
-    '/assets/brand/astera-logo-dark.svg', '/assets/brand/astera-symbol-dark.svg',
+    '/assets/brand/astera-logo-dark.svg',
     '製品', '活用シーン', '支援・投資', 'ドキュメント', '会社情報',
     'https://app.asterav8.jp/pricing', 'CAMPFIRE', 'LAUNCH APP'
   ]) assert.match(header, new RegExp(expected.replaceAll('.', '\\.')));
-  assert.doesNotMatch(header, /brand-text|data-official-logo-pending|data-language-open/);
+  assert.doesNotMatch(header, /brand-text|data-official-logo-pending|data-language-open|astera-symbol-dark\.svg/);
+
+  const upperStart = header.indexOf('<div class="header-upper">');
+  const brand = header.indexOf('class="brand brand-official"', upperStart);
+  const language = header.indexOf('class="language-select-field"', upperStart);
+  assert.ok(brand > upperStart && brand < language, 'Header upper order must be official logo then language dropdown');
 
   const navStart = header.indexOf('<nav id="global-nav"');
   const navEnd = header.indexOf('</nav>', navStart);
