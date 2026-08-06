@@ -21,7 +21,6 @@
   {"route":"/supporters/","key":"supporters","template":"index"},
   {"route":"/corporate/","key":"corporate","template":"article"},
   {"route":"/investors/","key":"investors","template":"article"},
-  {"route":"/company/","key":"company","template":"article"},
   {"route":"/legal/terms/","key":"terms","template":"legal"},
   {"route":"/legal/privacy/","key":"privacy","template":"legal"},
   {"route":"/legal/commerce/","key":"commerce","template":"legal"}
