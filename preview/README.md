@@ -11,10 +11,11 @@ This directory is the direct confirmation surface for step-by-step TOP reconstru
 5. Report an immutable preview URL pinned to the resulting commit SHA.
 6. Do not start the next implementation item before the confirmation URL has been issued.
 7. GitHub Pages remains a full-site secondary preview. The direct HTML preview must not depend on a GitHub Actions run.
+8. Official brand assets must be visibly rendered in the confirmation page; file references alone are not sufficient.
 
 ## Current preview
 
-- `preview/header-upper/index.html` — Header upper row: Language switch on the left, verified Astera logo on the right, and verified symbol on mobile.
+- `preview/header-upper/index.html` — Header upper row: extensible language dropdown on the left, verified Astera logo on the right, and verified symbol on mobile. The fixed preview resolves the commit SHA from its own URL and renders the verified SVG bytes from that same commit.
 
 ## URL format
 
