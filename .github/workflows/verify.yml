@@ -70,7 +70,7 @@ jobs:
           const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
           await mobile.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
           await mobile.screenshot({ path: 'evidence/browser/preview/home-mobile.jpg', type: 'jpeg', quality: 72, fullPage: false });
-          const mobileSmall = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 0.75, isMobile: true, hasTouch: true });
+          const mobileSmall = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 0.75 });
           await mobileSmall.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
           await mobileSmall.screenshot({ path: 'evidence/browser/preview/home-mobile-small.jpg', type: 'jpeg', quality: 58, fullPage: false });
           await browser.close();
@@ -87,10 +87,10 @@ jobs:
         run: |
           set -euo pipefail
           screenshot_count="$(find test-results/screenshots -type f -name '*.jpg' | wc -l)"
-          test "$screenshot_count" -eq 52
+          test "$screenshot_count" -eq 54
           rm -rf evidence/browser/screenshots
           mkdir -p evidence/browser/screenshots/desktop evidence/browser/screenshots/mobile
-          for page in home chat contact product__what-is-astera; do
+          for page in home chat contact product__what-is-astera evidence; do
             cp "test-results/screenshots/desktop-chromium/${page}.jpg" "evidence/browser/screenshots/desktop/${page}.jpg"
             cp "test-results/screenshots/mobile-chromium/${page}.jpg" "evidence/browser/screenshots/mobile/${page}.jpg"
           done
@@ -99,19 +99,19 @@ jobs:
 
           - GitHub Actions run: ${GITHUB_RUN_ID}
           - Tested commit: ${GITHUB_SHA}
-          - Source tests: 34/34 PASS
-          - Browser tests: 54/54 PASS
-          - Route renders: 26 desktop + 26 mobile
+          - Source tests: PASS
+          - Browser tests: 56/56 PASS
+          - Route renders: 27 desktop + 27 mobile
           - Pricing redirect checks: desktop + mobile PASS
           - Browser test runtime: Playwright 1.62.0
           - Dependency security gate: npm audit HIGH/CRITICAL = 0
           - Desktop viewport: 1440 x 1000
           - Mobile profile: Pixel 7
           - Full-page screenshots generated during the run: ${screenshot_count}
-          - Repository evidence screenshots retained: 8
+          - Repository evidence screenshots retained: 10
           - Direct visual preview images: 4
 
-          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, layered SVG and GSAP asset loading, WebP fallback visibility, deterministic lower-right sparkle removal in fallback and moving SVG states, data stream movement, glow-node contract, desktop pointer tilt, zero hero UI overlay, lazy visual asset loading, broken images, unknown internal links, desktop navigation, mobile menu open/close, Contact form, Chat form, Q&A search, Customer AI launcher and Cloudflare pricing redirect configuration.
+          Checks included HTTP status, console and page errors, unresolved template placeholders, horizontal overflow, exact uploaded TOP SVG dimensions, official logo loading, two-tier header, Main 9 order and accordions, Japanese/English switching, supporter banner, movable Guide AI launcher, mocked Edge job API flow, Evidence route, lazy visual asset loading, broken images, internal links, side-menu open/close, Contact form, Chat form, Q&A search, and Cloudflare pricing redirects.
           EOF
       - name: Persist CI failure diagnostics
         if: failure() && github.event_name == 'push' && github.ref == 'refs/heads/main'
