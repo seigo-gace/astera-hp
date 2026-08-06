@@ -1,5 +1,16 @@
 const q=(selector,root=document)=>root.querySelector(selector);const qa=(selector,root=document)=>[...root.querySelectorAll(selector)];
 const safeStorage={get(key){try{return localStorage.getItem(key)}catch{return null}},set(key,value){try{localStorage.setItem(key,value)}catch{}}};
+const productTranslations={
+  '/product/what-is-astera/':['Asteraとは？','What is Astera?'],
+  '/product/why-astera/':['なぜAsteraを使うのか','Why use Astera?'],
+  '/product/value/':['費用対効果・導入価値','Value and ROI'],
+  '/product/process/':['判断材料生成プロセス','Decision-material process'],
+  '/product/engine/':['多角的判断エンジン','Multi-perspective engine'],
+  '/product/usage/':['利用方法・活用範囲','How to use Astera'],
+  '/product/technology/':['技術基盤','Technology'],
+  '/product/integration/':['連携・拡張性','Integration']
+};
+qa('#product-menu a').forEach(link=>{const translation=productTranslations[new URL(link.href,location.origin).pathname];if(!translation)return;link.dataset.ja=translation[0];link.dataset.en=translation[1]});
 const languageKey='astera.hp.language';
 function setLanguage(language){const lang=language==='en'?'en':'ja';document.documentElement.lang=lang;safeStorage.set(languageKey,lang);qa('[data-ja][data-en]').forEach(node=>{node.textContent=node.dataset[lang]||node.textContent});qa('[data-language-current]').forEach(node=>{node.textContent=lang==='ja'?'日本語':'English'});if(document.body.dataset.route==='home'){document.title=lang==='ja'?'Astera｜問いを星図に変える。':'Astera | Turn questions into a star map.';const meta=q('meta[name="description"]');if(meta)meta.content=lang==='ja'?'Asteraは、主役AIを置き換えず、目的、前提、事実、Risk、反対視点、比較案、推奨判断、再指示を判断材料として整理するRuntimeです。':'Astera is a runtime that organizes purpose, assumptions, facts, risks, opposing views, options, recommendations, and revised instructions without replacing the primary AI.'}}
 setLanguage(safeStorage.get(languageKey)||((navigator.language||'').toLowerCase().startsWith('en')?'en':'ja'));
