@@ -44,9 +44,22 @@ document.addEventListener('click', (event) => { if (productMenu?.hidden !== fals
 document.addEventListener('keydown', (event) => { if (event.key !== 'Escape') return; if (productMenu?.hidden === false) closeProductMenu({returnFocus: true}); else if (globalNav?.classList.contains('is-open')) closeMobileMenu({returnFocus: true}); });
 qa('a', globalNav).forEach((link) => link.addEventListener('click', () => closeMobileMenu()));
 
-const languageOpen = q('[data-language-open]');
-const languageDialog = q('[data-language-dialog]');
-if (languageOpen && languageDialog) { const language = createDialogController(languageDialog, languageOpen, q('[data-language-close]', languageDialog)); languageOpen.addEventListener('click', language.open); languageDialog.addEventListener('click', (event) => { if (event.target === languageDialog) language.close(); }); }
+const languageSelect = q('[data-language-select]');
+if (languageSelect) {
+  const available = new Set(qa('option:not([disabled])', languageSelect).map((option) => option.value));
+  let stored = null;
+  try { stored = localStorage.getItem('astera-language'); } catch {}
+  const initial = available.has(stored) ? stored : 'ja';
+  languageSelect.value = initial;
+  document.documentElement.lang = initial;
+  languageSelect.addEventListener('change', () => {
+    const next = available.has(languageSelect.value) ? languageSelect.value : 'ja';
+    languageSelect.value = next;
+    document.documentElement.lang = next;
+    try { localStorage.setItem('astera-language', next); } catch {}
+  });
+}
+
 const aiLauncher = q('[data-ai-launcher]');
 const aiPanel = q('[data-ai-panel]');
 if (aiLauncher && aiPanel) { const ai = createDialogController(aiPanel, aiLauncher, q('[data-ai-close]', aiPanel)); aiLauncher.addEventListener('click', () => aiPanel.hidden ? ai.open() : ai.close()); }
