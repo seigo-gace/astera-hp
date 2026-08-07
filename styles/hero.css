@@ -1,0 +1,20 @@
+.top-visual{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  background:#02070a;
+  overflow:hidden;
+}
+
+.top-visual img{
+  display:block;
+  width:min(100%,1536px);
+  height:auto;
+  object-fit:contain;
+  object-position:center top;
+}
+
+@media (max-width:599px){
+  .top-visual img{width:100%}
+}
