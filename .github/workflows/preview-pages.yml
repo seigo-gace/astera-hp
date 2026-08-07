@@ -27,15 +27,30 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -s index.html
-          test -s style.css
-          test -s script.js
-          test -s site/assets/brand/astera-logo-dark.svg
-          test -s site/assets/icons/ai-guide-robot.svg
+
+          for file in \
+            index.html \
+            style.css \
+            script.js \
+            styles/base.css \
+            styles/header.css \
+            styles/menu.css \
+            styles/ai-bubble.css \
+            scripts/language.js \
+            scripts/menu.js \
+            scripts/ai-bubble.js \
+            scripts/app-entry.js \
+            site/assets/brand/astera-logo-dark.svg \
+            site/assets/icons/ai-guide-robot.svg
+          do
+            test -s "$file"
+          done
+
+          grep -Fq '<script type="module" src="./script.js"></script>' index.html
           ! grep -Fq '最新情報' index.html
           ! grep -Fq '正式回答' index.html
           ! grep -Fq '料金・Credit' index.html
-          ! grep -Eiq 'notion|NOTION_' index.html style.css script.js
+          ! grep -Eiq 'notion|NOTION_' index.html style.css script.js styles/*.css scripts/*.js
 
       - name: Prepare static files without generation
         shell: bash
@@ -44,6 +59,7 @@ jobs:
           rm -rf public
           mkdir -p public/site
           cp index.html style.css script.js public/
+          cp -R styles scripts public/
           cp -R site/assets public/site/assets
           touch public/.nojekyll
 
@@ -68,17 +84,28 @@ jobs:
           root="${LIVE_URL%/}"
 
           curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
-          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/style.css" -o /tmp/style.css
-          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/script.js" -o /tmp/script.js
-          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/site/assets/brand/astera-logo-dark.svg" -o /tmp/logo.svg
-          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/site/assets/icons/ai-guide-robot.svg" -o /tmp/ai.svg
+
+          for path in \
+            style.css \
+            script.js \
+            styles/base.css \
+            styles/header.css \
+            styles/menu.css \
+            styles/ai-bubble.css \
+            scripts/language.js \
+            scripts/menu.js \
+            scripts/ai-bubble.js \
+            scripts/app-entry.js \
+            site/assets/brand/astera-logo-dark.svg \
+            site/assets/icons/ai-guide-robot.svg
+          do
+            curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/$path" -o "/tmp/$(echo "$path" | tr '/' '_')"
+          done
 
           grep -Fq '<title>Astera</title>' /tmp/index.html
-          grep -Fq '<script src="./script.js" defer></script>' /tmp/index.html
+          grep -Fq '<script type="module" src="./script.js"></script>' /tmp/index.html
           ! grep -Fq '最新情報' /tmp/index.html
           ! grep -Fq '正式回答' /tmp/index.html
           ! grep -Fq '料金・Credit' /tmp/index.html
-          test -s /tmp/style.css
-          test -s /tmp/script.js
-          grep -Fq '<svg' /tmp/logo.svg
-          grep -Fq '<svg' /tmp/ai.svg
+          grep -Fq '<svg' /tmp/site_assets_brand_astera-logo-dark.svg
+          grep -Fq '<svg' /tmp/site_assets_icons_ai-guide-robot.svg
