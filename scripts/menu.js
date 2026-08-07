@@ -4,6 +4,8 @@ export function initSideMenu() {
   const opener = document.querySelector('[data-menu-open]');
   if (!menu || !opener) return;
 
+  const triggers = [...document.querySelectorAll('.accordion-trigger')];
+
   const setOpen = (open) => {
     body.classList.toggle('menu-open', open);
     opener.setAttribute('aria-expanded', String(open));
@@ -16,13 +18,13 @@ export function initSideMenu() {
     button.addEventListener('click', () => setOpen(false));
   });
 
-  document.querySelectorAll('[data-accordion]').forEach((trigger) => {
+  triggers.forEach((trigger) => {
     trigger.addEventListener('click', () => {
       const panel = document.getElementById(trigger.getAttribute('aria-controls'));
       if (!panel) return;
       const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
 
-      document.querySelectorAll('[data-accordion]').forEach((other) => {
+      triggers.forEach((other) => {
         const otherPanel = document.getElementById(other.getAttribute('aria-controls'));
         if (other !== trigger) {
           other.setAttribute('aria-expanded', 'false');
