@@ -1,5 +1,5 @@
 export function initAiBubble() {
-  const bubble = document.getElementById('customer-ai');
+  const bubble = document.getElementById('ai-bubble');
   const opener = document.querySelector('[data-ai-open]');
   const closer = document.querySelector('[data-ai-close]');
   if (!bubble || !opener || !closer) return;
