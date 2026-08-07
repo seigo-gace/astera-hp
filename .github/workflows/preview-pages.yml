@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -22,39 +22,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Bootstrap exact locked TOP Hero asset
-        shell: bash
-        run: |
-          set -euo pipefail
-          hero="assets/visual/hero/astera-original-transparent.svg"
-          source_url="https://drive.usercontent.google.com/download?id=13z9nz8KbM2ErPaJvqLamAXv9EGgYb3hg&export=download&confirm=t"
-          expected_size="3097567"
-          expected_sha="84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
-
-          verify_hero() {
-            test -s "$hero"
-            test "$(wc -c < "$hero" | tr -d ' ')" = "$expected_size"
-            test "$(sha256sum "$hero" | awk '{print $1}')" = "$expected_sha"
-            grep -Fq 'width="1536" height="1433"' "$hero"
-            grep -Fq 'viewBox="0 0 1536 1433"' "$hero"
-          }
-
-          if ! verify_hero 2>/dev/null; then
-            mkdir -p "$(dirname "$hero")"
-            tmp="$(mktemp)"
-            curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$source_url" -o "$tmp"
-            mv "$tmp" "$hero"
-            verify_hero
-          fi
-
-          if ! git diff --quiet -- "$hero" || ! git ls-files --error-unmatch "$hero" >/dev/null 2>&1; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add "$hero"
-            git commit -m "chore: restore locked Astera TOP hero asset"
-            git push origin HEAD:main
-          fi
 
       - name: Verify direct static source and locked assets
         shell: bash
@@ -84,11 +51,19 @@ jobs:
           grep -Fq '<script type="module" src="./script.js"></script>' index.html
           grep -Fq 'src="./assets/brand/astera-logo-dark.svg"' index.html
           grep -Fq 'src="./assets/icons/ai-guide-robot.svg"' index.html
+          grep -Fq 'src="./assets/visual/hero/astera-original-transparent.svg"' index.html
+          grep -Fq 'width="1536"' index.html
+          grep -Fq 'height="1433"' index.html
+          grep -Fq 'fetchpriority="high"' index.html
+          grep -Fq 'decoding="async"' index.html
           grep -Fq "@import url('./styles/hero.css');" style.css
           test "$(git hash-object assets/brand/astera-logo-dark.svg)" = "e77bad0abb060965f72caba59f516b57cadc24a5"
           test "$(git hash-object assets/icons/ai-guide-robot.svg)" = "0965b33bc1b0cd02db7244387e463c3ea69a9f78"
+          test "$(git hash-object assets/visual/hero/astera-original-transparent.svg)" = "e54a4dfd4009237ceea48a30a9cf850776852a6a"
           test "$(wc -c < assets/visual/hero/astera-original-transparent.svg | tr -d ' ')" = "3097567"
           test "$(sha256sum assets/visual/hero/astera-original-transparent.svg | awk '{print $1}')" = "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
+          grep -Fq 'width="1536" height="1433"' assets/visual/hero/astera-original-transparent.svg
+          grep -Fq 'viewBox="0 0 1536 1433"' assets/visual/hero/astera-original-transparent.svg
 
           ! grep -Fq 'astera-globe-exact-layered.svg' index.html style.css styles/*.css
           ! grep -Fq 'astera-globe-top.webp' index.html style.css styles/*.css
@@ -150,6 +125,7 @@ jobs:
 
           grep -Fq '<title>Astera</title>' /tmp/index.html
           grep -Fq '<script type="module" src="./script.js"></script>' /tmp/index.html
+          grep -Fq 'src="./assets/visual/hero/astera-original-transparent.svg"' /tmp/index.html
           ! grep -Fq '最新情報' /tmp/index.html
           ! grep -Fq '正式回答' /tmp/index.html
           ! grep -Fq '料金・Credit' /tmp/index.html
