@@ -19,26 +19,49 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify canonical root files
+      - name: Verify canonical root and isolated component files
         shell: bash
         run: |
           set -euo pipefail
-          test -s index.html
-          test -s style.css
-          test -s script.js
-          test -s site/assets/brand/astera-logo-dark.svg
-          test -s site/assets/icons/ai-guide-robot.svg
+
+          for file in \
+            index.html \
+            style.css \
+            script.js \
+            styles/base.css \
+            styles/header.css \
+            styles/menu.css \
+            styles/ai-bubble.css \
+            scripts/language.js \
+            scripts/menu.js \
+            scripts/ai-bubble.js \
+            scripts/app-entry.js \
+            site/assets/brand/astera-logo-dark.svg \
+            site/assets/icons/ai-guide-robot.svg
+          do
+            test -s "$file"
+          done
 
           grep -Fq '<link rel="stylesheet" href="./style.css">' index.html
-          grep -Fq '<script src="./script.js" defer></script>' index.html
+          grep -Fq '<script type="module" src="./script.js"></script>' index.html
           grep -Fq 'src="./site/assets/brand/astera-logo-dark.svg"' index.html
           grep -Fq 'src="./site/assets/icons/ai-guide-robot.svg"' index.html
+
+          grep -Fq "@import url('./styles/base.css');" style.css
+          grep -Fq "@import url('./styles/header.css');" style.css
+          grep -Fq "@import url('./styles/menu.css');" style.css
+          grep -Fq "@import url('./styles/ai-bubble.css');" style.css
+
+          grep -Fq "from './scripts/language.js'" script.js
+          grep -Fq "from './scripts/menu.js'" script.js
+          grep -Fq "from './scripts/ai-bubble.js'" script.js
+          grep -Fq "from './scripts/app-entry.js'" script.js
 
           ! grep -Fq '<style' index.html
           ! grep -Fq '最新情報' index.html
           ! grep -Fq '正式回答' index.html
           ! grep -Fq '料金・Credit' index.html
-          ! grep -Eiq 'notion|NOTION_' index.html style.css script.js
+          ! grep -Eiq 'notion|NOTION_' index.html style.css script.js styles/*.css scripts/*.js
 
       - name: Verify direct static HTTP delivery
         shell: bash
@@ -55,13 +78,23 @@ jobs:
             sleep 1
           done
 
-          curl --fail --silent http://127.0.0.1:4173/style.css >/tmp/style.css
-          curl --fail --silent http://127.0.0.1:4173/script.js >/tmp/script.js
-          curl --fail --silent http://127.0.0.1:4173/site/assets/brand/astera-logo-dark.svg >/tmp/logo.svg
-          curl --fail --silent http://127.0.0.1:4173/site/assets/icons/ai-guide-robot.svg >/tmp/ai.svg
+          for path in \
+            style.css \
+            script.js \
+            styles/base.css \
+            styles/header.css \
+            styles/menu.css \
+            styles/ai-bubble.css \
+            scripts/language.js \
+            scripts/menu.js \
+            scripts/ai-bubble.js \
+            scripts/app-entry.js \
+            site/assets/brand/astera-logo-dark.svg \
+            site/assets/icons/ai-guide-robot.svg
+          do
+            curl --fail --silent "http://127.0.0.1:4173/$path" -o "/tmp/$(basename "$path")"
+          done
 
           grep -Fq '<title>Astera</title>' /tmp/index.html
-          test -s /tmp/style.css
-          test -s /tmp/script.js
-          grep -Fq '<svg' /tmp/logo.svg
-          grep -Fq '<svg' /tmp/ai.svg
+          grep -Fq '<svg' /tmp/astera-logo-dark.svg
+          grep -Fq '<svg' /tmp/ai-guide-robot.svg
