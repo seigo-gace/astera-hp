@@ -29,8 +29,7 @@ test('Header upper row remains logo-left and compact language-right', async () =
   const header = await read('site/templates/partials/header.html');
   const css = await read('site/assets/navigation-canonical.css');
   const app = await read('site/assets/app.js');
-  const materializer = await read('site/scripts/materialize-binary-assets.mjs');
-  const manifest = JSON.parse(await read('site/data/asset-manifest.json'));
+  const restoredLogo = await read('site/assets/brand/astera-logo-dark.svg');
 
   const upperStart = header.indexOf('<div class="header-upper"');
   const actionStart = header.indexOf('<div class="header-action-row"', upperStart);
@@ -43,6 +42,9 @@ test('Header upper row remains logo-left and compact language-right', async () =
   assert.match(header, /<option value="ja" selected>JP<\/option>/);
   assert.match(header, /<option value="en" disabled>EN<\/option>/);
   assert.ok(header.includes('/assets/brand/astera-logo-dark.svg'));
+  assert.match(restoredLogo, /Astera v8 official dark-background logo/);
+  assert.match(restoredLogo, /data:image\/webp;base64,/);
+  assert.doesNotMatch(restoredLogo, /<text\b|font-family=/);
 
   for (const marker of ['--header-upper-height:46px','.header-upper-shell','width:54px','margin-left:auto','@media(max-width:599px)']) {
     assert.ok(css.includes(marker), `Missing upper header marker: ${marker}`);
@@ -54,10 +56,6 @@ test('Header upper row remains logo-left and compact language-right', async () =
     "localStorage.setItem('astera-language', next)",
     "document.documentElement.lang = next"
   ]) assert.ok(app.includes(marker), `Missing language behavior marker: ${marker}`);
-
-  const verified = new Map(manifest.brand.map((asset) => [asset.file, asset]));
-  assert.equal(verified.get('/assets/brand/astera-logo-dark.svg')?.sha256, 'cab61af560b3165130f7e8d922c093911f41e822ff01ea0c139db494c4612e52');
-  assert.ok(materializer.includes("file: 'astera-logo-dark.svg'"));
 });
 
 test('Header action row is directly below upper row and keeps App, AI, Menu in that order without an invented App badge', async () => {
@@ -115,11 +113,9 @@ test('Header action row is directly below upper row and keeps App, AI, Menu in t
   assert.match(robot, /提供画像の上段右から2番目のロボットアイコン/);
   assert.match(robot, /data:image\/webp;base64,/);
 
-  assert.doesNotMatch(preview, /<b>A<\/b>|data:image\/svg\+xml;base64/);
+  assert.doesNotMatch(preview, /<b>A<\/b>|header-app-entry__mark|DecompressionStream|official-logo-hash-mismatch/);
   assert.match(preview, /data-official-logo/);
-  assert.match(preview, /file:\\s\*'astera-logo-dark\\\.svg'/);
-  assert.match(preview, /DecompressionStream\('gzip'\)/);
-  assert.match(preview, /official-logo-hash-mismatch/);
+  assert.match(preview, /site\/assets\/brand\/astera-logo-dark\.svg/);
 });
 
 test('Side menu follows the canonical five-item structure without duplicating header controls', async () => {
