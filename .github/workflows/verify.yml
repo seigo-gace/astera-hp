@@ -32,12 +32,15 @@ jobs:
             styles/header.css \
             styles/menu.css \
             styles/ai-bubble.css \
+            styles/hero.css \
             scripts/language.js \
             scripts/menu.js \
             scripts/ai-bubble.js \
             scripts/app-entry.js \
             assets/brand/astera-logo-dark.svg \
-            assets/icons/ai-guide-robot.svg
+            assets/icons/ai-guide-robot.svg \
+            assets/visual/astera-globe-exact-layered.svg \
+            assets/images/astera-globe-top.webp
           do
             test -s "$file"
           done
@@ -46,11 +49,14 @@ jobs:
           grep -Fq '<script type="module" src="./script.js"></script>' index.html
           grep -Fq 'src="./assets/brand/astera-logo-dark.svg"' index.html
           grep -Fq 'src="./assets/icons/ai-guide-robot.svg"' index.html
+          grep -Fq 'src="./assets/images/astera-globe-top.webp"' index.html
+          grep -Fq 'data="./assets/visual/astera-globe-exact-layered.svg"' index.html
 
           grep -Fq "@import url('./styles/base.css');" style.css
           grep -Fq "@import url('./styles/header.css');" style.css
           grep -Fq "@import url('./styles/menu.css');" style.css
           grep -Fq "@import url('./styles/ai-bubble.css');" style.css
+          grep -Fq "@import url('./styles/hero.css');" style.css
 
           grep -Fq "from './scripts/language.js'" script.js
           grep -Fq "from './scripts/menu.js'" script.js
@@ -59,6 +65,8 @@ jobs:
 
           test "$(git hash-object assets/brand/astera-logo-dark.svg)" = "e77bad0abb060965f72caba59f516b57cadc24a5"
           test "$(git hash-object assets/icons/ai-guide-robot.svg)" = "0965b33bc1b0cd02db7244387e463c3ea69a9f78"
+          test "$(git hash-object assets/visual/astera-globe-exact-layered.svg)" = "0d554a49710685c261c67f2cca5bc26f586481b0"
+          test "$(git hash-object assets/images/astera-globe-top.webp)" = "fdbb175acd2e9d3a415fb4f4c27ec094bcc36574"
 
           ! grep -Fq '<style' index.html
           ! grep -Fq '最新情報' index.html
@@ -88,12 +96,15 @@ jobs:
             styles/header.css \
             styles/menu.css \
             styles/ai-bubble.css \
+            styles/hero.css \
             scripts/language.js \
             scripts/menu.js \
             scripts/ai-bubble.js \
             scripts/app-entry.js \
             assets/brand/astera-logo-dark.svg \
-            assets/icons/ai-guide-robot.svg
+            assets/icons/ai-guide-robot.svg \
+            assets/visual/astera-globe-exact-layered.svg \
+            assets/images/astera-globe-top.webp
           do
             curl --fail --silent "http://127.0.0.1:4173/$path" -o "/tmp/$(echo "$path" | tr '/' '_')"
           done
@@ -101,3 +112,5 @@ jobs:
           grep -Fq '<title>Astera</title>' /tmp/index.html
           grep -Fq '<svg' /tmp/assets_brand_astera-logo-dark.svg
           grep -Fq '<svg' /tmp/assets_icons_ai-guide-robot.svg
+          grep -Fq '<svg' /tmp/assets_visual_astera-globe-exact-layered.svg
+          test -s /tmp/assets_images_astera-globe-top.webp
