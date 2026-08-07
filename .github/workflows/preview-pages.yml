@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: astera-hp-static-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   publish:
@@ -62,10 +62,11 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf public
-          mkdir -p public/site
+          mkdir -p public/site/assets/brand public/assets
           cp index.html style.css script.js public/
-          cp -R styles scripts assets public/
-          cp -R site/assets public/site/assets
+          cp -R styles scripts public/
+          cp -R assets/* public/assets/
+          cp site/assets/brand/astera-logo-dark.svg public/site/assets/brand/astera-logo-dark.svg
           touch public/.nojekyll
 
       - uses: actions/configure-pages@v5
