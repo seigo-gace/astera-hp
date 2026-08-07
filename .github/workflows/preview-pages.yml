@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -133,3 +133,29 @@ jobs:
           grep -Fq '<svg' /tmp/assets_icons_ai-guide-robot.svg
           test "$(wc -c < /tmp/assets_visual_hero_astera-original-transparent.svg | tr -d ' ')" = "3097567"
           test "$(sha256sum /tmp/assets_visual_hero_astera-original-transparent.svg | awk '{print $1}')" = "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
+
+      - name: Record live verification evidence
+        env:
+          LIVE_URL: ${{ steps.deployment.outputs.page_url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p verification
+          cat > verification/top-hero-live.json <<EOF
+          {
+            "status": "PASS",
+            "verified_source_commit": "${GITHUB_SHA}",
+            "live_url": "${LIVE_URL%/}/",
+            "hero_path": "assets/visual/hero/astera-original-transparent.svg",
+            "hero_bytes": 3097567,
+            "hero_sha256": "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
+          }
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add verification/top-hero-live.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: record TOP hero live verification [skip ci]"
+            git push origin HEAD:main
+          fi
