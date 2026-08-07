@@ -1,197 +1,84 @@
-name: Publish HP preview
+name: Publish direct static HP
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-  issues:
-    types: [opened, edited, reopened]
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: astera-hp-preview
+  group: astera-hp-static-pages
   cancel-in-progress: true
 
 jobs:
-  build:
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && !contains(github.event.head_commit.message, '[generated-site]') && !contains(github.event.head_commit.message, '[ci-failure]')) ||
-      (github.event_name == 'issues' && startsWith(github.event.issue.title, '[HP PREVIEW DEPLOY]'))
+  publish:
     runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Verify current HP source
-        run: npm test
-      - name: Prepare commit-identified project-path preview
-        env:
-          PREVIEW_BASE_PATH: /astera-hp
-        run: node site/scripts/build-preview.mjs
-      - name: Verify preview artifact identifies this exact source commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          grep -q "sourceCommit=${GITHUB_SHA}" site/preview-dist/preview/BUILD.txt
-          grep -q "\"sourceCommit\": \"${GITHUB_SHA}\"" site/preview-dist/preview/BUILD.json
-          grep -q "name=\"astera-preview-build\" content=\"${GITHUB_SHA}\"" site/preview-dist/index.html
-      - name: Configure or enable GitHub Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Upload preview artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: site/preview-dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-24.04
-    outputs:
-      page_url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy preview
+      - uses: actions/checkout@v4
+
+      - name: Verify direct static source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s index.html
+          test -s style.css
+          test -s script.js
+          test -s site/assets/brand/astera-logo-dark.svg
+          test -s site/assets/icons/ai-guide-robot.svg
+          ! grep -Fq '最新情報' index.html
+          ! grep -Fq '正式回答' index.html
+          ! grep -Fq '料金・Credit' index.html
+          ! grep -Eiq 'notion|NOTION_' index.html style.css script.js
+
+      - name: Prepare static files without generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf public
+          mkdir -p public/site
+          cp index.html style.css script.js public/
+          cp -R site/assets public/site/assets
+          touch public/.nojekyll
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+      - name: Deploy direct static files
         id: deployment
         uses: actions/deploy-pages@v4
 
-  verify-live:
-    needs: deploy
-    runs-on: ubuntu-24.04
-    env:
-      LIVE_URL: ${{ needs.deploy.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Verify published GitHub Pages website is this exact commit
+      - name: Verify live static files
+        env:
+          LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
         run: |
           set -euo pipefail
-          test -n "${LIVE_URL}"
           root="${LIVE_URL%/}"
-          build="${GITHUB_SHA:0:12}"
-          mkdir -p /tmp/astera-pages
 
-          curl --fail --location --silent --show-error \
-            --retry 12 --retry-delay 5 --retry-all-errors \
-            "${root}/?build=${build}" -o /tmp/astera-pages/index.html
-          grep -q '<title>.*Astera' /tmp/astera-pages/index.html
-          grep -q "name=\"astera-preview-build\" content=\"${GITHUB_SHA}\"" /tmp/astera-pages/index.html
-          grep -q '/astera-hp/assets/astera-hero-image.css' /tmp/astera-pages/index.html
-          grep -q '/astera-hp/assets/astera-hero-restoration.css' /tmp/astera-pages/index.html
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/style.css" -o /tmp/style.css
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/script.js" -o /tmp/script.js
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/site/assets/brand/astera-logo-dark.svg" -o /tmp/logo.svg
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/site/assets/icons/ai-guide-robot.svg" -o /tmp/ai.svg
 
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/astera-hero-image.css?build=${build}" -o /tmp/astera-pages/hero.css
-          ! grep -q 'data:image/webp;base64,' /tmp/astera-pages/hero.css
-          grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/hero.css
-
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/astera-hero-restoration.css?build=${build}" -o /tmp/astera-pages/restoration.css
-          grep -q '/astera-hp/assets/images/astera-globe-lower-right-restoration.webp' /tmp/astera-pages/restoration.css
-
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/visual/hero/astera-globe-exact-layered.svg?build=${build}" -o /tmp/astera-pages/hero.svg
-          grep -q '/astera-hp/assets/images/astera-globe-top.webp' /tmp/astera-pages/hero.svg
-
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/assets/images/astera-globe-lower-right-restoration.webp?build=${build}" -o /tmp/astera-pages/restoration.webp
-          test "$(stat -c%s /tmp/astera-pages/restoration.webp)" -eq 1834
-
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/preview/BUILD.txt?build=${build}" -o /tmp/astera-pages/BUILD.txt
-          grep -q 'basePath=/astera-hp' /tmp/astera-pages/BUILD.txt
-          grep -q "sourceCommit=${GITHUB_SHA}" /tmp/astera-pages/BUILD.txt
-
-          curl --fail --location --silent --show-error \
-            --retry 8 --retry-delay 3 --retry-all-errors \
-            "${root}/preview/?build=${build}" -o /tmp/astera-pages/preview-status.html
-          grep -q "${GITHUB_SHA}" /tmp/astera-pages/preview-status.html
-
-      - name: Record live publication evidence
-        if: github.ref == 'refs/heads/main'
-        shell: bash
-        run: |
-          set -euo pipefail
-          git pull --rebase origin main
-          mkdir -p evidence/pages
-          rm -f evidence/pages/FAILURE.md
-          build="${GITHUB_SHA:0:12}"
-          cat > evidence/pages/RESULT.md <<EOF
-          # GitHub Pages live publication result
-
-          - Status: PASS
-          - Public confirmation URL: ${LIVE_URL}?build=${build}
-          - Preview status URL: ${LIVE_URL}preview/?build=${build}
-          - Trigger: ${GITHUB_EVENT_NAME}
-          - GitHub Actions run: ${GITHUB_RUN_ID}
-          - Published source commit: ${GITHUB_SHA}
-          - Verification time: $(date -u +%Y-%m-%dT%H:%M:%SZ)
-          - TOP HTML: HTTP PASS
-          - Exact commit marker: PASS
-          - Project base path `/astera-hp`: PASS
-          - Hero delivery CSS contains no embedded WebP Data URI: PASS
-          - Layered SVG base image path: PASS
-          - Lower-right restoration WebP: PASS (1834 bytes)
-          - Preview build marker: PASS
-
-          This URL is the public GitHub Pages confirmation environment. It is not the Cloudflare production deployment.
-          EOF
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A evidence/pages
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m "test: record GitHub Pages live evidence [generated-site]"
-          git push origin HEAD:main
-
-  record-failure:
-    needs: [build, deploy, verify-live]
-    if: ${{ always() && github.ref == 'refs/heads/main' && (needs.build.result == 'failure' || needs.deploy.result == 'failure' || needs.verify-live.result == 'failure') }}
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Record GitHub Pages publication failure
-        shell: bash
-        run: |
-          set -euo pipefail
-          git pull --rebase origin main
-          mkdir -p evidence/pages
-          rm -f evidence/pages/RESULT.md
-          cat > evidence/pages/FAILURE.md <<EOF
-          # GitHub Pages publication failure
-
-          - Status: FAIL
-          - Trigger: ${GITHUB_EVENT_NAME}
-          - GitHub Actions run: ${GITHUB_RUN_ID}
-          - Tested source commit: ${GITHUB_SHA}
-          - Build result: ${{ needs.build.result }}
-          - Deploy result: ${{ needs.deploy.result }}
-          - Live verification result: ${{ needs.verify-live.result }}
-          - Recorded at: $(date -u +%Y-%m-%dT%H:%M:%SZ)
-
-          Inspect the Publish HP preview workflow run identified above. This failure is not a successful web publication.
-          EOF
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A evidence/pages
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m "test: record GitHub Pages publication failure [ci-failure]"
-          git push origin HEAD:main
+          grep -Fq '<title>Astera</title>' /tmp/index.html
+          grep -Fq '<script src="./script.js" defer></script>' /tmp/index.html
+          ! grep -Fq '最新情報' /tmp/index.html
+          ! grep -Fq '正式回答' /tmp/index.html
+          ! grep -Fq '料金・Credit' /tmp/index.html
+          test -s /tmp/style.css
+          test -s /tmp/script.js
+          grep -Fq '<svg' /tmp/logo.svg
+          grep -Fq '<svg' /tmp/ai.svg
