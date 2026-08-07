@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify direct static source
+      - name: Verify direct static source and locked assets
         shell: bash
         run: |
           set -euo pipefail
@@ -41,12 +41,17 @@ jobs:
             scripts/ai-bubble.js \
             scripts/app-entry.js \
             site/assets/brand/astera-logo-dark.svg \
-            site/assets/icons/ai-guide-robot.svg
+            assets/icons/ai-guide-robot.svg
           do
             test -s "$file"
           done
 
           grep -Fq '<script type="module" src="./script.js"></script>' index.html
+          grep -Fq 'src="./site/assets/brand/astera-logo-dark.svg"' index.html
+          grep -Fq 'src="./assets/icons/ai-guide-robot.svg"' index.html
+          test "$(git hash-object site/assets/brand/astera-logo-dark.svg)" = "e77bad0abb060965f72caba59f516b57cadc24a5"
+          test "$(git hash-object assets/icons/ai-guide-robot.svg)" = "0965b33bc1b0cd02db7244387e463c3ea69a9f78"
+
           ! grep -Fq '最新情報' index.html
           ! grep -Fq '正式回答' index.html
           ! grep -Fq '料金・Credit' index.html
@@ -59,7 +64,7 @@ jobs:
           rm -rf public
           mkdir -p public/site
           cp index.html style.css script.js public/
-          cp -R styles scripts public/
+          cp -R styles scripts assets public/
           cp -R site/assets public/site/assets
           touch public/.nojekyll
 
@@ -97,7 +102,7 @@ jobs:
             scripts/ai-bubble.js \
             scripts/app-entry.js \
             site/assets/brand/astera-logo-dark.svg \
-            site/assets/icons/ai-guide-robot.svg
+            assets/icons/ai-guide-robot.svg
           do
             curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/$path" -o "/tmp/$(echo "$path" | tr '/' '_')"
           done
@@ -108,4 +113,4 @@ jobs:
           ! grep -Fq '正式回答' /tmp/index.html
           ! grep -Fq '料金・Credit' /tmp/index.html
           grep -Fq '<svg' /tmp/site_assets_brand_astera-logo-dark.svg
-          grep -Fq '<svg' /tmp/site_assets_icons_ai-guide-robot.svg
+          grep -Fq '<svg' /tmp/assets_icons_ai-guide-robot.svg
