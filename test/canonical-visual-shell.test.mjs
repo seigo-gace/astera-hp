@@ -60,12 +60,13 @@ test('Header upper row remains logo-left and compact language-right', async () =
   assert.ok(materializer.includes("file: 'astera-logo-dark.svg'"));
 });
 
-test('Header action row is directly below upper row and keeps App, AI, Menu in that order', async () => {
+test('Header action row is directly below upper row and keeps App, AI, Menu in that order without an invented App badge', async () => {
   const header = await read('site/templates/partials/header.html');
   const css = await read('site/assets/navigation-canonical.css');
   const script = await read('site/assets/navigation-canonical.js');
   const base = await read('site/templates/base.html');
   const robot = await read('site/assets/icons/ai-guide-robot.svg');
+  const preview = await read('preview/header-actions/index.html');
 
   const upper = header.indexOf('<div class="header-upper"');
   const actions = header.indexOf('<div class="header-action-row"', upper);
@@ -77,6 +78,9 @@ test('Header action row is directly below upper row and keeps App, AI, Menu in t
   assert.ok(appEntry > actions && appEntry < aiEntry && aiEntry < menuEntry && menuEntry < drawer, 'Action order must be App, AI, Menu');
 
   assert.match(header, /data-app-route="\/app\/"/);
+  assert.match(header, /<span class="header-app-entry__label">Asteraを使う<\/span>/);
+  assert.doesNotMatch(header, /header-app-entry__mark|>A<\/span>/);
+  assert.doesNotMatch(css, /\.header-app-entry__mark/);
   assert.match(header, /src="\/assets\/icons\/ai-guide-robot\.svg"/);
   assert.match(header, /aria-controls="customer-ai"/);
   assert.match(header, /aria-controls="global-nav"/);
@@ -110,6 +114,12 @@ test('Header action row is directly below upper row and keeps App, AI, Menu in t
   assert.match(base, /id="customer-ai"/);
   assert.match(robot, /提供画像の上段右から2番目のロボットアイコン/);
   assert.match(robot, /data:image\/webp;base64,/);
+
+  assert.doesNotMatch(preview, /<b>A<\/b>|data:image\/svg\+xml;base64/);
+  assert.match(preview, /data-official-logo/);
+  assert.match(preview, /file:\\s\*'astera-logo-dark\\\.svg'/);
+  assert.match(preview, /DecompressionStream\('gzip'\)/);
+  assert.match(preview, /official-logo-hash-mismatch/);
 });
 
 test('Side menu follows the canonical five-item structure without duplicating header controls', async () => {
