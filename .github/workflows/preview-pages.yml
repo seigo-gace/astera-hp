@@ -40,16 +40,16 @@ jobs:
             scripts/menu.js \
             scripts/ai-bubble.js \
             scripts/app-entry.js \
-            site/assets/brand/astera-logo-dark.svg \
+            assets/brand/astera-logo-dark.svg \
             assets/icons/ai-guide-robot.svg
           do
             test -s "$file"
           done
 
           grep -Fq '<script type="module" src="./script.js"></script>' index.html
-          grep -Fq 'src="./site/assets/brand/astera-logo-dark.svg"' index.html
+          grep -Fq 'src="./assets/brand/astera-logo-dark.svg"' index.html
           grep -Fq 'src="./assets/icons/ai-guide-robot.svg"' index.html
-          test "$(git hash-object site/assets/brand/astera-logo-dark.svg)" = "e77bad0abb060965f72caba59f516b57cadc24a5"
+          test "$(git hash-object assets/brand/astera-logo-dark.svg)" = "e77bad0abb060965f72caba59f516b57cadc24a5"
           test "$(git hash-object assets/icons/ai-guide-robot.svg)" = "0965b33bc1b0cd02db7244387e463c3ea69a9f78"
 
           ! grep -Fq '最新情報' index.html
@@ -62,11 +62,9 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf public
-          mkdir -p public/site/assets/brand public/assets
+          mkdir -p public
           cp index.html style.css script.js public/
-          cp -R styles scripts public/
-          cp -R assets/* public/assets/
-          cp site/assets/brand/astera-logo-dark.svg public/site/assets/brand/astera-logo-dark.svg
+          cp -R styles scripts assets public/
           touch public/.nojekyll
 
       - uses: actions/configure-pages@v5
@@ -102,7 +100,7 @@ jobs:
             scripts/menu.js \
             scripts/ai-bubble.js \
             scripts/app-entry.js \
-            site/assets/brand/astera-logo-dark.svg \
+            assets/brand/astera-logo-dark.svg \
             assets/icons/ai-guide-robot.svg
           do
             curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/$path" -o "/tmp/$(echo "$path" | tr '/' '_')"
@@ -113,5 +111,5 @@ jobs:
           ! grep -Fq '最新情報' /tmp/index.html
           ! grep -Fq '正式回答' /tmp/index.html
           ! grep -Fq '料金・Credit' /tmp/index.html
-          grep -Fq '<svg' /tmp/site_assets_brand_astera-logo-dark.svg
+          grep -Fq '<svg' /tmp/assets_brand_astera-logo-dark.svg
           grep -Fq '<svg' /tmp/assets_icons_ai-guide-robot.svg
