@@ -1,9 +1,8 @@
 .top-visual{
   width:100%;
-  min-height:calc(100svh - 98px);
   display:grid;
   place-items:center;
-  padding:clamp(18px,3.5vw,46px) 12px clamp(28px,5vw,64px);
+  padding:5mm 12px;
   background:#000;
   overflow:hidden;
   isolation:isolate;
@@ -113,12 +112,11 @@
 }
 
 @media (min-width:768px){
-  .top-visual{min-height:calc(100svh - 106px)}
   .astrolabe-stage{width:min(74vw,820px)}
 }
 
 @media (max-width:599px){
-  .top-visual{padding:16px 8px 28px}
+  .top-visual{padding:5mm 8px}
   .astrolabe-stage{width:min(94vw,560px)}
   .astrolabe-stage::before{filter:blur(18px)}
   .astrolabe-particles{opacity:.48}
