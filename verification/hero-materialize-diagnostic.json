@@ -1,0 +1,7 @@
+{
+  "status": "FAIL",
+  "source": "assets/visual/hero/.staging/astera-astrolabe.b64",
+  "staged_text_chars": 10025,
+  "error_type": "Error",
+  "error": "Only base64 data is allowed"
+}
