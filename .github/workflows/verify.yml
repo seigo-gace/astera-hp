@@ -70,7 +70,7 @@ jobs:
           ! grep -Fq 'astera-astrolabe.png' index.html style.css script.js styles/*.css scripts/*.js
           ! grep -Fq 'data-hero-tilt' index.html
           ! grep -Fq 'data-hero-particles' index.html
-          ! grep -Fq '<canvas' index.html
+          grep -Fq 'data-hero-canvas' index.html
           ! grep -Eiq 'notion|NOTION_' index.html style.css script.js styles/*.css scripts/*.js
 
       - name: Verify direct static HTTP delivery
