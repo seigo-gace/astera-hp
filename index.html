@@ -39,23 +39,37 @@
   </header>
 
   <main class="page-main">
-    <section class="top-visual" aria-label="Asteraトップビジュアル">
-      <div class="astrolabe-stage" data-hero-stage>
-        <div class="astrolabe-tilt" data-hero-tilt>
-          <div class="astrolabe-spin">
-            <img
-              class="astrolabe-image"
-              src="./assets/images/hero/astera-astrolabe.png"
-              width="1024"
-              height="1024"
-              alt="金色の天体儀と星図を描いたAsteraトップビジュアル"
-              fetchpriority="high"
-              decoding="async">
-          </div>
-          <div class="astrolabe-glass" aria-hidden="true"></div>
-          <canvas class="astrolabe-particles" data-hero-particles aria-hidden="true"></canvas>
-        </div>
-      </div>
+    <section class="top-visual" data-hero-stage aria-labelledby="hero-catchphrase">
+      <picture class="hero-media">
+        <source
+          media="(max-width: 599px)"
+          srcset="./assets/images/hero/astera-hero-mobile-720x405.webp"
+          type="image/webp">
+        <source
+          media="(max-width: 899px)"
+          srcset="./assets/images/hero/astera-hero-tablet-1024x576.webp"
+          type="image/webp">
+        <img
+          id="astera-hero-media"
+          data-hero-media
+          src="./assets/images/hero/astera-hero-desktop-1280x720.webp"
+          width="1280"
+          height="720"
+          alt=""
+          fetchpriority="high"
+          decoding="async">
+      </picture>
+
+      <div class="hero-cosmos" aria-hidden="true"></div>
+
+      <h1 id="hero-catchphrase" class="hero-copy">
+        <span
+          class="hero-copy__line hero-copy__line--1"
+          data-i18n="hero.catchphrase.line1">問いを</span>
+        <span
+          class="hero-copy__line hero-copy__line--2"
+          data-i18n="hero.catchphrase.line2">星図に変える。</span>
+      </h1>
     </section>
   </main>
 
