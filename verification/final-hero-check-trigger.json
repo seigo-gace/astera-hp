@@ -1,0 +1,7 @@
+{
+  "purpose": "trigger final verify and GitHub Pages publish after TOP hero replacement",
+  "expected_hero": "assets/visual/hero/astera-astrolabe.png",
+  "expected_bytes": 2736491,
+  "expected_sha256": "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc",
+  "custom_domain_source": "asterav8.jp"
+}
