@@ -1,5 +1,5 @@
-.site-header{position:sticky;top:0;z-index:50;background:#020304;border-bottom:1px solid var(--line)}
-.header-upper{height:42px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.site-header{position:sticky;top:0;z-index:50;background:#020304;border-bottom:1px solid rgba(217,181,143,.78)}
+.header-upper{height:42px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid rgba(217,181,143,.78)}
 .brand{display:flex;align-items:center;min-width:0}
 .brand img{display:block;width:120px;max-width:42vw;max-height:28px;object-fit:contain;object-position:left center}
 .language-select-field{position:relative;width:50px;margin-left:auto}
