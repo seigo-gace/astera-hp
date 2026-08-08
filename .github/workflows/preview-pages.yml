@@ -23,6 +23,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Materialize pending Astera hero asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64
+          from pathlib import Path
+          p = Path('assets/visual/hero/astera-astrolabe.webp')
+          if p.exists() and p.read_bytes()[:4] != b'RIFF':
+              raw = base64.b64decode(p.read_text(encoding='utf-8').strip(), validate=True)
+              if raw[:4] != b'RIFF' or raw[8:12] != b'WEBP':
+                  raise SystemExit('decoded hero payload is not WebP')
+              p.write_bytes(raw)
+              print(f'materialized hero bytes={len(raw)}')
+          PY
+
       - name: Verify direct static source and locked assets
         shell: bash
         run: |
@@ -154,8 +170,8 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add verification/top-hero-live.json
+          git add verification/top-hero-live.json assets/visual/hero/astera-astrolabe.webp
           if ! git diff --cached --quiet; then
-            git commit -m "chore: record TOP hero live verification [skip ci]"
+            git commit -m "chore: materialize hero asset and record live verification [skip ci]"
             git push origin HEAD:main
           fi
