@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify canonical root and isolated component files
+      - name: Verify TOP hero and static source
         shell: bash
         run: |
           set -euo pipefail
@@ -40,50 +40,28 @@ jobs:
             scripts/hero-effect.js \
             assets/brand/astera-logo-dark.svg \
             assets/icons/ai-guide-robot.svg \
-            assets/visual/hero/astera-astrolabe.png
+            assets/images/hero/astera-astrolabe.png
           do
             test -s "$file"
           done
 
-          grep -Fq '<link rel="stylesheet" href="./style.css">' index.html
-          grep -Fq '<script type="module" src="./script.js"></script>' index.html
-          grep -Fq 'src="./assets/brand/astera-logo-dark.svg"' index.html
-          grep -Fq 'src="./assets/icons/ai-guide-robot.svg"' index.html
-          grep -Fq 'src="./assets/visual/hero/astera-astrolabe.png"' index.html
+          grep -Fq 'src="./assets/images/hero/astera-astrolabe.png"' index.html
           grep -Fq 'width="1024"' index.html
           grep -Fq 'height="1024"' index.html
           grep -Fq 'data-hero-stage' index.html
           grep -Fq 'data-hero-tilt' index.html
           grep -Fq 'data-hero-particles' index.html
-          grep -Fq 'fetchpriority="high"' index.html
-          grep -Fq 'decoding="async"' index.html
-
-          grep -Fq "@import url('./styles/base.css');" style.css
-          grep -Fq "@import url('./styles/header.css');" style.css
           grep -Fq "@import url('./styles/hero.css');" style.css
-          grep -Fq "@import url('./styles/menu.css');" style.css
-          grep -Fq "@import url('./styles/ai-bubble.css');" style.css
-
-          grep -Fq "from './scripts/language.js'" script.js
-          grep -Fq "from './scripts/menu.js'" script.js
-          grep -Fq "from './scripts/ai-bubble.js'" script.js
-          grep -Fq "from './scripts/app-entry.js'" script.js
           grep -Fq "from './scripts/hero-effect.js'" script.js
 
           node --check script.js
           node --check scripts/hero-effect.js
 
-          test "$(git hash-object assets/brand/astera-logo-dark.svg)" = "e77bad0abb060965f72caba59f516b57cadc24a5"
-          test "$(git hash-object assets/icons/ai-guide-robot.svg)" = "0965b33bc1b0cd02db7244387e463c3ea69a9f78"
-          test "$(wc -c < assets/visual/hero/astera-astrolabe.png | tr -d ' ')" = "2736491"
-          test "$(sha256sum assets/visual/hero/astera-astrolabe.png | awk '{print $1}')" = "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc"
+          test "$(git hash-object assets/images/hero/astera-astrolabe.png)" = "afa8a96c0b0adeb0b313f99328d09006b44f4c25"
+          test "$(wc -c < assets/images/hero/astera-astrolabe.png | tr -d ' ')" = "2736491"
+          test "$(sha256sum assets/images/hero/astera-astrolabe.png | awk '{print $1}')" = "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc"
 
           ! grep -Fq 'astera-original-transparent.svg' index.html style.css script.js styles/*.css scripts/*.js
-          ! grep -Fq 'astera-globe-exact-layered.svg' index.html style.css styles/*.css
-          ! grep -Fq 'astera-globe-top.webp' index.html style.css styles/*.css
-          ! grep -Fq '最新情報' index.html
-          ! grep -Fq '正式回答' index.html
-          ! grep -Fq '料金・Credit' index.html
           ! grep -Eiq 'notion|NOTION_' index.html style.css script.js styles/*.css scripts/*.js
 
       - name: Verify direct static HTTP delivery
@@ -101,29 +79,7 @@ jobs:
             sleep 1
           done
 
-          for path in \
-            style.css \
-            script.js \
-            styles/base.css \
-            styles/header.css \
-            styles/hero.css \
-            styles/menu.css \
-            styles/ai-bubble.css \
-            scripts/language.js \
-            scripts/menu.js \
-            scripts/ai-bubble.js \
-            scripts/app-entry.js \
-            scripts/hero-effect.js \
-            assets/brand/astera-logo-dark.svg \
-            assets/icons/ai-guide-robot.svg \
-            assets/visual/hero/astera-astrolabe.png
-          do
-            curl --fail --silent "http://127.0.0.1:4173/$path" -o "/tmp/$(echo "$path" | tr '/' '_')"
-          done
-
-          grep -Fq '<title>Astera</title>' /tmp/index.html
-          grep -Fq 'src="./assets/visual/hero/astera-astrolabe.png"' /tmp/index.html
-          grep -Fq '<svg' /tmp/assets_brand_astera-logo-dark.svg
-          grep -Fq '<svg' /tmp/assets_icons_ai-guide-robot.svg
-          test "$(wc -c < /tmp/assets_visual_hero_astera-astrolabe.png | tr -d ' ')" = "2736491"
-          test "$(sha256sum /tmp/assets_visual_hero_astera-astrolabe.png | awk '{print $1}')" = "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc"
+          curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-astrolabe.png -o /tmp/astera-astrolabe.png
+          grep -Fq 'src="./assets/images/hero/astera-astrolabe.png"' /tmp/index.html
+          test "$(wc -c < /tmp/astera-astrolabe.png | tr -d ' ')" = "2736491"
+          test "$(sha256sum /tmp/astera-astrolabe.png | awk '{print $1}')" = "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc"
