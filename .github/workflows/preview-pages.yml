@@ -23,6 +23,67 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Materialize staged hero asset when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64
+          import hashlib
+          import json
+          import struct
+          from pathlib import Path
+
+          src = Path('assets/visual/hero/.staging/astera-astrolabe.b64')
+          dst = Path('assets/visual/hero/astera-astrolabe.webp')
+          evidence = Path('verification/hero-asset.json')
+
+          if not src.exists():
+              raise SystemExit(0)
+
+          raw = base64.b64decode(src.read_text(encoding='utf-8').strip(), validate=True)
+          if raw[:4] != b'RIFF' or raw[8:12] != b'WEBP':
+              raise SystemExit('staged hero is not a WebP RIFF payload')
+
+          kind = raw[12:16]
+          width = height = None
+          if kind == b'VP8 ':
+              data = raw[20:]
+              if data[3:6] != b'\x9d\x01\x2a':
+                  raise SystemExit('invalid VP8 key-frame header')
+              width = struct.unpack('<H', data[6:8])[0] & 0x3FFF
+              height = struct.unpack('<H', data[8:10])[0] & 0x3FFF
+          elif kind == b'VP8L':
+              data = raw[20:]
+              if data[0] != 0x2F:
+                  raise SystemExit('invalid VP8L header')
+              b1, b2, b3, b4 = data[1:5]
+              width = 1 + b1 + ((b2 & 0x3F) << 8)
+              height = 1 + (b2 >> 6) + (b3 << 2) + ((b4 & 0x0F) << 10)
+          elif kind == b'VP8X':
+              width = 1 + int.from_bytes(raw[24:27], 'little')
+              height = 1 + int.from_bytes(raw[27:30], 'little')
+          else:
+              raise SystemExit(f'unsupported WebP chunk: {kind!r}')
+
+          if (width, height) != (1024, 1024):
+              raise SystemExit(f'unexpected hero dimensions: {width}x{height}')
+
+          dst.write_bytes(raw)
+          evidence.parent.mkdir(parents=True, exist_ok=True)
+          evidence.write_text(json.dumps({
+              'status': 'PASS',
+              'path': str(dst),
+              'format': 'webp',
+              'width': width,
+              'height': height,
+              'bytes': len(raw),
+              'sha256': hashlib.sha256(raw).hexdigest(),
+              'source': '2026-08-08 Master-specified astrolabe hero derivative'
+          }, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(f'hero materialized: {len(raw)} bytes, {width}x{height}')
+          PY
+
       - name: Verify direct static source and locked assets
         shell: bash
         run: |
@@ -154,8 +215,12 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if test -f assets/visual/hero/.staging/astera-astrolabe.b64; then
+            git add assets/visual/hero/astera-astrolabe.webp verification/hero-asset.json
+            git rm assets/visual/hero/.staging/astera-astrolabe.b64
+          fi
           git add verification/top-hero-live.json
           if ! git diff --cached --quiet; then
-            git commit -m "chore: record TOP hero live verification [skip ci]"
+            git commit -m "chore: materialize new hero and record current live evidence [skip ci]"
             git push origin HEAD:main
           fi
