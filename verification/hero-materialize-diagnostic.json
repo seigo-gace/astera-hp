@@ -1,9 +1,0 @@
-{
-  "status": "RETRY_TRIGGERED",
-  "previous_failure": "Only base64 data is allowed",
-  "root_cause": "transfer chunk part02 was missing from main",
-  "repair": "part00 through part11 are staged on main; missing part02 added in commit 825578cf711bb0ae28d19e7a6ece5b33fb229fd6",
-  "expected_base64_chars": 118392,
-  "expected_asset_bytes": 88794,
-  "expected_asset_sha256": "616b0802d20025159958f52072f022414ad444de96d8a77735bfae32c0a996b4"
-}
