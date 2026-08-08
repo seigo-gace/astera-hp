@@ -34,3 +34,4 @@ jobs:
           git add assets/visual/hero/astera-astrolabe.webp .github/workflows/hero-bootstrap.yml
           git commit -m 'fix: materialize Astera hero binary asset [skip ci]'
           git push origin HEAD:main
+# bootstrap trigger
