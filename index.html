@@ -40,13 +40,22 @@
 
   <main class="page-main">
     <section class="top-visual" aria-label="Asteraトップビジュアル">
-      <img
-        src="./assets/visual/hero/astera-original-transparent.svg"
-        width="1536"
-        height="1433"
-        alt="Asteraの無限記号と星図を描いた透明背景のトップビジュアル"
-        fetchpriority="high"
-        decoding="async">
+      <div class="astrolabe-stage" data-hero-stage>
+        <div class="astrolabe-tilt" data-hero-tilt>
+          <div class="astrolabe-spin">
+            <img
+              class="astrolabe-image"
+              src="./assets/visual/hero/astera-astrolabe.png"
+              width="1024"
+              height="1024"
+              alt="金色の天体儀と星図を描いたAsteraトップビジュアル"
+              fetchpriority="high"
+              decoding="async">
+          </div>
+          <div class="astrolabe-glass" aria-hidden="true"></div>
+          <canvas class="astrolabe-particles" data-hero-particles aria-hidden="true"></canvas>
+        </div>
+      </div>
     </section>
   </main>
 
