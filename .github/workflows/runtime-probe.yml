@@ -1,0 +1,104 @@
+name: Probe GitHub Pages and custom domain runtime
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'verification/runtime-probe-trigger.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe public runtimes without masking blocked state
+        shell: bash
+        run: |
+          set -u
+          mkdir -p verification /tmp/astera-probe
+          EXPECTED='ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
+
+          probe_root() {
+            name="$1"
+            root="$2"
+            html="/tmp/astera-probe/${name}.html"
+            hero="/tmp/astera-probe/${name}-hero.png"
+            old="/tmp/astera-probe/${name}-old.svg"
+
+            root_http=$(curl -L -sS --max-time 30 --retry 2 -o "$html" -w '%{http_code}' "$root/" || printf '000')
+            hero_http=$(curl -L -sS --max-time 30 --retry 2 -o "$hero" -w '%{http_code}' "$root/assets/visual/hero/astera-astrolabe.png" || printf '000')
+            old_http=$(curl -L -sS --max-time 30 --retry 1 -o "$old" -w '%{http_code}' "$root/assets/visual/hero/astera-original-transparent.svg" || printf '000')
+
+            hero_sha=''
+            html_has_new='false'
+            html_has_old='false'
+            if test -s "$hero"; then hero_sha=$(sha256sum "$hero" | awk '{print $1}'); fi
+            if test -s "$html" && grep -Fq 'assets/visual/hero/astera-astrolabe.png' "$html"; then html_has_new='true'; fi
+            if test -s "$html" && grep -Fq 'astera-original-transparent.svg' "$html"; then html_has_old='true'; fi
+
+            status='BLOCKED'
+            if test "$root_http" = '200' && test "$hero_http" = '200' && test "$hero_sha" = "$EXPECTED" && test "$html_has_new" = 'true' && test "$html_has_old" = 'false' && test "$old_http" != '200'; then
+              status='PASS'
+            fi
+
+            printf '%s\n' "$status" > "/tmp/astera-probe/${name}.status"
+            printf '%s\n' "$root_http" > "/tmp/astera-probe/${name}.root_http"
+            printf '%s\n' "$hero_http" > "/tmp/astera-probe/${name}.hero_http"
+            printf '%s\n' "$old_http" > "/tmp/astera-probe/${name}.old_http"
+            printf '%s\n' "$hero_sha" > "/tmp/astera-probe/${name}.hero_sha"
+            printf '%s\n' "$html_has_new" > "/tmp/astera-probe/${name}.html_has_new"
+            printf '%s\n' "$html_has_old" > "/tmp/astera-probe/${name}.html_has_old"
+          }
+
+          probe_root github_pages 'https://seigo-gace.github.io/astera-hp'
+          probe_root custom_domain 'https://asterav8.jp'
+
+          dns=$(getent ahosts asterav8.jp 2>/dev/null | awk '{print $1}' | sort -u | paste -sd ',' - || true)
+          source_sha=$(sha256sum assets/visual/hero/astera-astrolabe.png | awk '{print $1}')
+
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          base=Path('/tmp/astera-probe')
+          def read(name, field):
+              p=base/f'{name}.{field}'
+              return p.read_text().strip() if p.exists() else ''
+          def result(name, root):
+              return {
+                  'status': read(name,'status') or 'BLOCKED',
+                  'root': root,
+                  'root_http': read(name,'root_http'),
+                  'hero_http': read(name,'hero_http'),
+                  'old_hero_http': read(name,'old_http'),
+                  'hero_sha256': read(name,'hero_sha'),
+                  'html_has_new_hero': read(name,'html_has_new') == 'true',
+                  'html_has_old_hero': read(name,'html_has_old') == 'true',
+              }
+          out={
+              'checked_at_utc': datetime.now(timezone.utc).isoformat(),
+              'expected_hero_sha256': 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc',
+              'github_pages': result('github_pages','https://seigo-gace.github.io/astera-hp'),
+              'custom_domain': result('custom_domain','https://asterav8.jp'),
+          }
+          Path('verification/runtime-probe.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
+          PY
+
+      - name: Persist probe evidence and self-clean trigger
+        shell: bash
+        run: |
+          set -euo pipefail
+          pages_status=$(python3 -c "import json;print(json.load(open('verification/runtime-probe.json'))['github_pages']['status'])")
+          custom_status=$(python3 -c "import json;print(json.load(open('verification/runtime-probe.json'))['custom_domain']['status'])")
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f verification/runtime-probe-trigger.json .github/workflows/runtime-probe.yml
+          git add -A verification/runtime-probe.json verification/runtime-probe-trigger.json .github/workflows/runtime-probe.yml
+          git commit -m "chore: runtime probe pages-${pages_status} custom-${custom_status} [skip ci]"
+          git push origin HEAD:main
