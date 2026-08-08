@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Materialize staged hero asset when present
+      - name: Inspect and materialize staged hero when possible
         shell: bash
         run: |
           set -euo pipefail
@@ -36,52 +36,69 @@ jobs:
 
           src = Path('assets/visual/hero/.staging/astera-astrolabe.b64')
           dst = Path('assets/visual/hero/astera-astrolabe.webp')
-          evidence = Path('verification/hero-asset.json')
+          diagnostic = Path('verification/hero-materialize-diagnostic.json')
+          asset_evidence = Path('verification/hero-asset.json')
+          diagnostic.parent.mkdir(parents=True, exist_ok=True)
 
-          if not src.exists():
-              raise SystemExit(0)
+          result = {'status': 'SKIP', 'source': str(src)}
+          if src.exists():
+              try:
+                  text = src.read_text(encoding='utf-8').strip()
+                  result['staged_text_chars'] = len(text)
+                  raw = base64.b64decode(text, validate=True)
+                  result['decoded_bytes'] = len(raw)
+                  result['decoded_sha256'] = hashlib.sha256(raw).hexdigest()
+                  if raw[:4] != b'RIFF' or raw[8:12] != b'WEBP':
+                      raise ValueError('decoded payload is not WebP RIFF')
 
-          raw = base64.b64decode(src.read_text(encoding='utf-8').strip(), validate=True)
-          if raw[:4] != b'RIFF' or raw[8:12] != b'WEBP':
-              raise SystemExit('staged hero is not a WebP RIFF payload')
+                  kind = raw[12:16]
+                  result['webp_chunk'] = kind.decode('latin1')
+                  width = height = None
+                  if kind == b'VP8 ':
+                      data = raw[20:]
+                      if len(data) < 10 or data[3:6] != b'\x9d\x01\x2a':
+                          raise ValueError('invalid VP8 key-frame header')
+                      width = struct.unpack('<H', data[6:8])[0] & 0x3FFF
+                      height = struct.unpack('<H', data[8:10])[0] & 0x3FFF
+                  elif kind == b'VP8L':
+                      data = raw[20:]
+                      if len(data) < 5 or data[0] != 0x2F:
+                          raise ValueError('invalid VP8L header')
+                      b1, b2, b3, b4 = data[1:5]
+                      width = 1 + b1 + ((b2 & 0x3F) << 8)
+                      height = 1 + (b2 >> 6) + (b3 << 2) + ((b4 & 0x0F) << 10)
+                  elif kind == b'VP8X':
+                      if len(raw) < 30:
+                          raise ValueError('invalid VP8X header')
+                      width = 1 + int.from_bytes(raw[24:27], 'little')
+                      height = 1 + int.from_bytes(raw[27:30], 'little')
+                  else:
+                      raise ValueError(f'unsupported WebP chunk {kind!r}')
 
-          kind = raw[12:16]
-          width = height = None
-          if kind == b'VP8 ':
-              data = raw[20:]
-              if data[3:6] != b'\x9d\x01\x2a':
-                  raise SystemExit('invalid VP8 key-frame header')
-              width = struct.unpack('<H', data[6:8])[0] & 0x3FFF
-              height = struct.unpack('<H', data[8:10])[0] & 0x3FFF
-          elif kind == b'VP8L':
-              data = raw[20:]
-              if data[0] != 0x2F:
-                  raise SystemExit('invalid VP8L header')
-              b1, b2, b3, b4 = data[1:5]
-              width = 1 + b1 + ((b2 & 0x3F) << 8)
-              height = 1 + (b2 >> 6) + (b3 << 2) + ((b4 & 0x0F) << 10)
-          elif kind == b'VP8X':
-              width = 1 + int.from_bytes(raw[24:27], 'little')
-              height = 1 + int.from_bytes(raw[27:30], 'little')
-          else:
-              raise SystemExit(f'unsupported WebP chunk: {kind!r}')
+                  result['width'] = width
+                  result['height'] = height
+                  if (width, height) != (1024, 1024):
+                      raise ValueError(f'unexpected dimensions {width}x{height}')
 
-          if (width, height) != (1024, 1024):
-              raise SystemExit(f'unexpected hero dimensions: {width}x{height}')
+                  dst.write_bytes(raw)
+                  asset_evidence.write_text(json.dumps({
+                      'status': 'PASS',
+                      'path': str(dst),
+                      'format': 'webp',
+                      'width': width,
+                      'height': height,
+                      'bytes': len(raw),
+                      'sha256': hashlib.sha256(raw).hexdigest(),
+                      'source': '2026-08-08 Master-specified astrolabe hero derivative'
+                  }, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+                  result['status'] = 'PASS'
+              except Exception as exc:
+                  result['status'] = 'FAIL'
+                  result['error_type'] = type(exc).__name__
+                  result['error'] = str(exc)
 
-          dst.write_bytes(raw)
-          evidence.parent.mkdir(parents=True, exist_ok=True)
-          evidence.write_text(json.dumps({
-              'status': 'PASS',
-              'path': str(dst),
-              'format': 'webp',
-              'width': width,
-              'height': height,
-              'bytes': len(raw),
-              'sha256': hashlib.sha256(raw).hexdigest(),
-              'source': '2026-08-08 Master-specified astrolabe hero derivative'
-          }, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-          print(f'hero materialized: {len(raw)} bytes, {width}x{height}')
+          diagnostic.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(result, ensure_ascii=False))
           PY
 
       - name: Verify direct static source and locked assets
@@ -195,7 +212,7 @@ jobs:
           test "$(wc -c < /tmp/assets_visual_hero_astera-original-transparent.svg | tr -d ' ')" = "3097567"
           test "$(sha256sum /tmp/assets_visual_hero_astera-original-transparent.svg | awk '{print $1}')" = "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
 
-      - name: Record live verification evidence
+      - name: Record live verification and hero staging evidence
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
@@ -215,12 +232,12 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if test -f assets/visual/hero/.staging/astera-astrolabe.b64; then
+          git add verification/top-hero-live.json verification/hero-materialize-diagnostic.json
+          if grep -Fq '"status": "PASS"' verification/hero-materialize-diagnostic.json && test -f assets/visual/hero/astera-astrolabe.webp; then
             git add assets/visual/hero/astera-astrolabe.webp verification/hero-asset.json
             git rm assets/visual/hero/.staging/astera-astrolabe.b64
           fi
-          git add verification/top-hero-live.json
           if ! git diff --cached --quiet; then
-            git commit -m "chore: materialize new hero and record current live evidence [skip ci]"
+            git commit -m "chore: record hero materialization diagnostic [skip ci]"
             git push origin HEAD:main
           fi
