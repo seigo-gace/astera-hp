@@ -1,0 +1,58 @@
+name: Materialize exact Astera hero
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'verification/hero-fetch-trigger.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact Master-selected hero
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/visual/hero verification
+          curl --fail --location --silent --show-error --retry 5 --retry-delay 2 \
+            'https://filebin.net/astera-hero-ecd4a7d8/astera-astrolabe.png' \
+            -o assets/visual/hero/astera-astrolabe.png
+          test "$(wc -c < assets/visual/hero/astera-astrolabe.png | tr -d ' ')" = '2736491'
+          test "$(sha256sum assets/visual/hero/astera-astrolabe.png | awk '{print $1}')" = 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('assets/visual/hero/astera-astrolabe.png')
+          raw = p.read_bytes()
+          assert raw[:8] == b'\x89PNG\r\n\x1a\n'
+          PY
+          cat > verification/hero-asset.json <<'EOF'
+          {
+            "status": "PASS",
+            "source": "Master-selected uploaded PNG",
+            "path": "assets/visual/hero/astera-astrolabe.png",
+            "format": "PNG",
+            "width": 1024,
+            "height": 1024,
+            "bytes": 2736491,
+            "sha256": "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc"
+          }
+          EOF
+
+      - name: Commit exact binary asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/visual/hero/astera-astrolabe.png verification/hero-asset.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'feat: materialize exact Astera astrolabe hero [skip ci]'
+            git push origin HEAD:main
+          fi
