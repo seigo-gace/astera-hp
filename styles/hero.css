@@ -1,20 +1,132 @@
 .top-visual{
   width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
+  min-height:calc(100svh - 98px);
+  display:grid;
+  place-items:center;
+  padding:clamp(18px,3.5vw,46px) 12px clamp(28px,5vw,64px);
   background:#000;
   overflow:hidden;
+  isolation:isolate;
 }
 
-.top-visual img{
+.astrolabe-stage{
+  --hero-rx:0deg;
+  --hero-ry:0deg;
+  position:relative;
+  width:min(88vw,760px);
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  perspective:1200px;
+  contain:layout paint style;
+}
+
+.astrolabe-stage::before,
+.astrolabe-stage::after{
+  content:"";
+  position:absolute;
+  inset:8%;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+}
+
+.astrolabe-stage::before{
+  background:radial-gradient(circle,rgba(224,177,105,.13) 0%,rgba(122,89,53,.055) 46%,transparent 70%);
+  filter:blur(28px);
+  transform:scale(.96);
+}
+
+.astrolabe-stage::after{
+  inset:4%;
+  border:1px solid rgba(218,179,113,.08);
+  box-shadow:0 0 42px rgba(191,145,80,.08),inset 0 0 36px rgba(191,145,80,.05);
+}
+
+.astrolabe-tilt{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  transform:rotateX(var(--hero-rx)) rotateY(var(--hero-ry));
+  transform-style:preserve-3d;
+  transition:transform 180ms cubic-bezier(.2,.75,.2,1);
+  will-change:transform;
+  z-index:1;
+}
+
+.astrolabe-spin{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  transform-style:preserve-3d;
+  animation:astrolabe-slow-spin 120s linear infinite;
+}
+
+.astrolabe-image{
   display:block;
-  width:min(100%,1536px);
-  height:auto;
+  width:100%;
+  height:100%;
   object-fit:contain;
-  object-position:center top;
+  object-position:center;
+  border-radius:50%;
+  filter:drop-shadow(0 0 22px rgba(210,176,120,.24)) drop-shadow(0 20px 40px rgba(0,0,0,.34));
+  transition:filter 320ms ease,scale 320ms ease;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+.astrolabe-stage:hover .astrolabe-spin{
+  animation-play-state:paused;
+}
+
+.astrolabe-stage:hover .astrolabe-image{
+  filter:drop-shadow(0 0 34px rgba(226,188,126,.38)) drop-shadow(0 24px 48px rgba(0,0,0,.42));
+  scale:1.006;
+}
+
+.astrolabe-particles{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  pointer-events:none;
+  mix-blend-mode:screen;
+  opacity:.62;
+  z-index:3;
+}
+
+.astrolabe-glass{
+  position:absolute;
+  inset:12%;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:2;
+  background:radial-gradient(circle at 36% 28%,rgba(255,247,218,.055),transparent 24%),radial-gradient(circle at 68% 72%,rgba(255,181,84,.035),transparent 28%);
+  box-shadow:inset 0 0 40px rgba(255,218,159,.035);
+}
+
+@keyframes astrolabe-slow-spin{
+  to{transform:rotate(360deg)}
+}
+
+@media (min-width:768px){
+  .top-visual{min-height:calc(100svh - 106px)}
+  .astrolabe-stage{width:min(74vw,820px)}
 }
 
 @media (max-width:599px){
-  .top-visual img{width:100%}
+  .top-visual{padding:16px 8px 28px}
+  .astrolabe-stage{width:min(94vw,560px)}
+  .astrolabe-stage::before{filter:blur(18px)}
+  .astrolabe-particles{opacity:.48}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .astrolabe-tilt{transition:none;transform:none}
+  .astrolabe-spin{animation:none}
+  .astrolabe-stage:hover .astrolabe-image{scale:1}
+  .astrolabe-particles{opacity:.26}
 }
