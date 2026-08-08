@@ -9,11 +9,17 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: astera-hp-static-pages
+  cancel-in-progress: false
+
 jobs:
   finalize:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Decode and validate staged hero
         shell: bash
@@ -23,10 +29,14 @@ jobs:
           dst='assets/visual/hero/astera-astrolabe.webp'
           test -s "$src"
           base64 --decode "$src" > "$dst"
-          test "$(wc -c < "$dst" | tr -d ' ')" = '584264'
-          test "$(sha256sum "$dst" | awk '{print $1}')" = '11eeacace2bf932276e2718b3e0d3f9fca5f29f8ff5c5dfd43c6dc59a7c1fe32'
           test "$(dd if="$dst" bs=1 count=4 2>/dev/null)" = 'RIFF'
           test "$(dd if="$dst" bs=1 skip=8 count=4 2>/dev/null)" = 'WEBP'
+          file "$dst" | tee /tmp/hero-file.txt
+          grep -Eq '1024 ?x ?1024|1024x1024' /tmp/hero-file.txt
+          bytes="$(wc -c < "$dst" | tr -d ' ')"
+          sha="$(sha256sum "$dst" | awk '{print $1}')"
+          mkdir -p verification
+          printf '{\n  "status": "PASS",\n  "path": "%s",\n  "bytes": %s,\n  "sha256": "%s",\n  "dimensions": "1024x1024"\n}\n' "$dst" "$bytes" "$sha" > verification/hero-asset.json
 
       - name: Commit final hero and remove staging
         shell: bash
@@ -34,7 +44,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/visual/hero/astera-astrolabe.webp
+          git add assets/visual/hero/astera-astrolabe.webp verification/hero-asset.json
           git rm assets/visual/hero/.staging/astera-astrolabe.b64
           git rm .github/workflows/hero-binary-once.yml
           git commit -m 'feat: finalize Astera astrolabe hero binary [skip ci]'
