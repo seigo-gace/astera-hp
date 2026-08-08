@@ -1,213 +1,225 @@
-name: Publish direct static HP
+name: Finalize Master TOP hero directly
 
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - '.hero-transfer/**'
-  workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
-  group: astera-hp-static-pages
+  group: astera-top-hero-finalize
   cancel-in-progress: false
 
 jobs:
-  publish:
+  finalize:
     runs-on: ubuntu-24.04
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Materialize staged Astera hero AVIF
+      - name: Put exact uploaded image in dedicated image folder
         shell: bash
         run: |
           set -euo pipefail
-          cat \
-            .hero-transfer/part00 \
-            .hero-transfer/part01 \
-            .hero-transfer/part02 \
-            .hero-transfer/part03 \
-            .hero-transfer/part04 \
-            .hero-transfer/part05 \
-            .hero-transfer/part06 \
-            .hero-transfer/part07 \
-            .hero-transfer/part08 \
-            .hero-transfer/part09 \
-            .hero-transfer/part10 \
-            .hero-transfer/part11 \
-            > /tmp/astera-astrolabe.b64
-          test "$(wc -c < /tmp/astera-astrolabe.b64 | tr -d ' ')" = "118392"
-          base64 --decode /tmp/astera-astrolabe.b64 > assets/visual/hero/astera-astrolabe.avif
-          test "$(wc -c < assets/visual/hero/astera-astrolabe.avif | tr -d ' ')" = "88794"
-          test "$(sha256sum assets/visual/hero/astera-astrolabe.avif | awk '{print $1}')" = "616b0802d20025159958f52072f022414ad444de96d8a77735bfae32c0a996b4"
+          mkdir -p assets/images/hero verification
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 2 \
+            'https://oaisdmntprkoreacentral.blob.core.windows.net/files/00000000-3978-8206-8177-6d0519a7d5ed/raw?se=2026-08-08T10%3A32%3A28Z&sp=r&sv=2026-02-06&sr=b&scid=019fe0d3-54b7-7421-97b4-c34a173ea969&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-07T23%3A54%3A54Z&ske=2026-08-08T23%3A54%3A54Z&sks=b&skv=2026-02-06&sig=led3ziKjLBcTfESSnvrw8DDynnt6GzO15Y6K9uDPmd4%3D' \
+            -o assets/images/hero/astera-astrolabe.png
+          test "$(wc -c < assets/images/hero/astera-astrolabe.png | tr -d ' ')" = '2736491'
+          test "$(sha256sum assets/images/hero/astera-astrolabe.png | awk '{print $1}')" = 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
           python3 - <<'PY'
           from pathlib import Path
-          raw = Path('assets/visual/hero/astera-astrolabe.avif').read_bytes()
-          assert len(raw) == 88794
-          assert raw[4:8] == b'ftyp'
-          assert b'avif' in raw[8:32]
+          assert Path('assets/images/hero/astera-astrolabe.png').read_bytes()[:8] == b'\x89PNG\r\n\x1a\n'
           PY
-          mkdir -p verification
+
+      - name: Finalize simple static source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('./assets/visual/hero/astera-astrolabe.png', './assets/images/hero/astera-astrolabe.png')
+          if './assets/images/hero/astera-astrolabe.png' not in s:
+              raise SystemExit('new hero path missing from index.html')
+          p.write_text(s, encoding='utf-8')
+          PY
+          printf 'asterav8.jp\n' > CNAME
+          rm -f assets/visual/hero/astera-original-transparent.svg
+          rm -f assets/visual/hero/astera-astrolabe.png assets/visual/hero/astera-astrolabe.webp assets/visual/hero/astera-astrolabe.avif
+          rm -rf assets/visual/hero/.staging .hero-transfer .hero18
+          rm -f .github/workflows/hero-direct-finalize.yml .github/workflows/hero-bootstrap.yml .github/workflows/hero-fetch.yml .github/workflows/hero-binary-once.yml .github/workflows/hero-finalize.yml .github/workflows/runtime-probe.yml
+          rm -f verification/hero-fetch-trigger.json verification/hero-finalize-trigger.json verification/final-hero-check-trigger.json verification/runtime-probe-trigger.json verification/hero-materialize-diagnostic.json
           cat > verification/hero-asset.json <<'EOF'
           {
             "status": "PASS",
-            "path": "assets/visual/hero/astera-astrolabe.avif",
-            "format": "AVIF",
+            "source": "Master-selected uploaded PNG",
+            "path": "assets/images/hero/astera-astrolabe.png",
+            "format": "PNG",
             "width": 1024,
             "height": 1024,
-            "bytes": 88794,
-            "sha256": "616b0802d20025159958f52072f022414ad444de96d8a77735bfae32c0a996b4",
-            "source_png_sha256": "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc"
+            "bytes": 2736491,
+            "sha256": "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc",
+            "custom_domain_source": "asterav8.jp"
           }
           EOF
 
-      - name: Verify direct static source and locked assets
+      - name: Write final verifier
+        shell: bash
+        run: |
+          cat > .github/workflows/verify.yml <<'YAML'
+          name: Verify direct static website
+          on:
+            push:
+              branches: [main]
+            pull_request:
+            workflow_dispatch:
+          permissions:
+            contents: read
+          jobs:
+            verify-static:
+              runs-on: ubuntu-24.04
+              steps:
+                - uses: actions/checkout@v4
+                - name: Verify TOP source and exact image
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    for f in index.html style.css script.js styles/hero.css scripts/hero-effect.js assets/images/hero/astera-astrolabe.png CNAME; do test -s "$f"; done
+                    grep -Fq 'src="./assets/images/hero/astera-astrolabe.png"' index.html
+                    grep -Fq 'data-hero-stage' index.html
+                    grep -Fq 'data-hero-tilt' index.html
+                    grep -Fq 'data-hero-particles' index.html
+                    grep -Fq "from './scripts/hero-effect.js'" script.js
+                    node --check script.js
+                    node --check scripts/hero-effect.js
+                    test "$(wc -c < assets/images/hero/astera-astrolabe.png | tr -d ' ')" = '2736491'
+                    test "$(sha256sum assets/images/hero/astera-astrolabe.png | awk '{print $1}')" = 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
+                    test "$(cat CNAME)" = 'asterav8.jp'
+                    test ! -e assets/visual/hero/astera-original-transparent.svg
+                    ! grep -Fq 'astera-original-transparent.svg' index.html style.css script.js styles/*.css scripts/*.js
+                - name: Verify local HTTP image delivery
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    python3 -m http.server 4173 --directory . >/tmp/astera-http.log 2>&1 &
+                    pid=$!
+                    trap 'kill "$pid" 2>/dev/null || true' EXIT
+                    for n in $(seq 1 20); do curl --fail --silent http://127.0.0.1:4173/ -o /tmp/index.html && break; sleep 1; done
+                    curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-astrolabe.png -o /tmp/hero.png
+                    grep -Fq 'src="./assets/images/hero/astera-astrolabe.png"' /tmp/index.html
+                    test "$(wc -c < /tmp/hero.png | tr -d ' ')" = '2736491'
+                    test "$(sha256sum /tmp/hero.png | awk '{print $1}')" = 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
+          YAML
+
+      - name: Write final GitHub Pages publisher
+        shell: bash
+        run: |
+          cat > .github/workflows/preview-pages.yml <<'YAML'
+          name: Publish direct static HP
+          on:
+            push:
+              branches: [main]
+            workflow_dispatch:
+          permissions:
+            contents: write
+            pages: write
+            id-token: write
+          concurrency:
+            group: astera-hp-static-pages
+            cancel-in-progress: false
+          jobs:
+            publish:
+              runs-on: ubuntu-24.04
+              environment:
+                name: github-pages
+                url: ${{ steps.deployment.outputs.page_url }}
+              steps:
+                - uses: actions/checkout@v4
+                - name: Verify publish source
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    for f in index.html style.css script.js styles/hero.css scripts/hero-effect.js assets/images/hero/astera-astrolabe.png CNAME; do test -s "$f"; done
+                    grep -Fq 'src="./assets/images/hero/astera-astrolabe.png"' index.html
+                    node --check script.js
+                    node --check scripts/hero-effect.js
+                    test "$(wc -c < assets/images/hero/astera-astrolabe.png | tr -d ' ')" = '2736491'
+                    test "$(sha256sum assets/images/hero/astera-astrolabe.png | awk '{print $1}')" = 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
+                    test "$(cat CNAME)" = 'asterav8.jp'
+                    test ! -e assets/visual/hero/astera-original-transparent.svg
+                - name: Prepare direct static artifact
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    rm -rf public
+                    mkdir -p public
+                    cp index.html style.css script.js CNAME public/
+                    cp -R styles scripts assets public/
+                    touch public/.nojekyll
+                - uses: actions/configure-pages@v5
+                  with:
+                    enablement: true
+                - uses: actions/upload-pages-artifact@v4
+                  with:
+                    path: public
+                - name: Deploy direct static files
+                  id: deployment
+                  uses: actions/deploy-pages@v4
+                - name: Verify live Hero
+                  env:
+                    LIVE_URL: ${{ steps.deployment.outputs.page_url }}
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    root="${LIVE_URL%/}"
+                    curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
+                    curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/assets/images/hero/astera-astrolabe.png" -o /tmp/hero.png
+                    grep -Fq 'src="./assets/images/hero/astera-astrolabe.png"' /tmp/index.html
+                    test "$(wc -c < /tmp/hero.png | tr -d ' ')" = '2736491'
+                    test "$(sha256sum /tmp/hero.png | awk '{print $1}')" = 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
+                - name: Record live evidence
+                  env:
+                    LIVE_URL: ${{ steps.deployment.outputs.page_url }}
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    mkdir -p verification
+                    cat > verification/top-hero-live.json <<EOF
+                    {
+                      "status": "PASS",
+                      "verified_source_commit": "${GITHUB_SHA}",
+                      "live_url": "${LIVE_URL%/}/",
+                      "custom_domain_source": "asterav8.jp",
+                      "hero_path": "assets/images/hero/astera-astrolabe.png",
+                      "hero_bytes": 2736491,
+                      "hero_sha256": "ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc"
+                    }
+                    EOF
+                    git config user.name 'github-actions[bot]'
+                    git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+                    git add verification/top-hero-live.json
+                    if ! git diff --cached --quiet; then
+                      git commit -m 'chore: record TOP hero live verification [skip ci]'
+                      git push origin HEAD:main
+                    fi
+          YAML
+
+      - name: Validate and commit final repository state
         shell: bash
         run: |
           set -euo pipefail
-
-          for file in \
-            index.html \
-            style.css \
-            script.js \
-            styles/base.css \
-            styles/header.css \
-            styles/hero.css \
-            styles/menu.css \
-            styles/ai-bubble.css \
-            scripts/language.js \
-            scripts/menu.js \
-            scripts/ai-bubble.js \
-            scripts/app-entry.js \
-            scripts/hero-effect.js \
-            assets/brand/astera-logo-dark.svg \
-            assets/icons/ai-guide-robot.svg \
-            assets/visual/hero/astera-original-transparent.svg \
-            assets/visual/hero/astera-astrolabe.avif
-          do
-            test -s "$file"
-          done
-
-          grep -Fq '<script type="module" src="./script.js"></script>' index.html
-          grep -Fq 'src="./assets/brand/astera-logo-dark.svg"' index.html
-          grep -Fq 'src="./assets/icons/ai-guide-robot.svg"' index.html
-          grep -Fq 'src="./assets/visual/hero/astera-original-transparent.svg"' index.html
-          grep -Fq 'fetchpriority="high"' index.html
-          grep -Fq 'decoding="async"' index.html
-          grep -Fq "@import url('./styles/hero.css');" style.css
-          grep -Fq "from './scripts/hero-effect.js'" script.js
-          test "$(git hash-object assets/brand/astera-logo-dark.svg)" = "e77bad0abb060965f72caba59f516b57cadc24a5"
-          test "$(git hash-object assets/icons/ai-guide-robot.svg)" = "0965b33bc1b0cd02db7244387e463c3ea69a9f78"
-          test "$(git hash-object assets/visual/hero/astera-original-transparent.svg)" = "e54a4dfd4009237ceea48a30a9cf850776852a6a"
-          test "$(wc -c < assets/visual/hero/astera-original-transparent.svg | tr -d ' ')" = "3097567"
-          test "$(sha256sum assets/visual/hero/astera-original-transparent.svg | awk '{print $1}')" = "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
-          test "$(wc -c < assets/visual/hero/astera-astrolabe.avif | tr -d ' ')" = "88794"
-          test "$(sha256sum assets/visual/hero/astera-astrolabe.avif | awk '{print $1}')" = "616b0802d20025159958f52072f022414ad444de96d8a77735bfae32c0a996b4"
-
-          ! grep -Fq 'astera-globe-exact-layered.svg' index.html style.css styles/*.css
-          ! grep -Fq 'astera-globe-top.webp' index.html style.css styles/*.css
-          ! grep -Fq '最新情報' index.html
-          ! grep -Fq '正式回答' index.html
-          ! grep -Fq '料金・Credit' index.html
-          ! grep -Eiq 'notion|NOTION_' index.html style.css script.js styles/*.css scripts/*.js
-
-      - name: Prepare static files without generation
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf public
-          mkdir -p public
-          cp index.html style.css script.js public/
-          cp -R styles scripts assets public/
-          touch public/.nojekyll
-
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: public
-
-      - name: Deploy direct static files
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Verify live static files
-        env:
-          LIVE_URL: ${{ steps.deployment.outputs.page_url }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          root="${LIVE_URL%/}"
-
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
-
-          for path in \
-            style.css \
-            script.js \
-            styles/base.css \
-            styles/header.css \
-            styles/hero.css \
-            styles/menu.css \
-            styles/ai-bubble.css \
-            scripts/language.js \
-            scripts/menu.js \
-            scripts/ai-bubble.js \
-            scripts/app-entry.js \
-            scripts/hero-effect.js \
-            assets/brand/astera-logo-dark.svg \
-            assets/icons/ai-guide-robot.svg \
-            assets/visual/hero/astera-original-transparent.svg \
-            assets/visual/hero/astera-astrolabe.avif
-          do
-            curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/$path" -o "/tmp/$(echo "$path" | tr '/' '_')"
-          done
-
-          grep -Fq '<title>Astera</title>' /tmp/index.html
-          grep -Fq '<script type="module" src="./script.js"></script>' /tmp/index.html
-          grep -Fq 'src="./assets/visual/hero/astera-original-transparent.svg"' /tmp/index.html
-          ! grep -Fq '最新情報' /tmp/index.html
-          ! grep -Fq '正式回答' /tmp/index.html
-          ! grep -Fq '料金・Credit' /tmp/index.html
-          grep -Fq '<svg' /tmp/assets_brand_astera-logo-dark.svg
-          grep -Fq '<svg' /tmp/assets_icons_ai-guide-robot.svg
-          test "$(wc -c < /tmp/assets_visual_hero_astera-original-transparent.svg | tr -d ' ')" = "3097567"
-          test "$(sha256sum /tmp/assets_visual_hero_astera-original-transparent.svg | awk '{print $1}')" = "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
-          test "$(wc -c < /tmp/assets_visual_hero_astera-astrolabe.avif | tr -d ' ')" = "88794"
-          test "$(sha256sum /tmp/assets_visual_hero_astera-astrolabe.avif | awk '{print $1}')" = "616b0802d20025159958f52072f022414ad444de96d8a77735bfae32c0a996b4"
-
-      - name: Persist materialized hero and current live evidence
-        env:
-          LIVE_URL: ${{ steps.deployment.outputs.page_url }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p verification
-          cat > verification/top-hero-live.json <<EOF
-          {
-            "status": "PASS",
-            "verified_source_commit": "${GITHUB_SHA}",
-            "live_url": "${LIVE_URL%/}/",
-            "hero_path": "assets/visual/hero/astera-original-transparent.svg",
-            "hero_bytes": 3097567,
-            "hero_sha256": "84a9988a47157a9b6f01602fee08f1b176dbe7d6996a4fd42b07ca644551c5e2"
-          }
-          EOF
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/visual/hero/astera-astrolabe.avif verification/hero-asset.json verification/top-hero-live.json
-          git rm -r .hero-transfer
-          if test -e assets/visual/hero/.staging/astera-astrolabe.b64; then
-            git rm assets/visual/hero/.staging/astera-astrolabe.b64
-          fi
-          git commit -m "feat: materialize Astera astrolabe AVIF asset [skip ci]"
+          test -s assets/images/hero/astera-astrolabe.png
+          test "$(wc -c < assets/images/hero/astera-astrolabe.png | tr -d ' ')" = '2736491'
+          test "$(sha256sum assets/images/hero/astera-astrolabe.png | awk '{print $1}')" = 'ecd4a7d8907ec122344f4e63acc90334c2786a8e4dd4a229b16fa1a91bb6d8fc'
+          grep -Fq 'src="./assets/images/hero/astera-astrolabe.png"' index.html
+          test ! -e assets/visual/hero/astera-original-transparent.svg
+          test "$(cat CNAME)" = 'asterav8.jp'
+          node --check script.js
+          node --check scripts/hero-effect.js
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'feat: replace TOP hero with Master-selected image'
           git push origin HEAD:main
