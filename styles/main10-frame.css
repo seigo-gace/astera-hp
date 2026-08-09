@@ -1,0 +1,161 @@
+/* Main 10 Frame Integration v17
+ * Purpose: remove floating white/silver perimeter effect.
+ * Dark metal mass first; highlights only as micro edge reflections.
+ */
+
+.main10-card{
+  box-shadow:
+    0 24px 44px -18px color-mix(in srgb,var(--astera-void) 100%,transparent),
+    0 8px 18px -12px color-mix(in srgb,var(--astera-void) 96%,transparent);
+}
+
+/* Structural underbody: dark gasket, no bright perimeter. */
+.main10-card::after{
+  inset:2px;
+  background:
+    radial-gradient(circle at 10px 10px,color-mix(in srgb,var(--astera-metal-45) 10%,transparent) 0 1px,transparent 1.5px),
+    radial-gradient(circle at calc(100% - 10px) 10px,color-mix(in srgb,var(--astera-metal-35) 8%,transparent) 0 1px,transparent 1.5px),
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--astera-metal-20) 22%,var(--astera-void)) 0 6px,
+      color-mix(in srgb,var(--surface) 92%,var(--astera-void)) 6px calc(100% - 5px),
+      color-mix(in srgb,var(--astera-metal-20) 18%,var(--astera-void)) calc(100% - 5px)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-35) 12%,transparent),
+    inset 0 2px 4px color-mix(in srgb,var(--astera-void) 88%,transparent),
+    inset 7px 0 16px color-mix(in srgb,var(--astera-void) 88%,transparent),
+    inset -7px 0 16px color-mix(in srgb,var(--astera-void) 86%,transparent),
+    inset 0 -11px 20px color-mix(in srgb,var(--astera-void) 94%,transparent);
+}
+
+/* Outer rim: dark graphite body with a tiny top reflection only. */
+.main10-card::before{
+  box-shadow:
+    inset 0 0 0 3px color-mix(in srgb,var(--astera-metal-20) 82%,var(--astera-void)),
+    inset 0 0 0 4px color-mix(in srgb,var(--astera-metal-35) 9%,transparent),
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-75) 8%,transparent),
+    inset 0 -1px 0 var(--astera-void);
+}
+
+@supports (mask-composite:exclude){
+  .main10-card::before{
+    padding:2px;
+    background:
+      linear-gradient(180deg,
+        color-mix(in srgb,var(--astera-metal-55) 20%,var(--astera-metal-20)) 0%,
+        color-mix(in srgb,var(--astera-metal-35) 32%,var(--astera-metal-20)) 7%,
+        color-mix(in srgb,var(--astera-metal-20) 86%,var(--astera-void)) 22%,
+        color-mix(in srgb,var(--astera-metal-20) 72%,var(--astera-void)) 72%,
+        color-mix(in srgb,var(--astera-metal-20) 58%,var(--astera-void)) 100%
+      );
+    mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    mask-composite:exclude;
+    box-shadow:none;
+  }
+}
+
+/* Lid: matte face. Brightness is restricted to a micro top edge. */
+.main10-card__summary{
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb,var(--astera-metal-45) 8%,var(--surface-3)) 0 1px,
+      color-mix(in srgb,var(--astera-metal-20) 18%,var(--surface-3)) 1px 5px,
+      transparent 5px
+    ),
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--astera-metal-20) 34%,var(--surface)) 0 7px,
+      transparent 7px calc(100% - 5px),
+      color-mix(in srgb,var(--astera-metal-20) 26%,var(--surface)) calc(100% - 5px)
+    ),
+    radial-gradient(120% 170% at 10% -48%,color-mix(in srgb,var(--astera-metal-55) 6%,transparent),transparent 54%),
+    repeating-linear-gradient(0deg,transparent 0 3px,color-mix(in srgb,var(--astera-metal-35) 1.2%,transparent) 3px 4px),
+    linear-gradient(112deg,var(--surface-3),color-mix(in srgb,var(--surface-2) 96%,var(--astera-void)) 48%,var(--surface));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-75) 8%,transparent),
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-20) 38%,transparent),
+    inset 8px 0 12px color-mix(in srgb,var(--astera-void) 58%,transparent),
+    inset -6px 0 11px color-mix(in srgb,var(--astera-void) 62%,transparent),
+    inset 0 -5px 8px color-mix(in srgb,var(--astera-void) 94%,transparent),
+    0 6px 10px -5px color-mix(in srgb,var(--astera-void) 96%,transparent);
+}
+
+.main10-card__summary::before{
+  background:
+    linear-gradient(90deg,transparent 0 8%,color-mix(in srgb,var(--astera-metal-55) 8%,transparent) 16%,transparent 25%) -80% 0/38% 100% no-repeat,
+    linear-gradient(90deg,transparent 0 14%,color-mix(in srgb,var(--astera-metal-55) 12%,transparent) 34%,color-mix(in srgb,var(--astera-metal-65) 16%,transparent) 50%,color-mix(in srgb,var(--astera-metal-35) 8%,transparent) 68%,transparent 88%) 50% 1px/78% 1px no-repeat,
+    linear-gradient(90deg,transparent 0 12%,color-mix(in srgb,var(--astera-metal-20) 34%,transparent) 12% 42%,transparent 42% 58%,color-mix(in srgb,var(--astera-metal-20) 30%,transparent) 58% 88%,transparent 88%) 0 calc(100% - 7px)/100% 1px no-repeat;
+  opacity:.38;
+}
+
+/* Open area: side rails are dark faces, not silver strokes. */
+.main10-card > .main10-card__panel{
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--astera-metal-20) 26%,var(--astera-void)) 0 6px,
+      transparent 6px calc(100% - 6px),
+      color-mix(in srgb,var(--astera-metal-20) 22%,var(--astera-void)) calc(100% - 6px)
+    ),
+    linear-gradient(180deg,var(--astera-void) 0 12px,transparent 12px);
+  box-shadow:
+    inset 0 24px 30px -18px var(--astera-void),
+    inset 9px 0 16px color-mix(in srgb,var(--astera-void) 82%,transparent),
+    inset -9px 0 16px color-mix(in srgb,var(--astera-void) 80%,transparent),
+    inset 0 -10px 16px color-mix(in srgb,var(--astera-void) 86%,transparent);
+}
+
+/* The lid/panel connection is a dark groove, not a bright separator. */
+.main10-card__panel::before{
+  background:linear-gradient(180deg,
+    color-mix(in srgb,var(--astera-metal-35) 8%,transparent) 0 1px,
+    var(--astera-void) 1px 7px,
+    color-mix(in srgb,var(--astera-metal-20) 14%,transparent) 7px 8px,
+    transparent 8px
+  );
+  box-shadow:0 7px 14px color-mix(in srgb,var(--astera-void) 98%,transparent);
+}
+
+.main10-card__panel::after{
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--astera-metal-20) 16%,transparent) 0 4px,
+      transparent 4px calc(100% - 4px),
+      color-mix(in srgb,var(--astera-metal-20) 14%,transparent) calc(100% - 4px)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-20) 28%,transparent),
+    inset 0 16px 28px color-mix(in srgb,var(--astera-void) 94%,transparent),
+    inset 7px 0 12px color-mix(in srgb,var(--astera-void) 78%,transparent),
+    inset -7px 0 12px color-mix(in srgb,var(--astera-void) 76%,transparent),
+    inset 0 -6px 12px color-mix(in srgb,var(--astera-void) 66%,transparent);
+}
+
+.main10-card[open]{
+  box-shadow:
+    0 30px 50px -20px color-mix(in srgb,var(--astera-void) 100%,transparent),
+    0 10px 20px -16px color-mix(in srgb,var(--astera-void) 98%,transparent);
+}
+
+.main10-card[open]::after{
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-20) 20%,transparent),
+    inset 0 2px 6px color-mix(in srgb,var(--astera-void) 94%,transparent),
+    inset 7px 0 16px color-mix(in srgb,var(--astera-void) 90%,transparent),
+    inset -7px 0 16px color-mix(in srgb,var(--astera-void) 88%,transparent),
+    inset 0 -12px 22px color-mix(in srgb,var(--astera-void) 96%,transparent);
+}
+
+.main10-card[open] .main10-card__summary{
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-75) 9%,transparent),
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-20) 42%,transparent),
+    inset 0 -6px 10px color-mix(in srgb,var(--astera-void) 98%,transparent),
+    0 8px 14px -5px color-mix(in srgb,var(--astera-void) 100%,transparent);
+}
+
+@media (hover:hover) and (pointer:fine){
+  .main10-card:not([open]):hover{
+    box-shadow:
+      0 26px 42px -18px color-mix(in srgb,var(--astera-void) 100%,transparent),
+      0 8px 18px -14px color-mix(in srgb,var(--astera-void) 96%,transparent);
+  }
+}
