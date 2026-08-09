@@ -27,11 +27,11 @@ jobs:
         run: |
           set -euo pipefail
           for file in index.html style.css script.js styles/hero.css styles/main10.css styles/main10-icons.css scripts/hero-effect.js scripts/main10-card.js assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
-          grep -Fq 'href="./styles/main10.css?v=cu21-final-panel"' index.html
+          grep -Fq 'href="./styles/main10.css?v=cu22-textfield-minimal"' index.html
           grep -Fq 'href="./styles/main10-icons.css?v=cu21-final-panel"' index.html
           grep -Fq 'src="./script.js?v=cu21-final-panel"' index.html
           grep -Fq "from './scripts/main10-card.js?v=cu21-final-panel'" script.js
-          grep -Fq 'CARD PANEL（アコーディオン）最終完全版 v21' styles/main10.css
+          grep -Fq 'CARD PANEL（TextFieldライクなミニマルデザイン） v22' styles/main10.css
           grep -Fq "panel.style.height = 'auto'" scripts/main10-card.js
           node --check script.js
           node --check scripts/main10-card.js
@@ -54,7 +54,7 @@ jobs:
       - name: Deploy direct static files
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify deployed Main 10 Final Panel v21
+      - name: Verify deployed Main 10 TextField Minimal v22
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
@@ -62,11 +62,11 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10.css?v=cu21-final-panel" -o /tmp/main10.css
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10.css?v=cu22-textfield-minimal" -o /tmp/main10.css
           curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10-icons.css?v=cu21-final-panel" -o /tmp/main10-icons.css
           curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/scripts/main10-card.js?v=cu21-final-panel" -o /tmp/main10-card.js
-          grep -Fq 'href="./styles/main10.css?v=cu21-final-panel"' /tmp/index.html
-          grep -Fq 'CARD PANEL（アコーディオン）最終完全版 v21' /tmp/main10.css
+          grep -Fq 'href="./styles/main10.css?v=cu22-textfield-minimal"' /tmp/index.html
+          grep -Fq 'CARD PANEL（TextFieldライクなミニマルデザイン） v22' /tmp/main10.css
           grep -Fq "panel.style.height = 'auto'" /tmp/main10-card.js
           test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
           test "$(git hash-object /tmp/main10-icons.css)" = "$(git hash-object styles/main10-icons.css)"
