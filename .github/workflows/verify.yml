@@ -40,6 +40,7 @@ jobs:
             scripts/ai-bubble.js \
             scripts/app-entry.js \
             scripts/hero-effect.js \
+            scripts/main10-chassis.js \
             assets/brand/astera-logo-dark.svg \
             assets/icons/ai-guide-robot.svg \
             assets/icons/main10/main10-icons.svg \
@@ -82,23 +83,33 @@ jobs:
           test "$(grep -c 'class="main10-card__title-slot"' index.html)" -eq 10
           ! grep -Fq 'name="main10"' index.html
           ! grep -Fq 'main10-card__toggle' index.html styles/main10.css
+
+          grep -Fq 'href="./styles/main10.css?v=cu15-chassis-v2"' index.html
+          grep -Fq 'src="./script.js?v=cu15-chassis-v2"' index.html
           grep -Fq "@import url('./styles/main10.css');" style.css
           grep -Fq 'href="./styles/main10-icons.css"' index.html
+
           grep -Fq 'grid-template-columns:minmax(0,1fr)' styles/main10.css
-          grep -Fq 'grid-template-columns:32px 44px minmax(0,1fr)' styles/main10.css
+          grep -Fq 'grid-template-columns:48px minmax(0,1fr)' styles/main10.css
           grep -Fq 'min-height:78px' styles/main10.css
           grep -Fq 'white-space:nowrap' styles/main10.css
           grep -Fq 'clip-path:polygon' styles/main10.css
+          grep -Fq '@supports (mask-composite:exclude)' styles/main10.css
+          grep -Fq 'mask-composite:exclude' styles/main10.css
+          grep -Fq 'perspective:980px' styles/main10.css
+          grep -Fq 'transform-style:preserve-3d' styles/main10.css
           grep -Fq '.main10-card::before' styles/main10.css
           grep -Fq '.main10-card::after' styles/main10.css
           grep -Fq '.main10-card__panel::before' styles/main10.css
+          grep -Fq '.main10-card__panel-body::after' styles/main10.css
           grep -Fq '.main10-card[open]' styles/main10.css
           grep -Fq '.main10-card__summary:active' styles/main10.css
           grep -Fq '@keyframes main10-surface-sweep' styles/main10.css
           grep -Fq '@media (hover:hover) and (pointer:fine)' styles/main10.css
           grep -Fq '@media (prefers-reduced-motion:reduce)' styles/main10.css
-          ! grep -Fq 'main10.js' script.js
+          ! grep -Fq '.main10-card__number' styles/main10.css
           ! grep -Fq 'min-height:96px' styles/main10.css
+
           grep -Fq 'grid-template-columns:48px minmax(0,1fr)' styles/main10-icons.css
           grep -Fq "background-image:url('../assets/icons/main10/main10-icons.svg')" styles/main10-icons.css
           test "$(grep -c 'main10-card__icon-image--' styles/main10-icons.css)" -eq 10
@@ -109,12 +120,23 @@ jobs:
           ! grep -Fq '<image' assets/icons/main10/main10-icons.svg
           test "$(wc -c < assets/icons/main10/main10-icons.svg)" -lt 50000
 
+          grep -Fq "from './scripts/main10-chassis.js?v=cu15-chassis-v2'" script.js
+          grep -Fq 'initMain10Chassis();' script.js
+          grep -Fq "const MOTION_QUERY = '(prefers-reduced-motion: reduce)'" scripts/main10-chassis.js
+          grep -Fq "summary.addEventListener('click'" scripts/main10-chassis.js
+          grep -Fq 'panel.animate(' scripts/main10-chassis.js
+          grep -Fq 'panel.scrollHeight' scripts/main10-chassis.js
+          grep -Fq 'card.open = true' scripts/main10-chassis.js
+          grep -Fq 'card.open = false' scripts/main10-chassis.js
+          ! grep -Eiq 'three\.js|webgl|arwes|augmented-ui|https?://' scripts/main10-chassis.js styles/main10.css
+
           node --check script.js
           node --check scripts/language.js
           node --check scripts/menu.js
           node --check scripts/ai-bubble.js
           node --check scripts/app-entry.js
           node --check scripts/hero-effect.js
+          node --check scripts/main10-chassis.js
 
           test "$(git hash-object assets/images/hero/astera-hero-desktop-1280x720.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
           test "$(git hash-object assets/images/hero/astera-hero-tablet-1024x576.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
@@ -142,15 +164,22 @@ jobs:
             sleep 1
           done
 
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu15-chassis-v2' -o /tmp/main10.css
+          curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-chassis.js?v=cu15-chassis-v2' -o /tmp/main10-chassis.js
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-desktop-1280x720.webp -o /tmp/hero-desktop.webp
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-tablet-1024x576.webp -o /tmp/hero-tablet.webp
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-mobile-720x405.webp -o /tmp/hero-mobile.webp
-          grep -Fq 'src="./assets/images/hero/astera-hero-desktop-1280x720.webp"' /tmp/index.html
+
+          grep -Fq 'href="./styles/main10.css?v=cu15-chassis-v2"' /tmp/index.html
+          grep -Fq 'src="./script.js?v=cu15-chassis-v2"' /tmp/index.html
           test "$(grep -c 'data-main10-card' /tmp/index.html)" -eq 10
           test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' /tmp/index.html)" -eq 10
           test "$(grep -c 'main10-card__number' /tmp/index.html)" -eq 0
           ! grep -Fq 'main10-card__toggle' /tmp/index.html
           ! grep -Fq 'name="main10"' /tmp/index.html
+
+          test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
+          test "$(git hash-object /tmp/main10-chassis.js)" = "$(git hash-object scripts/main10-chassis.js)"
           test "$(git hash-object /tmp/hero-desktop.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
           test "$(git hash-object /tmp/hero-tablet.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
           test "$(git hash-object /tmp/hero-mobile.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"

@@ -34,7 +34,11 @@ jobs:
             style.css \
             script.js \
             styles/hero.css \
+            styles/main10.css \
+            styles/main10-icons.css \
             scripts/hero-effect.js \
+            scripts/main10-chassis.js \
+            assets/icons/main10/main10-icons.svg \
             assets/images/hero/astera-hero-desktop-1280x720.webp \
             assets/images/hero/astera-hero-tablet-1024x576.webp \
             assets/images/hero/astera-hero-mobile-720x405.webp \
@@ -46,9 +50,17 @@ jobs:
           grep -Fq 'src="./assets/images/hero/astera-hero-desktop-1280x720.webp"' index.html
           grep -Fq 'srcset="./assets/images/hero/astera-hero-tablet-1024x576.webp"' index.html
           grep -Fq 'srcset="./assets/images/hero/astera-hero-mobile-720x405.webp"' index.html
+          grep -Fq 'href="./styles/main10.css?v=cu15-chassis-v2"' index.html
+          grep -Fq 'src="./script.js?v=cu15-chassis-v2"' index.html
           grep -Fq "from './scripts/hero-effect.js'" script.js
+          grep -Fq "from './scripts/main10-chassis.js?v=cu15-chassis-v2'" script.js
+          grep -Fq 'mask-composite:exclude' styles/main10.css
+          grep -Fq 'panel.animate(' scripts/main10-chassis.js
+
           node --check script.js
           node --check scripts/hero-effect.js
+          node --check scripts/main10-chassis.js
+
           test "$(git hash-object assets/images/hero/astera-hero-desktop-1280x720.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
           test "$(git hash-object assets/images/hero/astera-hero-tablet-1024x576.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
           test "$(git hash-object assets/images/hero/astera-hero-mobile-720x405.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"
@@ -76,18 +88,28 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify deployed Hero
+      - name: Verify deployed Hero and Main 10 Chassis
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
         run: |
           set -euo pipefail
           root="${LIVE_URL%/}"
+
           curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10.css?v=cu15-chassis-v2" -o /tmp/main10.css
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/scripts/main10-chassis.js?v=cu15-chassis-v2" -o /tmp/main10-chassis.js
           curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/assets/images/hero/astera-hero-desktop-1280x720.webp" -o /tmp/hero-desktop.webp
           curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/assets/images/hero/astera-hero-tablet-1024x576.webp" -o /tmp/hero-tablet.webp
           curl --fail --location --silent --show-error --retry 8 --retry-delay 3 --retry-all-errors "$root/assets/images/hero/astera-hero-mobile-720x405.webp" -o /tmp/hero-mobile.webp
-          grep -Fq 'src="./assets/images/hero/astera-hero-desktop-1280x720.webp"' /tmp/index.html
+
+          grep -Fq 'href="./styles/main10.css?v=cu15-chassis-v2"' /tmp/index.html
+          grep -Fq 'src="./script.js?v=cu15-chassis-v2"' /tmp/index.html
+          grep -Fq 'mask-composite:exclude' /tmp/main10.css
+          grep -Fq 'panel.animate(' /tmp/main10-chassis.js
+
+          test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
+          test "$(git hash-object /tmp/main10-chassis.js)" = "$(git hash-object scripts/main10-chassis.js)"
           test "$(git hash-object /tmp/hero-desktop.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
           test "$(git hash-object /tmp/hero-tablet.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
           test "$(git hash-object /tmp/hero-mobile.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"

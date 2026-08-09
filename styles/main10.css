@@ -1,6 +1,6 @@
 .main-ten{
   width:100%;
-  padding:18px 12px 50px;
+  padding:20px 12px 54px;
   background:var(--bg);
 }
 
@@ -10,63 +10,156 @@
   margin:0 auto;
   display:grid;
   grid-template-columns:minmax(0,1fr);
-  gap:14px;
+  gap:16px;
 }
 
+/*
+ * Main 10 Chassis v2
+ * Outer shape -> hollow metal rim -> gasket -> machined face.
+ * Native details/summary semantics remain the interaction base.
+ */
 .main10-card{
+  --main10-cut-tl:12px;
+  --main10-cut-tr:8px;
+  --main10-cut-br:14px;
+  --main10-cut-bl:9px;
+  --main10-rim:2px;
+  --main10-open-duration:560ms;
   position:relative;
   width:100%;
   isolation:isolate;
   border:0;
   background:transparent;
-  transform:translateZ(0);
-  filter:drop-shadow(0 16px 22px color-mix(in srgb,var(--astera-void) 86%,transparent));
-  transition:filter .24s ease;
+  perspective:980px;
+  transform-style:preserve-3d;
+  box-shadow:
+    0 18px 28px color-mix(in srgb,var(--astera-void) 92%,transparent),
+    0 3px 0 color-mix(in srgb,var(--astera-void) 100%,transparent);
+  transition:box-shadow .32s ease;
 }
 
-.main10-card::before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  z-index:-1;
-  clip-path:polygon(12px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 9px),calc(100% - 9px) 100%,8px 100%,0 calc(100% - 8px),0 12px);
-  background:linear-gradient(135deg,color-mix(in srgb,var(--astera-metal-85) 62%,var(--astera-metal-35)) 0%,var(--astera-metal-35) 16%,var(--astera-metal-20) 48%,var(--astera-metal-45) 78%,color-mix(in srgb,var(--astera-metal-75) 50%,var(--astera-metal-20)) 100%);
-  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 26%,transparent),inset 0 -1px 0 color-mix(in srgb,var(--astera-void) 74%,transparent);
-  pointer-events:none;
-}
-
+/* Dark gasket / lower chassis plate follows the full CLOSED or OPEN height. */
 .main10-card::after{
   content:"";
   position:absolute;
-  left:9px;
-  right:9px;
-  bottom:-7px;
-  z-index:-2;
-  height:13px;
-  clip-path:polygon(5px 0,calc(100% - 5px) 0,100% 5px,calc(100% - 4px) 100%,4px 100%,0 5px);
-  background:linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-45) 52%,var(--surface-2)) 0%,var(--surface) 38%,var(--astera-void) 100%);
-  box-shadow:0 11px 17px color-mix(in srgb,var(--astera-void) 92%,transparent),inset 0 1px 0 color-mix(in srgb,var(--astera-metal-65) 34%,transparent);
-  transition:bottom .26s ease,box-shadow .26s ease,background .26s ease;
+  inset:3px;
+  z-index:0;
+  clip-path:polygon(
+    var(--main10-cut-tl) 0,
+    calc(100% - var(--main10-cut-tr)) 0,
+    100% var(--main10-cut-tr),
+    100% calc(100% - var(--main10-cut-br)),
+    calc(100% - var(--main10-cut-br)) 100%,
+    var(--main10-cut-bl) 100%,
+    0 calc(100% - var(--main10-cut-bl)),
+    0 var(--main10-cut-tl)
+  );
+  background:
+    radial-gradient(circle at 9px 9px,color-mix(in srgb,var(--astera-metal-75) 30%,transparent) 0 1px,transparent 1.5px),
+    radial-gradient(circle at calc(100% - 9px) 9px,color-mix(in srgb,var(--astera-metal-55) 28%,transparent) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 9px calc(100% - 9px),color-mix(in srgb,var(--astera-metal-35) 24%,transparent) 0 1px,transparent 1.5px),
+    radial-gradient(circle at calc(100% - 9px) calc(100% - 9px),color-mix(in srgb,var(--astera-metal-35) 22%,transparent) 0 1px,transparent 1.5px),
+    linear-gradient(145deg,var(--surface-3) 0%,var(--surface-2) 37%,var(--surface) 66%,var(--astera-void) 100%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-35) 26%,transparent),
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-75) 10%,transparent),
+    inset 0 -7px 14px color-mix(in srgb,var(--astera-void) 78%,transparent);
+  filter:drop-shadow(0 8px 12px color-mix(in srgb,var(--astera-void) 88%,transparent));
   pointer-events:none;
+  transition:filter .32s ease,box-shadow .32s ease;
+}
+
+/* Fallback outer line. A hollow mask upgrades this to a real metallic rim when supported. */
+.main10-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:8;
+  pointer-events:none;
+  clip-path:polygon(
+    var(--main10-cut-tl) 0,
+    calc(100% - var(--main10-cut-tr)) 0,
+    100% var(--main10-cut-tr),
+    100% calc(100% - var(--main10-cut-br)),
+    calc(100% - var(--main10-cut-br)) 100%,
+    var(--main10-cut-bl) 100%,
+    0 calc(100% - var(--main10-cut-bl)),
+    0 var(--main10-cut-tl)
+  );
+  box-shadow:
+    inset 0 0 0 1px var(--line-strong),
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 25%,transparent);
+}
+
+@supports (mask-composite:exclude){
+  .main10-card::before{
+    padding:var(--main10-rim);
+    background:
+      linear-gradient(105deg,
+        color-mix(in srgb,var(--astera-metal-100) 82%,var(--astera-metal-55)) 0%,
+        var(--astera-metal-45) 14%,
+        var(--astera-metal-20) 34%,
+        color-mix(in srgb,var(--astera-metal-75) 54%,var(--astera-metal-20)) 51%,
+        var(--astera-metal-35) 67%,
+        color-mix(in srgb,var(--astera-metal-85) 70%,var(--astera-metal-35)) 86%,
+        var(--astera-metal-45) 100%
+      );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite:exclude;
+    box-shadow:none;
+  }
 }
 
 .main10-card__summary{
   position:relative;
+  z-index:5;
   min-height:78px;
-  padding:0 15px;
+  margin:4px;
+  padding:0 14px;
   display:grid;
-  grid-template-columns:32px 44px minmax(0,1fr);
+  grid-template-columns:48px minmax(0,1fr);
   align-items:center;
-  gap:11px;
+  gap:12px;
   overflow:hidden;
-  clip-path:polygon(11px 0,calc(100% - 7px) 0,100% 7px,100% calc(100% - 8px),calc(100% - 8px) 100%,7px 100%,0 calc(100% - 7px),0 11px);
   list-style:none;
   cursor:pointer;
   user-select:none;
   outline:none;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-100) 10%,transparent) 0%,transparent 17%),radial-gradient(120% 210% at 6% -48%,color-mix(in srgb,var(--astera-metal-75) 18%,transparent) 0%,transparent 49%),linear-gradient(112deg,var(--surface-3) 0%,var(--surface-2) 43%,var(--surface) 100%);
-  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 22%,transparent),inset 1px 0 0 color-mix(in srgb,var(--astera-metal-75) 8%,transparent),inset -1px 0 0 color-mix(in srgb,var(--astera-void) 76%,transparent),inset 0 -3px 0 color-mix(in srgb,var(--astera-void) 58%,transparent),inset 0 -5px 14px color-mix(in srgb,var(--astera-void) 26%,transparent),0 1px 0 color-mix(in srgb,var(--astera-metal-55) 15%,transparent);
-  transition:transform .14s ease,background .24s ease,box-shadow .24s ease,clip-path .24s ease;
+  transform-origin:50% 100%;
+  transform:translateZ(7px);
+  transform-style:preserve-3d;
+  clip-path:polygon(
+    9px 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    7px 100%,
+    0 calc(100% - 7px),
+    0 9px
+  );
+  background:
+    radial-gradient(circle at 10px 10px,color-mix(in srgb,var(--astera-metal-85) 42%,transparent) 0 1px,transparent 1.4px),
+    radial-gradient(circle at calc(100% - 10px) 10px,color-mix(in srgb,var(--astera-metal-65) 32%,transparent) 0 1px,transparent 1.4px),
+    linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-100) 13%,transparent) 0%,transparent 15%),
+    linear-gradient(105deg,transparent 0 8%,color-mix(in srgb,var(--astera-metal-75) 8%,transparent) 20%,transparent 33%),
+    repeating-linear-gradient(0deg,transparent 0 2px,color-mix(in srgb,var(--astera-metal-55) 2%,transparent) 2px 3px),
+    linear-gradient(115deg,var(--surface-3) 0%,color-mix(in srgb,var(--surface-2) 92%,var(--astera-metal-20)) 45%,var(--surface) 100%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 26%,transparent),
+    inset 1px 0 0 color-mix(in srgb,var(--astera-metal-75) 12%,transparent),
+    inset -1px 0 0 color-mix(in srgb,var(--astera-void) 80%,transparent),
+    inset 0 -1px 0 color-mix(in srgb,var(--astera-metal-45) 32%,transparent),
+    inset 0 -5px 10px color-mix(in srgb,var(--astera-void) 52%,transparent),
+    0 4px 0 color-mix(in srgb,var(--astera-void) 82%,transparent),
+    0 8px 16px color-mix(in srgb,var(--astera-void) 66%,transparent);
+  transition:
+    transform .28s cubic-bezier(.22,1,.36,1),
+    background .28s ease,
+    box-shadow .3s ease,
+    filter .28s ease;
 }
 
 .main10-card__summary::-webkit-details-marker{display:none}
@@ -76,8 +169,12 @@
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(90deg,transparent 0 3%,color-mix(in srgb,var(--astera-metal-65) 22%,transparent) 16%,transparent 31%) 0 0/180% 100% no-repeat,linear-gradient(90deg,transparent 0 8%,var(--astera-metal-55) 29%,var(--astera-metal-85) 47%,var(--astera-metal-45) 66%,transparent 92%) 50% 1px/92% 1px no-repeat,repeating-linear-gradient(90deg,transparent 0 25px,color-mix(in srgb,var(--astera-metal-45) 5%,transparent) 25px 26px);
-  opacity:.52;
+  z-index:0;
+  background:
+    linear-gradient(90deg,transparent 0 4%,color-mix(in srgb,var(--astera-metal-85) 20%,transparent) 15%,transparent 27%) -80% 0/42% 100% no-repeat,
+    linear-gradient(90deg,transparent 0 8%,var(--astera-metal-35) 26%,var(--astera-metal-75) 50%,var(--astera-metal-35) 74%,transparent 92%) 50% 1px/92% 1px no-repeat,
+    linear-gradient(90deg,transparent,color-mix(in srgb,var(--astera-metal-45) 14%,transparent),transparent) 50% calc(100% - 1px)/82% 1px no-repeat;
+  opacity:.62;
   pointer-events:none;
 }
 
@@ -85,230 +182,373 @@
   content:"";
   position:absolute;
   left:0;
-  top:14px;
-  bottom:14px;
+  top:15px;
+  bottom:15px;
   width:2px;
+  z-index:1;
   background:linear-gradient(180deg,transparent,var(--brand-signal),transparent);
-  box-shadow:0 0 12px var(--brand-signal-soft);
+  box-shadow:0 0 10px var(--brand-signal-soft);
   opacity:0;
   transform:scaleY(.35);
-  transition:opacity .18s ease,transform .2s ease;
+  transition:opacity .2s ease,transform .25s ease;
   pointer-events:none;
-}
-
-.main10-card__number{
-  min-width:0;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:850;
-  line-height:1;
-  letter-spacing:.18em;
-  text-align:center;
-  font-variant-numeric:tabular-nums;
-  text-shadow:0 1px 0 var(--astera-void),0 0 8px color-mix(in srgb,var(--astera-metal-75) 8%,transparent);
-  transition:color .2s ease,text-shadow .2s ease;
 }
 
 .main10-card__symbol{
   position:relative;
-  width:40px;
-  height:40px;
-  clip-path:polygon(7px 0,calc(100% - 5px) 0,100% 5px,100% calc(100% - 7px),calc(100% - 7px) 100%,5px 100%,0 calc(100% - 5px),0 7px);
-  background:linear-gradient(145deg,color-mix(in srgb,var(--astera-metal-55) 18%,var(--surface-3)) 0%,var(--surface-2) 44%,var(--surface) 100%);
-  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 18%,transparent),inset 0 -3px 5px color-mix(in srgb,var(--astera-void) 82%,transparent),inset 3px 0 5px color-mix(in srgb,var(--astera-void) 38%,transparent),0 4px 8px color-mix(in srgb,var(--astera-void) 74%,transparent),0 0 0 1px var(--line);
-  transition:transform .2s ease,box-shadow .22s ease,filter .22s ease;
+  z-index:2;
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  transform:translateZ(13px);
+  clip-path:polygon(8px 0,calc(100% - 5px) 0,100% 5px,100% calc(100% - 8px),calc(100% - 8px) 100%,5px 100%,0 calc(100% - 5px),0 8px);
+  background:
+    linear-gradient(145deg,color-mix(in srgb,var(--astera-metal-55) 20%,var(--surface-3)) 0%,var(--surface-2) 42%,var(--surface) 100%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-55) 38%,transparent),
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 18%,transparent),
+    inset 3px 3px 8px color-mix(in srgb,var(--astera-void) 72%,transparent),
+    inset -1px -2px 5px color-mix(in srgb,var(--astera-metal-45) 8%,transparent),
+    0 4px 8px color-mix(in srgb,var(--astera-void) 72%,transparent);
+  transition:transform .25s ease,box-shadow .28s ease,filter .25s ease;
 }
-
-.main10-card__symbol::before,.main10-card__symbol::after{content:"";position:absolute;left:50%;top:50%;pointer-events:none}
-.main10-card__symbol::before{width:13px;height:13px;border:1px solid var(--icon);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 10px color-mix(in srgb,var(--astera-metal-85) 12%,transparent)}
-.main10-card__symbol::after{width:23px;height:23px;border:1px solid var(--line-subtle);transform:translate(-50%,-50%) rotate(45deg)}
 
 .main10-card__title-slot{
   position:relative;
+  z-index:2;
   min-width:0;
-  height:30px;
+  height:36px;
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
-  border-left:1px solid color-mix(in srgb,var(--astera-metal-45) 32%,transparent);
-  background:linear-gradient(180deg,color-mix(in srgb,var(--astera-void) 16%,transparent),transparent 42%,color-mix(in srgb,var(--astera-metal-45) 4%,transparent));
-  box-shadow:inset 7px 0 12px color-mix(in srgb,var(--astera-void) 35%,transparent),inset 0 1px 0 color-mix(in srgb,var(--astera-metal-45) 5%,transparent),inset 0 -1px 0 color-mix(in srgb,var(--astera-void) 40%,transparent);
+  transform:translateZ(9px);
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+  background:
+    linear-gradient(180deg,color-mix(in srgb,var(--astera-void) 34%,transparent),transparent 34%,color-mix(in srgb,var(--astera-metal-45) 4%,transparent)),
+    linear-gradient(90deg,color-mix(in srgb,var(--astera-metal-35) 12%,transparent),transparent 8% 92%,color-mix(in srgb,var(--astera-metal-35) 10%,transparent));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-35) 28%,transparent),
+    inset 8px 0 14px color-mix(in srgb,var(--astera-void) 54%,transparent),
+    inset 0 3px 8px color-mix(in srgb,var(--astera-void) 42%,transparent),
+    inset 0 -1px 0 color-mix(in srgb,var(--astera-metal-45) 12%,transparent);
 }
 
-.main10-card__title-slot::before,.main10-card__title-slot::after{content:"";position:absolute;left:14px;right:10px;height:1px;border-radius:999px}
-.main10-card__title-slot::before{top:11px;background:linear-gradient(90deg,var(--astera-metal-35),var(--astera-metal-55) 46%,transparent 82%);opacity:.66}
-.main10-card__title-slot::after{top:18px;right:32%;background:linear-gradient(90deg,var(--astera-metal-20),var(--astera-metal-45),transparent);opacity:.42}
+.main10-card__title-slot::before,
+.main10-card__title-slot::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
 
-/* Open content remains inside the same chassis. The author rule intentionally overrides the UA closed-details display rule. */
+.main10-card__title-slot::before{
+  left:14px;
+  right:14px;
+  top:50%;
+  height:1px;
+  background:linear-gradient(90deg,var(--astera-metal-35),color-mix(in srgb,var(--astera-metal-65) 48%,transparent) 46%,transparent 84%);
+  opacity:.52;
+}
+
+.main10-card__title-slot::after{
+  right:10px;
+  top:8px;
+  width:18px;
+  height:3px;
+  border-top:1px solid color-mix(in srgb,var(--astera-metal-55) 34%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--astera-void) 68%,transparent);
+  opacity:.7;
+}
+
+/* OPEN AREA: no independent card border. It lives inside the root chassis frame. */
 .main10-card > .main10-card__panel{
   position:relative;
-  display:grid;
-  grid-template-rows:0fr;
-  margin:0;
-  overflow:hidden;
-  opacity:0;
+  z-index:2;
+  margin:-1px 4px 4px;
+  overflow:clip;
   background:
-    linear-gradient(90deg,color-mix(in srgb,var(--astera-metal-45) 13%,transparent),transparent 8%,transparent 92%,color-mix(in srgb,var(--astera-metal-45) 13%,transparent)),
-    linear-gradient(180deg,var(--surface-2) 0%,var(--surface) 100%);
+    linear-gradient(180deg,var(--astera-void) 0 7px,transparent 7px),
+    linear-gradient(90deg,color-mix(in srgb,var(--astera-metal-35) 11%,transparent),transparent 7%,transparent 93%,color-mix(in srgb,var(--astera-metal-35) 11%,transparent));
   box-shadow:
-    inset 3px 0 0 color-mix(in srgb,var(--astera-metal-35) 20%,transparent),
-    inset -3px 0 0 color-mix(in srgb,var(--astera-metal-35) 16%,transparent),
-    inset 0 12px 24px color-mix(in srgb,var(--astera-void) 50%,transparent),
-    inset 0 -8px 18px color-mix(in srgb,var(--astera-void) 44%,transparent);
-  transition:grid-template-rows .28s cubic-bezier(.22,.61,.36,1),opacity .16s ease;
+    inset 0 13px 20px -12px color-mix(in srgb,var(--astera-void) 100%,transparent);
 }
 
 .main10-card__panel::before{
   content:"";
   position:absolute;
-  left:10px;
-  right:10px;
+  left:7px;
+  right:7px;
   top:0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--astera-metal-55) 58%,transparent) 18%,color-mix(in srgb,var(--astera-metal-85) 35%,transparent) 50%,color-mix(in srgb,var(--astera-metal-55) 58%,transparent) 82%,transparent);
-  opacity:.72;
+  height:9px;
+  z-index:4;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb,var(--astera-metal-85) 26%,transparent) 0 1px,
+      var(--astera-void) 1px 5px,
+      color-mix(in srgb,var(--astera-metal-35) 22%,transparent) 5px 6px,
+      transparent 6px
+    );
+  box-shadow:0 5px 10px color-mix(in srgb,var(--astera-void) 84%,transparent);
   pointer-events:none;
 }
 
 .main10-card__panel::after{
   content:"";
   position:absolute;
-  inset:1px 7px 7px;
-  background:
-    linear-gradient(90deg,color-mix(in srgb,var(--astera-metal-45) 10%,transparent),transparent 10%,transparent 90%,color-mix(in srgb,var(--astera-metal-45) 10%,transparent)),
-    repeating-linear-gradient(90deg,transparent 0 31px,color-mix(in srgb,var(--astera-metal-35) 3%,transparent) 31px 32px);
-  box-shadow:inset 1px 0 0 color-mix(in srgb,var(--astera-metal-45) 16%,transparent),inset -1px 0 0 color-mix(in srgb,var(--astera-metal-45) 12%,transparent);
+  inset:10px 5px 5px;
+  z-index:0;
   pointer-events:none;
+  clip-path:polygon(5px 0,calc(100% - 5px) 0,100% 5px,100% calc(100% - 9px),calc(100% - 9px) 100%,9px 100%,0 calc(100% - 7px),0 5px);
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--astera-metal-35) 26%,transparent) 0 3px,
+      transparent 3px calc(100% - 3px),
+      color-mix(in srgb,var(--astera-metal-35) 22%,transparent) calc(100% - 3px)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-20) 58%,transparent),
+    inset 0 14px 28px color-mix(in srgb,var(--astera-void) 74%,transparent);
 }
 
 .main10-card__panel-body{
   position:relative;
-  z-index:1;
-  min-height:0;
+  z-index:2;
+  min-height:154px;
+  margin:10px 8px 8px;
+  padding:22px 14px 16px;
   overflow:hidden;
-  padding:0 14px;
-  opacity:0;
-  transform:translateY(-7px);
+  clip-path:polygon(6px 0,calc(100% - 4px) 0,100% 4px,100% calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,0 calc(100% - 7px),0 6px);
   background:
-    radial-gradient(100% 80% at 50% 0%,color-mix(in srgb,var(--astera-metal-55) 5%,transparent),transparent 58%),
-    linear-gradient(180deg,color-mix(in srgb,var(--astera-void) 18%,transparent),transparent 24%);
-  box-shadow:inset 0 16px 25px color-mix(in srgb,var(--astera-void) 48%,transparent);
-  transition:padding .28s cubic-bezier(.22,.61,.36,1),opacity .18s ease .06s,transform .22s ease .04s;
+    radial-gradient(120% 80% at 50% -16%,color-mix(in srgb,var(--astera-metal-55) 8%,transparent),transparent 48%),
+    repeating-linear-gradient(90deg,transparent 0 31px,color-mix(in srgb,var(--astera-metal-35) 3%,transparent) 31px 32px),
+    repeating-linear-gradient(0deg,transparent 0 23px,color-mix(in srgb,var(--astera-metal-35) 3%,transparent) 23px 24px),
+    linear-gradient(180deg,color-mix(in srgb,var(--surface) 86%,var(--astera-void)) 0%,var(--astera-void) 100%);
+  box-shadow:
+    inset 0 20px 32px color-mix(in srgb,var(--astera-void) 92%,transparent),
+    inset 7px 0 13px color-mix(in srgb,var(--astera-void) 72%,transparent),
+    inset -7px 0 13px color-mix(in srgb,var(--astera-void) 68%,transparent),
+    inset 0 -8px 18px color-mix(in srgb,var(--astera-void) 78%,transparent),
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-35) 24%,transparent),
+    0 1px 0 color-mix(in srgb,var(--astera-metal-55) 15%,transparent);
+  transform-origin:50% 0;
+  transform:translateY(-8px) scale(.994);
+  opacity:0;
+  transition:opacity .22s ease .08s,transform .28s cubic-bezier(.22,1,.36,1) .06s;
 }
 
 .main10-card__panel-body::before{
   content:"";
   position:absolute;
-  inset:16px 16px 48px;
-  background:
-    linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-55) 4%,transparent),transparent 20%),
-    repeating-linear-gradient(0deg,transparent 0 19px,color-mix(in srgb,var(--astera-metal-45) 4%,transparent) 19px 20px);
-  box-shadow:inset 0 10px 22px color-mix(in srgb,var(--astera-void) 60%,transparent),inset 0 -1px 0 color-mix(in srgb,var(--astera-metal-35) 14%,transparent);
+  inset:17px 16px 52px;
+  z-index:0;
   pointer-events:none;
+  clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+  background:
+    linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-45) 3%,transparent),transparent 26%),
+    repeating-linear-gradient(0deg,transparent 0 18px,color-mix(in srgb,var(--astera-metal-45) 3%,transparent) 18px 19px);
+  box-shadow:
+    inset 0 11px 22px color-mix(in srgb,var(--astera-void) 90%,transparent),
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-20) 34%,transparent);
+}
+
+.main10-card__panel-body::after{
+  content:"";
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:13px;
+  height:35px;
+  z-index:0;
+  pointer-events:none;
+  clip-path:polygon(5px 0,calc(100% - 5px) 0,100% 5px,100% 100%,0 100%,0 5px);
+  background:
+    linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-35) 9%,transparent),transparent 44%),
+    linear-gradient(90deg,transparent,var(--surface-2) 12% 88%,transparent);
+  border-top:1px solid color-mix(in srgb,var(--astera-metal-45) 22%,transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb,var(--astera-void) 78%,transparent),
+    0 -9px 16px color-mix(in srgb,var(--astera-void) 42%,transparent);
 }
 
 .main10-card__summary-slot{
   position:relative;
-  z-index:1;
-  min-height:88px;
-  display:block;
+  z-index:2;
+  min-height:84px;
 }
 
 .main10-card__summary-slot span{
   position:absolute;
-  left:15px;
+  left:18px;
   display:block;
   height:1px;
-  border-radius:0;
-  background:linear-gradient(90deg,color-mix(in srgb,var(--astera-metal-45) 46%,transparent),color-mix(in srgb,var(--astera-metal-65) 28%,transparent),transparent);
-  opacity:.42;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--astera-metal-45) 36%,transparent),color-mix(in srgb,var(--astera-metal-65) 16%,transparent),transparent);
+  opacity:.25;
 }
 
-.main10-card__summary-slot span:nth-child(1){top:34px;width:72%}
-.main10-card__summary-slot span:nth-child(2){top:58px;width:48%;opacity:.28}
+.main10-card__summary-slot span:nth-child(1){top:30px;width:68%}
+.main10-card__summary-slot span:nth-child(2){top:54px;width:43%;opacity:.16}
 
 .main10-card__detail-slot{
   position:relative;
-  z-index:1;
-  width:auto;
+  z-index:2;
   min-height:34px;
-  margin:12px 4px 0;
-  background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--astera-metal-45) 4%,transparent));
-  border-top:1px solid color-mix(in srgb,var(--astera-metal-45) 22%,transparent);
-  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-void) 70%,transparent);
+  margin:11px 5px 0;
+  background:transparent;
+  border:0;
+  opacity:.25;
+  transform:translateY(-4px);
+  transition:opacity .2s ease .12s,transform .24s cubic-bezier(.22,1,.36,1) .1s;
 }
 
 .main10-card__detail-slot::before{
   content:"";
   position:absolute;
   left:50%;
-  top:13px;
-  width:28%;
+  top:14px;
+  width:24%;
   height:1px;
-  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--astera-metal-65) 34%,transparent),transparent);
   transform:translateX(-50%);
-  opacity:.55;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--astera-metal-65) 32%,transparent),transparent);
+  opacity:.5;
 }
 
 .main10-card__summary:active{
-  transform:translateY(2px) scale(.994);
-  background:linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-100) 6%,transparent) 0%,transparent 17%),linear-gradient(112deg,var(--surface-2),var(--surface));
-  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 10%,transparent),inset 0 4px 10px color-mix(in srgb,var(--astera-void) 70%,transparent),inset 0 -1px 0 color-mix(in srgb,var(--astera-metal-35) 18%,transparent);
+  transform:translateY(2px) translateZ(3px) scale(.995);
+  box-shadow:
+    inset 0 4px 10px color-mix(in srgb,var(--astera-void) 76%,transparent),
+    inset 0 -1px 0 color-mix(in srgb,var(--astera-metal-45) 18%,transparent),
+    0 1px 0 color-mix(in srgb,var(--astera-void) 90%,transparent);
 }
 
-.main10-card__summary:focus-visible{outline:2px solid var(--focus);outline-offset:-4px}
+.main10-card__summary:focus-visible{
+  outline:2px solid var(--focus);
+  outline-offset:-5px;
+}
 
+/* Native no-JS fallback: when details is open the fully integrated chassis is visible. */
 .main10-card[open]{
-  transform:translateZ(0);
-  filter:drop-shadow(0 19px 24px color-mix(in srgb,var(--astera-void) 90%,transparent)) drop-shadow(0 0 13px color-mix(in srgb,var(--astera-metal-85) 10%,transparent));
+  box-shadow:
+    0 24px 34px color-mix(in srgb,var(--astera-void) 94%,transparent),
+    0 0 22px color-mix(in srgb,var(--astera-metal-85) 7%,transparent);
 }
 
 .main10-card[open]::after{
-  bottom:-8px;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-55) 44%,var(--surface-2)) 0%,var(--surface) 42%,var(--astera-void) 100%);
-  box-shadow:0 12px 19px color-mix(in srgb,var(--astera-void) 92%,transparent),inset 0 1px 0 color-mix(in srgb,var(--astera-metal-65) 40%,transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-45) 30%,transparent),
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-75) 12%,transparent),
+    inset 0 -10px 18px color-mix(in srgb,var(--astera-void) 84%,transparent);
 }
 
 .main10-card[open] .main10-card__summary{
-  clip-path:polygon(11px 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%,0 11px);
-  background:linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-100) 12%,transparent) 0%,transparent 18%),radial-gradient(135% 225% at 8% -54%,color-mix(in srgb,var(--astera-metal-75) 21%,transparent) 0%,transparent 52%),linear-gradient(112deg,var(--surface-3) 0%,var(--surface-2) 46%,var(--surface) 100%);
-  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 24%,transparent),inset 1px 0 0 color-mix(in srgb,var(--astera-metal-75) 9%,transparent),inset -1px 0 0 color-mix(in srgb,var(--astera-void) 74%,transparent),inset 0 -1px 0 color-mix(in srgb,var(--astera-metal-55) 24%,transparent);
+  transform:translateY(-3px) translateZ(15px) rotateX(-.65deg);
+  background:
+    radial-gradient(circle at 10px 10px,color-mix(in srgb,var(--astera-metal-85) 46%,transparent) 0 1px,transparent 1.4px),
+    radial-gradient(circle at calc(100% - 10px) 10px,color-mix(in srgb,var(--astera-metal-65) 36%,transparent) 0 1px,transparent 1.4px),
+    linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-100) 15%,transparent) 0%,transparent 16%),
+    linear-gradient(105deg,transparent 0 8%,color-mix(in srgb,var(--astera-metal-75) 10%,transparent) 20%,transparent 34%),
+    repeating-linear-gradient(0deg,transparent 0 2px,color-mix(in srgb,var(--astera-metal-55) 2%,transparent) 2px 3px),
+    linear-gradient(115deg,var(--surface-3) 0%,color-mix(in srgb,var(--surface-2) 90%,var(--astera-metal-20)) 45%,var(--surface) 100%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 30%,transparent),
+    inset 1px 0 0 color-mix(in srgb,var(--astera-metal-75) 13%,transparent),
+    inset -1px 0 0 color-mix(in srgb,var(--astera-void) 80%,transparent),
+    inset 0 -2px 0 color-mix(in srgb,var(--astera-metal-75) 38%,transparent),
+    0 4px 0 var(--astera-void),
+    0 11px 20px color-mix(in srgb,var(--astera-void) 94%,transparent);
 }
 
-.main10-card[open] > .main10-card__panel{
-  grid-template-rows:1fr;
+.main10-card[open] .main10-card__summary::after{
   opacity:1;
+  transform:scaleY(1);
+}
+
+.main10-card[open] .main10-card__symbol{
+  transform:translateZ(17px) translateY(-1px);
+  filter:brightness(1.05);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-65) 48%,transparent),
+    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 20%,transparent),
+    inset 3px 3px 8px color-mix(in srgb,var(--astera-void) 68%,transparent),
+    0 5px 10px color-mix(in srgb,var(--astera-void) 78%,transparent),
+    0 0 18px color-mix(in srgb,var(--astera-metal-85) 11%,transparent);
 }
 
 .main10-card[open] .main10-card__panel-body{
-  padding:18px 14px 20px;
   opacity:1;
   transform:none;
 }
 
-.main10-card[open] .main10-card__summary::after{opacity:1;transform:scaleY(1)}
-.main10-card[open] .main10-card__number{color:var(--text-secondary);text-shadow:0 0 12px color-mix(in srgb,var(--astera-metal-85) 24%,transparent)}
-.main10-card[open] .main10-card__symbol{transform:translateY(-1px);filter:brightness(1.07);box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 22%,transparent),inset 0 -3px 5px color-mix(in srgb,var(--astera-void) 76%,transparent),0 5px 10px color-mix(in srgb,var(--astera-void) 74%,transparent),0 0 0 1px var(--hover-metal),0 0 20px color-mix(in srgb,var(--astera-metal-85) 14%,transparent)}
-.main10-card[open] .main10-card__title-slot::before{background:linear-gradient(90deg,var(--astera-metal-45),var(--astera-metal-65) 48%,transparent 84%);opacity:.78}
+.main10-card[open] .main10-card__detail-slot{
+  opacity:1;
+  transform:none;
+}
 
-@keyframes main10-surface-sweep{from{background-position:-80% 0,50% 1px,0 0}to{background-position:180% 0,50% 1px,0 0}}
+.main10-card[data-main10-motion="active"] .main10-card__summary,
+.main10-card[data-main10-motion="active"] .main10-card__panel-body,
+.main10-card[data-main10-motion="active"] .main10-card__symbol{
+  transition:none;
+}
+
+@keyframes main10-surface-sweep{
+  from{background-position:-80% 0,50% 1px,50% calc(100% - 1px)}
+  to{background-position:180% 0,50% 1px,50% calc(100% - 1px)}
+}
 
 @media (hover:hover) and (pointer:fine){
-  .main10-card:not([open]):hover{transform:translateY(-3px);filter:drop-shadow(0 20px 23px color-mix(in srgb,var(--astera-void) 87%,transparent)) drop-shadow(0 0 15px color-mix(in srgb,var(--astera-metal-85) 11%,transparent))}
-  .main10-card:not([open]):hover .main10-card__summary{background:linear-gradient(180deg,color-mix(in srgb,var(--astera-metal-100) 12%,transparent) 0%,transparent 18%),radial-gradient(132% 215% at 8% -50%,color-mix(in srgb,var(--astera-metal-75) 18%,transparent) 0%,transparent 50%),linear-gradient(112deg,var(--surface-3) 0%,var(--surface-2) 43%,var(--surface) 100%);box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 24%,transparent),inset 1px 0 0 color-mix(in srgb,var(--astera-metal-75) 10%,transparent),inset -1px 0 0 color-mix(in srgb,var(--astera-void) 74%,transparent),inset 0 -3px 0 color-mix(in srgb,var(--astera-void) 56%,transparent),0 0 23px color-mix(in srgb,var(--astera-metal-85) 8%,transparent)}
-  .main10-card:not([open]):hover .main10-card__summary::before{animation:main10-surface-sweep .58s ease-out 1}
-  .main10-card:not([open]):hover .main10-card__symbol{transform:translateY(-1px);box-shadow:inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 22%,transparent),inset 0 -3px 5px color-mix(in srgb,var(--astera-void) 76%,transparent),0 5px 10px color-mix(in srgb,var(--astera-void) 72%,transparent),0 0 0 1px var(--hover-metal),0 0 17px color-mix(in srgb,var(--astera-metal-85) 11%,transparent)}
+  .main10-card:not([open]):hover{
+    box-shadow:
+      0 22px 30px color-mix(in srgb,var(--astera-void) 94%,transparent),
+      0 0 18px color-mix(in srgb,var(--astera-metal-85) 7%,transparent);
+  }
+
+  .main10-card:not([open]):hover .main10-card__summary{
+    transform:translateY(-2px) translateZ(11px);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 29%,transparent),
+      inset 0 -2px 0 color-mix(in srgb,var(--astera-metal-45) 28%,transparent),
+      0 6px 0 color-mix(in srgb,var(--astera-void) 86%,transparent),
+      0 11px 18px color-mix(in srgb,var(--astera-void) 78%,transparent);
+  }
+
+  .main10-card:not([open]):hover .main10-card__summary::before{
+    animation:main10-surface-sweep .62s ease-out 1;
+  }
+
+  .main10-card:not([open]):hover .main10-card__symbol{
+    transform:translateZ(16px) translateY(-1px);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb,var(--astera-metal-65) 42%,transparent),
+      inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 20%,transparent),
+      inset 3px 3px 8px color-mix(in srgb,var(--astera-void) 68%,transparent),
+      0 5px 10px color-mix(in srgb,var(--astera-void) 74%,transparent),
+      0 0 16px color-mix(in srgb,var(--astera-metal-85) 9%,transparent);
+  }
 }
 
 @media (max-width:359px){
   .main-ten{padding-inline:10px}
-  .main10-card__summary{min-height:76px;padding-inline:12px;grid-template-columns:27px 40px minmax(0,1fr);gap:9px}
-  .main10-card__symbol{width:36px;height:36px}
-  .main10-card__title-slot{height:28px}
-  .main10-card[open] .main10-card__panel-body{padding-inline:11px}
+  .main10-card__summary{
+    min-height:76px;
+    margin:3px;
+    padding-inline:11px;
+    grid-template-columns:44px minmax(0,1fr);
+    gap:9px;
+  }
+  .main10-card__symbol{width:40px;height:40px}
+  .main10-card__title-slot{height:34px}
+  .main10-card__panel-body{margin-inline:6px;padding-inline:11px}
 }
 
 @media (prefers-reduced-motion:reduce){
-  .main10-card,.main10-card::after,.main10-card__summary,.main10-card__summary::after,.main10-card__number,.main10-card__symbol,.main10-card > .main10-card__panel,.main10-card__panel-body{transition:none}
-  .main10-card__summary::before{animation:none}
+  .main10-card,
+  .main10-card::after,
+  .main10-card__summary,
+  .main10-card__summary::before,
+  .main10-card__summary::after,
+  .main10-card__symbol,
+  .main10-card__panel-body{
+    transition:none;
+    animation:none;
+  }
 }
