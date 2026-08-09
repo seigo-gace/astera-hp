@@ -2,7 +2,7 @@
   position:relative;
   width:100%;
   padding:0;
-  background:#000;
+  background:var(--bg);
   overflow:hidden;
   isolation:isolate;
 }
@@ -42,7 +42,7 @@
   inset:0;
   z-index:0;
   overflow:hidden;
-  background:#000;
+  background:var(--bg);
   pointer-events:none;
 }
 
@@ -67,7 +67,7 @@
   width:min(72vw,820px);
   margin:0;
   transform:translateY(-50%);
-  color:#f6f4f8;
+  color:var(--text);
   text-align:left;
   font-family:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
   font-size:clamp(1.92rem,4.25vw,4.35rem);
@@ -83,7 +83,7 @@
   transform:translate3d(0,30px,0) scale(.90);
   filter:blur(8px);
   transform-origin:left center;
-  text-shadow:0 0 0 rgba(215,232,255,0);
+  text-shadow:none;
   will-change:opacity,transform,filter,text-shadow;
 }
 
