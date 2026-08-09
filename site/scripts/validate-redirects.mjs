@@ -1,1 +1,0 @@
-import {readFile} from 'node:fs/promises';const r=JSON.parse(await readFile(new URL('../data/redirects.json',import.meta.url)));if(r.length!==2||r.some(x=>x.to!=='https://app.asterav8.jp/pricing'||x.status!==308))throw Error('PRICING_REDIRECT');console.log('Redirect PASS');

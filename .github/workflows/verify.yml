@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify TOP hero and static source
+      - name: Verify current static source only
         shell: bash
         run: |
           set -euo pipefail
@@ -42,9 +42,23 @@ jobs:
             assets/icons/ai-guide-robot.svg \
             assets/images/hero/astera-hero-desktop-1280x720.webp \
             assets/images/hero/astera-hero-tablet-1024x576.webp \
-            assets/images/hero/astera-hero-mobile-720x405.webp
+            assets/images/hero/astera-hero-mobile-720x405.webp \
+            CNAME
           do
             test -s "$file"
+          done
+
+          for removed in \
+            .hero-transfer \
+            site \
+            test \
+            preview \
+            evidence \
+            verification \
+            package.json \
+            package-lock.json
+          do
+            test ! -e "$removed"
           done
 
           grep -Fq 'src="./assets/images/hero/astera-hero-desktop-1280x720.webp"' index.html
@@ -58,14 +72,16 @@ jobs:
           grep -Fq "from './scripts/hero-effect.js'" script.js
 
           node --check script.js
+          node --check scripts/language.js
+          node --check scripts/menu.js
+          node --check scripts/ai-bubble.js
+          node --check scripts/app-entry.js
           node --check scripts/hero-effect.js
 
           test "$(git hash-object assets/images/hero/astera-hero-desktop-1280x720.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
           test "$(git hash-object assets/images/hero/astera-hero-tablet-1024x576.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
           test "$(git hash-object assets/images/hero/astera-hero-mobile-720x405.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"
-          cmp -s .hero-transfer/astera-hero-desktop-1280x720.webp assets/images/hero/astera-hero-desktop-1280x720.webp
-          cmp -s .hero-transfer/astera-hero-tablet-1024x576.webp assets/images/hero/astera-hero-tablet-1024x576.webp
-          cmp -s .hero-transfer/astera-hero-mobile-720x405.webp assets/images/hero/astera-hero-mobile-720x405.webp
+          test "$(cat CNAME)" = "asterav8.jp"
 
           ! grep -Fq 'astera-astrolabe.png' index.html style.css script.js styles/*.css scripts/*.js
           ! grep -Fq 'data-hero-tilt' index.html
