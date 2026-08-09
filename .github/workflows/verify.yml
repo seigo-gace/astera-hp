@@ -22,10 +22,18 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html style.css script.js styles/base.css styles/header.css styles/hero.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg CNAME; do
-            test -s "$file"
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg CNAME; do
+            test -e "$file"
           done
+          test -s index.html
+          test -s ja/index.html
+          test -s style.css
+          test -s script.js
           node --check script.js
+          node --check scripts/language.js
+          grep -Fq 'url=./ja/' index.html
+          grep -Fq 'href="../style.css"' ja/index.html
+          grep -Fq 'src="../script.js?v=cu25-i18n-dir"' ja/index.html
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Verify local HTTP delivery
         shell: bash
@@ -35,7 +43,8 @@ jobs:
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true' EXIT
           for attempt in $(seq 1 20); do
-            if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/index.html; then break; fi
+            if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html; then break; fi
             sleep 1
           done
-          cmp -s /tmp/index.html index.html
+          cmp -s /tmp/root-index.html index.html
+          cmp -s /tmp/ja-index.html ja/index.html
