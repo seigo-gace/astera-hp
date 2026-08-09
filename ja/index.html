@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Astera</title>
   <meta name="description" content="Astera official website">
-  <link rel="stylesheet" href="../style.css?v=cu27-public-cosmic-glass">
-  <script type="module" src="../script.js?v=cu27-public-cosmic-glass"></script>
+  <link rel="stylesheet" href="../style.css?v=cu28-main10-compact-expand">
+  <script type="module" src="../script.js?v=cu28-main10-compact-expand"></script>
 </head>
 <body>
   <header class="site-header">
@@ -34,7 +34,6 @@
     </section>
 
     <section class="cosmic-main10" data-cosmic-main10 aria-label="Asteraを理解する10項目">
-      <canvas class="cosmic-main10__space" data-cosmic-space aria-hidden="true"></canvas>
       <div class="cosmic-main10__grid" data-cosmic-grid></div>
     </section>
   </main>
@@ -42,14 +41,15 @@
   <dialog class="cosmic-modal" data-cosmic-modal aria-label="Astera詳細">
     <div class="cosmic-modal__stage" data-cosmic-modal-stage>
       <article class="cosmic-expanded" data-cosmic-expanded>
-        <span class="cosmic-expanded__label" data-expanded-label></span>
-        <div class="cosmic-expanded__stack">
+        <div class="cosmic-expanded__stack" data-cosmic-expanded-stack>
           <span class="cosmic-expanded__ghost" aria-hidden="true"></span>
           <div class="cosmic-expanded__glass">
             <div class="cosmic-expanded__top">
               <span class="cosmic-expanded__icon cosmic-icon" data-expanded-icon data-icon="what-is-astera" aria-hidden="true"></span>
               <span class="cosmic-expanded__divider" aria-hidden="true"></span>
+              <h2 class="cosmic-expanded__label" data-expanded-label></h2>
             </div>
+            <button class="cosmic-expanded__close" type="button" data-cosmic-close aria-label="閉じる">×</button>
             <div class="cosmic-expanded__body">
               <span class="cosmic-expanded__scan" aria-hidden="true"></span>
               <div class="cosmic-expanded__selection"><p class="cosmic-expanded__lead" data-expanded-lead></p></div>
@@ -59,7 +59,6 @@
             <span class="cosmic-expanded__flare" aria-hidden="true"></span>
           </div>
         </div>
-        <button class="cosmic-expanded__close" type="button" data-cosmic-close aria-label="閉じる">×</button>
       </article>
     </div>
   </dialog>
