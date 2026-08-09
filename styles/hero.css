@@ -1,8 +1,9 @@
 .top-visual{
   position:relative;
   width:100%;
-  padding:5mm 0;
-  background:#000;
+  min-height:calc(100svh - 98px);
+  padding:5mm 0 0;
+  background:transparent;
   overflow:hidden;
   isolation:isolate;
 }
@@ -35,7 +36,7 @@
 
 .hero-space{
   position:absolute;
-  inset:5mm 0;
+  inset:0;
   z-index:0;
   overflow:hidden;
   background:#000;
@@ -93,17 +94,18 @@
 .hero-copy{
   position:absolute;
   left:clamp(28px,5vw,72px);
-  top:50%;
+  top:calc(5mm + min(28.125vw,360px));
   z-index:3;
   width:min(72vw,820px);
   margin:0;
   transform:translateY(-50%);
   color:#f6f4f8;
   text-align:left;
-  font-size:clamp(2rem,4.5vw,4.6rem);
-  font-weight:500;
-  line-height:1.16;
-  letter-spacing:.075em;
+  font-family:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
+  font-size:clamp(1.92rem,4.25vw,4.35rem);
+  font-weight:400;
+  line-height:1.24;
+  letter-spacing:.11em;
   pointer-events:none;
 }
 
@@ -129,15 +131,20 @@
 
 @media (max-width:599px){
   .top-visual{
-    padding:5mm 0;
+    min-height:calc(100svh - 98px);
+    padding:5mm 0 0;
   }
   .hero-copy{
     left:24px;
     width:calc(100% - 48px);
-    font-size:clamp(1.7rem,8.2vw,3rem);
-    letter-spacing:.055em;
+    font-size:clamp(1.62rem,7.5vw,2.8rem);
+    letter-spacing:.095em;
   }
   .hero-copy__line{transform:translate3d(0,24px,0) scale(.91)}
+}
+
+@media (min-width:768px){
+  .top-visual{min-height:calc(100svh - 106px)}
 }
 
 @media (prefers-reduced-motion:reduce){
