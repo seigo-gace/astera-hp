@@ -32,6 +32,7 @@ jobs:
             styles/header.css \
             styles/hero.css \
             styles/main10.css \
+            styles/main10-icons.css \
             styles/menu.css \
             styles/ai-bubble.css \
             scripts/language.js \
@@ -41,6 +42,7 @@ jobs:
             scripts/hero-effect.js \
             assets/brand/astera-logo-dark.svg \
             assets/icons/ai-guide-robot.svg \
+            assets/icons/main10/main10-icons.svg \
             assets/images/hero/astera-hero-desktop-1280x720.webp \
             assets/images/hero/astera-hero-tablet-1024x576.webp \
             assets/images/hero/astera-hero-mobile-720x405.webp \
@@ -74,12 +76,14 @@ jobs:
 
           test "$(grep -c 'data-main10-card' index.html)" -eq 10
           test "$(grep -c 'class="main10-card__summary"' index.html)" -eq 10
-          test "$(grep -c 'class="main10-card__number"' index.html)" -eq 10
+          test "$(grep -c 'class="main10-card__number"' index.html)" -eq 0
           test "$(grep -c 'class="main10-card__symbol"' index.html)" -eq 10
+          test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' index.html)" -eq 10
           test "$(grep -c 'class="main10-card__title-slot"' index.html)" -eq 10
           ! grep -Fq 'name="main10"' index.html
           ! grep -Fq 'main10-card__toggle' index.html styles/main10.css
           grep -Fq "@import url('./styles/main10.css');" style.css
+          grep -Fq 'href="./styles/main10-icons.css"' index.html
           grep -Fq 'grid-template-columns:minmax(0,1fr)' styles/main10.css
           grep -Fq 'grid-template-columns:32px 44px minmax(0,1fr)' styles/main10.css
           grep -Fq 'min-height:78px' styles/main10.css
@@ -95,6 +99,15 @@ jobs:
           grep -Fq '@media (prefers-reduced-motion:reduce)' styles/main10.css
           ! grep -Fq 'main10.js' script.js
           ! grep -Fq 'min-height:96px' styles/main10.css
+          grep -Fq 'grid-template-columns:48px minmax(0,1fr)' styles/main10-icons.css
+          grep -Fq "background-image:url('../assets/icons/main10/main10-icons.svg')" styles/main10-icons.css
+          test "$(grep -c 'main10-card__icon-image--' styles/main10-icons.css)" -eq 10
+          test "$(grep -c '<g id=' assets/icons/main10/main10-icons.svg)" -eq 10
+          grep -Fq 'width="1280" height="128"' assets/icons/main10/main10-icons.svg
+          grep -Fq '<g id="what-is-astera"' assets/icons/main10/main10-icons.svg
+          grep -Fq '<g id="app"' assets/icons/main10/main10-icons.svg
+          ! grep -Fq '<image' assets/icons/main10/main10-icons.svg
+          test "$(wc -c < assets/icons/main10/main10-icons.svg)" -lt 50000
 
           node --check script.js
           node --check scripts/language.js
@@ -134,6 +147,8 @@ jobs:
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-mobile-720x405.webp -o /tmp/hero-mobile.webp
           grep -Fq 'src="./assets/images/hero/astera-hero-desktop-1280x720.webp"' /tmp/index.html
           test "$(grep -c 'data-main10-card' /tmp/index.html)" -eq 10
+          test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' /tmp/index.html)" -eq 10
+          test "$(grep -c 'main10-card__number' /tmp/index.html)" -eq 0
           ! grep -Fq 'main10-card__toggle' /tmp/index.html
           ! grep -Fq 'name="main10"' /tmp/index.html
           test "$(git hash-object /tmp/hero-desktop.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
