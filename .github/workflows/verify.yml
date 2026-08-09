@@ -18,22 +18,24 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Verify Main 10 Final Panel v21 source
+      - name: Verify Main 10 TextField Minimal v22 source
         shell: bash
         run: |
           set -euo pipefail
           for file in index.html style.css script.js styles/base.css styles/header.css styles/hero.css styles/main10.css styles/main10-icons.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/main10-card.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
-          grep -Fq 'href="./styles/main10.css?v=cu21-final-panel"' index.html
+          grep -Fq 'href="./styles/main10.css?v=cu22-textfield-minimal"' index.html
           grep -Fq 'href="./styles/main10-icons.css?v=cu21-final-panel"' index.html
           grep -Fq 'src="./script.js?v=cu21-final-panel"' index.html
           grep -Fq "from './scripts/main10-card.js?v=cu21-final-panel'" script.js
-          grep -Fq 'CARD PANEL（アコーディオン）最終完全版 v21' styles/main10.css
-          grep -Fq 'max-height: 1100px' styles/main10.css
-          grep -Fq '.criteria-grid' styles/main10.css
-          grep -Fq '.criterion:hover' styles/main10.css
-          grep -Fq '.panel-footer .btn' styles/main10.css
-          grep -Fq '@keyframes glowSlide' styles/main10.css
-          grep -Fq '@keyframes popIn' styles/main10.css
+          grep -Fq 'CARD PANEL（TextFieldライクなミニマルデザイン） v22' styles/main10.css
+          grep -Fq 'background: #1A1F2A' styles/main10.css
+          grep -Fq 'max-height: 1200px' styles/main10.css
+          grep -Fq '.panel-section {' styles/main10.css
+          grep -Fq '.component-grid {' styles/main10.css
+          grep -Fq '.input {' styles/main10.css
+          grep -Fq '.modal-demo {' styles/main10.css
+          grep -Fq '@keyframes fadeIn' styles/main10.css
+          grep -Fq '.main10-card__title-slot {' styles/main10.css
           grep -Fq 'const OPEN_DURATION = 550' scripts/main10-card.js
           grep -Fq 'const CLOSE_DURATION = 360' scripts/main10-card.js
           grep -Fq "panel.style.height = 'auto'" scripts/main10-card.js
@@ -53,10 +55,10 @@ jobs:
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true' EXIT
           for attempt in $(seq 1 20); do if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/index.html; then break; fi; sleep 1; done
-          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu21-final-panel' -o /tmp/main10.css
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu22-textfield-minimal' -o /tmp/main10.css
           curl --fail --silent 'http://127.0.0.1:4173/styles/main10-icons.css?v=cu21-final-panel' -o /tmp/main10-icons.css
           curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-card.js?v=cu21-final-panel' -o /tmp/main10-card.js
-          grep -Fq 'CARD PANEL（アコーディオン）最終完全版 v21' /tmp/main10.css
+          grep -Fq 'CARD PANEL（TextFieldライクなミニマルデザイン） v22' /tmp/main10.css
           grep -Fq "panel.style.height = 'auto'" /tmp/main10-card.js
           test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
           test "$(git hash-object /tmp/main10-icons.css)" = "$(git hash-object styles/main10-icons.css)"
