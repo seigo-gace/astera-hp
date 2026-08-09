@@ -1,6 +1,6 @@
 const MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-const OPEN_DURATION = 480;
-const CLOSE_DURATION = 320;
+const OPEN_DURATION = 550;
+const CLOSE_DURATION = 360;
 const states = new WeakMap();
 
 function getState(card) {
@@ -35,8 +35,7 @@ async function animateCard(card, targetOpen, reduceMotion) {
 
   if (reduceMotion || typeof panel.animate !== 'function') {
     card.open = targetOpen;
-    panel.style.height = '';
-    panel.style.opacity = '';
+    panel.style.height = targetOpen ? 'auto' : '';
     panel.style.overflow = '';
     state.target = null;
     return;
@@ -51,7 +50,7 @@ async function animateCard(card, targetOpen, reduceMotion) {
 
   const panelAnimation = panel.animate(
     [
-      { height: `${startHeight}px`, opacity: targetOpen ? 0.22 : 1 },
+      { height: `${startHeight}px`, opacity: targetOpen ? 0.18 : 1 },
       { height: `${targetHeight}px`, opacity: targetOpen ? 1 : 0 },
     ],
     {
@@ -63,12 +62,12 @@ async function animateCard(card, targetOpen, reduceMotion) {
 
   const bodyAnimation = body.animate(
     [
-      { transform: targetOpen ? 'translateY(-10px)' : 'translateY(0)', opacity: targetOpen ? 0.35 : 1 },
-      { transform: targetOpen ? 'translateY(0)' : 'translateY(-5px)', opacity: targetOpen ? 1 : 0.2 },
+      { transform: targetOpen ? 'translateY(-10px)' : 'translateY(0)', opacity: targetOpen ? 0.28 : 1 },
+      { transform: targetOpen ? 'translateY(0)' : 'translateY(-5px)', opacity: targetOpen ? 1 : 0.18 },
     ],
     {
-      duration: targetOpen ? 360 : 190,
-      delay: targetOpen ? 70 : 0,
+      duration: targetOpen ? 440 : 220,
+      delay: targetOpen ? 55 : 0,
       easing: targetOpen ? 'cubic-bezier(.22,1,.36,1)' : 'ease-in',
       fill: 'both',
     },
@@ -78,12 +77,17 @@ async function animateCard(card, targetOpen, reduceMotion) {
   await Promise.all(state.animations.map(finished));
 
   if (state.token !== token || state.target !== targetOpen) return;
-  if (!targetOpen) card.open = false;
 
-  panel.style.height = '';
-  panel.style.opacity = '';
-  panel.style.overflow = '';
   cancelAnimations(state);
+  if (targetOpen) {
+    card.open = true;
+    panel.style.height = 'auto';
+    panel.style.overflow = '';
+  } else {
+    card.open = false;
+    panel.style.height = '';
+    panel.style.overflow = '';
+  }
   state.target = null;
 }
 

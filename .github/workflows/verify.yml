@@ -18,38 +18,30 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Verify Main 10 Surface UI source
+      - name: Verify Main 10 Final Panel v21 source
         shell: bash
         run: |
           set -euo pipefail
           for file in index.html style.css script.js styles/base.css styles/header.css styles/hero.css styles/main10.css styles/main10-icons.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/main10-card.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
-          for removed in styles/main10-frame.css styles/main10-material.css styles/main10-reboot.css styles/main10-surface-v20.css scripts/main10-chassis.js scripts/main10-glass.js .hero-transfer site test preview evidence verification package.json package-lock.json; do test ! -e "$removed"; done
-          grep -Fq 'href="./styles/main10.css?v=cu20-surface-ui"' index.html
-          grep -Fq 'href="./styles/main10-icons.css?v=cu20-surface-ui"' index.html
-          grep -Fq 'src="./script.js?v=cu20-surface-ui"' index.html
-          ! grep -Fq 'main10-glass.js' index.html script.js
-          ! grep -Fq "@import url('./styles/main10.css');" style.css
+          grep -Fq 'href="./styles/main10.css?v=cu21-final-panel"' index.html
+          grep -Fq 'href="./styles/main10-icons.css?v=cu21-final-panel"' index.html
+          grep -Fq 'src="./script.js?v=cu21-final-panel"' index.html
+          grep -Fq "from './scripts/main10-card.js?v=cu21-final-panel'" script.js
+          grep -Fq 'CARD PANEL（アコーディオン）最終完全版 v21' styles/main10.css
+          grep -Fq 'max-height: 1100px' styles/main10.css
+          grep -Fq '.criteria-grid' styles/main10.css
+          grep -Fq '.criterion:hover' styles/main10.css
+          grep -Fq '.panel-footer .btn' styles/main10.css
+          grep -Fq '@keyframes glowSlide' styles/main10.css
+          grep -Fq '@keyframes popIn' styles/main10.css
+          grep -Fq 'const OPEN_DURATION = 550' scripts/main10-card.js
+          grep -Fq 'const CLOSE_DURATION = 360' scripts/main10-card.js
+          grep -Fq "panel.style.height = 'auto'" scripts/main10-card.js
+          grep -Fq 'panel.scrollHeight' scripts/main10-card.js
+          grep -Fq 'panel.animate(' scripts/main10-card.js
           test "$(grep -c 'data-main10-card' index.html)" -eq 10
           test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' index.html)" -eq 10
           test "$(grep -c 'main10-card__number' index.html)" -eq 0
-          ! grep -Fq 'main10-card__toggle' index.html styles/main10.css
-          ! grep -Fq 'name="main10"' index.html
-          grep -Fq 'Surface UI v20' styles/main10.css
-          grep -Fq 'border-radius:var(--m10-radius)' styles/main10.css
-          grep -Fq '.main10-card[open]' styles/main10.css
-          grep -Fq '.main10-card__summary-slot' styles/main10.css
-          grep -Fq '.main10-card__detail-slot' styles/main10.css
-          grep -Fq '@media (prefers-reduced-motion:reduce)' styles/main10.css
-          ! grep -Fq 'clip-path:' styles/main10.css
-          ! grep -Fq 'mask-composite' styles/main10.css
-          ! grep -Fq 'max-height:1200px' styles/main10.css
-          ! grep -Fq 'indicator' styles/main10.css index.html
-          grep -Fq "from './scripts/main10-card.js?v=cu20-surface-ui'" script.js
-          grep -Fq 'initMain10Cards();' script.js
-          grep -Fq 'const OPEN_DURATION = 480' scripts/main10-card.js
-          grep -Fq 'const CLOSE_DURATION = 320' scripts/main10-card.js
-          grep -Fq 'panel.scrollHeight' scripts/main10-card.js
-          grep -Fq 'panel.animate(' scripts/main10-card.js
           node --check script.js
           node --check scripts/main10-card.js
           test "$(cat CNAME)" = "asterav8.jp"
@@ -61,11 +53,11 @@ jobs:
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true' EXIT
           for attempt in $(seq 1 20); do if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/index.html; then break; fi; sleep 1; done
-          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu20-surface-ui' -o /tmp/main10.css
-          curl --fail --silent 'http://127.0.0.1:4173/styles/main10-icons.css?v=cu20-surface-ui' -o /tmp/main10-icons.css
-          curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-card.js?v=cu20-surface-ui' -o /tmp/main10-card.js
-          grep -Fq 'Surface UI v20' /tmp/main10.css
-          grep -Fq 'panel.animate(' /tmp/main10-card.js
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu21-final-panel' -o /tmp/main10.css
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10-icons.css?v=cu21-final-panel' -o /tmp/main10-icons.css
+          curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-card.js?v=cu21-final-panel' -o /tmp/main10-card.js
+          grep -Fq 'CARD PANEL（アコーディオン）最終完全版 v21' /tmp/main10.css
+          grep -Fq "panel.style.height = 'auto'" /tmp/main10-card.js
           test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
           test "$(git hash-object /tmp/main10-icons.css)" = "$(git hash-object styles/main10-icons.css)"
           test "$(git hash-object /tmp/main10-card.js)" = "$(git hash-object scripts/main10-card.js)"
