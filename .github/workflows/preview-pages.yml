@@ -22,21 +22,19 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Verify publish source
+      - name: Verify publish source after Main 10 removal
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html style.css script.js styles/main10.css styles/main10-icons.css scripts/main10-space.js assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html style.css script.js styles/hero.css scripts/hero-effect.js CNAME; do
             test -s "$file"
           done
-          test ! -e scripts/main10-card.js
-          grep -Eq 'href="\./styles/main10\.css\?v=[^"]+"' index.html
-          grep -Eq 'href="\./styles/main10-icons\.css\?v=[^"]+"' index.html
-          grep -Eq 'src="\./script\.js\?v=[^"]+"' index.html
-          grep -Eq "from '\./scripts/main10-space\.js\?v=[^']+'" script.js
-          grep -Fq "panel.style.height = 'auto'" scripts/main10-space.js
+          for removed in styles/main10.css styles/main10-icons.css scripts/main10-space.js assets/icons/main10/main10-icons.svg; do
+            test ! -e "$removed"
+          done
+          ! grep -Fq 'main10' index.html
+          ! grep -Fq 'main10' script.js
           node --check script.js
-          node --check scripts/main10-space.js
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Prepare direct static artifact
         shell: bash
@@ -65,10 +63,8 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           for attempt in $(seq 1 18); do
-            if curl --fail --location --silent --show-error \
-              -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' \
-              "$root/?probe=${GITHUB_SHA}" -o /tmp/live-index.html; then
-              if grep -Fq './styles/main10.css?v=' /tmp/live-index.html; then
+            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/?probe=${GITHUB_SHA}" -o /tmp/live-index.html; then
+              if ! grep -Fq 'main10' /tmp/live-index.html; then
                 exit 0
               fi
             fi

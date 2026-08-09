@@ -18,31 +18,20 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Verify stable static contract
+      - name: Verify static source after Main 10 removal
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html style.css script.js styles/base.css styles/header.css styles/hero.css styles/main10.css styles/main10-icons.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/main10-space.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html style.css script.js styles/base.css styles/header.css styles/hero.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg CNAME; do
             test -s "$file"
           done
-          test ! -e scripts/main10-card.js
-          grep -Eq 'href="\./styles/main10\.css\?v=[^"]+"' index.html
-          grep -Eq 'href="\./styles/main10-icons\.css\?v=[^"]+"' index.html
-          grep -Eq 'src="\./script\.js\?v=[^"]+"' index.html
-          grep -Eq "from '\./scripts/main10-space\.js\?v=[^']+'" script.js
-          grep -Fq 'initMain10Space();' script.js
-          grep -Fq "panel.style.height = 'auto'" scripts/main10-space.js
-          grep -Fq 'panel.scrollHeight' scripts/main10-space.js
-          test "$(grep -c 'data-main10-card' index.html)" -eq 10
-          test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' index.html)" -eq 10
+          for removed in styles/main10.css styles/main10-icons.css scripts/main10-space.js assets/icons/main10/main10-icons.svg; do
+            test ! -e "$removed"
+          done
+          ! grep -Fq 'main10' index.html
+          ! grep -Fq 'main10' script.js
+          ! grep -Fq 'data-main10-card' index.html
           node --check script.js
-          node --check scripts/main10-space.js
-          python3 - <<'PY'
-          from pathlib import Path
-          css = Path('styles/main10.css').read_text(encoding='utf-8')
-          if css.count('{') != css.count('}'):
-              raise SystemExit('main10.css brace mismatch')
-          PY
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Verify local HTTP delivery
         shell: bash
@@ -55,9 +44,4 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/index.html; then break; fi
             sleep 1
           done
-          curl --fail --silent http://127.0.0.1:4173/styles/main10.css -o /tmp/main10.css
-          curl --fail --silent http://127.0.0.1:4173/styles/main10-icons.css -o /tmp/main10-icons.css
-          curl --fail --silent http://127.0.0.1:4173/scripts/main10-space.js -o /tmp/main10-space.js
-          cmp -s /tmp/main10.css styles/main10.css
-          cmp -s /tmp/main10-icons.css styles/main10-icons.css
-          cmp -s /tmp/main10-space.js scripts/main10-space.js
+          ! grep -Fq 'main10' /tmp/index.html
