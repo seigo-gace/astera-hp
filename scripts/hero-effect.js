@@ -27,6 +27,17 @@ function random(min,max){
   return min + Math.random()*(max-min);
 }
 
+function readMetalPalette(){
+  const styles=getComputedStyle(document.documentElement);
+  const token=(name)=>styles.getPropertyValue(name).trim() || '#fff';
+  return {
+    far:token('--astera-metal-75'),
+    mid:token('--astera-metal-85'),
+    dust:token('--astera-metal-55'),
+    spark:token('--astera-metal-100')
+  };
+}
+
 function createParticles(width,height,isMobile){
   const farCount = isMobile ? 54 : 86;
   const midCount = isMobile ? 18 : 28;
@@ -71,7 +82,7 @@ function setupCanvas(canvas){
   const context = canvas.getContext('2d',{alpha:true,desynchronized:true});
   if (!context) return null;
 
-  const state = {context,width:0,height:0,dpr:1,particles:null,isMobile:false};
+  const state = {context,width:0,height:0,dpr:1,particles:null,isMobile:false,palette:readMetalPalette()};
 
   const resize = ()=>{
     const rect = canvas.getBoundingClientRect();
@@ -89,7 +100,14 @@ function setupCanvas(canvas){
   };
 
   resize();
-  return {...state,resize,get width(){return state.width},get height(){return state.height},get particles(){return state.particles}};
+  return {
+    ...state,
+    resize,
+    get width(){return state.width},
+    get height(){return state.height},
+    get particles(){return state.particles},
+    get palette(){return state.palette}
+  };
 }
 
 function drawGlow(ctx,x,y,r,alpha){
@@ -104,15 +122,14 @@ function drawGlow(ctx,x,y,r,alpha){
 }
 
 function renderCosmos(canvasState,elapsed,layerAlpha,delta){
-  const {context:ctx,width,height,particles} = canvasState;
+  const {context:ctx,width,height,particles,palette} = canvasState;
   if (!particles || width <= 0 || height <= 0) return;
   ctx.clearRect(0,0,width,height);
-  ctx.fillStyle='#fff';
 
   const dt = Math.min(32,Math.max(8,delta));
   const drift = dt/16.67;
 
-  ctx.fillStyle='rgb(235,243,255)';
+  ctx.fillStyle=palette.far;
   for (const p of particles.farStars){
     p.x += p.vx*drift;
     p.y += p.vy*drift;
@@ -123,7 +140,7 @@ function renderCosmos(canvasState,elapsed,layerAlpha,delta){
     ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.fill();
   }
 
-  ctx.fillStyle='rgb(224,235,255)';
+  ctx.fillStyle=palette.mid;
   for (const p of particles.midStars){
     p.depth += p.vz*dt;
     if (p.depth>1){p.depth=.2;p.x=random(0,width);p.y=random(0,height)}
@@ -136,7 +153,7 @@ function renderCosmos(canvasState,elapsed,layerAlpha,delta){
     ctx.beginPath();ctx.arc(p.x,p.y,p.r*scale,0,TAU);ctx.fill();
   }
 
-  ctx.fillStyle='rgb(220,232,255)';
+  ctx.fillStyle=palette.dust;
   for (const p of particles.lightDust){
     p.depth += p.vz*dt;
     if (p.depth>1){p.depth=.14;p.x=random(0,width);p.y=random(0,height)}
@@ -149,7 +166,7 @@ function renderCosmos(canvasState,elapsed,layerAlpha,delta){
     ctx.beginPath();ctx.arc(p.x,p.y,p.r*scale,0,TAU);ctx.fill();
   }
 
-  ctx.fillStyle='rgb(245,248,255)';
+  ctx.fillStyle=palette.spark;
   for (const p of particles.foregroundParticles){
     p.x += p.vx*drift;
     p.y += p.vy*drift;
@@ -183,7 +200,7 @@ function updateCopy(line,progress){
   line.style.opacity=String(eased);
   line.style.transform=`translate3d(0,${y}px,0) scale(${scale})`;
   line.style.filter=`blur(${blur}px)`;
-  line.style.textShadow=`0 0 ${lerp(0,22,eased)}px rgba(215,232,255,${lerp(0,.16,eased)})`;
+  line.style.textShadow=eased < .01 ? 'none' : `0 0 ${lerp(0,22,eased)}px var(--astera-metal-75)`;
 }
 
 export function initHeroEffect(){
