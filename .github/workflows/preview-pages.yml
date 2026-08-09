@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css styles/main10.css scripts/hero-effect.js scripts/main10.js scripts/main10-space.js scripts/main10-text.js CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css styles/main10.css styles/main10-icons.css scripts/hero-effect.js scripts/main10.js scripts/main10-space.js scripts/main10-text.js assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
@@ -41,6 +41,9 @@ jobs:
           grep -Fq 'url=./ja/' index.html
           grep -Fq 'data-main10-dialog' ja/index.html
           test "$(grep -Fc 'data-main10-card' ja/index.html)" -eq 10
+          grep -Fq "@import url('./styles/main10-icons.css');" style.css
+          grep -Fq "../assets/icons/main10/main10-icons.svg" styles/main10-icons.css
+          test "$(git hash-object assets/icons/main10/main10-icons.svg)" = "7f23c691fbfbd24d2ee8530f462f7e03b772214d"
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Prepare direct static artifact
         shell: bash
@@ -69,8 +72,8 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           for attempt in $(seq 1 18); do
-            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja-index.html; then
-              if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html && grep -Fq 'data-main10-dialog' /tmp/live-ja-index.html; then
+            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja-index.html && curl --fail --location --silent --show-error "$root/assets/icons/main10/main10-icons.svg" -o /tmp/live-main10-icons.svg; then
+              if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html && grep -Fq 'data-main10-dialog' /tmp/live-ja-index.html && test -s /tmp/live-main10-icons.svg; then
                 exit 0
               fi
             fi
