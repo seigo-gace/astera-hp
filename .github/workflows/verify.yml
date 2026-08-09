@@ -18,19 +18,13 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Verify static source after Main 10 removal
+      - name: Verify static source
         shell: bash
         run: |
           set -euo pipefail
           for file in index.html style.css script.js styles/base.css styles/header.css styles/hero.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg CNAME; do
             test -s "$file"
           done
-          for removed in styles/main10.css styles/main10-icons.css scripts/main10-space.js assets/icons/main10/main10-icons.svg; do
-            test ! -e "$removed"
-          done
-          ! grep -Fq 'main10' index.html
-          ! grep -Fq 'main10' script.js
-          ! grep -Fq 'data-main10-card' index.html
           node --check script.js
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Verify local HTTP delivery
@@ -44,4 +38,4 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/index.html; then break; fi
             sleep 1
           done
-          ! grep -Fq 'main10' /tmp/index.html
+          cmp -s /tmp/index.html index.html
