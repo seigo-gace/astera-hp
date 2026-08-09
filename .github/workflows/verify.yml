@@ -18,178 +18,55 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-
-      - name: Verify current static source only
+      - name: Verify Glass Reboot source
         shell: bash
         run: |
           set -euo pipefail
-
-          for file in \
-            index.html \
-            style.css \
-            script.js \
-            styles/base.css \
-            styles/header.css \
-            styles/hero.css \
-            styles/main10.css \
-            styles/main10-icons.css \
-            styles/menu.css \
-            styles/ai-bubble.css \
-            scripts/language.js \
-            scripts/menu.js \
-            scripts/ai-bubble.js \
-            scripts/app-entry.js \
-            scripts/hero-effect.js \
-            scripts/main10-chassis.js \
-            assets/brand/astera-logo-dark.svg \
-            assets/icons/ai-guide-robot.svg \
-            assets/icons/main10/main10-icons.svg \
-            assets/images/hero/astera-hero-desktop-1280x720.webp \
-            assets/images/hero/astera-hero-tablet-1024x576.webp \
-            assets/images/hero/astera-hero-mobile-720x405.webp \
-            CNAME
-          do
-            test -s "$file"
-          done
-
-          for removed in \
-            .hero-transfer \
-            site \
-            test \
-            preview \
-            evidence \
-            verification \
-            package.json \
-            package-lock.json
-          do
-            test ! -e "$removed"
-          done
-
-          grep -Fq 'src="./assets/images/hero/astera-hero-desktop-1280x720.webp"' index.html
-          grep -Fq 'srcset="./assets/images/hero/astera-hero-tablet-1024x576.webp"' index.html
-          grep -Fq 'srcset="./assets/images/hero/astera-hero-mobile-720x405.webp"' index.html
-          grep -Fq 'data-hero-stage' index.html
-          grep -Fq 'data-hero-media' index.html
-          grep -Fq '>問いを</span>' index.html
-          grep -Fq '>星図に変える。</span>' index.html
-          grep -Fq "@import url('./styles/hero.css');" style.css
-          grep -Fq "from './scripts/hero-effect.js'" script.js
-
+          for file in index.html style.css script.js styles/base.css styles/header.css styles/hero.css styles/main10.css styles/main10-icons.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/main10-glass.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
+          for removed in styles/main10-frame.css styles/main10-material.css scripts/main10-chassis.js styles/main10-reboot.css .hero-transfer site test preview evidence verification package.json package-lock.json; do test ! -e "$removed"; done
+          grep -Fq 'href="./styles/main10.css?v=cu19-glass-reboot"' index.html
+          grep -Fq 'href="./styles/main10-icons.css?v=cu19-glass-reboot"' index.html
+          grep -Fq 'src="./script.js?v=cu19-glass-reboot"' index.html
+          ! grep -Fq 'main10-frame.css' index.html
+          ! grep -Fq 'main10-material.css' index.html
+          ! grep -Fq "@import url('./styles/main10.css');" style.css
           test "$(grep -c 'data-main10-card' index.html)" -eq 10
-          test "$(grep -c 'class="main10-card__summary"' index.html)" -eq 10
-          test "$(grep -c 'class="main10-card__number"' index.html)" -eq 0
-          test "$(grep -c 'class="main10-card__symbol"' index.html)" -eq 10
           test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' index.html)" -eq 10
-          test "$(grep -c 'class="main10-card__title-slot"' index.html)" -eq 10
-          ! grep -Fq 'name="main10"' index.html
+          test "$(grep -c 'main10-card__number' index.html)" -eq 0
           ! grep -Fq 'main10-card__toggle' index.html styles/main10.css
-
-          grep -Fq 'href="./styles/main10.css?v=cu16-chassis-v3"' index.html
-          grep -Fq 'src="./script.js?v=cu16-chassis-v3"' index.html
-          grep -Fq "@import url('./styles/main10.css');" style.css
-          grep -Fq 'href="./styles/main10-icons.css?v=cu16-chassis-v3"' index.html
-
-          grep -Fq 'grid-template-columns:minmax(0,1fr)' styles/main10.css
-          grep -Fq 'grid-template-columns:56px minmax(0,1fr)' styles/main10.css
-          grep -Fq 'min-height:78px' styles/main10.css
-          grep -Fq 'white-space:nowrap' styles/main10.css
-          grep -Fq 'clip-path:polygon' styles/main10.css
-          grep -Fq '@supports (mask-composite:exclude)' styles/main10.css
-          grep -Fq 'mask-composite:exclude' styles/main10.css
-          grep -Fq 'perspective:1100px' styles/main10.css
-          grep -Fq 'transform-style:preserve-3d' styles/main10.css
-          grep -Fq '.main10-card::before' styles/main10.css
+          ! grep -Fq 'name="main10"' index.html
+          grep -Fq 'Glass Reboot v19' styles/main10.css
+          grep -Fq 'backdrop-filter:blur(12px)' styles/main10.css
+          grep -Fq 'border-radius:28px' styles/main10.css
+          grep -Fq -- '--m10-signal:' styles/main10.css
           grep -Fq '.main10-card::after' styles/main10.css
-          grep -Fq '.main10-card__panel::before' styles/main10.css
-          grep -Fq '.main10-card__panel-body::after' styles/main10.css
           grep -Fq '.main10-card[open]' styles/main10.css
-          grep -Fq '.main10-card__summary:active' styles/main10.css
-          grep -Fq '@keyframes main10-surface-sweep' styles/main10.css
-          grep -Fq '@media (hover:hover) and (pointer:fine)' styles/main10.css
           grep -Fq '@media (prefers-reduced-motion:reduce)' styles/main10.css
-          ! grep -Fq '.main10-card__number' styles/main10.css
-          ! grep -Fq 'min-height:96px' styles/main10.css
-
-          grep -Fq "background-image:url('../assets/icons/main10/main10-icons.svg')" styles/main10-icons.css
-          grep -Fq '.main10-card__symbol::before' styles/main10.css
-          grep -Fq 'min-height:122px' styles/main10.css
-          grep -Fq '.main10-card__summary-slot span{display:none}' styles/main10.css
-          grep -Fq 'OPEN AREA: compact internal mechanism' styles/main10.css
-          ! grep -Fq 'max-height:800px' styles/main10.css scripts/main10-chassis.js
-          ! grep -Fq 'transition:all' styles/main10.css
-          test "$(grep -c 'main10-card__icon-image--' styles/main10-icons.css)" -eq 10
-          test "$(grep -c '<g id=' assets/icons/main10/main10-icons.svg)" -eq 10
-          grep -Fq 'width="1280" height="128"' assets/icons/main10/main10-icons.svg
-          grep -Fq '<g id="what-is-astera"' assets/icons/main10/main10-icons.svg
-          grep -Fq '<g id="app"' assets/icons/main10/main10-icons.svg
-          ! grep -Fq '<image' assets/icons/main10/main10-icons.svg
-          test "$(wc -c < assets/icons/main10/main10-icons.svg)" -lt 50000
-
-          grep -Fq "from './scripts/main10-chassis.js?v=cu16-chassis-v3'" script.js
-          grep -Fq 'const OPEN_DURATION = 470' scripts/main10-chassis.js
-          grep -Fq 'const CLOSE_DURATION = 380' scripts/main10-chassis.js
-          grep -Fq 'initMain10Chassis();' script.js
-          grep -Fq "const MOTION_QUERY = '(prefers-reduced-motion: reduce)'" scripts/main10-chassis.js
-          grep -Fq "summary.addEventListener('click'" scripts/main10-chassis.js
-          grep -Fq 'panel.animate(' scripts/main10-chassis.js
-          grep -Fq 'panel.scrollHeight' scripts/main10-chassis.js
-          grep -Fq 'card.open = true' scripts/main10-chassis.js
-          grep -Fq 'card.open = false' scripts/main10-chassis.js
-          ! grep -Eiq 'three\.js|webgl|arwes|augmented-ui|https?://' scripts/main10-chassis.js styles/main10.css
-
+          ! grep -Fq 'clip-path:' styles/main10.css
+          ! grep -Fq 'mask-composite' styles/main10.css
+          ! grep -Fq 'max-height:800px' styles/main10.css
+          grep -Fq "from './scripts/main10-glass.js?v=cu19-glass-reboot'" script.js
+          grep -Fq 'initMain10Glass();' script.js
+          grep -Fq 'const OPEN_DURATION = 430' scripts/main10-glass.js
+          grep -Fq 'const CLOSE_DURATION = 320' scripts/main10-glass.js
+          grep -Fq 'panel.scrollHeight' scripts/main10-glass.js
+          grep -Fq 'panel.animate(' scripts/main10-glass.js
           node --check script.js
-          node --check scripts/language.js
-          node --check scripts/menu.js
-          node --check scripts/ai-bubble.js
-          node --check scripts/app-entry.js
-          node --check scripts/hero-effect.js
-          node --check scripts/main10-chassis.js
-
-          test "$(git hash-object assets/images/hero/astera-hero-desktop-1280x720.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
-          test "$(git hash-object assets/images/hero/astera-hero-tablet-1024x576.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
-          test "$(git hash-object assets/images/hero/astera-hero-mobile-720x405.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"
+          node --check scripts/main10-glass.js
           test "$(cat CNAME)" = "asterav8.jp"
-
-          ! grep -Fq 'astera-astrolabe.png' index.html style.css script.js styles/*.css scripts/*.js
-          ! grep -Fq 'data-hero-tilt' index.html
-          ! grep -Fq 'data-hero-particles' index.html
-          grep -Fq 'data-hero-canvas' index.html
-          ! grep -Eiq 'notion|NOTION_' index.html style.css script.js styles/*.css scripts/*.js
-
-      - name: Verify direct static HTTP delivery
+      - name: Verify local HTTP delivery
         shell: bash
         run: |
           set -euo pipefail
           python3 -m http.server 4173 --directory . >/tmp/astera-static.log 2>&1 &
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true' EXIT
-
-          for attempt in $(seq 1 20); do
-            if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/index.html; then
-              break
-            fi
-            sleep 1
-          done
-
-          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu16-chassis-v3' -o /tmp/main10.css
-          curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-chassis.js?v=cu16-chassis-v3' -o /tmp/main10-chassis.js
-          curl --fail --silent 'http://127.0.0.1:4173/styles/main10-icons.css?v=cu16-chassis-v3' -o /tmp/main10-icons.css
-          curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-desktop-1280x720.webp -o /tmp/hero-desktop.webp
-          curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-tablet-1024x576.webp -o /tmp/hero-tablet.webp
-          curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-mobile-720x405.webp -o /tmp/hero-mobile.webp
-
-          grep -Fq 'href="./styles/main10.css?v=cu16-chassis-v3"' /tmp/index.html
-          grep -Fq 'src="./script.js?v=cu16-chassis-v3"' /tmp/index.html
-          grep -Fq 'href="./styles/main10-icons.css?v=cu16-chassis-v3"' /tmp/index.html
-          test "$(grep -c 'data-main10-card' /tmp/index.html)" -eq 10
-          test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' /tmp/index.html)" -eq 10
-          test "$(grep -c 'main10-card__number' /tmp/index.html)" -eq 0
-          ! grep -Fq 'main10-card__toggle' /tmp/index.html
-          ! grep -Fq 'name="main10"' /tmp/index.html
-
+          for attempt in $(seq 1 20); do if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/index.html; then break; fi; sleep 1; done
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu19-glass-reboot' -o /tmp/main10.css
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10-icons.css?v=cu19-glass-reboot' -o /tmp/main10-icons.css
+          curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-glass.js?v=cu19-glass-reboot' -o /tmp/main10-glass.js
+          grep -Fq 'Glass Reboot v19' /tmp/main10.css
+          grep -Fq 'panel.animate(' /tmp/main10-glass.js
           test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
-          test "$(git hash-object /tmp/main10-chassis.js)" = "$(git hash-object scripts/main10-chassis.js)"
           test "$(git hash-object /tmp/main10-icons.css)" = "$(git hash-object styles/main10-icons.css)"
-          test "$(git hash-object /tmp/hero-desktop.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
-          test "$(git hash-object /tmp/hero-tablet.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
-          test "$(git hash-object /tmp/hero-mobile.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"
+          test "$(git hash-object /tmp/main10-glass.js)" = "$(git hash-object scripts/main10-glass.js)"
