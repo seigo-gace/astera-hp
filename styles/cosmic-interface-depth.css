@@ -1,0 +1,96 @@
+.cosmic-main10__grid{
+  width:min(780px,90%);
+  gap:clamp(24px,3vw,30px);
+}
+
+.cosmic-card{
+  height:clamp(62px,6vw,70px);
+}
+
+/* Three thin, centered plates descend below the active glass card. */
+.cosmic-card__ghost{
+  inset:6px 3% -6px 3%;
+  border:.55px solid rgba(151,146,255,.24);
+  background:linear-gradient(135deg,rgba(54,112,216,.055),rgba(115,60,231,.032));
+  box-shadow:0 0 15px rgba(70,98,255,.028),inset 0 .5px 0 rgba(206,230,255,.05);
+  opacity:.42;
+}
+.cosmic-card__ghost::before,.cosmic-card__ghost::after{
+  border:.5px solid rgba(125,130,224,.14);
+  background:linear-gradient(135deg,rgba(39,88,173,.032),rgba(94,50,181,.021));
+  transform-origin:top center;
+}
+.cosmic-card__ghost::before{
+  transform:translateY(7px) scaleX(.94);
+  opacity:.28;
+}
+.cosmic-card__ghost::after{
+  transform:translateY(14px) scaleX(.88);
+  opacity:.16;
+}
+.cosmic-card__glass{
+  border:.65px solid rgba(187,222,255,.38);
+  background:
+    radial-gradient(72% 105% at 48% 52%,rgba(42,169,255,.14),rgba(37,75,171,.05) 40%,transparent 74%),
+    radial-gradient(120% 180% at var(--mx) -34%,rgba(197,235,255,.12),transparent 38%),
+    linear-gradient(125deg,rgba(45,101,190,.12),rgba(8,22,62,.25) 46%,rgba(67,35,139,.14));
+  box-shadow:
+    0 15px 42px rgba(0,0,0,.58),
+    0 0 0 .5px rgba(92,177,255,.032),
+    0 0 26px rgba(68,135,255,.10),
+    inset 0 1px 0 rgba(239,249,255,.44),
+    inset 0 -1px 0 rgba(118,96,255,.16),
+    inset 14px 0 28px rgba(64,147,255,.04),
+    inset -16px 0 30px rgba(144,78,255,.06);
+}
+.cosmic-card__divider{width:1px}
+.cosmic-card__edge{padding:.55px;opacity:.56}
+
+.cosmic-card.is-launching .cosmic-card__ghost{
+  transform:translate3d(0,5px,-48px);
+  opacity:.56;
+}
+.cosmic-card.is-launching .cosmic-card__ghost::before{
+  transform:translateY(13px) scaleX(.93);
+  opacity:.36;
+}
+.cosmic-card.is-launching .cosmic-card__ghost::after{
+  transform:translateY(22px) scaleX(.86);
+  opacity:.22;
+}
+
+/* Keep the same stacked-depth language when the selected card expands. */
+.cosmic-expanded__ghost{
+  inset:8px 2.5% -8px 2.5%;
+  border:.55px solid rgba(145,138,255,.20);
+  background:linear-gradient(135deg,rgba(59,113,220,.048),rgba(121,66,241,.030));
+  opacity:.44;
+  box-shadow:0 0 18px rgba(73,82,255,.035);
+}
+.cosmic-expanded__ghost::before,.cosmic-expanded__ghost::after{
+  border:.5px solid rgba(123,129,224,.13);
+  background:linear-gradient(135deg,rgba(45,94,184,.030),rgba(100,55,192,.020));
+  transform-origin:top center;
+}
+.cosmic-expanded__ghost::before{
+  transform:translateY(9px) scaleX(.95);
+  opacity:.27;
+}
+.cosmic-expanded__ghost::after{
+  transform:translateY(18px) scaleX(.90);
+  opacity:.15;
+}
+.cosmic-expanded__glass{border:.7px solid rgba(192,223,255,.42)}
+.cosmic-expanded__top{border-bottom:.6px solid rgba(169,207,255,.24)}
+.cosmic-expanded__close{border:.6px solid rgba(178,214,255,.26)}
+.cosmic-expanded__selection{border:.6px solid rgba(215,229,255,.27)}
+.cosmic-expanded__edge{padding:.55px}
+
+@media (max-width:560px){
+  .cosmic-main10__grid{width:92%;gap:26px}
+  .cosmic-card{height:62px}
+  .cosmic-card__ghost{inset:5px 3.5% -5px 3.5%}
+  .cosmic-card__ghost::before{transform:translateY(7px) scaleX(.94)}
+  .cosmic-card__ghost::after{transform:translateY(14px) scaleX(.88)}
+  .cosmic-expanded__ghost{inset:7px 2.5% -7px 2.5%}
+}
