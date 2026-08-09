@@ -6,7 +6,7 @@
   <title>Astera</title>
   <meta name="description" content="Astera official website">
   <link rel="stylesheet" href="../style.css">
-  <script type="module" src="../script.js?v=cu25-i18n-dir"></script>
+  <script type="module" src="../script.js?v=cu26-main10-cosmic-interface"></script>
 </head>
 <body>
   <header class="site-header">
@@ -32,7 +32,43 @@
       <div class="hero-space" aria-hidden="true"><div class="hero-nebula hero-nebula--a" data-nebula="a"></div><div class="hero-nebula hero-nebula--b" data-nebula="b"></div><div class="hero-nebula hero-nebula--c" data-nebula="c"></div><canvas class="hero-cosmos-canvas" data-hero-canvas></canvas></div>
       <h1 id="hero-catchphrase" class="hero-copy"><span class="hero-copy__line hero-copy__line--1" data-hero-copy-line="1" data-i18n="hero.catchphrase.line1">問いを</span><span class="hero-copy__line hero-copy__line--2" data-hero-copy-line="2" data-i18n="hero.catchphrase.line2">星図に変える。</span></h1>
     </section>
+
+    <section class="main10-experience" data-main10 aria-label="Asteraを理解する10の入口">
+      <canvas class="main10-space" data-main10-space aria-hidden="true"></canvas>
+      <div class="main10-stage">
+        <div class="main10-stage__rail" aria-hidden="true"><span class="main10-stage__rail-dot"></span></div>
+        <div class="main10-grid">
+          <button class="main10-card" type="button" data-main10-card data-key="what-is-astera"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="what-is-astera"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="why-astera"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="why-astera"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="value"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="value"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="process"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="process"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="engine"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="engine"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="usage"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="usage"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="technology"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="technology"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="integration"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="integration"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="evidence"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="evidence"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+          <button class="main10-card" type="button" data-main10-card data-key="app"><span class="main10-card__icon-shell" aria-hidden="true"><span class="main10-icon" data-icon="app"></span></span><span class="main10-card__copy"><span class="main10-card__title" data-main10-card-title></span></span><span class="main10-card__signal" aria-hidden="true"></span></button>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <dialog class="main10-dialog" data-main10-dialog aria-labelledby="main10-panel-title" aria-describedby="main10-panel-lead">
+    <article class="main10-panel" data-main10-panel>
+      <header class="main10-panel__header">
+        <div class="main10-panel__icon-shell" aria-hidden="true"><span class="main10-icon" data-main10-panel-icon></span></div>
+        <div><span class="main10-panel__eyebrow">ASTERA / INTERFACE</span><h2 id="main10-panel-title" class="main10-panel__title" data-main10-field="title"></h2></div>
+        <button class="main10-panel__close" type="button" data-main10-close aria-label="閉じる">×</button>
+      </header>
+      <div class="main10-panel__body">
+        <p id="main10-panel-lead" class="main10-panel__lead" data-main10-field="lead"></p>
+        <p class="main10-panel__body-copy" data-main10-field="body"></p>
+        <div class="main10-panel__telemetry" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <footer class="main10-panel__footer"><a class="main10-panel__cta" data-main10-field="cta" href="./">詳細を見る</a></footer>
+    </article>
+  </dialog>
+
   <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
   <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="./news/">News</a><a class="side-menu-link" href="./qa/">Q&amp;A</a><a class="side-menu-link" href="./pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="./developer/">開発者プロフィール</a><a href="./developer/achievements/">公開実績</a><a href="./developer/prototypes/">試作実績</a><a href="./developer/theories/">理論・研究</a><a href="./corporate/">法人・協業相談</a><a href="./contact/">お問い合わせ</a><a href="./legal/terms/">利用規約</a><a href="./legal/privacy/">Privacy Policy</a><a href="./legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="./support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="./investors/">投資家</a></div></section></nav></aside>
   <section id="ai-bubble" class="ai-bubble" hidden role="dialog" aria-modal="false" aria-labelledby="ai-bubble-title"><div class="ai-bubble-header"><h2 id="ai-bubble-title">Astera総合案内AI</h2><button class="close-button" type="button" data-ai-close aria-label="案内AIを閉じる">×</button></div><textarea aria-label="質問"></textarea><button class="ai-send" type="button">送信</button></section>
