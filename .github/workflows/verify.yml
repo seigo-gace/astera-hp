@@ -81,15 +81,20 @@ jobs:
           ! grep -Fq 'main10-card__toggle' index.html styles/main10.css
           grep -Fq "@import url('./styles/main10.css');" style.css
           grep -Fq 'grid-template-columns:minmax(0,1fr)' styles/main10.css
-          grep -Fq 'grid-template-columns:32px 42px minmax(0,1fr)' styles/main10.css
+          grep -Fq 'grid-template-columns:32px 44px minmax(0,1fr)' styles/main10.css
+          grep -Fq 'min-height:78px' styles/main10.css
           grep -Fq 'white-space:nowrap' styles/main10.css
+          grep -Fq 'clip-path:polygon' styles/main10.css
           grep -Fq '.main10-card::before' styles/main10.css
           grep -Fq '.main10-card::after' styles/main10.css
+          grep -Fq '.main10-card__panel::before' styles/main10.css
           grep -Fq '.main10-card[open]' styles/main10.css
           grep -Fq '.main10-card__summary:active' styles/main10.css
+          grep -Fq '@keyframes main10-surface-sweep' styles/main10.css
           grep -Fq '@media (hover:hover) and (pointer:fine)' styles/main10.css
           grep -Fq '@media (prefers-reduced-motion:reduce)' styles/main10.css
           ! grep -Fq 'main10.js' script.js
+          ! grep -Fq 'min-height:96px' styles/main10.css
 
           node --check script.js
           node --check scripts/language.js
