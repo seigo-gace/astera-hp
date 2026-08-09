@@ -1,22 +1,35 @@
-/* CU32 — equal-width rear glass plates. Keep all stacked panes the same width; depth comes only from offset, opacity, blur and light. */
+/* CU33 — equal-width stacked glass + larger cards + no-title-truncation + detail link. */
+.cosmic-main10__grid{
+  width:min(920px,96%);
+  gap:clamp(20px,2.6vw,28px);
+}
+
+.cosmic-card{
+  height:96px;
+}
+.cosmic-card__stack{
+  height:70px;
+}
+
+/* All rear plates keep the exact same width. Depth is only offset / opacity / blur / light. */
 .cosmic-card__ghost{
-  transform:translate(3px,5px) translateZ(-24px);
+  transform:translate(3px,7px) translateZ(-24px);
 }
 .cosmic-card__ghost::before{
-  transform:translate(3px,6px);
+  transform:translate(3px,8px);
 }
 .cosmic-card__ghost::after{
-  transform:translate(6px,12px);
+  transform:translate(6px,16px);
 }
 
 .cosmic-card.is-launching .cosmic-card__ghost{
-  transform:translate(4px,8px) translateZ(-30px);
+  transform:translate(4px,10px) translateZ(-30px);
 }
 .cosmic-card.is-launching .cosmic-card__ghost::before{
-  transform:translate(5px,10px);
+  transform:translate(5px,13px);
 }
 .cosmic-card.is-launching .cosmic-card__ghost::after{
-  transform:translate(9px,20px);
+  transform:translate(9px,25px);
 }
 
 .cosmic-expanded__ghost{
@@ -42,10 +55,114 @@
   100%{transform:translate(10px,16px);opacity:.34}
 }
 
+/* Never ellipsize Main10 titles. JS performs exact single-line fitting as a last-mile guard. */
+.cosmic-card__top{
+  padding:0 clamp(17px,2.7vw,24px);
+}
+.cosmic-card__icon{
+  width:clamp(34px,5vw,42px);
+  height:clamp(34px,5vw,42px);
+}
+.cosmic-card__divider{
+  height:clamp(34px,4.5vw,42px);
+  margin-left:clamp(12px,2vw,18px);
+}
+.cosmic-card__label{
+  flex:1 1 auto;
+  min-width:0;
+  margin-left:clamp(13px,2vw,19px);
+  font-size:clamp(14px,1.9vw,18px);
+  line-height:1.16;
+  white-space:nowrap;
+  overflow:visible;
+  text-overflow:clip;
+  transform-origin:left center;
+}
+
+/* Expanded title may wrap, but it must never end in an ellipsis. */
+.cosmic-expanded__top{
+  height:30%;
+  padding-bottom:34px;
+}
+.cosmic-expanded__body{
+  inset:30% 0 0;
+}
+.cosmic-expanded__label{
+  flex:1 1 auto;
+  min-width:0;
+  margin-left:clamp(18px,3vw,28px);
+  margin-right:clamp(70px,10vw,106px);
+  color:rgba(243,249,255,.98);
+  font-size:clamp(18px,2.8vw,28px);
+  line-height:1.18;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+/* Detail-page UI: directly below the close button and just above the header rule. */
+.cosmic-expanded__detail{
+  position:absolute;
+  right:16px;
+  bottom:10px;
+  z-index:10;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:32px;
+  padding:6px 11px;
+  border:.45px solid rgba(190,225,255,.30);
+  border-radius:999px;
+  background:linear-gradient(115deg,rgba(163,218,255,.075),rgba(83,105,194,.045) 52%,rgba(142,89,255,.06));
+  color:rgba(232,246,255,.94);
+  font:600 12px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
+  letter-spacing:.02em;
+  text-decoration:none;
+  box-shadow:inset 0 .6px 0 rgba(255,255,255,.16),0 0 18px rgba(73,166,255,.06);
+  backdrop-filter:blur(12px) saturate(145%);
+  -webkit-backdrop-filter:blur(12px) saturate(145%);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.cosmic-expanded__detail-arrow{
+  font-size:14px;
+  transform:translateY(-.5px);
+}
+@media (hover:hover) and (pointer:fine){
+  .cosmic-expanded__detail:hover{
+    transform:translateY(-1px);
+    border-color:rgba(207,238,255,.50);
+    background:linear-gradient(115deg,rgba(177,226,255,.12),rgba(86,116,207,.065) 52%,rgba(153,97,255,.085));
+    box-shadow:inset 0 .6px 0 rgba(255,255,255,.22),0 0 22px rgba(70,182,255,.11);
+  }
+}
+.cosmic-expanded__detail:focus-visible{
+  outline:1px solid rgba(202,239,255,.72);
+  outline-offset:3px;
+}
+
 @media (max-width:560px){
-  .cosmic-card__ghost{transform:translate(3px,5px) translateZ(-24px)}
-  .cosmic-card__ghost::before{transform:translate(3px,6px)}
-  .cosmic-card__ghost::after{transform:translate(6px,12px)}
+  .cosmic-main10{padding:18px 8px 116px}
+  .cosmic-main10__grid{width:96%;gap:20px}
+  .cosmic-card{height:92px}
+  .cosmic-card__stack{height:68px}
+  .cosmic-card__ghost{transform:translate(3px,7px) translateZ(-24px)}
+  .cosmic-card__ghost::before{transform:translate(3px,8px)}
+  .cosmic-card__ghost::after{transform:translate(6px,16px)}
+  .cosmic-card__top{padding:0 15px}
+  .cosmic-card__icon{width:34px;height:34px}
+  .cosmic-card__divider{height:34px;margin-left:12px}
+  .cosmic-card__label{margin-left:13px;font-size:16px;letter-spacing:-.005em}
+
+  .cosmic-expanded{width:94vw;height:min(630px,78svh);min-height:min(455px,78svh)}
+  .cosmic-expanded__top{height:31%;padding:0 18px 36px}
+  .cosmic-expanded__body{inset:31% 0 0;padding-top:22px}
+  .cosmic-expanded__icon{width:46px;height:46px}
+  .cosmic-expanded__divider{height:46px;margin-left:16px}
+  .cosmic-expanded__label{margin-left:15px;margin-right:62px;font-size:clamp(16px,4.8vw,21px);line-height:1.16}
+  .cosmic-expanded__detail{right:12px;bottom:8px;min-height:30px;padding:5px 10px;font-size:11px}
+  .cosmic-expanded__close{top:10px;right:10px}
   .cosmic-expanded__ghost{transform:translate(4px,7px) translateZ(-34px)}
   .cosmic-expanded__ghost::before{transform:translate(4px,7px)}
   .cosmic-expanded__ghost::after{transform:translate(8px,14px)}

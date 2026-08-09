@@ -1,12 +1,14 @@
 import { PUBLIC_MAIN10 } from '../data/public-main10.ja.js';
+import { MAIN10_ITEMS } from './main10-text.js';
 
 const byId=new Map(PUBLIC_MAIN10.map(item=>[item.id,item]));
+const routeById=new Map(MAIN10_ITEMS.map(item=>[item.id,item.route]));
 const reduceMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer=()=>matchMedia('(hover:hover) and (pointer:fine)').matches;
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const icon=(id,className)=>`<span class="${className} cosmic-icon" data-icon="${id}" aria-hidden="true"></span>`;
 
-const cardMarkup=item=>`<button class="cosmic-card" type="button" data-cosmic-card data-key="${item.id}" aria-label="${item.title}を開く"><span class="cosmic-card__stack" data-cosmic-card-stack><span class="cosmic-card__ghost" aria-hidden="true"></span><span class="cosmic-card__glass"><span class="cosmic-card__top">${icon(item.id,'cosmic-card__icon')}<span class="cosmic-card__divider" aria-hidden="true"></span><span class="cosmic-card__label">${item.title}</span></span><span class="cosmic-card__edge" aria-hidden="true"></span><span class="cosmic-card__flare" aria-hidden="true"></span></span></span></button>`;
+const cardMarkup=item=>`<button class="cosmic-card" type="button" data-cosmic-card data-key="${item.id}" aria-label="${item.title}を開く"><span class="cosmic-card__stack" data-cosmic-card-stack><span class="cosmic-card__ghost" aria-hidden="true"></span><span class="cosmic-card__glass"><span class="cosmic-card__top">${icon(item.id,'cosmic-card__icon')}<span class="cosmic-card__divider" aria-hidden="true"></span><span class="cosmic-card__label" data-cosmic-label>${item.title}</span></span><span class="cosmic-card__edge" aria-hidden="true"></span><span class="cosmic-card__flare" aria-hidden="true"></span></span></span></button>`;
 
 function setPointer(card,e){
   const r=card.getBoundingClientRect();
@@ -20,12 +22,46 @@ function setPointer(card,e){
   }
 }
 function resetPointer(card){card.style.setProperty('--mx','50%');card.style.setProperty('--my','50%');card.style.setProperty('--rx','0deg');card.style.setProperty('--ry','0deg')}
+function fitSingleLineLabel(label){
+  if(!label)return;
+  label.style.fontSize='';
+  label.style.letterSpacing='';
+  label.style.transform='';
+  const computed=getComputedStyle(label);
+  let size=Number.parseFloat(computed.fontSize)||16;
+  const minSize=10;
+  while(label.scrollWidth>label.clientWidth+1&&size>minSize){
+    size=Math.max(minSize,size-.5);
+    label.style.fontSize=`${size}px`;
+    if(size<=12.5)label.style.letterSpacing='-.035em';
+  }
+  if(label.scrollWidth>label.clientWidth+1){
+    const ratio=Math.max(.84,label.clientWidth/Math.max(1,label.scrollWidth));
+    label.style.transform=`scaleX(${ratio})`;
+  }
+}
+function fitCardLabels(cards){
+  cards.forEach(card=>fitSingleLineLabel(card.querySelector('[data-cosmic-label]')));
+}
 function fillExpanded(panel,item){
-  panel.querySelector('[data-expanded-label]').textContent=item.title;
+  const title=panel.querySelector('[data-expanded-label]');
+  title.textContent=item.title;
   panel.querySelector('[data-expanded-lead]').textContent=item.lead;
   panel.querySelector('[data-expanded-copy]').textContent=item.body;
   const expandedIcon=panel.querySelector('[data-expanded-icon]');
   if(expandedIcon) expandedIcon.dataset.icon=item.id;
+  const detail=panel.querySelector('[data-expanded-detail]');
+  const route=routeById.get(item.id);
+  if(detail){
+    if(route){
+      detail.href=route;
+      detail.setAttribute('aria-label',`${item.title}の詳細ページへ`);
+      detail.removeAttribute('aria-disabled');
+    }else{
+      detail.removeAttribute('href');
+      detail.setAttribute('aria-disabled','true');
+    }
+  }
 }
 function clearTransitionNames(cards,panelStack){
   cards.forEach(card=>{const stack=card.querySelector('[data-cosmic-card-stack]');if(stack)stack.style.viewTransitionName='none'});
@@ -72,6 +108,10 @@ export function initCosmicMain10(){
 
   grid.innerHTML=PUBLIC_MAIN10.map(cardMarkup).join('');
   const cards=[...grid.querySelectorAll('[data-cosmic-card]')];
+  requestAnimationFrame(()=>fitCardLabels(cards));
+  document.fonts?.ready?.then(()=>fitCardLabels(cards)).catch(()=>{});
+  let fitTimer=0;
+  window.addEventListener('resize',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(()=>fitCardLabels(cards),90)},{passive:true});
   let source=null;
   let active=null;
   let busy=false;
