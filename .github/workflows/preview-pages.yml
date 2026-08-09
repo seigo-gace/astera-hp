@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css styles/main10.css styles/main10-icons.css scripts/hero-effect.js scripts/main10.js scripts/main10-space.js scripts/main10-text.js assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css styles/cosmic-interface.css scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
@@ -35,15 +35,25 @@ jobs:
           test -s script.js
           node --check script.js
           node --check scripts/language.js
-          node --check scripts/main10.js
-          node --check scripts/main10-space.js
-          node --check scripts/main10-text.js
+          node --check scripts/cosmic-interface.js
+          node --check scripts/cosmic-space.js
+          node --check data/public-main10.ja.js
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          ET.parse('assets/icons/main10/main10-icons.svg')
+          PY
           grep -Fq 'url=./ja/' index.html
-          grep -Fq 'data-main10-dialog' ja/index.html
-          test "$(grep -Fc 'data-main10-card' ja/index.html)" -eq 10
-          grep -Fq "@import url('./styles/main10-icons.css');" style.css
-          grep -Fq "../assets/icons/main10/main10-icons.svg" styles/main10-icons.css
+          grep -Fq 'data-cosmic-main10' ja/index.html
+          grep -Fq 'data-cosmic-modal' ja/index.html
+          ! grep -Fq 'data-main10-card' ja/index.html
+          ! grep -Fq 'Search Field' ja/index.html
+          ! grep -Fq 'data-expanded-cta' ja/index.html
+          grep -Fq "@import url('./styles/cosmic-interface.css');" style.css
+          ! grep -Fq "@import url('./styles/main10.css');" style.css
+          grep -Fq "initCosmicMain10();" script.js
+          test "$(grep -Ec "^[[:space:]]+id: '" data/public-main10.ja.js)" -eq 10
           test "$(git hash-object assets/icons/main10/main10-icons.svg)" = "7f23c691fbfbd24d2ee8530f462f7e03b772214d"
+          ! grep -Eqi 'orange|gold|copper|#d8ad63|#ffe0a4|#9f542c' styles/cosmic-interface.css assets/icons/main10/main10-icons.svg scripts/cosmic-interface.js scripts/cosmic-space.js
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Prepare direct static artifact
         shell: bash
@@ -52,7 +62,7 @@ jobs:
           rm -rf public
           mkdir -p public
           cp index.html style.css script.js CNAME public/
-          cp -R ja en styles scripts assets public/
+          cp -R ja en styles scripts data assets public/
           touch public/.nojekyll
       - uses: actions/configure-pages@v5
         with:
@@ -72,12 +82,18 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           for attempt in $(seq 1 18); do
-            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja-index.html && curl --fail --location --silent --show-error "$root/assets/icons/main10/main10-icons.svg" -o /tmp/live-main10-icons.svg; then
-              if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html && grep -Fq 'data-main10-dialog' /tmp/live-ja-index.html && test -s /tmp/live-main10-icons.svg; then
+            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja-index.html \
+              && curl --fail --location --silent --show-error "$root/assets/icons/main10/main10-icons.svg" -o /tmp/live-icons.svg \
+              && curl --fail --location --silent --show-error "$root/data/public-main10.ja.js" -o /tmp/live-data.js; then
+              if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html \
+                && grep -Fq 'data-cosmic-main10' /tmp/live-ja-index.html \
+                && grep -Fq 'data-cosmic-modal' /tmp/live-ja-index.html \
+                && test -s /tmp/live-icons.svg \
+                && test -s /tmp/live-data.js; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Deployment completed, but /ja/ Main10 public-edge propagation was not confirmed within the probe window.' >&2
+          echo 'Deployment completed, but /ja/ cosmic interface public-edge propagation was not confirmed within the probe window.' >&2
           exit 1

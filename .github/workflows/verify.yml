@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/main10.css styles/main10-icons.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/main10.js scripts/main10-space.js scripts/main10-text.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
@@ -31,20 +31,33 @@ jobs:
           test -s script.js
           node --check script.js
           node --check scripts/language.js
-          node --check scripts/main10.js
-          node --check scripts/main10-space.js
-          node --check scripts/main10-text.js
+          node --check scripts/cosmic-interface.js
+          node --check scripts/cosmic-space.js
+          node --check data/public-main10.ja.js
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          ET.parse('assets/icons/main10/main10-icons.svg')
+          PY
           grep -Fq 'url=./ja/' index.html
-          grep -Fq 'href="../style.css"' ja/index.html
-          grep -Fq 'src="../script.js?v=cu26-main10-cosmic-interface"' ja/index.html
-          test "$(grep -Fc 'data-main10-card' ja/index.html)" -eq 10
-          grep -Fq 'data-main10-dialog' ja/index.html
-          grep -Fq "@import url('./styles/main10.css');" style.css
-          grep -Fq "@import url('./styles/main10-icons.css');" style.css
-          grep -Fq "../assets/icons/main10/main10-icons.svg" styles/main10-icons.css
+          grep -Fq 'href="../style.css?v=cu27-public-cosmic-glass"' ja/index.html
+          grep -Fq 'src="../script.js?v=cu27-public-cosmic-glass"' ja/index.html
+          grep -Fq 'data-cosmic-main10' ja/index.html
+          grep -Fq 'data-cosmic-modal' ja/index.html
+          ! grep -Fq 'data-main10-card' ja/index.html
+          ! grep -Fq 'main10-dialog' ja/index.html
+          ! grep -Fq 'Search Field' ja/index.html
+          ! grep -Fq 'data-expanded-cta' ja/index.html
+          grep -Fq "@import url('./styles/cosmic-interface.css');" style.css
+          ! grep -Fq "@import url('./styles/main10.css');" style.css
+          ! grep -Fq "@import url('./styles/main10-icons.css');" style.css
+          grep -Fq "initCosmicMain10();" script.js
+          ! grep -Fq "initMain10();" script.js
+          test "$(grep -Ec "^[[:space:]]+id: '" data/public-main10.ja.js)" -eq 10
           test "$(git hash-object assets/icons/main10/main10-icons.svg)" = "7f23c691fbfbd24d2ee8530f462f7e03b772214d"
-          grep -Fq "initMain10();" script.js
-          grep -Fq 'background:#000' styles/main10.css
+          grep -Fq 'background:#000' styles/cosmic-interface.css
+          ! grep -Eqi 'orange|gold|copper|#d8ad63|#ffe0a4|#9f542c' styles/cosmic-interface.css assets/icons/main10/main10-icons.svg scripts/cosmic-interface.js scripts/cosmic-space.js
+          ! grep -Eqi '\.(png|jpg|jpeg|webp|gif)' styles/cosmic-interface.css assets/icons/main10/main10-icons.svg scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js
+          ! grep -Eqi 'https?://' styles/cosmic-interface.css assets/icons/main10/main10-icons.svg scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Verify local HTTP delivery
         shell: bash
@@ -54,12 +67,19 @@ jobs:
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true' EXIT
           for attempt in $(seq 1 20); do
-            if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html && curl --fail --silent http://127.0.0.1:4173/styles/main10.css >/tmp/main10.css && curl --fail --silent http://127.0.0.1:4173/styles/main10-icons.css >/tmp/main10-icons.css && curl --fail --silent http://127.0.0.1:4173/scripts/main10.js >/tmp/main10.js && curl --fail --silent http://127.0.0.1:4173/assets/icons/main10/main10-icons.svg >/tmp/main10-icons.svg; then break; fi
+            if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html \
+              && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html \
+              && curl --fail --silent http://127.0.0.1:4173/styles/cosmic-interface.css >/tmp/cosmic-interface.css \
+              && curl --fail --silent http://127.0.0.1:4173/scripts/cosmic-interface.js >/tmp/cosmic-interface.js \
+              && curl --fail --silent http://127.0.0.1:4173/scripts/cosmic-space.js >/tmp/cosmic-space.js \
+              && curl --fail --silent http://127.0.0.1:4173/data/public-main10.ja.js >/tmp/public-main10.ja.js \
+              && curl --fail --silent http://127.0.0.1:4173/assets/icons/main10/main10-icons.svg >/tmp/main10-icons.svg; then break; fi
             sleep 1
           done
           cmp -s /tmp/root-index.html index.html
           cmp -s /tmp/ja-index.html ja/index.html
-          cmp -s /tmp/main10.css styles/main10.css
-          cmp -s /tmp/main10-icons.css styles/main10-icons.css
-          cmp -s /tmp/main10.js scripts/main10.js
+          cmp -s /tmp/cosmic-interface.css styles/cosmic-interface.css
+          cmp -s /tmp/cosmic-interface.js scripts/cosmic-interface.js
+          cmp -s /tmp/cosmic-space.js scripts/cosmic-space.js
+          cmp -s /tmp/public-main10.ja.js data/public-main10.ja.js
           cmp -s /tmp/main10-icons.svg assets/icons/main10/main10-icons.svg
