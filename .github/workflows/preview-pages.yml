@@ -26,19 +26,20 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html style.css script.js styles/hero.css styles/main10.css styles/main10-icons.css scripts/hero-effect.js scripts/main10-glass.js assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
+          for file in index.html style.css script.js styles/hero.css styles/main10.css styles/main10-icons.css scripts/hero-effect.js scripts/main10-card.js assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
           test ! -e styles/main10-frame.css
           test ! -e styles/main10-material.css
+          test ! -e styles/main10-surface-v20.css
           test ! -e scripts/main10-chassis.js
-          grep -Fq 'href="./styles/main10.css?v=cu19-glass-reboot"' index.html
-          grep -Fq 'href="./styles/main10-icons.css?v=cu19-glass-reboot"' index.html
-          grep -Fq 'src="./script.js?v=cu19-glass-reboot"' index.html
-          grep -Fq "from './scripts/main10-glass.js?v=cu19-glass-reboot'" script.js
-          grep -Fq 'Glass Reboot v19' styles/main10.css
-          grep -Fq 'backdrop-filter:blur(12px)' styles/main10.css
-          grep -Fq 'panel.animate(' scripts/main10-glass.js
+          test ! -e scripts/main10-glass.js
+          grep -Fq 'href="./styles/main10.css?v=cu20-surface-ui"' index.html
+          grep -Fq 'href="./styles/main10-icons.css?v=cu20-surface-ui"' index.html
+          grep -Fq 'src="./script.js?v=cu20-surface-ui"' index.html
+          grep -Fq "from './scripts/main10-card.js?v=cu20-surface-ui'" script.js
+          grep -Fq 'Surface UI v20' styles/main10.css
+          grep -Fq 'panel.animate(' scripts/main10-card.js
           node --check script.js
-          node --check scripts/main10-glass.js
+          node --check scripts/main10-card.js
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Prepare direct static artifact
         shell: bash
@@ -58,7 +59,7 @@ jobs:
       - name: Deploy direct static files
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify deployed Glass Reboot
+      - name: Verify deployed Main 10 Surface UI
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
@@ -66,12 +67,12 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10.css?v=cu19-glass-reboot" -o /tmp/main10.css
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10-icons.css?v=cu19-glass-reboot" -o /tmp/main10-icons.css
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/scripts/main10-glass.js?v=cu19-glass-reboot" -o /tmp/main10-glass.js
-          grep -Fq 'href="./styles/main10.css?v=cu19-glass-reboot"' /tmp/index.html
-          grep -Fq 'Glass Reboot v19' /tmp/main10.css
-          grep -Fq 'panel.animate(' /tmp/main10-glass.js
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10.css?v=cu20-surface-ui" -o /tmp/main10.css
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10-icons.css?v=cu20-surface-ui" -o /tmp/main10-icons.css
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/scripts/main10-card.js?v=cu20-surface-ui" -o /tmp/main10-card.js
+          grep -Fq 'href="./styles/main10.css?v=cu20-surface-ui"' /tmp/index.html
+          grep -Fq 'Surface UI v20' /tmp/main10.css
+          grep -Fq 'panel.animate(' /tmp/main10-card.js
           test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
           test "$(git hash-object /tmp/main10-icons.css)" = "$(git hash-object styles/main10-icons.css)"
-          test "$(git hash-object /tmp/main10-glass.js)" = "$(git hash-object scripts/main10-glass.js)"
+          test "$(git hash-object /tmp/main10-card.js)" = "$(git hash-object scripts/main10-card.js)"
