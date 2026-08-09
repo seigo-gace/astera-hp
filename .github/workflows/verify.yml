@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/main10.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/main10.js scripts/main10-space.js scripts/main10-text.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
@@ -31,9 +31,17 @@ jobs:
           test -s script.js
           node --check script.js
           node --check scripts/language.js
+          node --check scripts/main10.js
+          node --check scripts/main10-space.js
+          node --check scripts/main10-text.js
           grep -Fq 'url=./ja/' index.html
           grep -Fq 'href="../style.css"' ja/index.html
-          grep -Fq 'src="../script.js?v=cu25-i18n-dir"' ja/index.html
+          grep -Fq 'src="../script.js?v=cu26-main10-cosmic-interface"' ja/index.html
+          test "$(grep -Fc 'data-main10-card' ja/index.html)" -eq 10
+          grep -Fq 'data-main10-dialog' ja/index.html
+          grep -Fq "@import url('./styles/main10.css');" style.css
+          grep -Fq "initMain10();" script.js
+          grep -Fq 'background:#000' styles/main10.css
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Verify local HTTP delivery
         shell: bash
@@ -43,8 +51,10 @@ jobs:
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true' EXIT
           for attempt in $(seq 1 20); do
-            if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html; then break; fi
+            if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html && curl --fail --silent http://127.0.0.1:4173/styles/main10.css >/tmp/main10.css && curl --fail --silent http://127.0.0.1:4173/scripts/main10.js >/tmp/main10.js; then break; fi
             sleep 1
           done
           cmp -s /tmp/root-index.html index.html
           cmp -s /tmp/ja-index.html ja/index.html
+          cmp -s /tmp/main10.css styles/main10.css
+          cmp -s /tmp/main10.js scripts/main10.js
