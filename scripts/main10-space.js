@@ -186,7 +186,11 @@ export function initMain10Space(root) {
   let program;
   try { program = createProgram(gl); } catch (error) {
     console.warn('Main10 WebGL fallback:', error);
-    return initCanvas2DFallback(canvas, root, reducedMotion);
+    const replacement = canvas.cloneNode(false);
+    replacement.width = canvas.width;
+    replacement.height = canvas.height;
+    canvas.replaceWith(replacement);
+    return initCanvas2DFallback(replacement, root, reducedMotion);
   }
 
   const positionLocation = gl.getAttribLocation(program, 'a_position');
