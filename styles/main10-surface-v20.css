@@ -1,0 +1,45 @@
+/*
+ * Astera Main 10 — Surface UI v20
+ * Based on the Master-provided component system and adapted to Astera.
+ * One surface, clear hierarchy, restrained depth, no dedicated toggle UI.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600&display=swap');
+
+.main-ten{
+  --m10-bg:var(--astera-void);
+  --m10-surface:rgba(16,16,18,.96);
+  --m10-surface-open:rgba(12,12,14,.985);
+  --m10-elevated:rgba(23,23,26,.92);
+  --m10-border:rgba(213,213,213,.105);
+  --m10-border-strong:rgba(213,213,213,.19);
+  --m10-accent:var(--astera-signal);
+  --m10-accent-soft:rgba(142,74,60,.15);
+  --m10-radius:20px;
+  --m10-radius-inner:14px;
+  width:100%;
+  padding:24px 12px 58px;
+  background:var(--m10-bg);
+}
+.main-ten__list{width:100%;max-width:720px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.main10-card{position:relative;width:100%;margin:0;overflow:hidden;border:1px solid var(--m10-border);border-radius:var(--m10-radius);background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 34%),var(--m10-surface);box-shadow:0 14px 34px -22px rgba(0,0,0,.94),0 3px 10px -7px rgba(0,0,0,.72),inset 0 1px 0 rgba(255,255,255,.025);transition:transform .42s cubic-bezier(.22,1,.36,1),box-shadow .42s cubic-bezier(.22,1,.36,1),border-color .24s ease,background .32s ease}
+.main10-card[open]{transform:translateY(-3px);border-color:var(--m10-border-strong);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent 22%),var(--m10-surface-open);box-shadow:0 30px 58px -30px rgba(0,0,0,1),0 10px 24px -18px rgba(0,0,0,.86),inset 0 1px 0 rgba(255,255,255,.035),0 0 0 1px rgba(142,74,60,.035)}
+.main10-card__summary{position:relative;display:grid;grid-template-columns:50px minmax(0,1fr);align-items:center;gap:14px;min-height:80px;padding:14px 18px;list-style:none;cursor:pointer;user-select:none;outline:none;background:transparent;border-bottom:1px solid transparent;transition:background .22s ease,border-color .24s ease,transform .18s ease}
+.main10-card__summary::-webkit-details-marker{display:none}.main10-card__summary::marker{content:""}.main10-card__summary:active{transform:scale(.992)}
+.main10-card[open] .main10-card__summary{border-bottom-color:var(--m10-border);background:rgba(255,255,255,.012)}
+.main10-card__summary:focus-visible{box-shadow:inset 0 0 0 2px rgba(213,213,213,.30)}
+@media (hover:hover) and (pointer:fine){.main10-card:not([open]):hover{transform:translateY(-2px);border-color:rgba(213,213,213,.15);box-shadow:0 22px 42px -26px rgba(0,0,0,.98),0 6px 16px -12px rgba(0,0,0,.76),inset 0 1px 0 rgba(255,255,255,.035)}.main10-card:not([open]):hover .main10-card__summary{background:rgba(255,255,255,.016)}}
+.main10-card__symbol{position:relative;width:48px;height:48px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 48%),var(--m10-elevated);border:1px solid rgba(213,213,213,.09);box-shadow:0 5px 12px -9px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.035),inset 0 -8px 14px rgba(0,0,0,.22);transition:border-color .22s ease,background .22s ease,box-shadow .22s ease,transform .18s ease}
+.main10-card[open] .main10-card__symbol{border-color:rgba(142,74,60,.28);background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 48%),linear-gradient(135deg,var(--m10-accent-soft),transparent 58%),var(--m10-elevated);box-shadow:0 5px 12px -9px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.04),0 0 18px -10px rgba(142,74,60,.65)}
+.main10-card__title-slot{position:relative;min-width:0;min-height:42px;display:block;border-radius:12px;overflow:hidden}
+.main10-card__title-slot::before,.main10-card__title-slot::after{content:"";position:absolute;left:0;border-radius:999px;pointer-events:none}
+.main10-card__title-slot::before{top:8px;width:min(66%,260px);height:8px;background:linear-gradient(90deg,rgba(246,246,246,.52),rgba(186,189,194,.23))}
+.main10-card__title-slot::after{top:27px;width:min(42%,180px);height:5px;background:linear-gradient(90deg,rgba(125,128,132,.40),rgba(125,128,132,.13))}
+.main10-card__panel{position:relative;height:0;overflow:hidden;opacity:0;background:var(--m10-bg);will-change:height,opacity}.main10-card[open] .main10-card__panel{opacity:1}
+.main10-card__panel-body{display:flex;flex-direction:column;gap:16px;padding:18px 18px 22px;background:linear-gradient(180deg,rgba(255,255,255,.008),transparent 38%),var(--m10-bg)}
+.main10-card__summary-slot{display:flex;flex-direction:column;gap:9px;padding:16px 16px 15px;border:1px solid var(--m10-border);border-radius:var(--m10-radius-inner);background:var(--m10-elevated);box-shadow:0 5px 16px -13px rgba(0,0,0,.88),inset 0 1px 0 rgba(255,255,255,.018)}
+.main10-card__summary-slot span{display:block;height:6px;border-radius:999px;background:rgba(186,189,194,.18)}.main10-card__summary-slot span:first-child{width:84%}.main10-card__summary-slot span:last-child{width:58%;opacity:.72}
+.main10-card__detail-slot{position:relative;min-height:84px;border:1px solid var(--m10-border);border-radius:var(--m10-radius-inner);background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 32%),var(--m10-elevated);box-shadow:0 8px 18px -15px rgba(0,0,0,.92),inset 0 1px 0 rgba(255,255,255,.018);overflow:hidden}
+.main10-card__detail-slot::before,.main10-card__detail-slot::after{content:"";position:absolute;left:16px;border-radius:999px}.main10-card__detail-slot::before{top:19px;width:46%;height:6px;background:rgba(186,189,194,.16)}.main10-card__detail-slot::after{left:16px;right:16px;bottom:16px;height:30px;border-radius:10px;border:1px solid rgba(213,213,213,.07);background:rgba(255,255,255,.012);box-shadow:inset 0 1px 0 rgba(255,255,255,.012)}
+.main10-card[open]::after{content:"";position:absolute;left:0;top:19px;bottom:19px;width:2px;background:linear-gradient(180deg,transparent,var(--m10-accent),transparent);box-shadow:0 0 10px var(--m10-accent-soft);opacity:.70;pointer-events:none}
+@media (max-width:599px){.main-ten{padding-inline:12px}.main-ten__list{gap:14px}.main10-card{border-radius:18px}.main10-card__summary{grid-template-columns:46px minmax(0,1fr);gap:12px;min-height:74px;padding:12px 15px}.main10-card__symbol{width:44px;height:44px;border-radius:13px}.main10-card__panel-body{padding:16px 15px 19px;gap:14px}.main10-card__summary-slot,.main10-card__detail-slot{border-radius:13px}}
+@media (prefers-reduced-motion:reduce){.main10-card,.main10-card__summary,.main10-card__symbol{transition:none}}
