@@ -26,10 +26,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html style.css script.js styles/hero.css scripts/hero-effect.js CNAME; do
-            test -s "$file"
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css scripts/hero-effect.js CNAME; do
+            test -e "$file"
           done
+          test -s index.html
+          test -s ja/index.html
+          test -s style.css
+          test -s script.js
           node --check script.js
+          node --check scripts/language.js
+          grep -Fq 'url=./ja/' index.html
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Prepare direct static artifact
         shell: bash
@@ -38,7 +44,7 @@ jobs:
           rm -rf public
           mkdir -p public
           cp index.html style.css script.js CNAME public/
-          cp -R styles scripts assets public/
+          cp -R ja en styles scripts assets public/
           touch public/.nojekyll
       - uses: actions/configure-pages@v5
         with:
@@ -58,10 +64,12 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           for attempt in $(seq 1 18); do
-            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/?probe=${GITHUB_SHA}" -o /tmp/live-index.html; then
-              test -s /tmp/live-index.html && exit 0
+            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja-index.html; then
+              if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html; then
+                exit 0
+              fi
             fi
             sleep 5
           done
-          echo 'Deployment completed, but public-edge propagation was not confirmed within the probe window.' >&2
+          echo 'Deployment completed, but /ja/ public-edge propagation was not confirmed within the probe window.' >&2
           exit 1
