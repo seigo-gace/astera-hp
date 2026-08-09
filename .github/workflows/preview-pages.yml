@@ -26,15 +26,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html style.css script.js styles/hero.css styles/main10.css styles/main10-icons.css scripts/hero-effect.js scripts/main10-card.js assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
-          grep -Fq 'href="./styles/main10.css?v=cu22-textfield-minimal"' index.html
-          grep -Fq 'href="./styles/main10-icons.css?v=cu21-final-panel"' index.html
-          grep -Fq 'src="./script.js?v=cu21-final-panel"' index.html
-          grep -Fq "from './scripts/main10-card.js?v=cu21-final-panel'" script.js
-          grep -Fq 'CARD PANEL（TextFieldライクなミニマルデザイン） v22' styles/main10.css
-          grep -Fq "panel.style.height = 'auto'" scripts/main10-card.js
+          for file in index.html style.css script.js styles/hero.css styles/main10.css styles/main10-icons.css scripts/hero-effect.js scripts/main10-space.js assets/icons/main10/main10-icons.svg CNAME; do test -s "$file"; done
+          test ! -e scripts/main10-card.js
+          grep -Fq 'href="./styles/main10.css?v=cu23-floating-space"' index.html
+          grep -Fq 'href="./styles/main10-icons.css?v=cu23-floating-space"' index.html
+          grep -Fq 'src="./script.js?v=cu23-floating-space"' index.html
+          grep -Fq "from './scripts/main10-space.js?v=cu23-floating-space'" script.js
+          grep -Fq 'Floating Space Interface v23' styles/main10.css
+          grep -Fq "panel.style.height = 'auto'" scripts/main10-space.js
           node --check script.js
-          node --check scripts/main10-card.js
+          node --check scripts/main10-space.js
           test "$(cat CNAME)" = "asterav8.jp"
       - name: Prepare direct static artifact
         shell: bash
@@ -54,7 +55,7 @@ jobs:
       - name: Deploy direct static files
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify deployed Main 10 TextField Minimal v22
+      - name: Verify deployed Main 10 Floating Space v23
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
@@ -62,12 +63,12 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/" -o /tmp/index.html
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10.css?v=cu22-textfield-minimal" -o /tmp/main10.css
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10-icons.css?v=cu21-final-panel" -o /tmp/main10-icons.css
-          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/scripts/main10-card.js?v=cu21-final-panel" -o /tmp/main10-card.js
-          grep -Fq 'href="./styles/main10.css?v=cu22-textfield-minimal"' /tmp/index.html
-          grep -Fq 'CARD PANEL（TextFieldライクなミニマルデザイン） v22' /tmp/main10.css
-          grep -Fq "panel.style.height = 'auto'" /tmp/main10-card.js
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10.css?v=cu23-floating-space" -o /tmp/main10.css
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/styles/main10-icons.css?v=cu23-floating-space" -o /tmp/main10-icons.css
+          curl --fail --location --silent --show-error --retry 12 --retry-delay 5 --retry-all-errors "$root/scripts/main10-space.js?v=cu23-floating-space" -o /tmp/main10-space.js
+          grep -Fq 'href="./styles/main10.css?v=cu23-floating-space"' /tmp/index.html
+          grep -Fq 'Floating Space Interface v23' /tmp/main10.css
+          grep -Fq "panel.style.height = 'auto'" /tmp/main10-space.js
           test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
           test "$(git hash-object /tmp/main10-icons.css)" = "$(git hash-object styles/main10-icons.css)"
-          test "$(git hash-object /tmp/main10-card.js)" = "$(git hash-object scripts/main10-card.js)"
+          test "$(git hash-object /tmp/main10-space.js)" = "$(git hash-object scripts/main10-space.js)"
