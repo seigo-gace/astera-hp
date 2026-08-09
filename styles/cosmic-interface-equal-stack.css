@@ -1,11 +1,11 @@
-/* CU33 — equal-width stacked glass + larger cards + no-title-truncation + detail link. */
+/* CU34 — tight vertical stack spacing without overlapping the lower rear frame. */
 .cosmic-main10__grid{
   width:min(920px,96%);
-  gap:clamp(20px,2.6vw,28px);
+  gap:2px;
 }
 
 .cosmic-card{
-  height:96px;
+  height:88px;
 }
 .cosmic-card__stack{
   height:70px;
@@ -144,8 +144,8 @@
 
 @media (max-width:560px){
   .cosmic-main10{padding:18px 8px 116px}
-  .cosmic-main10__grid{width:96%;gap:20px}
-  .cosmic-card{height:92px}
+  .cosmic-main10__grid{width:96%;gap:2px}
+  .cosmic-card{height:86px}
   .cosmic-card__stack{height:68px}
   .cosmic-card__ghost{transform:translate(3px,7px) translateZ(-24px)}
   .cosmic-card__ghost::before{transform:translate(3px,8px)}
