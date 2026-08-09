@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Astera</title>
+  <meta name="description" content="Astera official website">
+  <link rel="stylesheet" href="../style.css">
+  <script type="module" src="../script.js?v=cu25-i18n-dir"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-upper" id="top">
+      <a class="brand" href="./" aria-label="Asteraトップページへ戻る">
+        <img src="../assets/brand/astera-logo-dark.svg" alt="Astera v8">
+      </a>
+      <div class="language-select-field">
+        <label class="sr-only" for="site-language">表示言語</label>
+        <select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select>
+        <span class="language-select-arrow" aria-hidden="true">⌄</span>
+      </div>
+    </div>
+    <div class="header-actions" aria-label="主要操作">
+      <button class="app-entry" type="button" data-app-entry>Asteraを使う</button>
+      <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-bubble" aria-label="Astera案内AIを開く"><img src="../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
+      <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <main class="page-main">
+    <section class="top-visual" data-hero-stage aria-labelledby="hero-catchphrase">
+      <picture class="hero-media" data-hero-media-frame><source media="(max-width: 599px)" srcset="../assets/images/hero/astera-hero-mobile-720x405.webp" type="image/webp"><source media="(max-width: 899px)" srcset="../assets/images/hero/astera-hero-tablet-1024x576.webp" type="image/webp"><img id="astera-hero-media" data-hero-media src="../assets/images/hero/astera-hero-desktop-1280x720.webp" width="1280" height="720" alt="" fetchpriority="high" decoding="async"></picture>
+      <div class="hero-space" aria-hidden="true"><div class="hero-nebula hero-nebula--a" data-nebula="a"></div><div class="hero-nebula hero-nebula--b" data-nebula="b"></div><div class="hero-nebula hero-nebula--c" data-nebula="c"></div><canvas class="hero-cosmos-canvas" data-hero-canvas></canvas></div>
+      <h1 id="hero-catchphrase" class="hero-copy"><span class="hero-copy__line hero-copy__line--1" data-hero-copy-line="1" data-i18n="hero.catchphrase.line1">問いを</span><span class="hero-copy__line hero-copy__line--2" data-hero-copy-line="2" data-i18n="hero.catchphrase.line2">星図に変える。</span></h1>
+    </section>
+  </main>
+  <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
+  <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="./news/">News</a><a class="side-menu-link" href="./qa/">Q&amp;A</a><a class="side-menu-link" href="./pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="./developer/">開発者プロフィール</a><a href="./developer/achievements/">公開実績</a><a href="./developer/prototypes/">試作実績</a><a href="./developer/theories/">理論・研究</a><a href="./corporate/">法人・協業相談</a><a href="./contact/">お問い合わせ</a><a href="./legal/terms/">利用規約</a><a href="./legal/privacy/">Privacy Policy</a><a href="./legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="./support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="./investors/">投資家</a></div></section></nav></aside>
+  <section id="ai-bubble" class="ai-bubble" hidden role="dialog" aria-modal="false" aria-labelledby="ai-bubble-title"><div class="ai-bubble-header"><h2 id="ai-bubble-title">Astera総合案内AI</h2><button class="close-button" type="button" data-ai-close aria-label="案内AIを閉じる">×</button></div><textarea aria-label="質問"></textarea><button class="ai-send" type="button">送信</button></section>
+</body>
+</html>
