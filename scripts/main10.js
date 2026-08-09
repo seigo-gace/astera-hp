@@ -121,8 +121,10 @@ export function initMain10() {
 
     if (supportsTransition) {
       setTransitionName(card, transitionName);
-      setTransitionName(panel, transitionName);
+      setTransitionName(panel, 'none');
       const transition = document.startViewTransition(() => {
+        setTransitionName(card, 'none');
+        setTransitionName(panel, transitionName);
         document.documentElement.classList.add('main10-panel-open');
         dialog.showModal();
       });
@@ -146,10 +148,12 @@ export function initMain10() {
 
     if (supportsTransition) {
       const transitionName = `main10-${item?.id || 'panel'}`;
-      setTransitionName(destination, transitionName);
+      setTransitionName(destination, 'none');
       setTransitionName(panel, transitionName);
       const transition = document.startViewTransition(() => {
         dialog.close();
+        setTransitionName(panel, 'none');
+        setTransitionName(destination, transitionName);
         document.documentElement.classList.remove('main10-panel-open');
       });
       try { await transition.finished; } catch {}
