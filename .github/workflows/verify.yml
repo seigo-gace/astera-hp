@@ -73,11 +73,20 @@ jobs:
           grep -Fq "from './scripts/hero-effect.js'" script.js
 
           test "$(grep -c 'data-main10-card' index.html)" -eq 10
-          test "$(grep -c 'name="main10"' index.html)" -eq 10
+          test "$(grep -c 'class="main10-card__summary"' index.html)" -eq 10
+          test "$(grep -c 'class="main10-card__number"' index.html)" -eq 10
+          test "$(grep -c 'class="main10-card__symbol"' index.html)" -eq 10
+          test "$(grep -c 'class="main10-card__title-slot"' index.html)" -eq 10
+          ! grep -Fq 'name="main10"' index.html
+          ! grep -Fq 'main10-card__toggle' index.html styles/main10.css
           grep -Fq "@import url('./styles/main10.css');" style.css
-          grep -Fq '.main-ten__list' styles/main10.css
           grep -Fq 'grid-template-columns:minmax(0,1fr)' styles/main10.css
+          grep -Fq 'grid-template-columns:32px 42px minmax(0,1fr)' styles/main10.css
+          grep -Fq 'white-space:nowrap' styles/main10.css
+          grep -Fq '.main10-card::before' styles/main10.css
+          grep -Fq '.main10-card::after' styles/main10.css
           grep -Fq '.main10-card[open]' styles/main10.css
+          grep -Fq '.main10-card__summary:active' styles/main10.css
           grep -Fq '@media (hover:hover) and (pointer:fine)' styles/main10.css
           grep -Fq '@media (prefers-reduced-motion:reduce)' styles/main10.css
           ! grep -Fq 'main10.js' script.js
@@ -120,6 +129,8 @@ jobs:
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-mobile-720x405.webp -o /tmp/hero-mobile.webp
           grep -Fq 'src="./assets/images/hero/astera-hero-desktop-1280x720.webp"' /tmp/index.html
           test "$(grep -c 'data-main10-card' /tmp/index.html)" -eq 10
+          ! grep -Fq 'main10-card__toggle' /tmp/index.html
+          ! grep -Fq 'name="main10"' /tmp/index.html
           test "$(git hash-object /tmp/hero-desktop.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
           test "$(git hash-object /tmp/hero-tablet.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
           test "$(git hash-object /tmp/hero-mobile.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"
