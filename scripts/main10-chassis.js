@@ -1,6 +1,6 @@
 const MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-const OPEN_DURATION = 560;
-const CLOSE_DURATION = 500;
+const OPEN_DURATION = 470;
+const CLOSE_DURATION = 380;
 
 const states = new WeakMap();
 
@@ -15,9 +15,7 @@ function getState(card) {
 
 function cancelAnimations(state) {
   for (const animation of state.animations) {
-    try {
-      animation.cancel();
-    } catch {}
+    try { animation.cancel(); } catch {}
   }
   state.animations = [];
 }
@@ -26,19 +24,9 @@ function finished(animation) {
   return animation.finished.catch(() => undefined);
 }
 
-function snapshot(card, summary, panel, body, detail) {
-  const bodyStyle = getComputedStyle(body);
-  const summaryStyle = getComputedStyle(summary);
-  const detailStyle = getComputedStyle(detail);
-
-  return {
-    panelHeight: panel.getBoundingClientRect().height,
-    summaryTransform: summaryStyle.transform === 'none' ? 'translateZ(7px)' : summaryStyle.transform,
-    bodyOpacity: bodyStyle.opacity,
-    bodyTransform: bodyStyle.transform === 'none' ? 'none' : bodyStyle.transform,
-    detailOpacity: detailStyle.opacity,
-    detailTransform: detailStyle.transform === 'none' ? 'none' : detailStyle.transform,
-  };
+function readTransform(element, fallback) {
+  const transform = getComputedStyle(element).transform;
+  return transform === 'none' ? fallback : transform;
 }
 
 async function animateCard(card, targetOpen, reduceMotion) {
@@ -51,7 +39,6 @@ async function animateCard(card, targetOpen, reduceMotion) {
 
   const state = getState(card);
   const token = ++state.token;
-  const snap = snapshot(card, summary, panel, body, detail);
 
   cancelAnimations(state);
   state.target = targetOpen;
@@ -65,48 +52,38 @@ async function animateCard(card, targetOpen, reduceMotion) {
     return;
   }
 
+  const startHeight = Math.max(0, panel.getBoundingClientRect().height);
+  const lidStart = readTransform(summary, 'translateZ(8px)');
+  const bodyStyle = getComputedStyle(body);
+  const detailStyle = getComputedStyle(detail);
+
   card.setAttribute('data-main10-motion', 'active');
 
-  if (targetOpen && !card.open) {
-    card.open = true;
-  }
+  if (targetOpen && !card.open) card.open = true;
 
   const targetHeight = targetOpen ? panel.scrollHeight : 0;
-  const startHeight = Math.max(0, snap.panelHeight);
-
   panel.style.height = `${startHeight}px`;
-  panel.style.overflow = 'clip';
+  panel.style.overflow = 'hidden';
 
   const lidTarget = targetOpen
-    ? 'translateY(-3px) translateZ(15px) rotateX(-0.65deg)'
-    : 'translateY(0) translateZ(7px) rotateX(0deg)';
-
-  const bodyTargetTransform = targetOpen ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.994)';
-  const bodyTargetOpacity = targetOpen ? 1 : 0;
-  const detailTargetTransform = targetOpen ? 'translateY(0)' : 'translateY(-4px)';
-  const detailTargetOpacity = targetOpen ? 1 : 0.25;
+    ? 'translateY(-2px) translateZ(14px) rotateX(-0.45deg)'
+    : 'translateY(0) translateZ(8px) rotateX(0deg)';
 
   const panelAnimation = panel.animate(
-    [
-      { height: `${startHeight}px` },
-      { height: `${targetHeight}px` },
-    ],
+    [{ height: `${startHeight}px` }, { height: `${targetHeight}px` }],
     {
       duration: targetOpen ? OPEN_DURATION : CLOSE_DURATION,
-      delay: targetOpen ? 72 : 35,
-      easing: 'cubic-bezier(.22,1,.36,1)',
+      delay: targetOpen ? 55 : 20,
+      easing: targetOpen ? 'cubic-bezier(.22,1,.36,1)' : 'cubic-bezier(.4,0,.6,1)',
       fill: 'both',
     },
   );
 
   const lidAnimation = summary.animate(
-    [
-      { transform: snap.summaryTransform },
-      { transform: lidTarget },
-    ],
+    [{ transform: lidStart }, { transform: lidTarget }],
     {
-      duration: targetOpen ? 310 : 260,
-      delay: targetOpen ? 0 : 90,
+      duration: targetOpen ? 250 : 210,
+      delay: targetOpen ? 0 : 55,
       easing: 'cubic-bezier(.22,1,.36,1)',
       fill: 'both',
     },
@@ -114,12 +91,18 @@ async function animateCard(card, targetOpen, reduceMotion) {
 
   const bodyAnimation = body.animate(
     [
-      { opacity: snap.bodyOpacity, transform: snap.bodyTransform },
-      { opacity: bodyTargetOpacity, transform: bodyTargetTransform },
+      {
+        opacity: bodyStyle.opacity,
+        transform: bodyStyle.transform === 'none' ? 'none' : bodyStyle.transform,
+      },
+      {
+        opacity: targetOpen ? 1 : 0,
+        transform: targetOpen ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(.993)',
+      },
     ],
     {
-      duration: targetOpen ? 290 : 180,
-      delay: targetOpen ? 175 : 0,
+      duration: targetOpen ? 240 : 150,
+      delay: targetOpen ? 135 : 0,
       easing: targetOpen ? 'cubic-bezier(.22,1,.36,1)' : 'ease-in',
       fill: 'both',
     },
@@ -127,31 +110,33 @@ async function animateCard(card, targetOpen, reduceMotion) {
 
   const detailAnimation = detail.animate(
     [
-      { opacity: snap.detailOpacity, transform: snap.detailTransform },
-      { opacity: detailTargetOpacity, transform: detailTargetTransform },
+      {
+        opacity: detailStyle.opacity,
+        transform: detailStyle.transform === 'none' ? 'none' : detailStyle.transform,
+      },
+      {
+        opacity: targetOpen ? 0.72 : 0.38,
+        transform: targetOpen ? 'translateY(0)' : 'translateY(-3px)',
+      },
     ],
     {
-      duration: targetOpen ? 250 : 150,
-      delay: targetOpen ? 275 : 0,
+      duration: targetOpen ? 190 : 120,
+      delay: targetOpen ? 220 : 0,
       easing: 'ease-out',
       fill: 'both',
     },
   );
 
   state.animations = [panelAnimation, lidAnimation, bodyAnimation, detailAnimation];
-
   await Promise.all(state.animations.map(finished));
 
   if (state.token !== token || state.target !== targetOpen) return;
 
-  if (!targetOpen) {
-    card.open = false;
-  }
+  if (!targetOpen) card.open = false;
 
   panel.style.height = '';
   panel.style.overflow = '';
   card.removeAttribute('data-main10-motion');
-
   cancelAnimations(state);
   state.target = null;
 }
@@ -169,12 +154,12 @@ export function initMain10Chassis() {
     summary.addEventListener('click', (event) => {
       if (event.defaultPrevented) return;
 
-      const state = getState(card);
-      const targetOpen = state.target === null ? !card.open : !state.target;
-
       if (motionPreference.matches || typeof Element.prototype.animate !== 'function') {
         return;
       }
+
+      const state = getState(card);
+      const targetOpen = state.target === null ? !card.open : !state.target;
 
       event.preventDefault();
       void animateCard(card, targetOpen, false);

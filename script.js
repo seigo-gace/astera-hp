@@ -3,7 +3,7 @@ import { initSideMenu } from './scripts/menu.js';
 import { initAiBubble } from './scripts/ai-bubble.js';
 import { initAppEntry } from './scripts/app-entry.js';
 import { initHeroEffect } from './scripts/hero-effect.js';
-import { initMain10Chassis } from './scripts/main10-chassis.js?v=cu15-chassis-v2';
+import { initMain10Chassis } from './scripts/main10-chassis.js?v=cu16-chassis-v3';
 
 initLanguageSelect();
 initSideMenu();

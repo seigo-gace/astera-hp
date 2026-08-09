@@ -84,19 +84,19 @@ jobs:
           ! grep -Fq 'name="main10"' index.html
           ! grep -Fq 'main10-card__toggle' index.html styles/main10.css
 
-          grep -Fq 'href="./styles/main10.css?v=cu15-chassis-v2"' index.html
-          grep -Fq 'src="./script.js?v=cu15-chassis-v2"' index.html
+          grep -Fq 'href="./styles/main10.css?v=cu16-chassis-v3"' index.html
+          grep -Fq 'src="./script.js?v=cu16-chassis-v3"' index.html
           grep -Fq "@import url('./styles/main10.css');" style.css
-          grep -Fq 'href="./styles/main10-icons.css"' index.html
+          grep -Fq 'href="./styles/main10-icons.css?v=cu16-chassis-v3"' index.html
 
           grep -Fq 'grid-template-columns:minmax(0,1fr)' styles/main10.css
-          grep -Fq 'grid-template-columns:48px minmax(0,1fr)' styles/main10.css
+          grep -Fq 'grid-template-columns:56px minmax(0,1fr)' styles/main10.css
           grep -Fq 'min-height:78px' styles/main10.css
           grep -Fq 'white-space:nowrap' styles/main10.css
           grep -Fq 'clip-path:polygon' styles/main10.css
           grep -Fq '@supports (mask-composite:exclude)' styles/main10.css
           grep -Fq 'mask-composite:exclude' styles/main10.css
-          grep -Fq 'perspective:980px' styles/main10.css
+          grep -Fq 'perspective:1100px' styles/main10.css
           grep -Fq 'transform-style:preserve-3d' styles/main10.css
           grep -Fq '.main10-card::before' styles/main10.css
           grep -Fq '.main10-card::after' styles/main10.css
@@ -110,8 +110,13 @@ jobs:
           ! grep -Fq '.main10-card__number' styles/main10.css
           ! grep -Fq 'min-height:96px' styles/main10.css
 
-          grep -Fq 'grid-template-columns:48px minmax(0,1fr)' styles/main10-icons.css
           grep -Fq "background-image:url('../assets/icons/main10/main10-icons.svg')" styles/main10-icons.css
+          grep -Fq '.main10-card__symbol::before' styles/main10.css
+          grep -Fq 'min-height:122px' styles/main10.css
+          grep -Fq '.main10-card__summary-slot span{display:none}' styles/main10.css
+          grep -Fq 'OPEN AREA: compact internal mechanism' styles/main10.css
+          ! grep -Fq 'max-height:800px' styles/main10.css scripts/main10-chassis.js
+          ! grep -Fq 'transition:all' styles/main10.css
           test "$(grep -c 'main10-card__icon-image--' styles/main10-icons.css)" -eq 10
           test "$(grep -c '<g id=' assets/icons/main10/main10-icons.svg)" -eq 10
           grep -Fq 'width="1280" height="128"' assets/icons/main10/main10-icons.svg
@@ -120,7 +125,9 @@ jobs:
           ! grep -Fq '<image' assets/icons/main10/main10-icons.svg
           test "$(wc -c < assets/icons/main10/main10-icons.svg)" -lt 50000
 
-          grep -Fq "from './scripts/main10-chassis.js?v=cu15-chassis-v2'" script.js
+          grep -Fq "from './scripts/main10-chassis.js?v=cu16-chassis-v3'" script.js
+          grep -Fq 'const OPEN_DURATION = 470' scripts/main10-chassis.js
+          grep -Fq 'const CLOSE_DURATION = 380' scripts/main10-chassis.js
           grep -Fq 'initMain10Chassis();' script.js
           grep -Fq "const MOTION_QUERY = '(prefers-reduced-motion: reduce)'" scripts/main10-chassis.js
           grep -Fq "summary.addEventListener('click'" scripts/main10-chassis.js
@@ -164,14 +171,16 @@ jobs:
             sleep 1
           done
 
-          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu15-chassis-v2' -o /tmp/main10.css
-          curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-chassis.js?v=cu15-chassis-v2' -o /tmp/main10-chassis.js
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10.css?v=cu16-chassis-v3' -o /tmp/main10.css
+          curl --fail --silent 'http://127.0.0.1:4173/scripts/main10-chassis.js?v=cu16-chassis-v3' -o /tmp/main10-chassis.js
+          curl --fail --silent 'http://127.0.0.1:4173/styles/main10-icons.css?v=cu16-chassis-v3' -o /tmp/main10-icons.css
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-desktop-1280x720.webp -o /tmp/hero-desktop.webp
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-tablet-1024x576.webp -o /tmp/hero-tablet.webp
           curl --fail --silent http://127.0.0.1:4173/assets/images/hero/astera-hero-mobile-720x405.webp -o /tmp/hero-mobile.webp
 
-          grep -Fq 'href="./styles/main10.css?v=cu15-chassis-v2"' /tmp/index.html
-          grep -Fq 'src="./script.js?v=cu15-chassis-v2"' /tmp/index.html
+          grep -Fq 'href="./styles/main10.css?v=cu16-chassis-v3"' /tmp/index.html
+          grep -Fq 'src="./script.js?v=cu16-chassis-v3"' /tmp/index.html
+          grep -Fq 'href="./styles/main10-icons.css?v=cu16-chassis-v3"' /tmp/index.html
           test "$(grep -c 'data-main10-card' /tmp/index.html)" -eq 10
           test "$(grep -c 'main10-card__icon-image main10-card__icon-image--' /tmp/index.html)" -eq 10
           test "$(grep -c 'main10-card__number' /tmp/index.html)" -eq 0
@@ -180,6 +189,7 @@ jobs:
 
           test "$(git hash-object /tmp/main10.css)" = "$(git hash-object styles/main10.css)"
           test "$(git hash-object /tmp/main10-chassis.js)" = "$(git hash-object scripts/main10-chassis.js)"
+          test "$(git hash-object /tmp/main10-icons.css)" = "$(git hash-object styles/main10-icons.css)"
           test "$(git hash-object /tmp/hero-desktop.webp)" = "0332363eb5e128abec8648c7ff63134b944c23d6"
           test "$(git hash-object /tmp/hero-tablet.webp)" = "80d2d39362c525a9c0af572436bff21c27c181c3"
           test "$(git hash-object /tmp/hero-mobile.webp)" = "654c6bdb492248d46cbceaeb267236614034de1c"
