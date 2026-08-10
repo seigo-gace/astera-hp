@@ -43,8 +43,10 @@ jobs:
           PY
           grep -Fq 'url=./ja/' index.html
           grep -Fq 'maxlength="12000"' ja/index.html
-          grep -Fq 'script.js?v=cu46-public-hf-boundary' ja/index.html
-          grep -Fq "./scripts/ai-hf-chat.js?v=cu46-public-hf-boundary" script.js
+          grep -Fq 'style.css?v=cu47-mobile-chat' ja/index.html
+          grep -Fq 'script.js?v=cu47-mobile-chat' ja/index.html
+          grep -Fq "./scripts/ai-hf-chat.js?v=cu47-mobile-chat" script.js
+          grep -Fq "./styles/ai-bubble.css?v=cu47-mobile-chat" style.css
           grep -Fq "const DEFAULT_API = 'https://g-ace-astera-customerai.hf.space';" scripts/ai-hf-chat.js
           grep -Fq "customer_ai_runtime_not_configured" scripts/ai-hf-chat.js
           ! grep -Fq "removeAttribute('data-customer-ai-api')" script.js
@@ -54,6 +56,11 @@ jobs:
           grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
           grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
           grep -Fq 'activeController?.abort();' scripts/ai-hf-chat.js
+          grep -Fq 'function bindReliableControl' scripts/ai-hf-chat.js
+          grep -Fq 'renderMode(false);' scripts/ai-hf-chat.js
+          grep -Fq 'height:min(68dvh,620px)' styles/ai-bubble.css
+          grep -Fq 'minmax(180px,1fr)' styles/ai-bubble.css
+          grep -Fq 'width:44px;height:44px' styles/ai-bubble.css
           grep -Fq 'data-cosmic-main10' ja/index.html
           grep -Fq 'data-cosmic-modal' ja/index.html
           ! grep -Fq 'data-main10-card' ja/index.html
@@ -83,6 +90,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html \
               && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html \
               && curl --fail --silent http://127.0.0.1:4173/scripts/ai-hf-chat.js >/tmp/ai-hf-chat.js \
+              && curl --fail --silent http://127.0.0.1:4173/styles/ai-bubble.css >/tmp/ai-bubble.css \
               && curl --fail --silent http://127.0.0.1:4173/styles/cosmic-interface.css >/tmp/cosmic-interface.css \
               && curl --fail --silent http://127.0.0.1:4173/scripts/cosmic-interface.js >/tmp/cosmic-interface.js \
               && curl --fail --silent http://127.0.0.1:4173/scripts/cosmic-space.js >/tmp/cosmic-space.js \
@@ -93,6 +101,7 @@ jobs:
           cmp -s /tmp/root-index.html index.html
           cmp -s /tmp/ja-index.html ja/index.html
           cmp -s /tmp/ai-hf-chat.js scripts/ai-hf-chat.js
+          cmp -s /tmp/ai-bubble.css styles/ai-bubble.css
           cmp -s /tmp/cosmic-interface.css styles/cosmic-interface.css
           cmp -s /tmp/cosmic-interface.js scripts/cosmic-interface.js
           cmp -s /tmp/cosmic-space.js scripts/cosmic-space.js
