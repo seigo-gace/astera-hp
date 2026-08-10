@@ -1,5 +1,5 @@
 const PANEL_ID = 'ai-chat';
-const DEFAULT_API = 'https://g-ace-astera-customerai-public.hf.space/public/customer-ai';
+const DEFAULT_API = '';
 const SESSION_KEY = 'astera.customer-ai.session-id';
 const MODE_KEY = 'astera.customer-ai.response-mode';
 const MODE_SOURCE_KEY = 'astera.customer-ai.mode-source';
@@ -59,7 +59,7 @@ function storeMode(mode) {
 }
 
 function apiBase(panel) {
-  return String(panel?.dataset.customerAiApi || DEFAULT_API).replace(/\/$/, '');
+  return String(panel?.dataset.customerAiApi || DEFAULT_API).trim().replace(/\/$/, '');
 }
 
 function setEmptyState(empty, hidden) {
@@ -138,7 +138,9 @@ async function jsonOrEmpty(response) {
 }
 
 async function respond(panel, message, signal) {
-  const response = await fetch(`${apiBase(panel)}/respond`, {
+  const base = apiBase(panel);
+  if (!base) throw new Error('customer_ai_runtime_not_configured');
+  const response = await fetch(`${base}/respond`, {
     method: 'POST',
     mode: 'cors',
     credentials: 'omit',
@@ -163,7 +165,9 @@ async function respond(panel, message, signal) {
 
 async function deleteSession(panel, sessionId) {
   if (!sessionId) return true;
-  const response = await fetch(`${apiBase(panel)}/sessions/${encodeURIComponent(sessionId)}`, {
+  const base = apiBase(panel);
+  if (!base) return true;
+  const response = await fetch(`${base}/sessions/${encodeURIComponent(sessionId)}`, {
     method: 'DELETE',
     mode: 'cors',
     credentials: 'omit',
