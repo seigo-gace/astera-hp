@@ -118,6 +118,23 @@ function resizeInput(textarea) {
   textarea.style.height = `${Math.min(120, Math.max(44, textarea.scrollHeight))}px`;
 }
 
+function bindReliableControl(element, handler) {
+  let lastTouchActivation = 0;
+  element.addEventListener('pointerup', (event) => {
+    if (event.pointerType === 'mouse') return;
+    event.preventDefault();
+    lastTouchActivation = Date.now();
+    handler(event);
+  });
+  element.addEventListener('click', (event) => {
+    if (Date.now() - lastTouchActivation < 700 && event.detail !== 0) {
+      event.preventDefault();
+      return;
+    }
+    handler(event);
+  });
+}
+
 function errorMessage(code) {
   switch (code) {
     case 'rate_limited': return 'アクセスが集中しています。少し時間を空けてからもう一度お試しください。';
@@ -207,7 +224,8 @@ export function initAiBubble() {
     for (const button of modeButtons) button.setAttribute('aria-pressed', String(button.dataset.aiMode === mode));
     modePicker.hidden = !showPicker;
   };
-  renderMode(!readStore(MODE_KEY));
+  const hasRestoredConversation = timeline.querySelectorAll('.ai-message').length > 0;
+  renderMode(!readStore(MODE_KEY) && !hasRestoredConversation);
 
   const setOpen = (open) => {
     panel.hidden = !open;
@@ -252,10 +270,10 @@ export function initAiBubble() {
     });
   }
 
-  modeChange.addEventListener('click', () => renderMode(true));
-  newChat.addEventListener('click', () => resetConversation(true));
-  deleteClose.addEventListener('click', () => resetConversation(false));
-  minimize.addEventListener('click', () => {
+  bindReliableControl(modeChange, () => renderMode(true));
+  bindReliableControl(newChat, () => resetConversation(true));
+  bindReliableControl(deleteClose, () => resetConversation(false));
+  bindReliableControl(minimize, () => {
     panel.classList.toggle('is-minimized');
     const minimized = panel.classList.contains('is-minimized');
     minimize.textContent = minimized ? '□' : '－';
@@ -271,6 +289,7 @@ export function initAiBubble() {
       return;
     }
 
+    renderMode(false);
     const epoch = conversationEpoch;
     sending = true;
     sendButton.disabled = true;
