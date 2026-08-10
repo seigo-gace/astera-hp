@@ -30,9 +30,14 @@ function storeSessionId(value) {
   try { sessionStorage.setItem(SESSION_KEY, value); } catch {}
 }
 
-function createMessage(timeline, role, text) {
+function setEmptyState(empty, hidden) {
+  if (empty) empty.hidden = hidden;
+}
+
+function createMessage(timeline, empty, role, text, state = '') {
+  setEmptyState(empty, true);
   const item = document.createElement('div');
-  item.className = `ai-message ai-message--${role}`;
+  item.className = `ai-message ai-message--${state || role}`;
   item.setAttribute('data-ai-message-role', role);
   const label = document.createElement('strong');
   label.className = 'ai-message__label';
@@ -43,6 +48,15 @@ function createMessage(timeline, role, text) {
   item.append(label, body);
   timeline.append(item);
   timeline.scrollTop = timeline.scrollHeight;
+  return item;
+}
+
+function updateMessage(item, text, state = 'assistant') {
+  if (!item) return;
+  item.className = `ai-message ai-message--${state}`;
+  const body = item.querySelector('.ai-message__body');
+  if (body) body.textContent = text;
+  item.parentElement?.scrollTo({ top: item.parentElement.scrollHeight, behavior: 'smooth' });
 }
 
 async function customerAiConfig() {
@@ -136,35 +150,31 @@ function publicErrorMessage(code) {
     case 'customer_ai_runtime_not_configured': return '案内AIは現在接続準備中です。';
     case 'runtime_accept_failed':
     case 'runtime_process_failed': return '案内AIへ接続できませんでした。入力内容を保持したまま再試行できます。';
+    case 'timeout': return '回答に時間がかかっています。入力内容を保持したまま再試行できます。';
     default: return '案内AIで一時的なエラーが発生しました。入力内容を保持したまま再試行できます。';
   }
 }
 
+function resizeInput(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = `${Math.min(120, Math.max(44, textarea.scrollHeight))}px`;
+}
+
 export function initAiBubble() {
-  const bubble = document.getElementById('ai-bubble');
+  const panel = document.getElementById('ai-chat');
   const opener = document.querySelector('[data-ai-open]');
-  const closer = document.querySelector('[data-ai-close]');
-  const textarea = bubble?.querySelector('textarea');
-  const sendButton = bubble?.querySelector('.ai-send');
-  if (!bubble || !opener || !closer || !textarea || !sendButton) return;
-
-  const timeline = document.createElement('div');
-  timeline.className = 'ai-timeline';
-  timeline.setAttribute('role', 'log');
-  timeline.setAttribute('aria-live', 'polite');
-  timeline.setAttribute('aria-label', '案内AIとの会話');
-  textarea.before(timeline);
-
-  const status = document.createElement('p');
-  status.className = 'ai-status';
-  status.setAttribute('role', 'status');
-  status.setAttribute('aria-live', 'polite');
-  sendButton.after(status);
+  const closer = panel?.querySelector('[data-ai-close]');
+  const timeline = panel?.querySelector('[data-ai-timeline]');
+  const empty = panel?.querySelector('[data-ai-empty]');
+  const textarea = panel?.querySelector('[data-ai-input]');
+  const sendButton = panel?.querySelector('.ai-send');
+  const status = panel?.querySelector('[data-ai-status]');
+  if (!panel || !opener || !closer || !timeline || !textarea || !sendButton || !status) return;
 
   let sending = false;
 
   const setOpen = (open) => {
-    bubble.hidden = !open;
+    panel.hidden = !open;
     opener.setAttribute('aria-expanded', String(open));
     if (open) window.setTimeout(() => textarea.focus(), 0);
     else opener.focus();
@@ -182,8 +192,11 @@ export function initAiBubble() {
     sending = true;
     sendButton.disabled = true;
     textarea.disabled = true;
-    status.textContent = '回答を確認しています…';
-    createMessage(timeline, 'user', message);
+    status.textContent = '';
+    createMessage(timeline, empty, 'user', message);
+    textarea.value = '';
+    resizeInput(textarea);
+    const pending = createMessage(timeline, empty, 'assistant', '回答中…', 'pending');
 
     try {
       const token = await turnstileToken().catch(() => '');
@@ -211,14 +224,15 @@ export function initAiBubble() {
       storeSessionId(String(payload.session_id || ''));
       const answer = String(payload.answer || '').trim();
       if (!answer) throw new Error('empty_answer');
-      createMessage(timeline, 'assistant', answer);
-      textarea.value = '';
+      updateMessage(pending, answer, 'assistant');
       status.textContent = payload.status === 'awaiting_clarification'
         ? '追加情報を確認しています。'
-        : '回答しました。';
+        : '';
     } catch (error) {
       const code = error?.name === 'AbortError' ? 'timeout' : String(error?.message || 'internal_error');
-      status.textContent = publicErrorMessage(code);
+      updateMessage(pending, publicErrorMessage(code), 'error');
+      textarea.value = message;
+      resizeInput(textarea);
     } finally {
       sending = false;
       sendButton.disabled = false;
@@ -227,9 +241,10 @@ export function initAiBubble() {
     }
   }
 
-  opener.addEventListener('click', () => setOpen(bubble.hidden));
+  opener.addEventListener('click', () => setOpen(panel.hidden));
   closer.addEventListener('click', () => setOpen(false));
   sendButton.addEventListener('click', send);
+  textarea.addEventListener('input', () => resizeInput(textarea));
   textarea.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
@@ -237,7 +252,11 @@ export function initAiBubble() {
     }
   });
 
+  document.addEventListener('pointerdown', (event) => {
+    if (panel.hidden || panel.contains(event.target) || opener.contains(event.target)) return;
+    setOpen(false);
+  });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !bubble.hidden) setOpen(false);
+    if (event.key === 'Escape' && !panel.hidden) setOpen(false);
   });
 }
