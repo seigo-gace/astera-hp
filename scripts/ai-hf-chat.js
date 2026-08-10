@@ -1,9 +1,10 @@
 const PANEL_ID = 'ai-chat';
-const DEFAULT_API = 'https://g-ace-astera-customerai-public.hf.space/public/customer-ai';
+const DEFAULT_API = 'https://api.asterav8.jp/v1/customer-ai';
 const SESSION_KEY = 'astera.customer-ai.session-id';
 const MODE_KEY = 'astera.customer-ai.response-mode';
 const MODE_SOURCE_KEY = 'astera.customer-ai.mode-source';
 const HISTORY_KEY = 'astera.customer-ai.history-v2';
+const MAX_HISTORY_ITEMS = 20;
 const RESPONSE_MODES = {
   general: 'Asteraについて',
   operation: '操作・使い方',
@@ -14,6 +15,8 @@ const RESPONSE_MODES = {
   trouble: '不具合・困りごと',
   auto: 'AIに任せる'
 };
+let configPromise;
+let turnstileScriptPromise;
 
 function randomId(prefix) {
   const value = typeof crypto?.randomUUID === 'function'
@@ -79,7 +82,7 @@ function updateMessage(item, text, state = 'assistant') {
   item.parentElement?.scrollTo({ top: item.parentElement.scrollHeight, behavior: 'smooth' });
 }
 function persistHistory(timeline) {
-  const history = [...timeline.querySelectorAll('.ai-message')].slice(-24).map((item) => ({
+  const history = [...timeline.querySelectorAll('.ai-message')].slice(-MAX_HISTORY_ITEMS).map((item) => ({
     role: item.dataset.aiMessageRole === 'user' ? 'user' : 'assistant',
     text: item.querySelector('.ai-message__body')?.textContent?.slice(0, 8000) || '',
     state: item.classList.contains('ai-message--error') ? 'error' : 'completed'
@@ -90,7 +93,7 @@ function restoreHistory(timeline, empty) {
   let history = [];
   try { history = JSON.parse(readStore(HISTORY_KEY, '[]')); } catch {}
   if (!Array.isArray(history)) return;
-  for (const entry of history.slice(-24)) {
+  for (const entry of history.slice(-MAX_HISTORY_ITEMS)) {
     if (!entry || !['user', 'assistant'].includes(entry.role) || !String(entry.text || '').trim()) continue;
     createMessage(timeline, empty, entry.role, String(entry.text), entry.state === 'error' ? 'error' : '');
   }
@@ -102,7 +105,12 @@ function resizeInput(textarea) {
 function errorMessage(code) {
   switch (code) {
     case 'rate_limited': return 'アクセスが集中しています。少し時間を空けてからもう一度お試しください。';
-    case 'unsupported_public_source': return '現在の公開ページからは案内AIを利用できません。';
+    case 'turnstile_failed': return '安全確認に失敗しました。ページを更新してもう一度お試しください。';
+    case 'message_too_large': return '質問が長すぎます。内容を分けて送信してください。';
+    case 'customer_ai_runtime_not_configured': return '案内AIは現在接続準備中です。';
+    case 'runtime_accept_failed':
+    case 'runtime_process_failed':
+    case 'runtime_session_delete_failed': return '案内AIへ接続できませんでした。入力内容を保持したまま再試行できます。';
     case 'timeout': return '回答に時間がかかっています。入力内容を保持したまま再試行できます。';
     case 'Failed to fetch': return '案内AIへ接続できません。少し時間を空けて再試行してください。';
     default: return '案内AIで一時的なエラーが発生しました。入力内容を保持したまま再試行できます。';
@@ -111,12 +119,76 @@ function errorMessage(code) {
 async function jsonOrEmpty(response) {
   return response.json().catch(() => ({}));
 }
+async function customerAiConfig(panel) {
+  if (!configPromise) {
+    configPromise = fetch(`${apiBase(panel)}/config`, {
+      method: 'GET', mode: 'cors', credentials: 'omit', headers: { accept: 'application/json' }
+    }).then(async (response) => response.ok ? response.json().catch(() => ({})) : {}).catch(() => ({}));
+  }
+  return configPromise;
+}
+function loadTurnstileScript() {
+  if (window.turnstile) return Promise.resolve(window.turnstile);
+  if (!turnstileScriptPromise) {
+    turnstileScriptPromise = new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-astera-turnstile]');
+      if (existing) {
+        existing.addEventListener('load', () => resolve(window.turnstile), { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.defer = true;
+      script.dataset.asteraTurnstile = 'true';
+      script.addEventListener('load', () => resolve(window.turnstile), { once: true });
+      script.addEventListener('error', reject, { once: true });
+      document.head.append(script);
+    });
+  }
+  return turnstileScriptPromise;
+}
+async function turnstileToken(panel) {
+  const config = await customerAiConfig(panel);
+  const sitekey = String(config.turnstile_site_key || '').trim();
+  if (!sitekey) return '';
+  const turnstile = await loadTurnstileScript();
+  if (!turnstile?.render) return '';
+  return new Promise((resolve, reject) => {
+    const host = document.createElement('div');
+    host.hidden = true;
+    host.className = 'ai-turnstile-host';
+    document.body.append(host);
+    let widgetId;
+    const cleanup = () => {
+      try { if (widgetId !== undefined) turnstile.remove(widgetId); } catch {}
+      host.remove();
+    };
+    const timeout = window.setTimeout(() => { cleanup(); reject(new Error('turnstile_failed')); }, 10000);
+    widgetId = turnstile.render(host, {
+      sitekey,
+      action: 'customer_ai',
+      size: 'invisible',
+      callback(token) { window.clearTimeout(timeout); cleanup(); resolve(token); },
+      'error-callback'() { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_failed')); },
+      'expired-callback'() { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_failed')); }
+    });
+    try { turnstile.execute(widgetId); } catch { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_failed')); }
+  });
+}
+async function publicHeaders(panel, includeJson = false) {
+  const token = await turnstileToken(panel);
+  return {
+    ...(includeJson ? { 'content-type': 'application/json' } : {}),
+    accept: 'application/json',
+    ...(token ? { 'x-turnstile-token': token } : {})
+  };
+}
 async function respond(panel, message, signal) {
   const response = await fetch(`${apiBase(panel)}/respond`, {
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'omit',
-    headers: { 'content-type': 'application/json', accept: 'application/json' },
+    method: 'POST', mode: 'cors', credentials: 'omit',
+    headers: await publicHeaders(panel, true),
     signal,
     body: JSON.stringify({
       message,
@@ -131,12 +203,13 @@ async function respond(panel, message, signal) {
   });
   const payload = await jsonOrEmpty(response);
   if (!response.ok) throw new Error(String(payload.detail || payload.error || `http_${response.status}`));
+  if (payload.session_id) writeStore(SESSION_KEY, String(payload.session_id));
   return payload;
 }
 async function deleteSession(panel, sessionId) {
   if (!sessionId) return true;
   const response = await fetch(`${apiBase(panel)}/sessions/${encodeURIComponent(sessionId)}`, {
-    method: 'DELETE', mode: 'cors', credentials: 'omit', headers: { accept: 'application/json' }
+    method: 'DELETE', mode: 'cors', credentials: 'omit', headers: await publicHeaders(panel)
   });
   const payload = await jsonOrEmpty(response);
   if (!response.ok) throw new Error(String(payload.detail || payload.error || `http_${response.status}`));
@@ -236,7 +309,7 @@ export function initAiBubble() {
     const pending = createMessage(timeline, empty, 'assistant', '回答中…', 'pending');
     persistHistory(timeline);
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 45000);
+    const timeout = window.setTimeout(() => controller.abort(), 30000);
     try {
       const payload = await respond(panel, message, controller.signal);
       const answer = String(payload.answer || payload.clarification || '').trim();
