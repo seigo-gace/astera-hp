@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-bubble.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-hf-chat.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
@@ -31,6 +31,7 @@ jobs:
           test -s script.js
           node --check script.js
           node --check scripts/language.js
+          node --check scripts/ai-hf-chat.js
           node --check scripts/cosmic-interface.js
           node --check scripts/cosmic-space.js
           node --check data/public-main10.ja.js
@@ -39,8 +40,15 @@ jobs:
           ET.parse('assets/icons/main10/main10-icons.svg')
           PY
           grep -Fq 'url=./ja/' index.html
-          grep -Fq 'href="../style.css?v=cu27-public-cosmic-glass"' ja/index.html
-          grep -Fq 'src="../script.js?v=cu27-public-cosmic-glass"' ja/index.html
+          grep -Fq 'href="../style.css?v=cu38-customer-ai-routing"' ja/index.html
+          grep -Fq 'src="../script.js?v=cu41-ai-controls-failsafe"' ja/index.html
+          grep -Fq 'data-customer-ai-api="https://api.asterav8.jp/v1/customer-ai"' ja/index.html
+          grep -Fq 'maxlength="12000"' ja/index.html
+          ! grep -Fq 'hf.space' ja/index.html scripts/ai-hf-chat.js
+          grep -Fq "./scripts/ai-hf-chat.js?v=cu41-ai-controls-failsafe" script.js
+          grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
+          grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
+          grep -Fq 'activeController?.abort();' scripts/ai-hf-chat.js
           grep -Fq 'data-cosmic-main10' ja/index.html
           grep -Fq 'data-cosmic-modal' ja/index.html
           ! grep -Fq 'data-main10-card' ja/index.html
@@ -69,6 +77,7 @@ jobs:
           for attempt in $(seq 1 20); do
             if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html \
               && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html \
+              && curl --fail --silent http://127.0.0.1:4173/scripts/ai-hf-chat.js >/tmp/ai-hf-chat.js \
               && curl --fail --silent http://127.0.0.1:4173/styles/cosmic-interface.css >/tmp/cosmic-interface.css \
               && curl --fail --silent http://127.0.0.1:4173/scripts/cosmic-interface.js >/tmp/cosmic-interface.js \
               && curl --fail --silent http://127.0.0.1:4173/scripts/cosmic-space.js >/tmp/cosmic-space.js \
@@ -78,6 +87,7 @@ jobs:
           done
           cmp -s /tmp/root-index.html index.html
           cmp -s /tmp/ja-index.html ja/index.html
+          cmp -s /tmp/ai-hf-chat.js scripts/ai-hf-chat.js
           cmp -s /tmp/cosmic-interface.css styles/cosmic-interface.css
           cmp -s /tmp/cosmic-interface.js scripts/cosmic-interface.js
           cmp -s /tmp/cosmic-space.js scripts/cosmic-space.js
