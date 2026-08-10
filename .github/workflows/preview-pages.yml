@@ -46,12 +46,12 @@ jobs:
           ET.parse('assets/icons/main10/main10-icons.svg')
           PY
           grep -Fq 'url=./ja/' index.html
-          grep -Fq "./scripts/ai-hf-chat.js?v=cu45-private-hf-script" script.js
-          grep -Fq "removeAttribute('data-customer-ai-api')" script.js
-          grep -Fq "const DEFAULT_API = '';" scripts/ai-hf-chat.js
-          grep -Fq 'customer_ai_runtime_not_configured' scripts/ai-hf-chat.js
+          grep -Fq 'script.js?v=cu46-public-hf-boundary' ja/index.html
+          grep -Fq "./scripts/ai-hf-chat.js?v=cu46-public-hf-boundary" script.js
+          grep -Fq "const DEFAULT_API = 'https://g-ace-astera-customerai.hf.space';" scripts/ai-hf-chat.js
+          ! grep -Fq "removeAttribute('data-customer-ai-api')" script.js
           ! grep -Fq 'api.asterav8.jp/v1/customer-ai' script.js scripts/ai-hf-chat.js
-          ! grep -Eqi 'hf\.space|huggingface\.co|router\.huggingface' script.js scripts/ai-hf-chat.js
+          ! grep -Eqi 'huggingface\.co|router\.huggingface' script.js scripts/ai-hf-chat.js
           ! grep -Eqi 'cloudflare|turnstile|challenges\.cloudflare' scripts/ai-hf-chat.js
           grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
           grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
@@ -99,13 +99,13 @@ jobs:
               && curl --fail --location --silent --show-error "$root/assets/icons/main10/main10-icons.svg" -o /tmp/live-icons.svg \
               && curl --fail --location --silent --show-error "$root/data/public-main10.ja.js" -o /tmp/live-data.js; then
               if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html \
-                && grep -Fq "./scripts/ai-hf-chat.js?v=cu45-private-hf-script" /tmp/live-script.js \
-                && grep -Fq "removeAttribute('data-customer-ai-api')" /tmp/live-script.js \
-                && grep -Fq "const DEFAULT_API = '';" /tmp/live-ai-chat.js \
-                && grep -Fq 'customer_ai_runtime_not_configured' /tmp/live-ai-chat.js \
+                && grep -Fq 'script.js?v=cu46-public-hf-boundary' /tmp/live-ja-index.html \
+                && grep -Fq "./scripts/ai-hf-chat.js?v=cu46-public-hf-boundary" /tmp/live-script.js \
+                && ! grep -Fq "removeAttribute('data-customer-ai-api')" /tmp/live-script.js \
+                && grep -Fq "const DEFAULT_API = 'https://g-ace-astera-customerai.hf.space';" /tmp/live-ai-chat.js \
                 && grep -Fq 'conversationEpoch += 1;' /tmp/live-ai-chat.js \
                 && grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' /tmp/live-ai-chat.js \
-                && ! grep -Eqi 'cloudflare|turnstile|challenges\.cloudflare|hf\.space|router\.huggingface' /tmp/live-ai-chat.js \
+                && ! grep -Eqi 'cloudflare|turnstile|challenges\.cloudflare|router\.huggingface' /tmp/live-ai-chat.js \
                 && test -s /tmp/live-icons.svg \
                 && test -s /tmp/live-data.js; then
                 exit 0
