@@ -1,5 +1,5 @@
 const PANEL_ID = 'ai-chat';
-const DEFAULT_API = 'https://api.asterav8.jp/v1/customer-ai';
+const DEFAULT_API = 'https://g-ace-astera-customerai-public.hf.space/public/customer-ai';
 const SESSION_KEY = 'astera.customer-ai.session-id';
 const MODE_KEY = 'astera.customer-ai.response-mode';
 const MODE_SOURCE_KEY = 'astera.customer-ai.mode-source';
@@ -15,8 +15,6 @@ const RESPONSE_MODES = {
   trouble: '不具合・困りごと',
   auto: 'AIに任せる'
 };
-let configPromise;
-let turnstileScriptPromise;
 
 function randomId(prefix) {
   const value = typeof crypto?.randomUUID === 'function'
@@ -24,15 +22,19 @@ function randomId(prefix) {
     : `${Date.now()}${Math.random().toString(36).slice(2)}`.replace(/[^A-Za-z0-9]/g, '');
   return `${prefix}_${value}`;
 }
+
 function readStore(key, fallback = '') {
   try { return sessionStorage.getItem(key) ?? fallback; } catch { return fallback; }
 }
+
 function writeStore(key, value) {
   try { sessionStorage.setItem(key, value); } catch {}
 }
+
 function removeStore(key) {
   try { sessionStorage.removeItem(key); } catch {}
 }
+
 function getSessionId() {
   const existing = readStore(SESSION_KEY);
   if (existing) return existing;
@@ -40,24 +42,30 @@ function getSessionId() {
   writeStore(SESSION_KEY, created);
   return created;
 }
+
 function currentMode() {
   const value = readStore(MODE_KEY, 'auto');
   return Object.hasOwn(RESPONSE_MODES, value) ? value : 'auto';
 }
+
 function currentModeSource() {
   const value = readStore(MODE_SOURCE_KEY, 'auto');
   return ['selected', 'auto', 'confirmed'].includes(value) ? value : 'auto';
 }
+
 function storeMode(mode) {
   writeStore(MODE_KEY, mode);
   writeStore(MODE_SOURCE_KEY, mode === 'auto' ? 'auto' : 'selected');
 }
+
 function apiBase(panel) {
   return String(panel?.dataset.customerAiApi || DEFAULT_API).replace(/\/$/, '');
 }
+
 function setEmptyState(empty, hidden) {
   if (empty) empty.hidden = hidden;
 }
+
 function createMessage(timeline, empty, role, text, state = '') {
   setEmptyState(empty, true);
   const item = document.createElement('div');
@@ -74,6 +82,7 @@ function createMessage(timeline, empty, role, text, state = '') {
   timeline.scrollTop = timeline.scrollHeight;
   return item;
 }
+
 function updateMessage(item, text, state = 'assistant') {
   if (!item) return;
   item.className = `ai-message ai-message--${state}`;
@@ -81,14 +90,19 @@ function updateMessage(item, text, state = 'assistant') {
   if (body) body.textContent = text;
   item.parentElement?.scrollTo({ top: item.parentElement.scrollHeight, behavior: 'smooth' });
 }
+
 function persistHistory(timeline) {
-  const history = [...timeline.querySelectorAll('.ai-message')].slice(-MAX_HISTORY_ITEMS).map((item) => ({
-    role: item.dataset.aiMessageRole === 'user' ? 'user' : 'assistant',
-    text: item.querySelector('.ai-message__body')?.textContent?.slice(0, 8000) || '',
-    state: item.classList.contains('ai-message--error') ? 'error' : 'completed'
-  })).filter((item) => item.text);
+  const history = [...timeline.querySelectorAll('.ai-message')]
+    .slice(-MAX_HISTORY_ITEMS)
+    .map((item) => ({
+      role: item.dataset.aiMessageRole === 'user' ? 'user' : 'assistant',
+      text: item.querySelector('.ai-message__body')?.textContent?.slice(0, 8000) || '',
+      state: item.classList.contains('ai-message--error') ? 'error' : 'completed'
+    }))
+    .filter((item) => item.text);
   writeStore(HISTORY_KEY, JSON.stringify(history));
 }
+
 function restoreHistory(timeline, empty) {
   let history = [];
   try { history = JSON.parse(readStore(HISTORY_KEY, '[]')); } catch {}
@@ -98,97 +112,37 @@ function restoreHistory(timeline, empty) {
     createMessage(timeline, empty, entry.role, String(entry.text), entry.state === 'error' ? 'error' : '');
   }
 }
+
 function resizeInput(textarea) {
   textarea.style.height = 'auto';
   textarea.style.height = `${Math.min(120, Math.max(44, textarea.scrollHeight))}px`;
 }
+
 function errorMessage(code) {
   switch (code) {
     case 'rate_limited': return 'アクセスが集中しています。少し時間を空けてからもう一度お試しください。';
-    case 'turnstile_failed': return '安全確認に失敗しました。ページを更新してもう一度お試しください。';
     case 'message_too_large': return '質問が長すぎます。内容を分けて送信してください。';
     case 'customer_ai_runtime_not_configured': return '案内AIは現在接続準備中です。';
     case 'runtime_accept_failed':
     case 'runtime_process_failed':
+    case 'runtime_process_invalid':
     case 'runtime_session_delete_failed': return '案内AIへ接続できませんでした。入力内容を保持したまま再試行できます。';
     case 'timeout': return '回答に時間がかかっています。入力内容を保持したまま再試行できます。';
     case 'Failed to fetch': return '案内AIへ接続できません。少し時間を空けて再試行してください。';
     default: return '案内AIで一時的なエラーが発生しました。入力内容を保持したまま再試行できます。';
   }
 }
+
 async function jsonOrEmpty(response) {
   return response.json().catch(() => ({}));
 }
-async function customerAiConfig(panel) {
-  if (!configPromise) {
-    configPromise = fetch(`${apiBase(panel)}/config`, {
-      method: 'GET', mode: 'cors', credentials: 'omit', headers: { accept: 'application/json' }
-    }).then(async (response) => response.ok ? response.json().catch(() => ({})) : {}).catch(() => ({}));
-  }
-  return configPromise;
-}
-function loadTurnstileScript() {
-  if (window.turnstile) return Promise.resolve(window.turnstile);
-  if (!turnstileScriptPromise) {
-    turnstileScriptPromise = new Promise((resolve, reject) => {
-      const existing = document.querySelector('script[data-astera-turnstile]');
-      if (existing) {
-        existing.addEventListener('load', () => resolve(window.turnstile), { once: true });
-        existing.addEventListener('error', reject, { once: true });
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-      script.async = true;
-      script.defer = true;
-      script.dataset.asteraTurnstile = 'true';
-      script.addEventListener('load', () => resolve(window.turnstile), { once: true });
-      script.addEventListener('error', reject, { once: true });
-      document.head.append(script);
-    });
-  }
-  return turnstileScriptPromise;
-}
-async function turnstileToken(panel) {
-  const config = await customerAiConfig(panel);
-  const sitekey = String(config.turnstile_site_key || '').trim();
-  if (!sitekey) return '';
-  const turnstile = await loadTurnstileScript();
-  if (!turnstile?.render) return '';
-  return new Promise((resolve, reject) => {
-    const host = document.createElement('div');
-    host.hidden = true;
-    host.className = 'ai-turnstile-host';
-    document.body.append(host);
-    let widgetId;
-    const cleanup = () => {
-      try { if (widgetId !== undefined) turnstile.remove(widgetId); } catch {}
-      host.remove();
-    };
-    const timeout = window.setTimeout(() => { cleanup(); reject(new Error('turnstile_failed')); }, 10000);
-    widgetId = turnstile.render(host, {
-      sitekey,
-      action: 'customer_ai',
-      size: 'invisible',
-      callback(token) { window.clearTimeout(timeout); cleanup(); resolve(token); },
-      'error-callback'() { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_failed')); },
-      'expired-callback'() { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_failed')); }
-    });
-    try { turnstile.execute(widgetId); } catch { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_failed')); }
-  });
-}
-async function publicHeaders(panel, includeJson = false) {
-  const token = await turnstileToken(panel);
-  return {
-    ...(includeJson ? { 'content-type': 'application/json' } : {}),
-    accept: 'application/json',
-    ...(token ? { 'x-turnstile-token': token } : {})
-  };
-}
+
 async function respond(panel, message, signal) {
   const response = await fetch(`${apiBase(panel)}/respond`, {
-    method: 'POST', mode: 'cors', credentials: 'omit',
-    headers: await publicHeaders(panel, true),
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'omit',
+    headers: { 'content-type': 'application/json', accept: 'application/json' },
     signal,
     body: JSON.stringify({
       message,
@@ -206,10 +160,14 @@ async function respond(panel, message, signal) {
   if (payload.session_id) writeStore(SESSION_KEY, String(payload.session_id));
   return payload;
 }
+
 async function deleteSession(panel, sessionId) {
   if (!sessionId) return true;
   const response = await fetch(`${apiBase(panel)}/sessions/${encodeURIComponent(sessionId)}`, {
-    method: 'DELETE', mode: 'cors', credentials: 'omit', headers: await publicHeaders(panel)
+    method: 'DELETE',
+    mode: 'cors',
+    credentials: 'omit',
+    headers: { accept: 'application/json' }
   });
   const payload = await jsonOrEmpty(response);
   if (!response.ok) throw new Error(String(payload.detail || payload.error || `http_${response.status}`));
@@ -253,6 +211,7 @@ export function initAiBubble() {
     opener.setAttribute('aria-expanded', String(open));
     if (open) window.setTimeout(() => textarea.focus(), 0);
   };
+
   const clearLocalConversation = () => {
     timeline.querySelectorAll('.ai-message').forEach((item) => item.remove());
     setEmptyState(empty, false);
@@ -263,6 +222,7 @@ export function initAiBubble() {
     textarea.value = '';
     resizeInput(textarea);
   };
+
   const resetConversation = (keepOpen) => {
     const oldSession = readStore(SESSION_KEY);
     conversationEpoch += 1;
@@ -275,9 +235,7 @@ export function initAiBubble() {
     clearLocalConversation();
     status.textContent = '';
     setOpen(keepOpen);
-    if (oldSession) {
-      deleteSession(panel, oldSession).catch(() => {});
-    }
+    if (oldSession) deleteSession(panel, oldSession).catch(() => {});
   };
 
   for (const button of modeButtons) {
@@ -289,6 +247,7 @@ export function initAiBubble() {
       textarea.focus();
     });
   }
+
   modeChange.addEventListener('click', () => renderMode(true));
   newChat.addEventListener('click', () => resetConversation(true));
   deleteClose.addEventListener('click', () => resetConversation(false));
@@ -302,7 +261,12 @@ export function initAiBubble() {
   async function send() {
     if (sending) return;
     const message = textarea.value.trim();
-    if (!message) { status.textContent = '質問を入力してください。'; textarea.focus(); return; }
+    if (!message) {
+      status.textContent = '質問を入力してください。';
+      textarea.focus();
+      return;
+    }
+
     const epoch = conversationEpoch;
     sending = true;
     sendButton.disabled = true;
@@ -314,6 +278,7 @@ export function initAiBubble() {
     resizeInput(textarea);
     const pending = createMessage(timeline, empty, 'assistant', '回答中…', 'pending');
     persistHistory(timeline);
+
     const controller = new AbortController();
     activeController = controller;
     const timeout = window.setTimeout(() => controller.abort(), 30000);
@@ -350,10 +315,12 @@ export function initAiBubble() {
     if (panel.classList.contains('is-minimized')) {
       panel.classList.remove('is-minimized');
       minimize.textContent = '－';
+      minimize.setAttribute('aria-label', '案内AIを最小化');
       return;
     }
     setOpen(false);
   });
+
   sendButton.addEventListener('click', send);
   textarea.addEventListener('input', () => resizeInput(textarea));
   textarea.addEventListener('keydown', (event) => {
