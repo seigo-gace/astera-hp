@@ -1,5 +1,5 @@
 const PANEL_ID = 'ai-chat';
-const DEFAULT_API = '';
+const DEFAULT_API = 'https://g-ace-astera-customerai.hf.space';
 const SESSION_KEY = 'astera.customer-ai.session-id';
 const MODE_KEY = 'astera.customer-ai.response-mode';
 const MODE_SOURCE_KEY = 'astera.customer-ai.mode-source';
