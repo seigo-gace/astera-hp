@@ -1,4 +1,4 @@
-/* CU35 — seamless Hero/Main10 join + compact expanded header while preserving card stack geometry. */
+/* CU36 — seamless Hero/Main10 join + tighter expanded header/detail spacing while preserving card stack geometry. */
 .cosmic-main10{
   padding-top:0;
 }
@@ -85,20 +85,20 @@
   transform-origin:left center;
 }
 
-/* Expanded header is intentionally compact: enough for at most two title lines plus the detail link. */
+/* Compact expanded header: two title lines max, with the detail UI still below the close button. */
 .cosmic-expanded__top{
-  height:clamp(132px,22%,156px);
-  padding:0 clamp(28px,5vw,46px) 32px;
+  height:clamp(104px,17%,118px);
+  padding:0 clamp(28px,5vw,46px) 20px;
 }
 .cosmic-expanded__body{
-  inset:clamp(132px,22%,156px) 0 0;
-  padding-top:18px;
+  inset:clamp(104px,17%,118px) 0 0;
+  padding-top:10px;
 }
 .cosmic-expanded__label{
   flex:1 1 auto;
   min-width:0;
   margin-left:clamp(18px,3vw,28px);
-  margin-right:clamp(70px,10vw,106px);
+  margin-right:clamp(132px,18vw,160px);
   color:rgba(243,249,255,.98);
   font-size:clamp(18px,2.8vw,28px);
   line-height:1.18;
@@ -109,17 +109,17 @@
   word-break:normal;
 }
 
-/* Detail-page UI: directly below the close button and just above the header rule. */
+/* Detail-page UI: below the close button, immediately above the divider line. */
 .cosmic-expanded__detail{
   position:absolute;
   right:16px;
-  bottom:10px;
+  bottom:5px;
   z-index:10;
   display:inline-flex;
   align-items:center;
-  gap:8px;
-  min-height:32px;
-  padding:6px 11px;
+  gap:7px;
+  min-height:28px;
+  padding:4px 10px;
   border:.45px solid rgba(190,225,255,.30);
   border-radius:999px;
   background:linear-gradient(115deg,rgba(163,218,255,.075),rgba(83,105,194,.045) 52%,rgba(142,89,255,.06));
@@ -163,13 +163,13 @@
   .cosmic-card__label{margin-left:13px;font-size:16px;letter-spacing:-.005em}
 
   .cosmic-expanded{width:94vw;height:min(630px,78svh);min-height:min(455px,78svh)}
-  .cosmic-expanded__top{height:136px;padding:0 18px 32px}
-  .cosmic-expanded__body{inset:136px 0 0;padding-top:16px}
+  .cosmic-expanded__top{height:104px;padding:0 18px 20px}
+  .cosmic-expanded__body{inset:104px 0 0;padding-top:10px}
   .cosmic-expanded__icon{width:46px;height:46px}
   .cosmic-expanded__divider{height:46px;margin-left:16px}
-  .cosmic-expanded__label{margin-left:15px;margin-right:62px;font-size:clamp(16px,4.8vw,21px);line-height:1.16}
-  .cosmic-expanded__detail{right:12px;bottom:8px;min-height:30px;padding:5px 10px;font-size:11px}
-  .cosmic-expanded__close{top:10px;right:10px}
+  .cosmic-expanded__label{margin-left:15px;margin-right:136px;font-size:clamp(16px,4.8vw,21px);line-height:1.16}
+  .cosmic-expanded__detail{right:12px;bottom:5px;min-height:28px;padding:4px 9px;font-size:11px}
+  .cosmic-expanded__close{top:8px;right:10px}
   .cosmic-expanded__ghost{transform:translate(4px,7px) translateZ(-34px)}
   .cosmic-expanded__ghost::before{transform:translate(4px,7px)}
   .cosmic-expanded__ghost::after{transform:translate(8px,14px)}
