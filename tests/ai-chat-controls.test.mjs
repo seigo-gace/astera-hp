@@ -40,14 +40,14 @@ class FakeElement {
 
   dispatch(type, init = {}) {
     const event = {
-      key: '', ctrlKey: false, metaKey: false,
+      key: '', ctrlKey: false, metaKey: false, detail: 0, pointerType: '',
       preventDefault() {},
       ...init,
     };
     for (const handler of this.listeners.get(type) || []) handler(event);
   }
 
-  click() { this.dispatch('click'); }
+  click() { this.dispatch('click', { detail: 1 }); }
   focus() { this.focused = true; }
   setAttribute(name, value) { this.attributes.set(name, String(value)); }
   getAttribute(name) { return this.attributes.get(name) ?? null; }
@@ -188,7 +188,7 @@ globalThis.fetch = async (url, options = {}) => {
   throw new Error(`unexpected fetch: ${value}`);
 };
 
-const { initAiBubble } = await import(new URL('../scripts/ai-hf-chat.js?controls-behavior-test=1', import.meta.url));
+const { initAiBubble } = await import(new URL('../scripts/ai-hf-chat.js?controls-behavior-test=2', import.meta.url));
 initAiBubble();
 
 function seedConversation(mode = 'billing') {
@@ -211,7 +211,7 @@ function assertConversationCleared() {
   assert.equal(ui.send.disabled, false);
 }
 
-test('new chat clears locally even when remote session deletion is offline', async () => {
+test('new chat click clears locally even when remote session deletion is offline', async () => {
   seedConversation('billing');
   ui.panel.hidden = false;
 
@@ -224,7 +224,7 @@ test('new chat clears locally even when remote session deletion is offline', asy
   assertConversationCleared();
 });
 
-test('close clears locally and closes even when remote session deletion is offline', async () => {
+test('close click clears locally and closes even when remote session deletion is offline', async () => {
   seedConversation('technical');
   ui.panel.hidden = false;
 
@@ -237,14 +237,54 @@ test('close clears locally and closes even when remote session deletion is offli
   assertConversationCleared();
 });
 
-test('new chat aborts an in-flight send and stale failure cannot repopulate cleared chat', async () => {
+test('touch pointerup new chat clears locally and keeps the panel open', async () => {
+  seedConversation('billing');
+  ui.panel.hidden = false;
+
+  ui.newChat.dispatch('pointerup', { pointerType: 'touch' });
+  assertConversationCleared();
+  assert.equal(ui.panel.hidden, false);
+  assert.equal(ui.opener.getAttribute('aria-expanded'), 'true');
+
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assertConversationCleared();
+});
+
+test('touch pointerup close clears locally and closes the panel', async () => {
+  seedConversation('technical');
+  ui.panel.hidden = false;
+
+  ui.deleteClose.dispatch('pointerup', { pointerType: 'touch' });
+  assertConversationCleared();
+  assert.equal(ui.panel.hidden, true);
+  assert.equal(ui.opener.getAttribute('aria-expanded'), 'false');
+
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assertConversationCleared();
+});
+
+test('touch compatibility click is suppressed once while keyboard click remains usable', () => {
+  ui.panel.classList.remove('is-minimized');
+  ui.minimize.dispatch('pointerup', { pointerType: 'touch' });
+  assert.equal(ui.panel.classList.contains('is-minimized'), true);
+
+  ui.minimize.dispatch('click', { detail: 1 });
+  assert.equal(ui.panel.classList.contains('is-minimized'), true);
+
+  ui.minimize.dispatch('click', { detail: 0 });
+  assert.equal(ui.panel.classList.contains('is-minimized'), false);
+});
+
+test('send collapses the mode picker, then new chat aborts in-flight work without stale repopulation', async () => {
   storage.clear();
   ui.timeline.children = [];
   ui.panel.hidden = false;
+  ui.modePicker.hidden = false;
   ui.textarea.value = '料金を教えて';
 
   ui.send.click();
   await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(ui.modePicker.hidden, true);
   assert.equal(ui.textarea.disabled, true);
   assert.equal(ui.timeline.querySelectorAll('.ai-message').length, 2);
 
