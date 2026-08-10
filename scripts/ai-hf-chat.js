@@ -235,6 +235,8 @@ export function initAiBubble() {
   if (!panel || !opener || !minimize || !deleteClose || !newChat || !modeChange || !modePicker || !modeLabel || !timeline || !textarea || !sendButton || !status) return;
 
   let sending = false;
+  let activeController = null;
+  let conversationEpoch = 0;
   restoreHistory(timeline, empty);
 
   const renderMode = (showPicker = false) => {
@@ -261,17 +263,20 @@ export function initAiBubble() {
     textarea.value = '';
     resizeInput(textarea);
   };
-  const resetConversation = async (keepOpen) => {
-    if (sending) return;
+  const resetConversation = (keepOpen) => {
     const oldSession = readStore(SESSION_KEY);
-    status.textContent = oldSession ? '会話を削除しています…' : '';
-    try {
-      await deleteSession(panel, oldSession);
-      clearLocalConversation();
-      status.textContent = '';
-      setOpen(keepOpen);
-    } catch (error) {
-      status.textContent = `会話を削除できませんでした。${errorMessage(String(error?.message || 'internal_error'))}`;
+    conversationEpoch += 1;
+    activeController?.abort();
+    activeController = null;
+    sending = false;
+    sendButton.disabled = false;
+    textarea.disabled = false;
+    connection?.classList.remove('is-working');
+    clearLocalConversation();
+    status.textContent = '';
+    setOpen(keepOpen);
+    if (oldSession) {
+      deleteSession(panel, oldSession).catch(() => {});
     }
   };
 
@@ -298,6 +303,7 @@ export function initAiBubble() {
     if (sending) return;
     const message = textarea.value.trim();
     if (!message) { status.textContent = '質問を入力してください。'; textarea.focus(); return; }
+    const epoch = conversationEpoch;
     sending = true;
     sendButton.disabled = true;
     textarea.disabled = true;
@@ -309,15 +315,18 @@ export function initAiBubble() {
     const pending = createMessage(timeline, empty, 'assistant', '回答中…', 'pending');
     persistHistory(timeline);
     const controller = new AbortController();
+    activeController = controller;
     const timeout = window.setTimeout(() => controller.abort(), 30000);
     try {
       const payload = await respond(panel, message, controller.signal);
+      if (epoch !== conversationEpoch) return;
       const answer = String(payload.answer || payload.clarification || '').trim();
       if (!answer) throw new Error('empty_answer');
       updateMessage(pending, answer, payload.status === 'failed' ? 'error' : 'assistant');
       status.textContent = payload.status === 'awaiting_clarification' ? '追加情報を確認しています。' : '';
       persistHistory(timeline);
     } catch (error) {
+      if (epoch !== conversationEpoch) return;
       const code = error?.name === 'AbortError' ? 'timeout' : String(error?.message || 'internal_error');
       updateMessage(pending, errorMessage(code), 'error');
       textarea.value = message;
@@ -325,11 +334,14 @@ export function initAiBubble() {
       persistHistory(timeline);
     } finally {
       window.clearTimeout(timeout);
-      sending = false;
-      sendButton.disabled = false;
-      textarea.disabled = false;
-      connection?.classList.remove('is-working');
-      textarea.focus();
+      if (activeController === controller) activeController = null;
+      if (epoch === conversationEpoch) {
+        sending = false;
+        sendButton.disabled = false;
+        textarea.disabled = false;
+        connection?.classList.remove('is-working');
+        textarea.focus();
+      }
     }
   }
 
