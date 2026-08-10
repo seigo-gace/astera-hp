@@ -106,7 +106,7 @@ function buildUi() {
   const panel = new FakeElement('section');
   panel.id = 'ai-chat';
   panel.hidden = false;
-  panel.dataset.customerAiApi = 'https://api.asterav8.jp/v1/customer-ai';
+  panel.dataset.customerAiApi = 'https://customer-ai.test.invalid';
 
   const opener = new FakeElement('button');
   const minimize = new FakeElement('button');
@@ -157,7 +157,6 @@ globalThis.location = { pathname: '/ja/' };
 globalThis.window = {
   setTimeout,
   clearTimeout,
-  turnstile: null,
 };
 globalThis.document = {
   documentElement: { lang: 'ja' },
@@ -166,7 +165,6 @@ globalThis.document = {
   getElementById(id) { return id === 'ai-chat' ? ui.panel : null; },
   querySelector(selector) {
     if (selector === '[data-ai-open]') return ui.opener;
-    if (selector === 'script[data-astera-turnstile]') return null;
     return null;
   },
   createElement(tag) { return new FakeElement(tag); },
@@ -176,9 +174,6 @@ globalThis.document = {
 let respondReject;
 globalThis.fetch = async (url, options = {}) => {
   const value = String(url);
-  if (value.endsWith('/config')) {
-    return { ok: true, async json() { return {}; } };
-  }
   if (value.endsWith('/respond')) {
     return await new Promise((resolve, reject) => {
       respondReject = reject;
