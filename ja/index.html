@@ -8,101 +8,32 @@
   <link rel="stylesheet" href="../style.css?v=cu38-customer-ai-routing">
   <link rel="stylesheet" href="../styles/cosmic-interface-depth.css?v=cu31-glass-stair-refraction">
   <link rel="stylesheet" href="../styles/cosmic-interface-equal-stack.css?v=cu33-larger-fit-detail">
-  <script type="module" src="../script.js?v=cu38-customer-ai-routing"></script>
+  <script type="module" src="../script.js?v=cu39-hf-direct-chat"></script>
 </head>
 <body>
   <header class="site-header">
     <div class="header-upper" id="top">
-      <a class="brand" href="./" aria-label="Asteraトップページへ戻る">
-        <img src="../assets/brand/astera-logo-dark.svg" alt="Astera v8">
-      </a>
-      <div class="language-select-field">
-        <label class="sr-only" for="site-language">表示言語</label>
-        <select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select>
-        <span class="language-select-arrow" aria-hidden="true">⌄</span>
-      </div>
+      <a class="brand" href="./" aria-label="Asteraトップページへ戻る"><img src="../assets/brand/astera-logo-dark.svg" alt="Astera v8"></a>
+      <div class="language-select-field"><label class="sr-only" for="site-language">表示言語</label><select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select><span class="language-select-arrow" aria-hidden="true">⌄</span></div>
     </div>
     <div class="header-actions" aria-label="主要操作">
       <button class="app-entry" type="button" data-app-entry>Asteraを使う</button>
       <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-chat" aria-label="Astera案内AIを開く"><img src="../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
       <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
     </div>
-    <section id="ai-chat" class="ai-chat" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
-      <div class="ai-chat__header">
-        <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
-        <div class="ai-chat__window-actions">
-          <button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button>
-          <button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button>
-        </div>
-      </div>
-      <div class="ai-routing" data-ai-routing>
-        <div class="ai-routing__current">
-          <span>回答タイプ：<strong data-ai-mode-label>AIに任せる</strong></span>
-          <div class="ai-routing__actions"><button type="button" data-ai-mode-change>変更</button><button type="button" data-ai-new-chat>新しい会話</button></div>
-        </div>
-        <div class="ai-mode-picker" data-ai-mode-picker>
-          <strong class="ai-mode-picker__title">どの案内が必要ですか？</strong>
-          <p>選ばず、そのまま質問することもできます。</p>
-          <div class="ai-mode-picker__chips" role="group" aria-label="回答タイプ">
-            <button type="button" data-ai-mode="general">Asteraについて</button>
-            <button type="button" data-ai-mode="operation">操作・使い方</button>
-            <button type="button" data-ai-mode="billing">料金・Account</button>
-            <button type="button" data-ai-mode="technical">技術者向け</button>
-            <button type="button" data-ai-mode="investor">投資家・法人向け</button>
-            <button type="button" data-ai-mode="support">開発支援・Sponsor</button>
-            <button type="button" data-ai-mode="trouble">不具合・困りごと</button>
-            <button type="button" data-ai-mode="auto" aria-pressed="true">AIに任せる</button>
-          </div>
-        </div>
-      </div>
-      <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話">
-        <div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div>
-      </div>
-      <div class="ai-composer">
-        <textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1"></textarea>
-        <button class="ai-send" type="button">送信</button>
-      </div>
+    <section id="ai-chat" class="ai-chat" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title" data-customer-ai-api="https://g-ace-astera-customerai-public.hf.space/public/customer-ai">
+      <div class="ai-chat__header"><div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div><div class="ai-chat__window-actions"><button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button><button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button></div></div>
+      <div class="ai-routing" data-ai-routing><div class="ai-routing__current"><span>回答タイプ：<strong data-ai-mode-label>AIに任せる</strong></span><div class="ai-routing__actions"><button type="button" data-ai-mode-change>変更</button><button type="button" data-ai-new-chat>新しい会話</button></div></div><div class="ai-mode-picker" data-ai-mode-picker><strong class="ai-mode-picker__title">どの案内が必要ですか？</strong><p>選ばず、そのまま質問することもできます。</p><div class="ai-mode-picker__chips" role="group" aria-label="回答タイプ"><button type="button" data-ai-mode="general">Asteraについて</button><button type="button" data-ai-mode="operation">操作・使い方</button><button type="button" data-ai-mode="billing">料金・Account</button><button type="button" data-ai-mode="technical">技術者向け</button><button type="button" data-ai-mode="investor">投資家・法人向け</button><button type="button" data-ai-mode="support">開発支援・Sponsor</button><button type="button" data-ai-mode="trouble">不具合・困りごと</button><button type="button" data-ai-mode="auto" aria-pressed="true">AIに任せる</button></div></div></div>
+      <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話"><div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div></div>
+      <div class="ai-composer"><textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1"></textarea><button class="ai-send" type="button">送信</button></div>
       <p class="ai-status" data-ai-status role="status" aria-live="polite"></p>
     </section>
   </header>
   <main class="page-main">
-    <section class="top-visual" data-hero-stage aria-labelledby="hero-catchphrase">
-      <picture class="hero-media" data-hero-media-frame><source media="(max-width: 599px)" srcset="../assets/images/hero/astera-hero-mobile-720x405.webp" type="image/webp"><source media="(max-width: 899px)" srcset="../assets/images/hero/astera-hero-tablet-1024x576.webp" type="image/webp"><img id="astera-hero-media" data-hero-media src="../assets/images/hero/astera-hero-desktop-1280x720.webp" width="1280" height="720" alt="" fetchpriority="high" decoding="async"></picture>
-      <div class="hero-space" aria-hidden="true"><div class="hero-nebula hero-nebula--a" data-nebula="a"></div><div class="hero-nebula hero-nebula--b" data-nebula="b"></div><div class="hero-nebula hero-nebula--c" data-nebula="c"></div><canvas class="hero-cosmos-canvas" data-hero-canvas></canvas></div>
-      <h1 id="hero-catchphrase" class="hero-copy"><span class="hero-copy__line hero-copy__line--1" data-hero-copy-line="1" data-i18n="hero.catchphrase.line1">問いを</span><span class="hero-copy__line hero-copy__line--2" data-hero-copy-line="2" data-i18n="hero.catchphrase.line2">星図に変える。</span></h1>
-    </section>
-
-    <section class="cosmic-main10" data-cosmic-main10 aria-label="Asteraを理解する10項目">
-      <div class="cosmic-main10__grid" data-cosmic-grid></div>
-    </section>
+    <section class="top-visual" data-hero-stage aria-labelledby="hero-catchphrase"><picture class="hero-media" data-hero-media-frame><source media="(max-width: 599px)" srcset="../assets/images/hero/astera-hero-mobile-720x405.webp" type="image/webp"><source media="(max-width: 899px)" srcset="../assets/images/hero/astera-hero-tablet-1024x576.webp" type="image/webp"><img id="astera-hero-media" data-hero-media src="../assets/images/hero/astera-hero-desktop-1280x720.webp" width="1280" height="720" alt="" fetchpriority="high" decoding="async"></picture><div class="hero-space" aria-hidden="true"><div class="hero-nebula hero-nebula--a" data-nebula="a"></div><div class="hero-nebula hero-nebula--b" data-nebula="b"></div><div class="hero-nebula hero-nebula--c" data-nebula="c"></div><canvas class="hero-cosmos-canvas" data-hero-canvas></canvas></div><h1 id="hero-catchphrase" class="hero-copy"><span class="hero-copy__line hero-copy__line--1" data-hero-copy-line="1" data-i18n="hero.catchphrase.line1">問いを</span><span class="hero-copy__line hero-copy__line--2" data-hero-copy-line="2" data-i18n="hero.catchphrase.line2">星図に変える。</span></h1></section>
+    <section class="cosmic-main10" data-cosmic-main10 aria-label="Asteraを理解する10項目"><div class="cosmic-main10__grid" data-cosmic-grid></div></section>
   </main>
-
-  <dialog class="cosmic-modal" data-cosmic-modal aria-label="Astera詳細">
-    <div class="cosmic-modal__stage" data-cosmic-modal-stage>
-      <article class="cosmic-expanded" data-cosmic-expanded>
-        <div class="cosmic-expanded__stack" data-cosmic-expanded-stack>
-          <span class="cosmic-expanded__ghost" aria-hidden="true"></span>
-          <div class="cosmic-expanded__glass">
-            <div class="cosmic-expanded__top">
-              <span class="cosmic-expanded__icon cosmic-icon" data-expanded-icon data-icon="what-is-astera" aria-hidden="true"></span>
-              <span class="cosmic-expanded__divider" aria-hidden="true"></span>
-              <h2 class="cosmic-expanded__label" data-expanded-label></h2>
-              <a class="cosmic-expanded__detail" data-expanded-detail href="./" aria-label="詳細ページへ"><span>詳細はコチラ</span><span class="cosmic-expanded__detail-arrow" aria-hidden="true">↗</span></a>
-            </div>
-            <button class="cosmic-expanded__close" type="button" data-cosmic-close aria-label="閉じる">×</button>
-            <div class="cosmic-expanded__body">
-              <span class="cosmic-expanded__scan" aria-hidden="true"></span>
-              <div class="cosmic-expanded__selection"><p class="cosmic-expanded__lead" data-expanded-lead></p></div>
-              <p class="cosmic-expanded__copy" data-expanded-copy></p>
-            </div>
-            <span class="cosmic-expanded__edge" aria-hidden="true"></span>
-            <span class="cosmic-expanded__flare" aria-hidden="true"></span>
-          </div>
-        </div>
-      </article>
-    </div>
-  </dialog>
-
+  <dialog class="cosmic-modal" data-cosmic-modal aria-label="Astera詳細"><div class="cosmic-modal__stage" data-cosmic-modal-stage><article class="cosmic-expanded" data-cosmic-expanded><div class="cosmic-expanded__stack" data-cosmic-expanded-stack><span class="cosmic-expanded__ghost" aria-hidden="true"></span><div class="cosmic-expanded__glass"><div class="cosmic-expanded__top"><span class="cosmic-expanded__icon cosmic-icon" data-expanded-icon data-icon="what-is-astera" aria-hidden="true"></span><span class="cosmic-expanded__divider" aria-hidden="true"></span><h2 class="cosmic-expanded__label" data-expanded-label></h2><a class="cosmic-expanded__detail" data-expanded-detail href="./" aria-label="詳細ページへ"><span>詳細はコチラ</span><span class="cosmic-expanded__detail-arrow" aria-hidden="true">↗</span></a></div><button class="cosmic-expanded__close" type="button" data-cosmic-close aria-label="閉じる">×</button><div class="cosmic-expanded__body"><span class="cosmic-expanded__scan" aria-hidden="true"></span><div class="cosmic-expanded__selection"><p class="cosmic-expanded__lead" data-expanded-lead></p></div><p class="cosmic-expanded__copy" data-expanded-copy></p></div><span class="cosmic-expanded__edge" aria-hidden="true"></span><span class="cosmic-expanded__flare" aria-hidden="true"></span></div></div></article></div></dialog>
   <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
   <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="./news/">News</a><a class="side-menu-link" href="./qa/">Q&amp;A</a><a class="side-menu-link" href="./pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="./developer/">開発者プロフィール</a><a href="./developer/achievements/">公開実績</a><a href="./developer/prototypes/">試作実績</a><a href="./developer/theories/">理論・研究</a><a href="./corporate/">法人・協業相談</a><a href="./contact/">お問い合わせ</a><a href="./legal/terms/">利用規約</a><a href="./legal/privacy/">Privacy Policy</a><a href="./legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="./support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="./investors/">投資家</a></div></section></nav></aside>
 </body>

@@ -1,8 +1,9 @@
-const CUSTOMER_AI_API = 'https://api.asterav8.jp/v1/customer-ai';
+const PANEL_ID = 'ai-chat';
+const DEFAULT_API = 'https://g-ace-astera-customerai-public.hf.space/public/customer-ai';
 const SESSION_KEY = 'astera.customer-ai.session-id';
 const MODE_KEY = 'astera.customer-ai.response-mode';
 const MODE_SOURCE_KEY = 'astera.customer-ai.mode-source';
-const HISTORY_KEY = 'astera.customer-ai.history-v1';
+const HISTORY_KEY = 'astera.customer-ai.history-v2';
 const RESPONSE_MODES = {
   general: 'Asteraについて',
   operation: '操作・使い方',
@@ -13,9 +14,6 @@ const RESPONSE_MODES = {
   trouble: '不具合・困りごと',
   auto: 'AIに任せる'
 };
-let memorySessionId = '';
-let configPromise;
-let turnstileScriptPromise;
 
 function randomId(prefix) {
   const value = typeof crypto?.randomUUID === 'function'
@@ -23,7 +21,6 @@ function randomId(prefix) {
     : `${Date.now()}${Math.random().toString(36).slice(2)}`.replace(/[^A-Za-z0-9]/g, '');
   return `${prefix}_${value}`;
 }
-
 function readStore(key, fallback = '') {
   try { return sessionStorage.getItem(key) ?? fallback; } catch { return fallback; }
 }
@@ -33,25 +30,13 @@ function writeStore(key, value) {
 function removeStore(key) {
   try { sessionStorage.removeItem(key); } catch {}
 }
-
 function getSessionId() {
-  const stored = readStore(SESSION_KEY);
-  if (stored) return stored;
+  const existing = readStore(SESSION_KEY);
+  if (existing) return existing;
   const created = randomId('session');
-  memorySessionId = created;
   writeStore(SESSION_KEY, created);
   return created;
 }
-function storeSessionId(value) {
-  if (!value) return;
-  memorySessionId = value;
-  writeStore(SESSION_KEY, value);
-}
-function forgetSessionId() {
-  memorySessionId = '';
-  removeStore(SESSION_KEY);
-}
-
 function currentMode() {
   const value = readStore(MODE_KEY, 'auto');
   return Object.hasOwn(RESPONSE_MODES, value) ? value : 'auto';
@@ -60,11 +45,13 @@ function currentModeSource() {
   const value = readStore(MODE_SOURCE_KEY, 'auto');
   return ['selected', 'auto', 'confirmed'].includes(value) ? value : 'auto';
 }
-function storeMode(mode, source = mode === 'auto' ? 'auto' : 'selected') {
+function storeMode(mode) {
   writeStore(MODE_KEY, mode);
-  writeStore(MODE_SOURCE_KEY, source);
+  writeStore(MODE_SOURCE_KEY, mode === 'auto' ? 'auto' : 'selected');
 }
-
+function apiBase(panel) {
+  return String(panel?.dataset.customerAiApi || DEFAULT_API).replace(/\/$/, '');
+}
 function setEmptyState(empty, hidden) {
   if (empty) empty.hidden = hidden;
 }
@@ -72,7 +59,7 @@ function createMessage(timeline, empty, role, text, state = '') {
   setEmptyState(empty, true);
   const item = document.createElement('div');
   item.className = `ai-message ai-message--${state || role}`;
-  item.setAttribute('data-ai-message-role', role);
+  item.dataset.aiMessageRole = role;
   const label = document.createElement('strong');
   label.className = 'ai-message__label';
   label.textContent = role === 'user' ? 'あなた' : 'Astera AI';
@@ -93,7 +80,7 @@ function updateMessage(item, text, state = 'assistant') {
 }
 function persistHistory(timeline) {
   const history = [...timeline.querySelectorAll('.ai-message')].slice(-24).map((item) => ({
-    role: item.getAttribute('data-ai-message-role') === 'user' ? 'user' : 'assistant',
+    role: item.dataset.aiMessageRole === 'user' ? 'user' : 'assistant',
     text: item.querySelector('.ai-message__body')?.textContent?.slice(0, 8000) || '',
     state: item.classList.contains('ai-message--error') ? 'error' : 'completed'
   })).filter((item) => item.text);
@@ -108,136 +95,56 @@ function restoreHistory(timeline, empty) {
     createMessage(timeline, empty, entry.role, String(entry.text), entry.state === 'error' ? 'error' : '');
   }
 }
-
-async function customerAiConfig() {
-  if (!configPromise) {
-    configPromise = fetch(`${CUSTOMER_AI_API}/config`, {
-      method: 'GET', mode: 'cors', credentials: 'omit', headers: { accept: 'application/json' }
-    }).then(async (response) => response.ok ? response.json().catch(() => ({})) : {}).catch(() => ({}));
-  }
-  return configPromise;
-}
-function loadTurnstileScript() {
-  if (window.turnstile) return Promise.resolve(window.turnstile);
-  if (!turnstileScriptPromise) {
-    turnstileScriptPromise = new Promise((resolve, reject) => {
-      const existing = document.querySelector('script[data-astera-turnstile]');
-      if (existing) {
-        existing.addEventListener('load', () => resolve(window.turnstile), { once: true });
-        existing.addEventListener('error', reject, { once: true });
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-      script.async = true;
-      script.defer = true;
-      script.dataset.asteraTurnstile = 'true';
-      script.addEventListener('load', () => resolve(window.turnstile), { once: true });
-      script.addEventListener('error', reject, { once: true });
-      document.head.append(script);
-    });
-  }
-  return turnstileScriptPromise;
-}
-async function turnstileToken() {
-  const config = await customerAiConfig();
-  const sitekey = String(config.turnstile_site_key || '').trim();
-  if (!sitekey) return '';
-  const turnstile = await loadTurnstileScript();
-  if (!turnstile?.render) return '';
-  return new Promise((resolve, reject) => {
-    const host = document.createElement('div');
-    host.className = 'ai-turnstile-host';
-    host.hidden = true;
-    document.body.append(host);
-    let widgetId;
-    const cleanup = () => { try { if (widgetId !== undefined) turnstile.remove(widgetId); } catch {} host.remove(); };
-    const timeout = window.setTimeout(() => { cleanup(); reject(new Error('turnstile_timeout')); }, 10000);
-    widgetId = turnstile.render(host, {
-      sitekey, action: 'customer_ai', size: 'invisible',
-      callback(token) { window.clearTimeout(timeout); cleanup(); resolve(token); },
-      'error-callback'() { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_failed')); },
-      'expired-callback'() { window.clearTimeout(timeout); cleanup(); reject(new Error('turnstile_expired')); }
-    });
-    try { turnstile.execute(widgetId); } catch {}
-  });
-}
-
-function publicErrorMessage(code) {
-  switch (code) {
-    case 'rate_limited': return 'アクセスが集中しています。少し時間を空けてからもう一度お試しください。';
-    case 'turnstile_failed': return '安全確認に失敗しました。ページを更新してもう一度お試しください。';
-    case 'message_too_large': return '質問が長すぎます。内容を分けて送信してください。';
-    case 'customer_ai_edge_not_configured': return '案内AIの公開接続が現在利用できません。';
-    case 'gateway_rejected': return '案内AIへの中継に失敗しました。入力内容を保持したまま再試行できます。';
-    case 'timeout': return '回答に時間がかかっています。入力内容を保持したまま再試行できます。';
-    default: return '案内AIで一時的なエラーが発生しました。入力内容を保持したまま再試行できます。';
-  }
-}
 function resizeInput(textarea) {
   textarea.style.height = 'auto';
   textarea.style.height = `${Math.min(120, Math.max(44, textarea.scrollHeight))}px`;
 }
-function delay(ms, signal) {
-  return new Promise((resolve, reject) => {
-    const id = window.setTimeout(resolve, ms);
-    signal?.addEventListener('abort', () => { window.clearTimeout(id); reject(new DOMException('Aborted', 'AbortError')); }, { once: true });
-  });
+function errorMessage(code) {
+  switch (code) {
+    case 'rate_limited': return 'アクセスが集中しています。少し時間を空けてからもう一度お試しください。';
+    case 'unsupported_public_source': return '現在の公開ページからは案内AIを利用できません。';
+    case 'timeout': return '回答に時間がかかっています。入力内容を保持したまま再試行できます。';
+    case 'Failed to fetch': return '案内AIへ接続できません。少し時間を空けて再試行してください。';
+    default: return '案内AIで一時的なエラーが発生しました。入力内容を保持したまま再試行できます。';
+  }
 }
-
-async function acceptedMessage(message, token, signal) {
-  const mode = currentMode();
-  const headers = { 'content-type': 'application/json', accept: 'application/json' };
-  if (token) headers['x-turnstile-token'] = token;
-  const response = await fetch(`${CUSTOMER_AI_API}/messages`, {
-    method: 'POST', mode: 'cors', credentials: 'omit', headers, signal,
+async function jsonOrEmpty(response) {
+  return response.json().catch(() => ({}));
+}
+async function respond(panel, message, signal) {
+  const response = await fetch(`${apiBase(panel)}/respond`, {
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'omit',
+    headers: { 'content-type': 'application/json', accept: 'application/json' },
+    signal,
     body: JSON.stringify({
       message,
       source: 'astera-hp',
       locale: document.documentElement.lang?.toLowerCase().startsWith('en') ? 'en' : 'ja-JP',
       session_id: getSessionId(),
       message_id: randomId('message'),
-      response_mode: mode,
+      response_mode: currentMode(),
       mode_source: currentModeSource(),
       current_path: location.pathname
     })
   });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(String(payload.error || `http_${response.status}`));
-  storeSessionId(String(payload.session_id || ''));
-  if (!payload.job_id) throw new Error('job_id_missing');
+  const payload = await jsonOrEmpty(response);
+  if (!response.ok) throw new Error(String(payload.detail || payload.error || `http_${response.status}`));
   return payload;
 }
-
-async function pollJob(jobId, signal) {
-  const started = Date.now();
-  while (Date.now() - started < 35000) {
-    const response = await fetch(`${CUSTOMER_AI_API}/jobs/${encodeURIComponent(jobId)}`, {
-      method: 'GET', mode: 'cors', credentials: 'omit', headers: { accept: 'application/json' }, signal
-    });
-    const payload = await response.json().catch(() => ({}));
-    if (response.status === 200) return payload;
-    if (response.status !== 202) throw new Error(String(payload.error || `http_${response.status}`));
-    await delay(Math.max(500, Math.min(1800, Number(payload.retry_after || 0) * 1000 || 700)), signal);
-  }
-  throw new DOMException('Timed out', 'AbortError');
-}
-
-async function requestSessionDelete(sessionId) {
+async function deleteSession(panel, sessionId) {
   if (!sessionId) return true;
-  const token = await turnstileToken().catch(() => '');
-  const headers = { accept: 'application/json' };
-  if (token) headers['x-turnstile-token'] = token;
-  const response = await fetch(`${CUSTOMER_AI_API}/sessions/${encodeURIComponent(sessionId)}`, {
-    method: 'DELETE', mode: 'cors', credentials: 'omit', headers
+  const response = await fetch(`${apiBase(panel)}/sessions/${encodeURIComponent(sessionId)}`, {
+    method: 'DELETE', mode: 'cors', credentials: 'omit', headers: { accept: 'application/json' }
   });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(String(payload.error || `http_${response.status}`));
+  const payload = await jsonOrEmpty(response);
+  if (!response.ok) throw new Error(String(payload.detail || payload.error || `http_${response.status}`));
   return payload.ok === true;
 }
 
 export function initAiBubble() {
-  const panel = document.getElementById('ai-chat');
+  const panel = document.getElementById(PANEL_ID);
   const opener = document.querySelector('[data-ai-open]');
   const minimize = panel?.querySelector('[data-ai-minimize]');
   const deleteClose = panel?.querySelector('[data-ai-delete-close]');
@@ -274,24 +181,24 @@ export function initAiBubble() {
   const clearLocalConversation = () => {
     timeline.querySelectorAll('.ai-message').forEach((item) => item.remove());
     setEmptyState(empty, false);
-    forgetSessionId();
+    removeStore(SESSION_KEY);
     removeStore(HISTORY_KEY);
-    storeMode('auto', 'auto');
+    storeMode('auto');
     renderMode(true);
     textarea.value = '';
     resizeInput(textarea);
   };
   const resetConversation = async (keepOpen) => {
     if (sending) return;
-    const oldSession = readStore(SESSION_KEY) || memorySessionId;
+    const oldSession = readStore(SESSION_KEY);
     status.textContent = oldSession ? '会話を削除しています…' : '';
     try {
-      await requestSessionDelete(oldSession);
+      await deleteSession(panel, oldSession);
       clearLocalConversation();
       status.textContent = '';
-      if (keepOpen) setOpen(true); else setOpen(false);
+      setOpen(keepOpen);
     } catch (error) {
-      status.textContent = `会話を削除できませんでした。${publicErrorMessage(String(error?.message || 'internal_error'))}`;
+      status.textContent = `会話を削除できませんでした。${errorMessage(String(error?.message || 'internal_error'))}`;
     }
   };
 
@@ -299,7 +206,7 @@ export function initAiBubble() {
     button.addEventListener('click', () => {
       const mode = button.dataset.aiMode;
       if (!Object.hasOwn(RESPONSE_MODES, mode)) return;
-      storeMode(mode, mode === 'auto' ? 'auto' : 'selected');
+      storeMode(mode);
       renderMode(false);
       textarea.focus();
     });
@@ -309,8 +216,9 @@ export function initAiBubble() {
   deleteClose.addEventListener('click', () => resetConversation(false));
   minimize.addEventListener('click', () => {
     panel.classList.toggle('is-minimized');
-    minimize.textContent = panel.classList.contains('is-minimized') ? '□' : '－';
-    minimize.setAttribute('aria-label', panel.classList.contains('is-minimized') ? '案内AIを展開' : '案内AIを最小化');
+    const minimized = panel.classList.contains('is-minimized');
+    minimize.textContent = minimized ? '□' : '－';
+    minimize.setAttribute('aria-label', minimized ? '案内AIを展開' : '案内AIを最小化');
   });
 
   async function send() {
@@ -328,11 +236,9 @@ export function initAiBubble() {
     const pending = createMessage(timeline, empty, 'assistant', '回答中…', 'pending');
     persistHistory(timeline);
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 38000);
+    const timeout = window.setTimeout(() => controller.abort(), 45000);
     try {
-      const token = await turnstileToken().catch(() => '');
-      const accepted = await acceptedMessage(message, token, controller.signal);
-      const payload = await pollJob(accepted.job_id, controller.signal);
+      const payload = await respond(panel, message, controller.signal);
       const answer = String(payload.answer || payload.clarification || '').trim();
       if (!answer) throw new Error('empty_answer');
       updateMessage(pending, answer, payload.status === 'failed' ? 'error' : 'assistant');
@@ -340,7 +246,7 @@ export function initAiBubble() {
       persistHistory(timeline);
     } catch (error) {
       const code = error?.name === 'AbortError' ? 'timeout' : String(error?.message || 'internal_error');
-      updateMessage(pending, publicErrorMessage(code), 'error');
+      updateMessage(pending, errorMessage(code), 'error');
       textarea.value = message;
       resizeInput(textarea);
       persistHistory(timeline);
@@ -366,7 +272,10 @@ export function initAiBubble() {
   sendButton.addEventListener('click', send);
   textarea.addEventListener('input', () => resizeInput(textarea));
   textarea.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); send(); }
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      send();
+    }
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !panel.hidden) setOpen(false);
