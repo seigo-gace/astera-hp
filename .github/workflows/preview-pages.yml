@@ -46,9 +46,9 @@ jobs:
           ET.parse('assets/icons/main10/main10-icons.svg')
           PY
           grep -Fq 'url=./ja/' index.html
-          grep -Fq 'src="../script.js?v=cu41-ai-controls-failsafe"' ja/index.html
+          grep -Fq 'src="../script.js?v=cu42-customer-ai-live-repair"' ja/index.html
           grep -Fq 'data-customer-ai-api="https://api.asterav8.jp/v1/customer-ai"' ja/index.html
-          grep -Fq "./scripts/ai-hf-chat.js?v=cu41-ai-controls-failsafe" script.js
+          grep -Fq "./scripts/ai-hf-chat.js?v=cu42-customer-ai-live-repair" script.js
           grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
           grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
           ! grep -Fq 'hf.space' ja/index.html scripts/ai-hf-chat.js
@@ -96,8 +96,8 @@ jobs:
               && curl --fail --location --silent --show-error "$root/assets/icons/main10/main10-icons.svg" -o /tmp/live-icons.svg \
               && curl --fail --location --silent --show-error "$root/data/public-main10.ja.js" -o /tmp/live-data.js; then
               if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html \
-                && grep -Fq 'src="../script.js?v=cu41-ai-controls-failsafe"' /tmp/live-ja-index.html \
-                && grep -Fq "./scripts/ai-hf-chat.js?v=cu41-ai-controls-failsafe" /tmp/live-script.js \
+                && grep -Fq 'src="../script.js?v=cu42-customer-ai-live-repair"' /tmp/live-ja-index.html \
+                && grep -Fq "./scripts/ai-hf-chat.js?v=cu42-customer-ai-live-repair" /tmp/live-script.js \
                 && grep -Fq 'conversationEpoch += 1;' /tmp/live-ai-chat.js \
                 && grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' /tmp/live-ai-chat.js \
                 && ! grep -Fq 'hf.space' /tmp/live-ai-chat.js \
