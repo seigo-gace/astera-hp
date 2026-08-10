@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-hf-chat.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-hf-chat.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js tests/ai-chat-controls.test.mjs data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
@@ -32,6 +32,8 @@ jobs:
           node --check script.js
           node --check scripts/language.js
           node --check scripts/ai-hf-chat.js
+          node --check tests/ai-chat-controls.test.mjs
+          node --test tests/ai-chat-controls.test.mjs
           node --check scripts/cosmic-interface.js
           node --check scripts/cosmic-space.js
           node --check data/public-main10.ja.js
