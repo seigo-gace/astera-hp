@@ -1,4 +1,10 @@
-/* CU34 — tight vertical stack spacing without overlapping the lower rear frame. */
+/* CU35 — seamless Hero/Main10 join + compact expanded header while preserving card stack geometry. */
+.cosmic-main10{
+  padding-top:0;
+}
+.top-visual + .cosmic-main10{
+  margin-top:0;
+}
 .cosmic-main10__grid{
   width:min(920px,96%);
   gap:2px;
@@ -79,13 +85,14 @@
   transform-origin:left center;
 }
 
-/* Expanded title may wrap, but it must never end in an ellipsis. */
+/* Expanded header is intentionally compact: enough for at most two title lines plus the detail link. */
 .cosmic-expanded__top{
-  height:30%;
-  padding-bottom:34px;
+  height:clamp(132px,22%,156px);
+  padding:0 clamp(28px,5vw,46px) 32px;
 }
 .cosmic-expanded__body{
-  inset:30% 0 0;
+  inset:clamp(132px,22%,156px) 0 0;
+  padding-top:18px;
 }
 .cosmic-expanded__label{
   flex:1 1 auto;
@@ -143,7 +150,7 @@
 }
 
 @media (max-width:560px){
-  .cosmic-main10{padding:18px 8px 116px}
+  .cosmic-main10{padding:0 8px 116px}
   .cosmic-main10__grid{width:96%;gap:2px}
   .cosmic-card{height:86px}
   .cosmic-card__stack{height:68px}
@@ -156,8 +163,8 @@
   .cosmic-card__label{margin-left:13px;font-size:16px;letter-spacing:-.005em}
 
   .cosmic-expanded{width:94vw;height:min(630px,78svh);min-height:min(455px,78svh)}
-  .cosmic-expanded__top{height:31%;padding:0 18px 36px}
-  .cosmic-expanded__body{inset:31% 0 0;padding-top:22px}
+  .cosmic-expanded__top{height:136px;padding:0 18px 32px}
+  .cosmic-expanded__body{inset:136px 0 0;padding-top:16px}
   .cosmic-expanded__icon{width:46px;height:46px}
   .cosmic-expanded__divider{height:46px;margin-left:16px}
   .cosmic-expanded__label{margin-left:15px;margin-right:62px;font-size:clamp(16px,4.8vw,21px);line-height:1.16}
