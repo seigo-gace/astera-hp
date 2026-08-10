@@ -43,11 +43,11 @@ jobs:
           PY
           grep -Fq 'url=./ja/' index.html
           grep -Fq 'href="../style.css?v=cu38-customer-ai-routing"' ja/index.html
-          grep -Fq 'src="../script.js?v=cu41-ai-controls-failsafe"' ja/index.html
+          grep -Fq 'src="../script.js?v=cu42-customer-ai-live-repair"' ja/index.html
           grep -Fq 'data-customer-ai-api="https://api.asterav8.jp/v1/customer-ai"' ja/index.html
           grep -Fq 'maxlength="12000"' ja/index.html
           ! grep -Fq 'hf.space' ja/index.html scripts/ai-hf-chat.js
-          grep -Fq "./scripts/ai-hf-chat.js?v=cu41-ai-controls-failsafe" script.js
+          grep -Fq "./scripts/ai-hf-chat.js?v=cu42-customer-ai-live-repair" script.js
           grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
           grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
           grep -Fq 'activeController?.abort();' scripts/ai-hf-chat.js
