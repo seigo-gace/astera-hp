@@ -42,14 +42,13 @@ jobs:
           ET.parse('assets/icons/main10/main10-icons.svg')
           PY
           grep -Fq 'url=./ja/' index.html
-          grep -Fq 'href="../style.css?v=cu38-customer-ai-routing"' ja/index.html
-          grep -Fq 'src="../script.js?v=cu44-no-cloudflare-client"' ja/index.html
-          grep -Fq 'data-customer-ai-api="https://g-ace-astera-customerai-public.hf.space/public/customer-ai"' ja/index.html
           grep -Fq 'maxlength="12000"' ja/index.html
-          grep -Fq "./scripts/ai-hf-chat.js?v=cu44-no-cloudflare-client" script.js
-          grep -Fq "aiPanel.dataset.customerAiApi = 'https://g-ace-astera-customerai-public.hf.space/public/customer-ai';" script.js
-          ! grep -Fq 'api.asterav8.jp/v1/customer-ai' ja/index.html script.js scripts/ai-hf-chat.js
-          ! grep -Fq 'g-ace-astera-customerai.hf.space' ja/index.html script.js scripts/ai-hf-chat.js
+          grep -Fq "./scripts/ai-hf-chat.js?v=cu45-private-hf-script" script.js
+          grep -Fq "const DEFAULT_API = '';" scripts/ai-hf-chat.js
+          grep -Fq "customer_ai_runtime_not_configured" scripts/ai-hf-chat.js
+          ! grep -Fq "aiPanel.dataset.customerAiApi" script.js
+          ! grep -Fq 'api.asterav8.jp/v1/customer-ai' script.js scripts/ai-hf-chat.js
+          ! grep -Eqi 'hf\.space|huggingface\.co|router\.huggingface' script.js scripts/ai-hf-chat.js
           ! grep -Eqi 'cloudflare|turnstile|challenges\.cloudflare' scripts/ai-hf-chat.js
           grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
           grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
