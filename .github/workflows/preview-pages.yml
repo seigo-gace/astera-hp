@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css styles/cosmic-interface.css scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css styles/cosmic-interface.css scripts/hero-effect.js scripts/ai-hf-chat.js scripts/cosmic-interface.js scripts/cosmic-space.js tests/ai-chat-controls.test.mjs data/public-main10.ja.js assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
@@ -35,6 +35,9 @@ jobs:
           test -s script.js
           node --check script.js
           node --check scripts/language.js
+          node --check scripts/ai-hf-chat.js
+          node --check tests/ai-chat-controls.test.mjs
+          node --test tests/ai-chat-controls.test.mjs
           node --check scripts/cosmic-interface.js
           node --check scripts/cosmic-space.js
           node --check data/public-main10.ja.js
@@ -43,6 +46,12 @@ jobs:
           ET.parse('assets/icons/main10/main10-icons.svg')
           PY
           grep -Fq 'url=./ja/' index.html
+          grep -Fq 'src="../script.js?v=cu41-ai-controls-failsafe"' ja/index.html
+          grep -Fq 'data-customer-ai-api="https://api.asterav8.jp/v1/customer-ai"' ja/index.html
+          grep -Fq "./scripts/ai-hf-chat.js?v=cu41-ai-controls-failsafe" script.js
+          grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
+          grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
+          ! grep -Fq 'hf.space' ja/index.html scripts/ai-hf-chat.js
           grep -Fq 'data-cosmic-main10' ja/index.html
           grep -Fq 'data-cosmic-modal' ja/index.html
           ! grep -Fq 'data-main10-card' ja/index.html
@@ -73,21 +82,25 @@ jobs:
       - name: Deploy direct static files
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Probe deployed site after propagation
-        continue-on-error: true
+      - name: Probe deployed Customer AI client after propagation
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
         run: |
           set -euo pipefail
           root="${LIVE_URL%/}"
-          for attempt in $(seq 1 18); do
+          for attempt in $(seq 1 24); do
             if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja-index.html \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/script.js?probe=${GITHUB_SHA}" -o /tmp/live-script.js \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/ai-hf-chat.js?probe=${GITHUB_SHA}" -o /tmp/live-ai-chat.js \
               && curl --fail --location --silent --show-error "$root/assets/icons/main10/main10-icons.svg" -o /tmp/live-icons.svg \
               && curl --fail --location --silent --show-error "$root/data/public-main10.ja.js" -o /tmp/live-data.js; then
               if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html \
-                && grep -Fq 'data-cosmic-main10' /tmp/live-ja-index.html \
-                && grep -Fq 'data-cosmic-modal' /tmp/live-ja-index.html \
+                && grep -Fq 'src="../script.js?v=cu41-ai-controls-failsafe"' /tmp/live-ja-index.html \
+                && grep -Fq "./scripts/ai-hf-chat.js?v=cu41-ai-controls-failsafe" /tmp/live-script.js \
+                && grep -Fq 'conversationEpoch += 1;' /tmp/live-ai-chat.js \
+                && grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' /tmp/live-ai-chat.js \
+                && ! grep -Fq 'hf.space' /tmp/live-ai-chat.js \
                 && test -s /tmp/live-icons.svg \
                 && test -s /tmp/live-data.js; then
                 exit 0
@@ -95,5 +108,5 @@ jobs:
             fi
             sleep 5
           done
-          echo 'Deployment completed, but /ja/ cosmic interface public-edge propagation was not confirmed within the probe window.' >&2
+          echo 'GitHub Pages deployment finished, but the current Customer AI fail-safe client was not confirmed on the deployed site.' >&2
           exit 1
