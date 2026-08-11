@@ -79,8 +79,8 @@
 @keyframes aiPendingPulse{0%,100%{opacity:.62}50%{opacity:1}}
 
 @media (max-width:599px){
-  .ai-chat{right:0;left:0;width:100vw;max-width:none;height:min(68dvh,620px);max-height:calc(100dvh - 106px);min-height:min(420px,calc(100dvh - 106px));grid-template-rows:auto auto minmax(180px,1fr) auto auto;padding:9px;border-radius:0}
-  .ai-chat.is-minimized{height:50px;min-height:50px}
+  .ai-chat{position:fixed;inset:0;top:0;right:0;bottom:0;left:0;width:100dvw;max-width:100dvw;height:100dvh;max-height:100dvh;min-height:100dvh;grid-template-rows:auto auto minmax(0,1fr) auto auto;padding:max(9px,env(safe-area-inset-top)) max(9px,env(safe-area-inset-right)) max(9px,env(safe-area-inset-bottom)) max(9px,env(safe-area-inset-left));border:0;border-radius:0}
+  .ai-chat.is-minimized{position:absolute;top:100%;right:0;bottom:auto;left:0;width:100vw;max-width:none;height:50px;max-height:50px;min-height:50px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:0}
   .ai-chat__header{padding-bottom:8px}
   .ai-window-button{width:44px;height:44px;border-radius:11px}
   .ai-routing{padding:8px 1px 7px}
@@ -90,7 +90,7 @@
   .ai-mode-picker{margin-top:7px;padding-top:7px}
   .ai-mode-picker__chips{max-height:112px;overflow:auto;gap:5px}
   .ai-mode-picker__chips button{min-height:40px;padding:6px 9px;font-size:10.5px}
-  .ai-timeline{min-height:180px;padding:10px 2px 9px}
+  .ai-timeline{min-height:0;padding:10px 2px 9px}
   .ai-message__body{max-width:92%;font-size:13px}
   .ai-composer{gap:6px;padding-top:8px}
   .ai-chat textarea{min-height:48px}
@@ -98,7 +98,7 @@
 }
 
 @media (max-width:599px) and (max-height:620px){
-  .ai-chat{height:calc(100dvh - 104px);max-height:calc(100dvh - 104px);min-height:0;grid-template-rows:auto auto minmax(120px,1fr) auto auto}
+  .ai-chat:not(.is-minimized){position:fixed;inset:0;width:100dvw;max-width:100dvw;height:100dvh;max-height:100dvh;min-height:100dvh;grid-template-rows:auto auto minmax(0,1fr) auto auto}
   .ai-mode-picker__chips{max-height:72px}
-  .ai-timeline{min-height:120px}
+  .ai-timeline{min-height:0}
 }
