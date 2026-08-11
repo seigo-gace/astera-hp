@@ -58,7 +58,7 @@ jobs:
           grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' ja/index.html
           grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' ja/index.html
           grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' ja/index.html
-          grep -Fq 'supporter-decoration.css?v=cu69-supporters-crown-spacing' ja/index.html
+          grep -Fq 'supporter-decoration.css?v=cu71-supporters-crown-composition' ja/index.html
           grep -Fq 'script.js?v=cu67-supporters-crown-overlay' ja/index.html
           ! grep -Fq '<footer' ja/index.html
           ! grep -Fq 'data-footer-copy' ja/index.html script.js
@@ -103,16 +103,27 @@ jobs:
           ! grep -Fq 'supporters-card__cta' scripts/cosmic-interface.js styles/supporter-banner.css
           ! grep -Fq 'supporters-card__content::before' styles/supporter-premium.css
           ! grep -Fq 'supporters-card__content::after' styles/supporter-premium.css
+          grep -Fq '.supporters-card .cosmic-card__glass{' styles/supporter-decoration.css
+          grep -Fq -- '--supporters-crown-top:2mm;' styles/supporter-decoration.css
+          grep -Fq -- '--supporters-crown-gap:2mm;' styles/supporter-decoration.css
+          grep -Fq 'grid-template-rows:auto var(--supporters-crown-gap) minmax(0,1fr);' styles/supporter-decoration.css
           grep -Fq '.supporters-card__decor{' styles/supporter-decoration.css
-          grep -Fq 'z-index:2' styles/supporter-decoration.css
-          grep -Fq 'top:2mm;' styles/supporter-decoration.css
           grep -Fq 'left:50%;' styles/supporter-decoration.css
+          grep -Fq 'grid-row:1;' styles/supporter-decoration.css
+          grep -Fq 'z-index:2;' styles/supporter-decoration.css
+          grep -Fq 'height:46px;' styles/supporter-decoration.css
+          grep -Fq 'margin-top:calc(var(--supporters-crown-top) - 1px);' styles/supporter-decoration.css
           grep -Fq 'transform:translateX(-50%);' styles/supporter-decoration.css
           grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu68-supporters-crown-top')" styles/supporter-decoration.css
           grep -Fq 'opacity:.16' styles/supporter-decoration.css
           grep -Fq '.supporters-card__content{' styles/supporter-decoration.css
+          grep -Fq 'grid-row:3;' styles/supporter-decoration.css
           grep -Fq 'z-index:5;' styles/supporter-decoration.css
-          grep -Fq 'transform:translateY(-3mm);' styles/supporter-decoration.css
+          grep -Fq 'justify-content:center;' styles/supporter-decoration.css
+          grep -Fq 'align-items:center;' styles/supporter-decoration.css
+          grep -Fq 'text-align:center;' styles/supporter-decoration.css
+          grep -Fq 'transform:none;' styles/supporter-decoration.css
+          ! grep -Fq 'transform:translateY(-3mm);' styles/supporter-decoration.css
           ! grep -Fq 'right:' styles/supporter-decoration.css
           ! grep -Fq 'mask-image:' styles/supporter-decoration.css
           ! grep -Fq '.supporters-card__decor-facet{' styles/supporter-decoration.css

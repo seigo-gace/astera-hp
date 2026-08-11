@@ -1,14 +1,25 @@
-/* CU-SUPPORTERS-CROWN-ORNAMENT-03
+/* CU-SUPPORTERS-CROWN-COMPOSITION-04
    Asset-backed decoration overlay only.
    The base supporters card, material palette, glass, sweep, edge and flare stay unchanged.
-   Master spacing lock: crown 2mm below the card top; supporters text group shifted 3mm upward. */
+   Master spacing lock: card top border -> 2mm -> crown -> 2mm -> centered title/description group. */
+.supporters-card .cosmic-card__glass{
+  --supporters-crown-top:2mm;
+  --supporters-crown-gap:2mm;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:auto var(--supporters-crown-gap) minmax(0,1fr);
+}
+
 .supporters-card__decor{
-  position:absolute;
-  top:2mm;
+  position:relative;
+  top:auto;
   left:50%;
+  grid-column:1;
+  grid-row:1;
   z-index:2;
   width:clamp(180px,32%,260px);
-  aspect-ratio:432/116;
+  height:46px;
+  margin-top:calc(var(--supporters-crown-top) - 1px);
   transform:translateX(-50%);
   pointer-events:none;
   background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu68-supporters-crown-top');
@@ -19,19 +30,30 @@
   filter:brightness(.90) saturate(.80);
 }
 
-/* Text remains above the decoration and is raised exactly 3mm. */
 .supporters-card__content{
+  position:relative;
+  inset:auto;
+  grid-column:1;
+  grid-row:3;
   z-index:5;
-  transform:translateY(-3mm);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:0;
+  padding:0 clamp(24px,5vw,50px);
+  text-align:center;
+  transform:none;
 }
 
 @media (max-width:560px){
   .supporters-card__decor{
-    top:2mm;
     width:min(54%,220px);
+    height:40px;
     opacity:.14;
     filter:brightness(.90) saturate(.78);
   }
+  .supporters-card__content{padding:0 20px}
 }
 
 @media (prefers-reduced-motion:reduce){
