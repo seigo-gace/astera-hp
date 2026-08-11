@@ -48,13 +48,13 @@ jobs:
           grep -Fq 'maxlength="12000"' ja/index.html
           grep -Fq 'style.css?v=cu49-mobile-fullscreen' ja/index.html
           grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' ja/index.html
-          grep -Fq 'supporter-banner.css?v=cu54-supporters-shared-panel' ja/index.html
-          grep -Fq 'script.js?v=cu54-supporters-shared-panel' ja/index.html
+          grep -Fq 'supporter-banner.css?v=cu55-supporters-two-row' ja/index.html
+          grep -Fq 'script.js?v=cu55-supporters-two-row' ja/index.html
           ! grep -Fq 'supporters-banner-section' ja/index.html
           grep -Fq 'data-cosmic-main10' ja/index.html
           grep -Fq 'data-cosmic-grid' ja/index.html
           grep -Fq 'data-cosmic-modal' ja/index.html
-          grep -Fq "./scripts/cosmic-interface.js?v=cu54-supporters-shared-panel" script.js
+          grep -Fq "./scripts/cosmic-interface.js?v=cu55-supporters-two-row" script.js
           grep -Fq "./scripts/ai-hf-chat.js?v=cu47-mobile-chat" script.js
           grep -Fq "initCosmicMain10();" script.js
           grep -Fq "export const SUPPORTERS_ITEM" scripts/main10-text.js
@@ -73,12 +73,15 @@ jobs:
           grep -Fq 'const route=item.route||routeById.get(item.id);' scripts/cosmic-interface.js
           grep -Fq 'dialog.showModal();' scripts/cosmic-interface.js
           grep -Fq 'document.startViewTransition' scripts/cosmic-interface.js
-          grep -Fq 'height:268px;' styles/supporter-banner.css
-          grep -Fq 'height:250px;' styles/supporter-banner.css
-          grep -Fq '.supporters-card{height:262px}' styles/supporter-banner.css
-          grep -Fq '.supporters-card .cosmic-card__stack{height:244px}' styles/supporter-banner.css
+          ! grep -Fq 'Supporters / Sponsors' scripts/cosmic-interface.js
+          ! grep -Fq 'タップして詳細を見る' scripts/cosmic-interface.js
+          ! grep -Fq 'supporters-card__ornament' scripts/cosmic-interface.js styles/supporter-banner.css
+          ! grep -Fq 'supporters-card__cta' scripts/cosmic-interface.js styles/supporter-banner.css
+          grep -Fq 'height:178px;' styles/supporter-banner.css
+          grep -Fq 'height:160px;' styles/supporter-banner.css
+          grep -Fq '.supporters-card{height:174px}' styles/supporter-banner.css
+          grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' styles/supporter-banner.css
           grep -Fq '.cosmic-expanded.is-supporters .cosmic-expanded__glass' styles/supporter-banner.css
-          grep -Fq '.supporters-card__ornament' styles/supporter-banner.css
           grep -Fq 'var(--brand-signal)' styles/supporter-banner.css
           grep -Fq "./styles/ai-bubble.css?v=cu49-mobile-fullscreen" style.css
           grep -Fq "const DEFAULT_API = 'https://g-ace-astera-customerai.hf.space';" scripts/ai-hf-chat.js
