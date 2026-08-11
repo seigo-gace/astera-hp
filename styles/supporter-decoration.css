@@ -1,9 +1,10 @@
-/* CU-SUPPORTERS-CROWN-ORNAMENT-02
+/* CU-SUPPORTERS-CROWN-ORNAMENT-03
    Asset-backed decoration overlay only.
-   The base supporters card, material palette, glass, sweep, edge, flare and text geometry stay unchanged. */
+   The base supporters card, material palette, glass, sweep, edge and flare stay unchanged.
+   Master spacing lock: crown 2mm below the card top; supporters text group shifted 3mm upward. */
 .supporters-card__decor{
   position:absolute;
-  top:8px;
+  top:2mm;
   left:50%;
   z-index:2;
   width:clamp(180px,32%,260px);
@@ -18,12 +19,15 @@
   filter:brightness(.90) saturate(.80);
 }
 
-/* Text remains the top visual priority; no padding or geometry is changed. */
-.supporters-card__content{z-index:5}
+/* Text remains above the decoration and is raised exactly 3mm. */
+.supporters-card__content{
+  z-index:5;
+  transform:translateY(-3mm);
+}
 
 @media (max-width:560px){
   .supporters-card__decor{
-    top:6px;
+    top:2mm;
     width:min(54%,220px);
     opacity:.14;
     filter:brightness(.90) saturate(.78);
