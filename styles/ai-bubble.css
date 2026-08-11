@@ -3,7 +3,7 @@
   top:100%;
   right:12px;
   z-index:90;
-  width:min(460px,calc(100vw - 24px));
+  width:min(1100px,calc(100vw - 24px));
   height:min(610px,calc(100dvh - 112px));
   min-height:360px;
   display:grid;
@@ -79,7 +79,7 @@
 @keyframes aiPendingPulse{0%,100%{opacity:.62}50%{opacity:1}}
 
 @media (max-width:599px){
-  .ai-chat{right:8px;left:8px;width:auto;height:min(68dvh,620px);max-height:calc(100dvh - 106px);min-height:min(420px,calc(100dvh - 106px));grid-template-rows:auto auto minmax(180px,1fr) auto auto;padding:9px;border-radius:14px}
+  .ai-chat{right:0;left:0;width:100vw;max-width:none;height:min(68dvh,620px);max-height:calc(100dvh - 106px);min-height:min(420px,calc(100dvh - 106px));grid-template-rows:auto auto minmax(180px,1fr) auto auto;padding:9px;border-radius:0}
   .ai-chat.is-minimized{height:50px;min-height:50px}
   .ai-chat__header{padding-bottom:8px}
   .ai-window-button{width:44px;height:44px;border-radius:11px}
