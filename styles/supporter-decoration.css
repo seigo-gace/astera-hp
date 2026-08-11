@@ -1,0 +1,170 @@
+/* CU-SUPPORTERS-DECORATION-LAYER-02
+   Decorative overlay only.
+   It sits above the existing material surface and below the shared sweep/text. */
+.supporters-card__decor{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  overflow:hidden;
+  border-radius:inherit;
+  pointer-events:none;
+  isolation:isolate;
+}
+
+/* Main composition: one asymmetric faceted inlay on the right third.
+   This is the visual mass of the decoration; the rest only supports it. */
+.supporters-card__decor-facet{
+  position:absolute;
+  top:-8%;
+  right:-2%;
+  width:44%;
+  height:116%;
+  clip-path:polygon(31% 0,100% 0,100% 100%,7% 100%,0 62%,17% 38%);
+  background:
+    linear-gradient(112deg,transparent 0 18%,rgba(220,225,232,.030) 32%,rgba(241,217,154,.070) 56%,rgba(220,225,232,.038) 73%,transparent 100%),
+    linear-gradient(180deg,rgba(255,255,255,.022),transparent 30% 72%,rgba(215,182,106,.032));
+  box-shadow:
+    inset 1px 0 0 rgba(220,225,232,.15),
+    inset 9px 0 22px rgba(215,182,106,.022),
+    inset 0 1px 0 rgba(241,217,154,.08),
+    inset 0 -1px 0 rgba(220,225,232,.06);
+  opacity:.92;
+}
+.supporters-card__decor-facet::before{
+  content:"";
+  position:absolute;
+  inset:13% 7% 13% 25%;
+  clip-path:polygon(16% 0,100% 0,84% 100%,0 100%);
+  background:linear-gradient(128deg,transparent 0 24%,rgba(220,225,232,.045) 48%,rgba(215,182,106,.045) 58%,transparent 78%);
+  border-top:1px solid rgba(220,225,232,.08);
+  border-bottom:1px solid rgba(215,182,106,.07);
+  opacity:.82;
+}
+.supporters-card__decor-facet::after{
+  content:"";
+  position:absolute;
+  top:12%;
+  bottom:12%;
+  left:24%;
+  width:1px;
+  transform:skewY(-17deg);
+  background:linear-gradient(180deg,transparent,rgba(220,225,232,.24) 20%,rgba(241,217,154,.18) 48%,rgba(220,225,232,.16) 78%,transparent);
+  box-shadow:8px 0 18px rgba(215,182,106,.025);
+}
+
+/* Signature crest: not a badge or icon box.
+   Four polished blades + a small central cut mark form one restrained emblem. */
+.supporters-card__decor-crest{
+  position:absolute;
+  top:50%;
+  right:clamp(28px,4vw,44px);
+  width:64px;
+  height:64px;
+  transform:translateY(-50%);
+  opacity:.46;
+  filter:drop-shadow(0 0 12px rgba(215,182,106,.08));
+}
+.supporters-card__decor-crest::before{
+  content:"";
+  position:absolute;
+  inset:3px;
+  clip-path:polygon(50% 0,57% 39%,100% 50%,57% 61%,50% 100%,43% 61%,0 50%,43% 39%);
+  background:
+    linear-gradient(135deg,rgba(220,225,232,.76),rgba(241,217,154,.50) 42%,rgba(220,225,232,.24) 70%,rgba(241,217,154,.62));
+  opacity:.60;
+}
+.supporters-card__decor-crest::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:12px;
+  height:12px;
+  transform:translate(-50%,-50%) rotate(45deg);
+  background:linear-gradient(135deg,rgba(241,217,154,.78),rgba(220,225,232,.58));
+  box-shadow:
+    0 0 0 1px rgba(8,8,10,.66),
+    0 0 0 5px rgba(220,225,232,.035),
+    0 0 14px rgba(241,217,154,.12);
+}
+.supporters-card__decor-crest-core{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:38px;
+  height:38px;
+  transform:translate(-50%,-50%) rotate(45deg);
+  border:1px solid rgba(220,225,232,.16);
+  border-radius:10px;
+  box-shadow:inset 0 0 18px rgba(215,182,106,.025);
+}
+
+/* Two supporting trims establish one visual axis with the facet/crest.
+   They do not form a frame and never surround the card. */
+.supporters-card__decor-trim{
+  position:absolute;
+  height:1px;
+  opacity:.72;
+}
+.supporters-card__decor-trim::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:5px;
+  height:5px;
+  transform:translateY(-50%) rotate(45deg);
+  background:rgba(241,217,154,.42);
+  box-shadow:0 0 8px rgba(215,182,106,.08);
+}
+.supporters-card__decor-trim--top{
+  top:17px;
+  left:22px;
+  right:35%;
+  background:linear-gradient(90deg,rgba(220,225,232,.28),rgba(220,225,232,.12) 58%,rgba(241,217,154,.26),transparent);
+}
+.supporters-card__decor-trim--top::after{right:0}
+.supporters-card__decor-trim--bottom{
+  right:22px;
+  bottom:17px;
+  left:57%;
+  background:linear-gradient(270deg,rgba(220,225,232,.26),rgba(241,217,154,.22) 54%,transparent);
+}
+.supporters-card__decor-trim--bottom::after{left:0}
+
+/* Text remains the top visual priority; no geometry/padding is changed. */
+.supporters-card__content{z-index:5}
+
+@media (hover:hover) and (pointer:fine){
+  .supporters-card:hover .supporters-card__decor-facet{opacity:1}
+  .supporters-card:hover .supporters-card__decor-crest{opacity:.58}
+  .supporters-card:hover .supporters-card__decor-trim{opacity:.88}
+}
+
+@media (max-width:560px){
+  .supporters-card__decor-facet{
+    right:-7%;
+    width:48%;
+    opacity:.74;
+  }
+  .supporters-card__decor-crest{
+    right:14px;
+    width:48px;
+    height:48px;
+    opacity:.31;
+  }
+  .supporters-card__decor-crest-core{
+    width:28px;
+    height:28px;
+    border-radius:8px;
+  }
+  .supporters-card__decor-crest::after{width:9px;height:9px}
+  .supporters-card__decor-trim--top{top:14px;left:16px;right:31%}
+  .supporters-card__decor-trim--bottom{right:16px;bottom:14px;left:61%}
+  .supporters-card__decor-trim::after{width:4px;height:4px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .supporters-card__decor-facet,
+  .supporters-card__decor-crest,
+  .supporters-card__decor-trim{transition:none}
+}
