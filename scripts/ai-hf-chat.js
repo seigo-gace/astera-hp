@@ -119,6 +119,7 @@ function resizeInput(textarea) {
 }
 
 function bindReliableControl(element, handler) {
+  if (!element) return;
   let lastTouchActivation = 0;
   element.addEventListener('pointerup', (event) => {
     if (event.pointerType === 'mouse') return;
@@ -198,20 +199,29 @@ async function deleteSession(panel, sessionId) {
 export function initAiBubble() {
   const panel = document.getElementById(PANEL_ID);
   const opener = document.querySelector('[data-ai-open]');
-  const minimize = panel?.querySelector('[data-ai-minimize]');
-  const deleteClose = panel?.querySelector('[data-ai-delete-close]');
-  const newChat = panel?.querySelector('[data-ai-new-chat]');
-  const modeChange = panel?.querySelector('[data-ai-mode-change]');
-  const modePicker = panel?.querySelector('[data-ai-mode-picker]');
-  const modeLabel = panel?.querySelector('[data-ai-mode-label]');
-  const modeButtons = [...(panel?.querySelectorAll('[data-ai-mode]') || [])];
-  const timeline = panel?.querySelector('[data-ai-timeline]');
-  const empty = panel?.querySelector('[data-ai-empty]');
-  const textarea = panel?.querySelector('[data-ai-input]');
-  const sendButton = panel?.querySelector('.ai-send');
-  const status = panel?.querySelector('[data-ai-status]');
-  const connection = panel?.querySelector('[data-ai-connection]');
-  if (!panel || !opener || !minimize || !deleteClose || !newChat || !modeChange || !modePicker || !modeLabel || !timeline || !textarea || !sendButton || !status) return;
+  if (!panel || !opener || panel.dataset.aiInitialized === 'true') return;
+
+  const minimize = panel.querySelector('[data-ai-minimize]');
+  const deleteClose = panel.querySelector('[data-ai-delete-close]');
+  const newChat = panel.querySelector('[data-ai-new-chat]');
+  const modeSelect = panel.querySelector('[data-ai-mode-select]');
+  const modeChange = panel.querySelector('[data-ai-mode-change]');
+  const modePicker = panel.querySelector('[data-ai-mode-picker]');
+  const modeLabel = panel.querySelector('[data-ai-mode-label]');
+  const modeButtons = [...panel.querySelectorAll('[data-ai-mode]')];
+  const topDock = panel.querySelector('[data-ai-top-dock]');
+  const composerDock = panel.querySelector('[data-ai-composer-dock]');
+  const timeline = panel.querySelector('[data-ai-timeline]');
+  const empty = panel.querySelector('[data-ai-empty]');
+  const textarea = panel.querySelector('[data-ai-input]');
+  const sendButton = panel.querySelector('.ai-send');
+  const status = panel.querySelector('[data-ai-status]');
+  const connection = panel.querySelector('[data-ai-connection]');
+  const hasNewModeUi = Boolean(modeSelect);
+  const hasLegacyModeUi = Boolean(modeChange && modePicker && modeLabel && modeButtons.length);
+  if (!minimize || !deleteClose || !newChat || (!hasNewModeUi && !hasLegacyModeUi) || !timeline || !textarea || !sendButton || !status) return;
+
+  panel.dataset.aiInitialized = 'true';
 
   let sending = false;
   let activeController = null;
@@ -220,18 +230,43 @@ export function initAiBubble() {
 
   const renderMode = (showPicker = false) => {
     const mode = currentMode();
-    modeLabel.textContent = RESPONSE_MODES[mode];
+    if (modeSelect) modeSelect.value = mode;
+    if (modeLabel) modeLabel.textContent = RESPONSE_MODES[mode];
     for (const button of modeButtons) button.setAttribute('aria-pressed', String(button.dataset.aiMode === mode));
-    modePicker.hidden = !showPicker;
+    if (modePicker) modePicker.hidden = !showPicker;
   };
   const hasRestoredConversation = timeline.querySelectorAll('.ai-message').length > 0;
   renderMode(!readStore(MODE_KEY) && !hasRestoredConversation);
 
+  const setCssVar = (name, value) => panel.style?.setProperty?.(name, value);
+  const removeCssVar = (name) => panel.style?.removeProperty?.(name);
+  const measuredHeight = (element, fallback) => {
+    const value = element?.getBoundingClientRect?.().height;
+    return Number.isFinite(value) && value > 0 ? Math.ceil(value) : fallback;
+  };
+  const syncLayout = () => {
+    if (panel.hidden || panel.classList.contains('is-minimized') || !panel.classList.contains('ai-chat--glass')) {
+      removeCssVar('--ai-viewport-top');
+      removeCssVar('--ai-viewport-height');
+      return;
+    }
+    const viewport = window.visualViewport;
+    if (viewport) {
+      setCssVar('--ai-viewport-top', `${Math.max(0, Math.round(viewport.offsetTop || 0))}px`);
+      setCssVar('--ai-viewport-height', `${Math.max(240, Math.round(viewport.height || window.innerHeight || 0))}px`);
+    }
+    setCssVar('--ai-top-dock-space', `${measuredHeight(topDock, 118)}px`);
+    setCssVar('--ai-bottom-dock-space', `${measuredHeight(composerDock, 86)}px`);
+  };
+
   const setOpen = (open) => {
     panel.hidden = !open;
-    if (!open) panel.classList.remove('is-minimized');
+    if (!open) {
+      panel.classList.remove('is-minimized');
+      textarea.blur?.();
+    }
     opener.setAttribute('aria-expanded', String(open));
-    if (open) window.setTimeout(() => textarea.focus(), 0);
+    window.setTimeout(syncLayout, 0);
   };
 
   const clearLocalConversation = () => {
@@ -243,6 +278,7 @@ export function initAiBubble() {
     renderMode(true);
     textarea.value = '';
     resizeInput(textarea);
+    syncLayout();
   };
 
   const resetConversation = (keepOpen) => {
@@ -254,11 +290,23 @@ export function initAiBubble() {
     sendButton.disabled = false;
     textarea.disabled = false;
     connection?.classList.remove('is-working');
+    textarea.blur?.();
     clearLocalConversation();
     status.textContent = '';
     setOpen(keepOpen);
     if (oldSession) deleteSession(panel, oldSession).catch(() => {});
   };
+
+  if (modeSelect) {
+    modeSelect.addEventListener('change', () => {
+      const mode = modeSelect.value;
+      if (!Object.hasOwn(RESPONSE_MODES, mode)) return;
+      storeMode(mode);
+      renderMode(false);
+      status.textContent = '';
+      syncLayout();
+    });
+  }
 
   for (const button of modeButtons) {
     button.addEventListener('click', () => {
@@ -278,6 +326,8 @@ export function initAiBubble() {
     const minimized = panel.classList.contains('is-minimized');
     minimize.textContent = minimized ? '□' : '－';
     minimize.setAttribute('aria-label', minimized ? '案内AIを展開' : '案内AIを最小化');
+    if (minimized) textarea.blur?.();
+    window.setTimeout(syncLayout, 0);
   });
 
   async function send() {
@@ -299,6 +349,7 @@ export function initAiBubble() {
     createMessage(timeline, empty, 'user', message);
     textarea.value = '';
     resizeInput(textarea);
+    syncLayout();
     const pending = createMessage(timeline, empty, 'assistant', '回答中…', 'pending');
     persistHistory(timeline);
 
@@ -328,6 +379,7 @@ export function initAiBubble() {
         sendButton.disabled = false;
         textarea.disabled = false;
         connection?.classList.remove('is-working');
+        syncLayout();
         textarea.focus();
       }
     }
@@ -339,19 +391,27 @@ export function initAiBubble() {
       panel.classList.remove('is-minimized');
       minimize.textContent = '－';
       minimize.setAttribute('aria-label', '案内AIを最小化');
+      window.setTimeout(syncLayout, 0);
       return;
     }
     setOpen(false);
   });
 
   sendButton.addEventListener('click', send);
-  textarea.addEventListener('input', () => resizeInput(textarea));
+  textarea.addEventListener('input', () => {
+    resizeInput(textarea);
+    syncLayout();
+  });
+  textarea.addEventListener('focus', syncLayout);
   textarea.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
       send();
     }
   });
+  window.visualViewport?.addEventListener('resize', syncLayout);
+  window.visualViewport?.addEventListener('scroll', syncLayout);
+  window.addEventListener?.('orientationchange', () => window.setTimeout(syncLayout, 0));
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !panel.hidden) setOpen(false);
   });
