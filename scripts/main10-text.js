@@ -81,5 +81,5 @@ export const SUPPORTERS_ITEM = Object.freeze({
 });
 
 export const SITE_TEXT = Object.freeze({
-  topCopyright: 'ASTERA ©'
+  topCopyright: 'Copyright © 2026 Astera'
 });
