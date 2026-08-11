@@ -23,20 +23,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify publish-critical supporters card
+      - name: Verify publish-critical top layout
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html style.css script.js styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css scripts/cosmic-interface.js scripts/main10-text.js CNAME; do
+          for file in index.html ja/index.html style.css script.js styles/header.css styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css scripts/cosmic-interface.js scripts/main10-text.js CNAME; do
             test -s "$file"
           done
+          test ! -e styles/footer.css
           node --check script.js
           node --check scripts/cosmic-interface.js
           node --check scripts/main10-text.js
-          grep -Fq 'supporter-banner.css?v=cu55-supporters-two-row' ja/index.html
-          grep -Fq 'script.js?v=cu55-supporters-two-row' ja/index.html
+          grep -Fq 'style.css?v=cu58-header-logo-copyright' ja/index.html
+          grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' ja/index.html
+          grep -Fq 'script.js?v=cu58-header-logo-copyright' ja/index.html
+          ! grep -Fq '<footer' ja/index.html
+          ! grep -Fq 'data-footer-copy' ja/index.html script.js
+          grep -Fq 'data-top-copyright' ja/index.html script.js
+          grep -Fq 'Copyright © 2026 Astera' ja/index.html scripts/main10-text.js script.js
+          grep -Fq "topCopyright: 'Copyright © 2026 Astera'" scripts/main10-text.js
+          grep -Fq "@import url('./styles/header.css?v=cu58-header-logo-copyright');" style.css
+          grep -Fq 'height:calc(100% - 4px)' styles/header.css
+          grep -Fq 'max-width:62vw' styles/header.css
+          grep -Fq 'filter:contrast(1.10)' styles/header.css
+          grep -Fq 'releaseStaleScrollLocks' script.js
+          grep -Fq "classList.remove('cosmic-modal-open')" script.js
+          grep -Fq "classList.remove('menu-open')" script.js
+          grep -Fq "window.addEventListener('pageshow',releaseStaleScrollLocks)" script.js
           ! grep -Fq 'supporters-banner-section' ja/index.html
           grep -Fq "./scripts/cosmic-interface.js?v=cu55-supporters-two-row" script.js
+          grep -Fq "./scripts/main10-text.js?v=cu58-header-logo-copyright" script.js
           grep -Fq "export const SUPPORTERS_ITEM" scripts/main10-text.js
           grep -Fq "route: './supporters/'" scripts/main10-text.js
           grep -Fq 'const supportersCardMarkup=' scripts/cosmic-interface.js
@@ -54,6 +70,8 @@ jobs:
           grep -Fq '.supporters-card{height:174px}' styles/supporter-banner.css
           grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' styles/supporter-banner.css
           grep -Fq '.cosmic-expanded.is-supporters .cosmic-expanded__glass' styles/supporter-banner.css
+          grep -Fq '.top-copyright{' styles/supporter-banner.css
+          grep -Fq 'text-align:center' styles/supporter-banner.css
           test "$(cat CNAME)" = "asterav8.jp"
 
       - name: Prepare direct static artifact
@@ -66,9 +84,11 @@ jobs:
           cp -R ja en styles scripts data assets public/
           touch public/.nojekyll
           test -s public/ja/index.html
+          test -s public/styles/header.css
           test -s public/styles/supporter-banner.css
           test -s public/scripts/cosmic-interface.js
           test -s public/scripts/main10-text.js
+          test ! -e public/styles/footer.css
 
       - uses: actions/configure-pages@v5
         with:
@@ -82,7 +102,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Probe deployed Pages supporters component
+      - name: Probe deployed Pages top layout
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
@@ -91,12 +111,22 @@ jobs:
           root="${LIVE_URL%/}"
           for attempt in $(seq 1 24); do
             if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja.html \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/style.css?probe=${GITHUB_SHA}" -o /tmp/live-style.css \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/script.js?probe=${GITHUB_SHA}" -o /tmp/live-script.js \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/header.css?probe=${GITHUB_SHA}" -o /tmp/live-header.css \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/main10-text.js?probe=${GITHUB_SHA}" -o /tmp/live-main10-text.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/cosmic-interface.js?probe=${GITHUB_SHA}" -o /tmp/live-cosmic.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/live-banner.css; then
-              if grep -Fq 'supporter-banner.css?v=cu55-supporters-two-row' /tmp/live-ja.html \
-                && grep -Fq 'script.js?v=cu55-supporters-two-row' /tmp/live-ja.html \
+              if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/live-ja.html \
+                && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/live-ja.html \
+                && grep -Fq 'script.js?v=cu58-header-logo-copyright' /tmp/live-ja.html \
+                && grep -Fq 'data-top-copyright' /tmp/live-ja.html \
+                && grep -Fq 'Copyright © 2026 Astera' /tmp/live-ja.html /tmp/live-main10-text.js /tmp/live-script.js \
+                && ! grep -Fq '<footer' /tmp/live-ja.html \
+                && grep -Fq "./styles/header.css?v=cu58-header-logo-copyright" /tmp/live-style.css \
+                && grep -Fq 'height:calc(100% - 4px)' /tmp/live-header.css \
+                && grep -Fq 'filter:contrast(1.10)' /tmp/live-header.css \
+                && grep -Fq 'releaseStaleScrollLocks' /tmp/live-script.js \
                 && grep -Fq './scripts/cosmic-interface.js?v=cu55-supporters-two-row' /tmp/live-script.js \
                 && grep -Fq '支援者・スポンサーのご紹介' /tmp/live-main10-text.js \
                 && grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' /tmp/live-cosmic.js \
@@ -108,28 +138,39 @@ jobs:
                 && grep -Fq 'height:178px;' /tmp/live-banner.css \
                 && grep -Fq 'height:160px;' /tmp/live-banner.css \
                 && grep -Fq '.supporters-card{height:174px}' /tmp/live-banner.css \
-                && grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' /tmp/live-banner.css; then
+                && grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' /tmp/live-banner.css \
+                && grep -Fq '.top-copyright{' /tmp/live-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Pages URL did not serve the shared two-row supporters card component.' >&2
+          echo 'Pages URL did not serve the final top layout fixes.' >&2
           exit 1
 
-      - name: Probe custom domain supporters component
+      - name: Probe custom domain top layout
         shell: bash
         run: |
           set -euo pipefail
           root="https://asterav8.jp"
           for attempt in $(seq 1 24); do
             if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/custom-ja.html \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/style.css?probe=${GITHUB_SHA}" -o /tmp/custom-style.css \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/script.js?probe=${GITHUB_SHA}" -o /tmp/custom-script.js \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/header.css?probe=${GITHUB_SHA}" -o /tmp/custom-header.css \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/main10-text.js?probe=${GITHUB_SHA}" -o /tmp/custom-main10-text.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/cosmic-interface.js?probe=${GITHUB_SHA}" -o /tmp/custom-cosmic.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/custom-banner.css; then
-              if grep -Fq 'supporter-banner.css?v=cu55-supporters-two-row' /tmp/custom-ja.html \
-                && grep -Fq 'script.js?v=cu55-supporters-two-row' /tmp/custom-ja.html \
+              if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/custom-ja.html \
+                && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/custom-ja.html \
+                && grep -Fq 'script.js?v=cu58-header-logo-copyright' /tmp/custom-ja.html \
+                && grep -Fq 'data-top-copyright' /tmp/custom-ja.html \
+                && grep -Fq 'Copyright © 2026 Astera' /tmp/custom-ja.html /tmp/custom-main10-text.js /tmp/custom-script.js \
+                && ! grep -Fq '<footer' /tmp/custom-ja.html \
+                && grep -Fq "./styles/header.css?v=cu58-header-logo-copyright" /tmp/custom-style.css \
+                && grep -Fq 'height:calc(100% - 4px)' /tmp/custom-header.css \
+                && grep -Fq 'filter:contrast(1.10)' /tmp/custom-header.css \
+                && grep -Fq 'releaseStaleScrollLocks' /tmp/custom-script.js \
                 && grep -Fq './scripts/cosmic-interface.js?v=cu55-supporters-two-row' /tmp/custom-script.js \
                 && grep -Fq '支援者・スポンサーのご紹介' /tmp/custom-main10-text.js \
                 && grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' /tmp/custom-cosmic.js \
@@ -140,11 +181,12 @@ jobs:
                 && grep -Fq 'height:178px;' /tmp/custom-banner.css \
                 && grep -Fq 'height:160px;' /tmp/custom-banner.css \
                 && grep -Fq '.supporters-card{height:174px}' /tmp/custom-banner.css \
-                && grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' /tmp/custom-banner.css; then
+                && grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' /tmp/custom-banner.css \
+                && grep -Fq '.top-copyright{' /tmp/custom-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Custom domain did not serve the shared two-row supporters card component.' >&2
+          echo 'Custom domain did not serve the final top layout fixes.' >&2
           exit 1
