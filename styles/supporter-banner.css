@@ -1,70 +1,50 @@
-.supporters-banner-section{
-  position:relative;
-  width:min(920px,96%);
-  margin:24px auto 0;
-  padding:0 0 max(64px,env(safe-area-inset-bottom));
-}
-
 .supporters-card{
   --mx:78%;
   --my:38%;
-  display:block;
-  width:100%;
-  height:clamp(246px,26vw,258px);
-  color:inherit;
-  text-decoration:none;
+  height:268px;
+}
+.supporters-card .cosmic-card__stack{
+  height:250px;
 }
 
-/* Main10と同じ3層Stack/Glass。色だけGraphite + Signal系へ変更する。 */
+/* Main10と同じCard/Stack/Glassをそのまま使用し、支援者Cardだけ配色を変える。 */
 .supporters-card .cosmic-card__ghost{
-  border-color:color-mix(in srgb,var(--brand-signal) 38%,var(--line-subtle));
-  background:linear-gradient(135deg,
-    color-mix(in srgb,var(--brand-signal) 14%,var(--surface-2)),
-    var(--surface));
-  box-shadow:0 0 24px color-mix(in srgb,var(--brand-signal) 8%,transparent),inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 7%,transparent);
+  border-color:color-mix(in srgb,var(--brand-signal) 38%,rgba(151,146,255,.31));
+  background:linear-gradient(135deg,color-mix(in srgb,var(--brand-signal) 16%,#101010),#050505);
+  box-shadow:0 0 28px color-mix(in srgb,var(--brand-signal) 10%,transparent),inset 0 1px 0 rgba(246,246,246,.08);
 }
 .supporters-card .cosmic-card__ghost::before,
 .supporters-card .cosmic-card__ghost::after{
-  border-color:color-mix(in srgb,var(--brand-signal) 24%,var(--line-subtle));
-  background:linear-gradient(135deg,
-    color-mix(in srgb,var(--brand-signal) 9%,var(--surface-2)),
-    var(--surface));
+  border-color:color-mix(in srgb,var(--brand-signal) 24%,rgba(125,130,224,.18));
+  background:linear-gradient(135deg,color-mix(in srgb,var(--brand-signal) 10%,#0a0a0a),#050505);
 }
-
 .supporters-card .cosmic-card__glass{
   background:
-    radial-gradient(72% 120% at 78% 18%,color-mix(in srgb,var(--brand-signal) 22%,transparent),transparent 58%),
-    radial-gradient(90% 120% at 16% 110%,color-mix(in srgb,var(--astera-metal-100) 8%,transparent),transparent 68%),
-    linear-gradient(128deg,
-      color-mix(in srgb,var(--brand-signal) 17%,var(--surface-3)) 0%,
-      var(--surface-3) 42%,
-      color-mix(in srgb,var(--astera-metal-75) 6%,var(--surface-2)) 100%);
-  border-color:color-mix(in srgb,var(--astera-metal-100) 46%,var(--brand-signal));
+    radial-gradient(72% 120% at 78% 18%,color-mix(in srgb,var(--brand-signal) 24%,transparent),transparent 58%),
+    radial-gradient(90% 120% at 16% 110%,rgba(246,246,246,.08),transparent 68%),
+    linear-gradient(128deg,color-mix(in srgb,var(--brand-signal) 18%,#101010) 0%,#101010 42%,#090909 100%);
+  border-color:color-mix(in srgb,rgba(246,246,246,.72) 58%,var(--brand-signal));
   box-shadow:
-    0 22px 58px color-mix(in srgb,var(--astera-void) 74%,transparent),
-    0 0 0 1px color-mix(in srgb,var(--brand-signal) 9%,transparent),
-    0 0 30px color-mix(in srgb,var(--brand-signal) 8%,transparent),
-    inset 0 1px 0 color-mix(in srgb,var(--astera-metal-100) 28%,transparent),
-    inset 0 -1px 0 color-mix(in srgb,var(--brand-signal) 16%,transparent);
+    0 24px 64px rgba(0,0,0,.72),
+    0 0 0 1px color-mix(in srgb,var(--brand-signal) 10%,transparent),
+    0 0 34px color-mix(in srgb,var(--brand-signal) 10%,transparent),
+    inset 0 1px 0 rgba(246,246,246,.24),
+    inset 0 -1px 0 color-mix(in srgb,var(--brand-signal) 18%,transparent);
 }
 .supporters-card .cosmic-card__glass::before{
   background:
-    linear-gradient(105deg,transparent 0 30%,color-mix(in srgb,var(--astera-metal-100) 15%,transparent) 42%,color-mix(in srgb,var(--brand-signal) 10%,transparent) 50%,transparent 60%) -170% 0/66% 100% no-repeat,
-    radial-gradient(54% 18% at 48% 48%,color-mix(in srgb,var(--brand-signal) 20%,transparent),transparent 76%);
+    linear-gradient(105deg,transparent 0 30%,rgba(255,255,255,.15) 42%,color-mix(in srgb,var(--brand-signal) 12%,transparent) 50%,transparent 60%) -170% 0/66% 100% no-repeat,
+    radial-gradient(54% 18% at 48% 48%,color-mix(in srgb,var(--brand-signal) 24%,transparent),transparent 76%);
 }
 .supporters-card .cosmic-card__glass::after{
-  background:radial-gradient(220px 130px at var(--mx) var(--my),color-mix(in srgb,var(--astera-metal-100) 10%,transparent),transparent 72%);
+  background:radial-gradient(240px 150px at var(--mx) var(--my),rgba(246,246,246,.11),transparent 72%);
 }
 .supporters-card .cosmic-card__edge{
-  background:linear-gradient(115deg,
-    color-mix(in srgb,var(--astera-metal-100) 70%,var(--brand-signal)),
-    color-mix(in srgb,var(--brand-signal) 44%,transparent) 38%,
-    color-mix(in srgb,var(--astera-metal-75) 10%,transparent) 68%,
-    color-mix(in srgb,var(--brand-signal) 58%,var(--astera-metal-100)));
-  opacity:.82;
+  background:linear-gradient(115deg,rgba(246,246,246,.74),color-mix(in srgb,var(--brand-signal) 52%,transparent) 38%,rgba(180,180,180,.12) 68%,color-mix(in srgb,var(--brand-signal) 62%,#f6f6f6));
+  opacity:.86;
 }
 .supporters-card .cosmic-card__flare{
-  background:radial-gradient(210px 120px at var(--mx) var(--my),color-mix(in srgb,var(--brand-signal) 18%,transparent),transparent 74%);
+  background:radial-gradient(240px 140px at var(--mx) var(--my),color-mix(in srgb,var(--brand-signal) 22%,transparent),transparent 74%);
 }
 
 .supporters-card__content{
@@ -72,18 +52,19 @@
   inset:0;
   z-index:5;
   display:grid;
-  grid-template-columns:minmax(0,1fr) 150px;
-  gap:clamp(24px,5vw,52px);
+  grid-template-columns:minmax(0,1fr) 154px;
+  gap:clamp(24px,5vw,54px);
   align-items:center;
-  padding:clamp(30px,4vw,42px) clamp(26px,5vw,52px);
+  padding:clamp(28px,4vw,40px) clamp(24px,5vw,50px);
+  text-align:left;
 }
-.supporters-card__copy{min-width:0}
+.supporters-card__copy{display:block;min-width:0}
 .supporters-card__eyebrow{
   display:inline-flex;
   align-items:center;
   gap:9px;
   margin-bottom:12px;
-  color:var(--text-secondary);
+  color:rgba(218,218,218,.84);
   font:650 11px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
   letter-spacing:.15em;
   text-transform:uppercase;
@@ -98,15 +79,17 @@
   box-shadow:0 0 0 4px var(--brand-signal-soft);
 }
 .supporters-card__title{
+  display:block;
   margin:0;
-  color:var(--text);
+  color:rgba(248,248,248,.98);
   font:620 clamp(25px,3.8vw,39px)/1.14 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
   letter-spacing:.005em;
-  text-shadow:0 0 18px color-mix(in srgb,var(--brand-signal) 12%,transparent);
+  text-shadow:0 0 18px color-mix(in srgb,var(--brand-signal) 14%,transparent);
 }
 .supporters-card__description{
-  margin:16px 0 0;
-  color:var(--text-secondary);
+  display:block;
+  margin-top:16px;
+  color:rgba(210,210,210,.88);
   font:400 clamp(12px,1.45vw,15px)/1.68 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
   letter-spacing:.005em;
 }
@@ -116,7 +99,7 @@
   align-items:center;
   gap:9px;
   margin-top:20px;
-  color:var(--text);
+  color:rgba(246,246,246,.96);
   font:600 13px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
 }
 .supporters-card__cta-arrow{
@@ -124,17 +107,17 @@
   place-items:center;
   width:30px;
   height:30px;
-  border:1px solid color-mix(in srgb,var(--brand-signal) 44%,var(--line));
+  border:1px solid color-mix(in srgb,var(--brand-signal) 48%,rgba(220,220,220,.42));
   border-radius:50%;
-  color:var(--text-secondary);
+  color:rgba(220,220,220,.86);
+  transition:transform .18s ease,color .18s ease,border-color .18s ease;
 }
-
 .supporters-card__ornament{
   position:relative;
   justify-self:end;
-  width:136px;
+  width:138px;
   aspect-ratio:1;
-  border:1px solid color-mix(in srgb,var(--brand-signal) 30%,var(--line-subtle));
+  border:1px solid color-mix(in srgb,var(--brand-signal) 34%,rgba(210,210,210,.18));
   border-radius:50%;
   opacity:.78;
 }
@@ -144,40 +127,50 @@
   position:absolute;
   border-radius:50%;
 }
-.supporters-card__ornament::before{
-  inset:16%;
-  border:1px solid color-mix(in srgb,var(--astera-metal-75) 48%,var(--brand-signal));
-}
-.supporters-card__ornament::after{
-  inset:39%;
-  border:1px solid color-mix(in srgb,var(--brand-signal) 58%,var(--astera-metal-100));
-  box-shadow:0 0 24px color-mix(in srgb,var(--brand-signal) 18%,transparent);
-}
+.supporters-card__ornament::before{inset:16%;border:1px solid color-mix(in srgb,rgba(230,230,230,.52) 60%,var(--brand-signal))}
+.supporters-card__ornament::after{inset:39%;border:1px solid color-mix(in srgb,var(--brand-signal) 64%,#f6f6f6);box-shadow:0 0 26px color-mix(in srgb,var(--brand-signal) 20%,transparent)}
 .supporters-card__axis{
   position:absolute;
   left:7%;right:7%;top:50%;
   height:1px;
-  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--brand-signal) 46%,var(--line)),transparent);
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--brand-signal) 52%,rgba(220,220,220,.30)),transparent);
 }
 .supporters-card__axis::after{
   content:"";
   position:absolute;
-  left:50%;top:-58px;
-  width:1px;height:116px;
-  background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--brand-signal) 46%,var(--line)),transparent);
+  left:50%;top:-59px;
+  width:1px;height:118px;
+  background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--brand-signal) 52%,rgba(220,220,220,.30)),transparent);
+}
+
+/* 同じcosmic-modalを使い、支援者Cardを開いた時だけ配色をCard側へ合わせる。 */
+.cosmic-expanded.is-supporters .cosmic-expanded__ghost{
+  border-color:color-mix(in srgb,var(--brand-signal) 34%,rgba(145,138,255,.28));
+  background:linear-gradient(135deg,color-mix(in srgb,var(--brand-signal) 12%,#101010),#050505);
+}
+.cosmic-expanded.is-supporters .cosmic-expanded__glass{
+  border-color:color-mix(in srgb,rgba(246,246,246,.66) 62%,var(--brand-signal));
+  background:
+    radial-gradient(80% 72% at 48% 44%,color-mix(in srgb,var(--brand-signal) 20%,transparent),transparent 72%),
+    radial-gradient(120% 150% at var(--mx) -10%,rgba(235,235,235,.12),transparent 40%),
+    linear-gradient(132deg,color-mix(in srgb,var(--brand-signal) 16%,#101010),#080808 50%,#111111);
+  box-shadow:0 34px 100px rgba(0,0,0,.70),0 0 54px color-mix(in srgb,var(--brand-signal) 13%,transparent),inset 0 1px 0 rgba(246,246,246,.26),inset 0 -1px 0 color-mix(in srgb,var(--brand-signal) 18%,transparent);
+}
+.cosmic-expanded.is-supporters .cosmic-expanded__edge{
+  background:linear-gradient(115deg,rgba(246,246,246,.72),color-mix(in srgb,var(--brand-signal) 50%,transparent) 42%,color-mix(in srgb,var(--brand-signal) 58%,#f6f6f6));
 }
 
 @media (hover:hover) and (pointer:fine){
-  .supporters-card:hover .cosmic-card__stack{filter:drop-shadow(0 18px 30px color-mix(in srgb,var(--brand-signal) 12%,transparent))}
+  .supporters-card:hover .cosmic-card__stack{filter:drop-shadow(0 18px 30px color-mix(in srgb,var(--brand-signal) 14%,transparent))}
   .supporters-card:hover .cosmic-card__edge{opacity:1}
-  .supporters-card:hover .supporters-card__cta-arrow{transform:translate(2px,-2px);color:var(--text)}
+  .supporters-card:hover .supporters-card__cta-arrow{transform:translate(2px,-2px);color:#fff;border-color:color-mix(in srgb,var(--brand-signal) 62%,#f6f6f6)}
 }
-.supporters-card:focus-visible .cosmic-card__stack{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--brand-signal) 22%,transparent))}
+.supporters-card:focus-visible .cosmic-card__stack{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--brand-signal) 24%,transparent))}
 
-@media (max-width:640px){
-  .supporters-banner-section{width:96%;margin-top:24px;padding-bottom:max(54px,env(safe-area-inset-bottom))}
-  .supporters-card{height:258px}
-  .supporters-card__content{grid-template-columns:1fr;gap:0;padding:28px 20px 24px}
+@media (max-width:560px){
+  .supporters-card{height:262px}
+  .supporters-card .cosmic-card__stack{height:244px}
+  .supporters-card__content{grid-template-columns:1fr;gap:0;padding:27px 20px 23px}
   .supporters-card__ornament{position:absolute;right:15px;bottom:14px;width:112px;opacity:.22}
   .supporters-card__title{max-width:92%;font-size:clamp(22px,6.2vw,27px)}
   .supporters-card__description{position:relative;z-index:2;margin-top:14px;font-size:clamp(10.5px,2.95vw,11.5px);line-height:1.72;letter-spacing:-.015em}
