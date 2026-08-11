@@ -1,12 +1,17 @@
 /* CU36 — seamless Hero/Main10 join + tighter expanded header/detail spacing while preserving card stack geometry. */
 .cosmic-main10{
+  min-height:0;
   padding-top:0;
+  padding-bottom:clamp(36px,5vw,56px);
 }
 .top-visual + .cosmic-main10{
   margin-top:0;
 }
 .cosmic-main10__grid{
   width:min(920px,96%);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr;
   gap:2px;
 }
 
@@ -150,7 +155,7 @@
 }
 
 @media (max-width:560px){
-  .cosmic-main10{padding:0 8px 116px}
+  .cosmic-main10{min-height:0;padding:0 8px 30px}
   .cosmic-main10__grid{width:96%;gap:2px}
   .cosmic-card{height:86px}
   .cosmic-card__stack{height:68px}
