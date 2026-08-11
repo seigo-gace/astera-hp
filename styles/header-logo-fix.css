@@ -5,7 +5,7 @@
 }
 .brand img{
   display:block;
-  height:calc(100% - 2px);
+  height:calc(100% - 8px);
   width:auto;
   max-width:64vw;
   max-height:none;
@@ -18,7 +18,7 @@
 
 @media (min-width:768px){
   .brand img{
-    height:calc(100% - 2px);
+    height:calc(100% - 8px);
     max-width:60vw;
   }
 }
