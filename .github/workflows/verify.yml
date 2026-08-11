@@ -50,10 +50,13 @@ jobs:
           grep -Fq 'maxlength="12000"' ja/index.html
           grep -Fq 'style.css?v=cu49-mobile-fullscreen' ja/index.html
           grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' ja/index.html
-          grep -Fq 'supporter-banner.css?v=cu51-supporters-placement' ja/index.html
+          grep -Fq 'supporter-banner.css?v=cu52-supporters-fallback' ja/index.html
+          grep -Fq 'script.js?v=cu52-supporters-fallback' ja/index.html
           grep -Fq 'supporters-banner-section' ja/index.html
           grep -Fq 'href="./supporters/"' ja/index.html
-          grep -Fq 'script.js?v=cu47-mobile-chat' ja/index.html
+          grep -Fq '支援者・スポンサーのご紹介' ja/index.html
+          grep -Fq 'Asteraを支えてくださる皆さまへ、心より感謝申し上げます。' ja/index.html
+          grep -Fq '皆さまのご支援が、Asteraの挑戦を前へ進める力です。' ja/index.html
           grep -Fq "./scripts/ai-hf-chat.js?v=cu47-mobile-chat" script.js
           grep -Fq "./scripts/supporter-banner.js?v=cu52-supporters-fallback" script.js
           grep -Fq "initSupportersBanner();" script.js
