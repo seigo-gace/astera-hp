@@ -23,25 +23,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify publish-critical supporters files
+      - name: Verify publish-critical supporters card
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html style.css script.js styles/supporter-banner.css scripts/supporter-banner.js scripts/cosmic-interface.js CNAME; do
+          for file in index.html ja/index.html style.css script.js styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css scripts/cosmic-interface.js CNAME; do
             test -s "$file"
           done
           node --check script.js
-          node --check scripts/supporter-banner.js
           node --check scripts/cosmic-interface.js
-          grep -Fq "./scripts/supporter-banner.js?v=cu52-supporters-fallback" script.js
-          grep -Fq "initSupportersBanner();" script.js
-          grep -Fq "supporters-banner-section" ja/index.html
-          grep -Fq "supporters-banner.css" ja/index.html
-          grep -Fq "支援者・スポンサーのご紹介" scripts/supporter-banner.js
-          grep -Fq "Asteraを支えてくださる皆さまへ、心より感謝申し上げます。" scripts/supporter-banner.js
-          grep -Fq "皆さまのご支援が、Asteraの挑戦を前へ進める力です。" scripts/supporter-banner.js
-          grep -Fq "if(!section)" scripts/supporter-banner.js
-          grep -Fq "root.append(section);" scripts/supporter-banner.js
+          grep -Fq 'supporter-banner.css?v=cu53-supporters-card' ja/index.html
+          grep -Fq 'script.js?v=cu47-mobile-chat' ja/index.html
+          grep -Fq 'class="cosmic-card supporters-card"' ja/index.html
+          grep -Fq 'class="cosmic-card__stack"' ja/index.html
+          grep -Fq 'class="cosmic-card__ghost"' ja/index.html
+          grep -Fq 'class="cosmic-card__glass"' ja/index.html
+          grep -Fq 'class="cosmic-card__edge"' ja/index.html
+          grep -Fq 'class="cosmic-card__flare"' ja/index.html
+          grep -Fq '支援者・スポンサーのご紹介' ja/index.html
+          grep -Fq 'Asteraを支えてくださる皆さまへ、深く感謝いたします。' ja/index.html
+          grep -Fq '皆さまのご支援が、挑戦を前へ進める力です。' ja/index.html
+          grep -Fq 'height:clamp(246px,26vw,258px);' styles/supporter-banner.css
+          grep -Fq '.supporters-card{height:258px}' styles/supporter-banner.css
+          grep -Fq 'var(--brand-signal)' styles/supporter-banner.css
+          grep -Fq '.supporters-card__ornament' styles/supporter-banner.css
+          ! test -e scripts/supporter-banner.js
+          ! grep -Fq 'initSupportersBanner' script.js
           test "$(cat CNAME)" = "asterav8.jp"
 
       - name: Prepare direct static artifact
@@ -54,7 +61,6 @@ jobs:
           cp -R ja en styles scripts data assets public/
           touch public/.nojekyll
           test -s public/ja/index.html
-          test -s public/scripts/supporter-banner.js
           test -s public/styles/supporter-banner.css
 
       - uses: actions/configure-pages@v5
@@ -69,7 +75,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Probe deployed Pages assets
+      - name: Probe deployed Pages supporters card
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
@@ -78,41 +84,41 @@ jobs:
           root="${LIVE_URL%/}"
           for attempt in $(seq 1 24); do
             if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja.html \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/script.js?probe=${GITHUB_SHA}" -o /tmp/live-script.js \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/supporter-banner.js?probe=${GITHUB_SHA}" -o /tmp/live-banner.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/live-banner.css; then
-              if grep -Fq 'supporters-banner-section' /tmp/live-ja.html \
-                && grep -Fq './scripts/supporter-banner.js?v=cu52-supporters-fallback' /tmp/live-script.js \
-                && grep -Fq '支援者・スポンサーのご紹介' /tmp/live-banner.js \
-                && grep -Fq 'root.append(section);' /tmp/live-banner.js \
-                && grep -Fq '.supporters-banner-section' /tmp/live-banner.css; then
+              if grep -Fq 'supporter-banner.css?v=cu53-supporters-card' /tmp/live-ja.html \
+                && grep -Fq 'class="cosmic-card supporters-card"' /tmp/live-ja.html \
+                && grep -Fq '支援者・スポンサーのご紹介' /tmp/live-ja.html \
+                && grep -Fq 'Asteraを支えてくださる皆さまへ、深く感謝いたします。' /tmp/live-ja.html \
+                && grep -Fq '皆さまのご支援が、挑戦を前へ進める力です。' /tmp/live-ja.html \
+                && grep -Fq 'height:clamp(246px,26vw,258px);' /tmp/live-banner.css \
+                && grep -Fq '.supporters-card{height:258px}' /tmp/live-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Pages URL did not serve the current supporters banner fallback assets.' >&2
+          echo 'Pages URL did not serve the static three-row supporters card.' >&2
           exit 1
 
-      - name: Probe custom domain assets
+      - name: Probe custom domain supporters card
         shell: bash
         run: |
           set -euo pipefail
           root="https://asterav8.jp"
           for attempt in $(seq 1 24); do
             if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/custom-ja.html \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/script.js?probe=${GITHUB_SHA}" -o /tmp/custom-script.js \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/supporter-banner.js?probe=${GITHUB_SHA}" -o /tmp/custom-banner.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/custom-banner.css; then
-              if grep -Fq 'supporters-banner-section' /tmp/custom-ja.html \
-                && grep -Fq './scripts/supporter-banner.js?v=cu52-supporters-fallback' /tmp/custom-script.js \
-                && grep -Fq '支援者・スポンサーのご紹介' /tmp/custom-banner.js \
-                && grep -Fq 'root.append(section);' /tmp/custom-banner.js \
-                && grep -Fq '.supporters-banner-section' /tmp/custom-banner.css; then
+              if grep -Fq 'supporter-banner.css?v=cu53-supporters-card' /tmp/custom-ja.html \
+                && grep -Fq 'class="cosmic-card supporters-card"' /tmp/custom-ja.html \
+                && grep -Fq '支援者・スポンサーのご紹介' /tmp/custom-ja.html \
+                && grep -Fq 'Asteraを支えてくださる皆さまへ、深く感謝いたします。' /tmp/custom-ja.html \
+                && grep -Fq '皆さまのご支援が、挑戦を前へ進める力です。' /tmp/custom-ja.html \
+                && grep -Fq 'height:clamp(246px,26vw,258px);' /tmp/custom-banner.css \
+                && grep -Fq '.supporters-card{height:258px}' /tmp/custom-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Custom domain did not serve the current supporters banner fallback assets.' >&2
+          echo 'Custom domain did not serve the static three-row supporters card.' >&2
           exit 1
