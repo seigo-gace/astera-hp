@@ -91,9 +91,9 @@
 }
 
 .supporters-banner__content{
-  position:relative;
+  position:absolute;
+  inset:0;
   z-index:3;
-  min-height:inherit;
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(118px,180px);
   gap:clamp(24px,5vw,72px);
