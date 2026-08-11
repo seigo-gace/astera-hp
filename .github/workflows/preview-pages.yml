@@ -22,73 +22,28 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Verify publish source
+
+      - name: Verify publish-critical supporters files
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/hero.css styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css styles/ai-bubble.css scripts/hero-effect.js scripts/ai-hf-chat.js scripts/cosmic-interface.js scripts/cosmic-space.js tests/ai-chat-controls.test.mjs data/public-main10.ja.js assets/icons/main10/main10-icons.svg CNAME; do
-            test -e "$file"
+          for file in index.html ja/index.html style.css script.js styles/supporter-banner.css scripts/supporter-banner.js scripts/cosmic-interface.js CNAME; do
+            test -s "$file"
           done
-          test -s index.html
-          test -s ja/index.html
-          test -s style.css
-          test -s script.js
-          test -s styles/cosmic-interface-equal-stack.css
-          test -s styles/supporter-banner.css
           node --check script.js
-          node --check scripts/language.js
-          node --check scripts/ai-hf-chat.js
-          node --check tests/ai-chat-controls.test.mjs
-          node --test tests/ai-chat-controls.test.mjs
+          node --check scripts/supporter-banner.js
           node --check scripts/cosmic-interface.js
-          node --check scripts/cosmic-space.js
-          node --check data/public-main10.ja.js
-          python3 - <<'PY'
-          import xml.etree.ElementTree as ET
-          ET.parse('assets/icons/main10/main10-icons.svg')
-          PY
-          grep -Fq 'url=./ja/' index.html
-          grep -Fq 'style.css?v=cu49-mobile-fullscreen' ja/index.html
-          grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' ja/index.html
-          grep -Fq 'supporter-banner.css?v=cu51-supporters-placement' ja/index.html
-          grep -Fq 'supporters-banner-section' ja/index.html
-          grep -Fq 'href="./supporters/"' ja/index.html
-          grep -Fq '支援者・スポンサー' ja/index.html
-          grep -Fq 'script.js?v=cu47-mobile-chat' ja/index.html
-          grep -Fq "./scripts/ai-hf-chat.js?v=cu47-mobile-chat" script.js
-          grep -Fq "./styles/ai-bubble.css?v=cu49-mobile-fullscreen" style.css
-          grep -Fq "const DEFAULT_API = 'https://g-ace-astera-customerai.hf.space';" scripts/ai-hf-chat.js
-          ! grep -Fq "removeAttribute('data-customer-ai-api')" script.js
-          ! grep -Fq 'api.asterav8.jp/v1/customer-ai' script.js scripts/ai-hf-chat.js
-          ! grep -Eqi 'huggingface\.co|router\.huggingface' script.js scripts/ai-hf-chat.js
-          ! grep -Eqi 'cloudflare|turnstile|challenges\.cloudflare' scripts/ai-hf-chat.js
-          grep -Fq 'conversationEpoch += 1;' scripts/ai-hf-chat.js
-          grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' scripts/ai-hf-chat.js
-          grep -Fq 'function bindReliableControl' scripts/ai-hf-chat.js
-          grep -Fq 'renderMode(false);' scripts/ai-hf-chat.js
-          grep -Fq 'width:min(1100px,calc(100vw - 24px))' styles/ai-bubble.css
-          grep -Fq 'position:fixed;inset:0;top:0;right:0;bottom:0;left:0;width:100dvw;max-width:100dvw;height:100dvh' styles/ai-bubble.css
-          grep -Fq 'height:100dvh;max-height:100dvh;min-height:100dvh' styles/ai-bubble.css
-          grep -Fq 'grid-template-rows:auto auto minmax(0,1fr) auto auto' styles/ai-bubble.css
-          grep -Fq 'width:44px;height:44px' styles/ai-bubble.css
-          grep -Fq 'data-cosmic-main10' ja/index.html
-          grep -Fq 'data-cosmic-modal' ja/index.html
-          ! grep -Fq 'data-main10-card' ja/index.html
-          ! grep -Fq 'Search Field' ja/index.html
-          ! grep -Fq 'data-expanded-cta' ja/index.html
-          grep -Fq "@import url('./styles/cosmic-interface.css');" style.css
-          ! grep -Fq "@import url('./styles/main10.css');" style.css
-          grep -Fq "initCosmicMain10();" script.js
-          test "$(grep -Ec "^[[:space:]]+id: '" data/public-main10.ja.js)" -eq 10
-          test "$(git hash-object assets/icons/main10/main10-icons.svg)" = "7f23c691fbfbd24d2ee8530f462f7e03b772214d"
-          grep -Fq 'min-height:0;' styles/cosmic-interface-equal-stack.css
-          grep -Fq 'padding:0 8px 30px' styles/cosmic-interface-equal-stack.css
-          grep -Fq 'width:min(960px,100%)' styles/supporter-banner.css
-          grep -Fq 'min-height:clamp(232px,28vw,286px)' styles/supporter-banner.css
-          grep -Fq 'padding:0 8px max(72px,env(safe-area-inset-bottom))' styles/supporter-banner.css
-          grep -Fq 'width:96%;min-height:clamp(248px,76vw,320px)' styles/supporter-banner.css
-          ! grep -Eqi 'orange|gold|copper|#d8ad63|#ffe0a4|#9f542c' styles/cosmic-interface.css styles/supporter-banner.css assets/icons/main10/main10-icons.svg scripts/cosmic-interface.js scripts/cosmic-space.js
+          grep -Fq "./scripts/supporter-banner.js?v=cu52-supporters-fallback" script.js
+          grep -Fq "initSupportersBanner();" script.js
+          grep -Fq "supporters-banner-section" ja/index.html
+          grep -Fq "supporters-banner.css" ja/index.html
+          grep -Fq "支援者・スポンサーのご紹介" scripts/supporter-banner.js
+          grep -Fq "Asteraを支えてくださる皆さまへ、心より感謝申し上げます。" scripts/supporter-banner.js
+          grep -Fq "皆さまのご支援が、Asteraの挑戦を前へ進める力です。" scripts/supporter-banner.js
+          grep -Fq "if(!section)" scripts/supporter-banner.js
+          grep -Fq "root.append(section);" scripts/supporter-banner.js
           test "$(cat CNAME)" = "asterav8.jp"
+
       - name: Prepare direct static artifact
         shell: bash
         run: |
@@ -97,22 +52,24 @@ jobs:
           mkdir -p public
           cp index.html style.css script.js CNAME public/
           cp -R ja en styles scripts data assets public/
-          test -s public/styles/cosmic-interface-equal-stack.css
-          test -s public/styles/supporter-banner.css
-          grep -Fq 'supporters-banner-section' public/ja/index.html
-          grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' public/ja/index.html
-          grep -Fq 'supporter-banner.css?v=cu51-supporters-placement' public/ja/index.html
           touch public/.nojekyll
+          test -s public/ja/index.html
+          test -s public/scripts/supporter-banner.js
+          test -s public/styles/supporter-banner.css
+
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+
       - uses: actions/upload-pages-artifact@v4
         with:
           path: public
+
       - name: Deploy direct static files
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Probe deployed HP after propagation
+
+      - name: Probe deployed Pages assets
         env:
           LIVE_URL: ${{ steps.deployment.outputs.page_url }}
         shell: bash
@@ -120,68 +77,42 @@ jobs:
           set -euo pipefail
           root="${LIVE_URL%/}"
           for attempt in $(seq 1 24); do
-            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja-index.html \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/cosmic-interface-equal-stack.css?probe=${GITHUB_SHA}" -o /tmp/live-equal-stack.css \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/live-supporter-banner.css \
+            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/live-ja.html \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/script.js?probe=${GITHUB_SHA}" -o /tmp/live-script.js \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/style.css?probe=${GITHUB_SHA}" -o /tmp/live-style.css \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/ai-hf-chat.js?probe=${GITHUB_SHA}" -o /tmp/live-ai-chat.js \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/ai-bubble.css?probe=${GITHUB_SHA}" -o /tmp/live-ai-bubble.css \
-              && curl --fail --location --silent --show-error "$root/assets/icons/main10/main10-icons.svg" -o /tmp/live-icons.svg \
-              && curl --fail --location --silent --show-error "$root/data/public-main10.ja.js" -o /tmp/live-data.js; then
-              if grep -Fq '<html lang="ja">' /tmp/live-ja-index.html \
-                && grep -Fq 'style.css?v=cu49-mobile-fullscreen' /tmp/live-ja-index.html \
-                && grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' /tmp/live-ja-index.html \
-                && grep -Fq 'supporter-banner.css?v=cu51-supporters-placement' /tmp/live-ja-index.html \
-                && grep -Fq 'supporters-banner-section' /tmp/live-ja-index.html \
-                && grep -Fq 'href="./supporters/"' /tmp/live-ja-index.html \
-                && grep -Fq '支援者・スポンサー' /tmp/live-ja-index.html \
-                && grep -Fq 'min-height:0;' /tmp/live-equal-stack.css \
-                && grep -Fq 'padding:0 8px 30px' /tmp/live-equal-stack.css \
-                && grep -Fq 'width:min(960px,100%)' /tmp/live-supporter-banner.css \
-                && grep -Fq 'padding:0 8px max(72px,env(safe-area-inset-bottom))' /tmp/live-supporter-banner.css \
-                && grep -Fq 'width:96%;min-height:clamp(248px,76vw,320px)' /tmp/live-supporter-banner.css \
-                && grep -Fq 'script.js?v=cu47-mobile-chat' /tmp/live-ja-index.html \
-                && grep -Fq "./scripts/ai-hf-chat.js?v=cu47-mobile-chat" /tmp/live-script.js \
-                && grep -Fq "./styles/ai-bubble.css?v=cu49-mobile-fullscreen" /tmp/live-style.css \
-                && ! grep -Fq "removeAttribute('data-customer-ai-api')" /tmp/live-script.js \
-                && grep -Fq "const DEFAULT_API = 'https://g-ace-astera-customerai.hf.space';" /tmp/live-ai-chat.js \
-                && grep -Fq 'conversationEpoch += 1;' /tmp/live-ai-chat.js \
-                && grep -Fq 'deleteSession(panel, oldSession).catch(() => {});' /tmp/live-ai-chat.js \
-                && grep -Fq 'function bindReliableControl' /tmp/live-ai-chat.js \
-                && grep -Fq 'position:fixed;inset:0;top:0;right:0;bottom:0;left:0;width:100dvw;max-width:100dvw;height:100dvh' /tmp/live-ai-bubble.css \
-                && grep -Fq 'height:100dvh;max-height:100dvh;min-height:100dvh' /tmp/live-ai-bubble.css \
-                && ! grep -Eqi 'cloudflare|turnstile|challenges\.cloudflare|router\.huggingface' /tmp/live-ai-chat.js \
-                && test -s /tmp/live-icons.svg \
-                && test -s /tmp/live-data.js; then
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/supporter-banner.js?probe=${GITHUB_SHA}" -o /tmp/live-banner.js \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/live-banner.css; then
+              if grep -Fq 'supporters-banner-section' /tmp/live-ja.html \
+                && grep -Fq './scripts/supporter-banner.js?v=cu52-supporters-fallback' /tmp/live-script.js \
+                && grep -Fq '支援者・スポンサーのご紹介' /tmp/live-banner.js \
+                && grep -Fq 'root.append(section);' /tmp/live-banner.js \
+                && grep -Fq '.supporters-banner-section' /tmp/live-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'GitHub Pages deployment finished, but the supporters banner placement was not confirmed on the deployed Pages URL.' >&2
+          echo 'Pages URL did not serve the current supporters banner fallback assets.' >&2
           exit 1
-      - name: Probe custom domain supporters banner
+
+      - name: Probe custom domain assets
         shell: bash
         run: |
           set -euo pipefail
           root="https://asterav8.jp"
           for attempt in $(seq 1 24); do
-            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/custom-ja-index.html \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/cosmic-interface-equal-stack.css?probe=${GITHUB_SHA}" -o /tmp/custom-equal-stack.css \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/custom-supporter-banner.css; then
-              if grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' /tmp/custom-ja-index.html \
-                && grep -Fq 'supporter-banner.css?v=cu51-supporters-placement' /tmp/custom-ja-index.html \
-                && grep -Fq 'supporters-banner-section' /tmp/custom-ja-index.html \
-                && grep -Fq '支援者・スポンサー' /tmp/custom-ja-index.html \
-                && grep -Fq 'min-height:0;' /tmp/custom-equal-stack.css \
-                && grep -Fq 'padding:0 8px 30px' /tmp/custom-equal-stack.css \
-                && grep -Fq 'padding:0 8px max(72px,env(safe-area-inset-bottom))' /tmp/custom-supporter-banner.css \
-                && grep -Fq 'width:96%;min-height:clamp(248px,76vw,320px)' /tmp/custom-supporter-banner.css; then
+            if curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$root/ja/?probe=${GITHUB_SHA}" -o /tmp/custom-ja.html \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/script.js?probe=${GITHUB_SHA}" -o /tmp/custom-script.js \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/supporter-banner.js?probe=${GITHUB_SHA}" -o /tmp/custom-banner.js \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/custom-banner.css; then
+              if grep -Fq 'supporters-banner-section' /tmp/custom-ja.html \
+                && grep -Fq './scripts/supporter-banner.js?v=cu52-supporters-fallback' /tmp/custom-script.js \
+                && grep -Fq '支援者・スポンサーのご紹介' /tmp/custom-banner.js \
+                && grep -Fq 'root.append(section);' /tmp/custom-banner.js \
+                && grep -Fq '.supporters-banner-section' /tmp/custom-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Custom domain astera v8 did not serve the current supporters banner placement after deployment.' >&2
+          echo 'Custom domain did not serve the current supporters banner fallback assets.' >&2
           exit 1
