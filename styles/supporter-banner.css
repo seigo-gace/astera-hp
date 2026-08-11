@@ -240,8 +240,8 @@
 }
 
 @media (max-width:640px){
-  .supporters-banner-section{padding-bottom:max(72px,env(safe-area-inset-bottom))}
-  .supporters-banner{min-height:clamp(248px,76vw,320px)}
+  .supporters-banner-section{padding:0 8px max(72px,env(safe-area-inset-bottom))}
+  .supporters-banner{width:96%;min-height:clamp(248px,76vw,320px)}
   .supporters-banner__content{
     grid-template-columns:1fr;
     gap:0;
