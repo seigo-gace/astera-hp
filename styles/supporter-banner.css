@@ -1,10 +1,10 @@
 .supporters-card{
   --mx:78%;
   --my:38%;
-  height:268px;
+  height:178px;
 }
 .supporters-card .cosmic-card__stack{
-  height:250px;
+  height:160px;
 }
 
 /* Main10と同じCard/Stack/Glassをそのまま使用し、支援者Cardだけ配色を変える。 */
@@ -37,111 +37,43 @@
     radial-gradient(54% 18% at 48% 48%,color-mix(in srgb,var(--brand-signal) 24%,transparent),transparent 76%);
 }
 .supporters-card .cosmic-card__glass::after{
-  background:radial-gradient(240px 150px at var(--mx) var(--my),rgba(246,246,246,.11),transparent 72%);
+  background:radial-gradient(220px 120px at var(--mx) var(--my),rgba(246,246,246,.11),transparent 72%);
 }
 .supporters-card .cosmic-card__edge{
   background:linear-gradient(115deg,rgba(246,246,246,.74),color-mix(in srgb,var(--brand-signal) 52%,transparent) 38%,rgba(180,180,180,.12) 68%,color-mix(in srgb,var(--brand-signal) 62%,#f6f6f6));
   opacity:.86;
 }
 .supporters-card .cosmic-card__flare{
-  background:radial-gradient(240px 140px at var(--mx) var(--my),color-mix(in srgb,var(--brand-signal) 22%,transparent),transparent 74%);
+  background:radial-gradient(220px 120px at var(--mx) var(--my),color-mix(in srgb,var(--brand-signal) 22%,transparent),transparent 74%);
 }
 
 .supporters-card__content{
   position:absolute;
   inset:0;
   z-index:5;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 154px;
-  gap:clamp(24px,5vw,54px);
-  align-items:center;
-  padding:clamp(28px,4vw,40px) clamp(24px,5vw,50px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  padding:24px clamp(24px,5vw,50px);
   text-align:left;
-}
-.supporters-card__copy{display:block;min-width:0}
-.supporters-card__eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  margin-bottom:12px;
-  color:rgba(218,218,218,.84);
-  font:650 11px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-}
-.supporters-card__eyebrow::before{
-  content:"";
-  width:7px;
-  height:7px;
-  flex:0 0 auto;
-  border-radius:50%;
-  background:var(--brand-signal);
-  box-shadow:0 0 0 4px var(--brand-signal-soft);
 }
 .supporters-card__title{
   display:block;
   margin:0;
   color:rgba(248,248,248,.98);
-  font:620 clamp(25px,3.8vw,39px)/1.14 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
+  font:620 clamp(24px,3.5vw,34px)/1.14 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
   letter-spacing:.005em;
   text-shadow:0 0 18px color-mix(in srgb,var(--brand-signal) 14%,transparent);
 }
 .supporters-card__description{
   display:block;
-  margin-top:16px;
+  margin-top:14px;
   color:rgba(210,210,210,.88);
-  font:400 clamp(12px,1.45vw,15px)/1.68 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
+  font:400 clamp(12px,1.4vw,14px)/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
   letter-spacing:.005em;
 }
 .supporters-card__description-line{display:block;white-space:nowrap}
-.supporters-card__cta{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  margin-top:20px;
-  color:rgba(246,246,246,.96);
-  font:600 13px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
-}
-.supporters-card__cta-arrow{
-  display:inline-grid;
-  place-items:center;
-  width:30px;
-  height:30px;
-  border:1px solid color-mix(in srgb,var(--brand-signal) 48%,rgba(220,220,220,.42));
-  border-radius:50%;
-  color:rgba(220,220,220,.86);
-  transition:transform .18s ease,color .18s ease,border-color .18s ease;
-}
-.supporters-card__ornament{
-  position:relative;
-  justify-self:end;
-  width:138px;
-  aspect-ratio:1;
-  border:1px solid color-mix(in srgb,var(--brand-signal) 34%,rgba(210,210,210,.18));
-  border-radius:50%;
-  opacity:.78;
-}
-.supporters-card__ornament::before,
-.supporters-card__ornament::after{
-  content:"";
-  position:absolute;
-  border-radius:50%;
-}
-.supporters-card__ornament::before{inset:16%;border:1px solid color-mix(in srgb,rgba(230,230,230,.52) 60%,var(--brand-signal))}
-.supporters-card__ornament::after{inset:39%;border:1px solid color-mix(in srgb,var(--brand-signal) 64%,#f6f6f6);box-shadow:0 0 26px color-mix(in srgb,var(--brand-signal) 20%,transparent)}
-.supporters-card__axis{
-  position:absolute;
-  left:7%;right:7%;top:50%;
-  height:1px;
-  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--brand-signal) 52%,rgba(220,220,220,.30)),transparent);
-}
-.supporters-card__axis::after{
-  content:"";
-  position:absolute;
-  left:50%;top:-59px;
-  width:1px;height:118px;
-  background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--brand-signal) 52%,rgba(220,220,220,.30)),transparent);
-}
 
 /* 同じcosmic-modalを使い、支援者Cardを開いた時だけ配色をCard側へ合わせる。 */
 .cosmic-expanded.is-supporters .cosmic-expanded__ghost{
@@ -163,19 +95,16 @@
 @media (hover:hover) and (pointer:fine){
   .supporters-card:hover .cosmic-card__stack{filter:drop-shadow(0 18px 30px color-mix(in srgb,var(--brand-signal) 14%,transparent))}
   .supporters-card:hover .cosmic-card__edge{opacity:1}
-  .supporters-card:hover .supporters-card__cta-arrow{transform:translate(2px,-2px);color:#fff;border-color:color-mix(in srgb,var(--brand-signal) 62%,#f6f6f6)}
 }
 .supporters-card:focus-visible .cosmic-card__stack{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--brand-signal) 24%,transparent))}
 
 @media (max-width:560px){
-  .supporters-card{height:262px}
-  .supporters-card .cosmic-card__stack{height:244px}
-  .supporters-card__content{grid-template-columns:1fr;gap:0;padding:27px 20px 23px}
-  .supporters-card__ornament{position:absolute;right:15px;bottom:14px;width:112px;opacity:.22}
-  .supporters-card__title{max-width:92%;font-size:clamp(22px,6.2vw,27px)}
-  .supporters-card__description{position:relative;z-index:2;margin-top:14px;font-size:clamp(10.5px,2.95vw,11.5px);line-height:1.72;letter-spacing:-.015em}
+  .supporters-card{height:174px}
+  .supporters-card .cosmic-card__stack{height:156px}
+  .supporters-card__content{padding:22px 20px}
+  .supporters-card__title{font-size:clamp(21px,5.8vw,25px)}
+  .supporters-card__description{margin-top:12px;font-size:clamp(10.5px,2.9vw,11.5px);line-height:1.66;letter-spacing:-.015em}
   .supporters-card__description-line{white-space:nowrap}
-  .supporters-card__cta{position:relative;z-index:2;margin-top:18px;font-size:12px}
 }
 
 @media (prefers-reduced-motion:reduce){
