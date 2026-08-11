@@ -22,13 +22,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/supporter-banner.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-hf-chat.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js tests/ai-chat-controls.test.mjs data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-hf-chat.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js tests/ai-chat-controls.test.mjs data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test -s index.html
           test -s ja/index.html
           test -s style.css
           test -s script.js
+          test -s styles/cosmic-interface-equal-stack.css
           test -s styles/supporter-banner.css
           node --check script.js
           node --check scripts/language.js
@@ -45,7 +46,8 @@ jobs:
           grep -Fq 'url=./ja/' index.html
           grep -Fq 'maxlength="12000"' ja/index.html
           grep -Fq 'style.css?v=cu49-mobile-fullscreen' ja/index.html
-          grep -Fq 'supporter-banner.css?v=cu50-supporters-visible' ja/index.html
+          grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' ja/index.html
+          grep -Fq 'supporter-banner.css?v=cu51-supporters-placement' ja/index.html
           grep -Fq 'supporters-banner-section' ja/index.html
           grep -Fq 'href="./supporters/"' ja/index.html
           grep -Fq '支援者・スポンサー' ja/index.html
@@ -82,9 +84,12 @@ jobs:
           test "$(grep -Ec "^[[:space:]]+id: '" data/public-main10.ja.js)" -eq 10
           test "$(git hash-object assets/icons/main10/main10-icons.svg)" = "7f23c691fbfbd24d2ee8530f462f7e03b772214d"
           grep -Fq 'background:#000' styles/cosmic-interface.css
+          grep -Fq 'min-height:0;' styles/cosmic-interface-equal-stack.css
+          grep -Fq 'padding:0 8px 30px' styles/cosmic-interface-equal-stack.css
           grep -Fq 'width:min(960px,100%)' styles/supporter-banner.css
           grep -Fq 'min-height:clamp(232px,28vw,286px)' styles/supporter-banner.css
-          grep -Fq 'position:absolute;' styles/supporter-banner.css
+          grep -Fq 'padding:0 8px max(72px,env(safe-area-inset-bottom))' styles/supporter-banner.css
+          grep -Fq 'width:96%;min-height:clamp(248px,76vw,320px)' styles/supporter-banner.css
           grep -Fq '.supporters-banner:focus-visible' styles/supporter-banner.css
           ! grep -Eqi 'orange|gold|copper|#d8ad63|#ffe0a4|#9f542c' styles/cosmic-interface.css styles/supporter-banner.css assets/icons/main10/main10-icons.svg scripts/cosmic-interface.js scripts/cosmic-space.js
           ! grep -Eqi '\.(png|jpg|jpeg|webp|gif)' styles/cosmic-interface.css assets/icons/main10/main10-icons.svg scripts/cosmic-interface.js scripts/cosmic-space.js data/public-main10.ja.js
@@ -100,6 +105,7 @@ jobs:
           for attempt in $(seq 1 20); do
             if curl --fail --silent http://127.0.0.1:4173/index.html >/tmp/root-index.html \
               && curl --fail --silent http://127.0.0.1:4173/ja/ >/tmp/ja-index.html \
+              && curl --fail --silent http://127.0.0.1:4173/styles/cosmic-interface-equal-stack.css >/tmp/cosmic-interface-equal-stack.css \
               && curl --fail --silent http://127.0.0.1:4173/styles/supporter-banner.css >/tmp/supporter-banner.css \
               && curl --fail --silent http://127.0.0.1:4173/scripts/ai-hf-chat.js >/tmp/ai-hf-chat.js \
               && curl --fail --silent http://127.0.0.1:4173/styles/ai-bubble.css >/tmp/ai-bubble.css \
@@ -112,6 +118,7 @@ jobs:
           done
           cmp -s /tmp/root-index.html index.html
           cmp -s /tmp/ja-index.html ja/index.html
+          cmp -s /tmp/cosmic-interface-equal-stack.css styles/cosmic-interface-equal-stack.css
           cmp -s /tmp/supporter-banner.css styles/supporter-banner.css
           cmp -s /tmp/ai-hf-chat.js scripts/ai-hf-chat.js
           cmp -s /tmp/ai-bubble.css styles/ai-bubble.css
