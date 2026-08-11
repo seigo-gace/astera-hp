@@ -1,5 +1,5 @@
 @import url('./styles/base.css');
-@import url('./styles/header.css');
+@import url('./styles/header.css?v=cu58-header-logo-copyright');
 @import url('./styles/hero.css');
 @import url('./styles/cosmic-interface.css');
 @import url('./styles/menu.css');
