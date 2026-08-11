@@ -70,3 +70,12 @@ export const MAIN10_ITEMS = Object.freeze([
     route: './app/'
   }
 ]);
+
+export const SUPPORTERS_ITEM = Object.freeze({
+  id: 'supporters',
+  iconId: 'integration',
+  title: '支援者・スポンサーのご紹介',
+  lead: 'Asteraを支えてくださる皆さまへ、深く感謝いたします。',
+  body: '皆さまのご支援が、挑戦を前へ進める力です。',
+  route: './supporters/'
+});
