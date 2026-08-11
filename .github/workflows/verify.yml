@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-hf-chat.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js scripts/main10-text.js tests/ai-chat-controls.test.mjs data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
+          for file in index.html ja/index.html en/.gitkeep style.css script.js styles/base.css styles/header.css styles/hero.css styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css styles/supporter-premium.css styles/supporter-decoration.css styles/menu.css styles/ai-bubble.css scripts/language.js scripts/menu.js scripts/ai-hf-chat.js scripts/app-entry.js scripts/hero-effect.js scripts/cosmic-interface.js scripts/cosmic-space.js scripts/main10-text.js tests/ai-chat-controls.test.mjs data/public-main10.ja.js assets/brand/astera-logo-dark.svg assets/icons/ai-guide-robot.svg assets/icons/main10/main10-icons.svg CNAME; do
             test -e "$file"
           done
           test ! -e styles/footer.css
@@ -33,6 +33,8 @@ jobs:
           test -s styles/header.css
           test -s styles/cosmic-interface-equal-stack.css
           test -s styles/supporter-banner.css
+          test -s styles/supporter-premium.css
+          test -s styles/supporter-decoration.css
           node --check script.js
           node --check scripts/language.js
           node --check scripts/ai-hf-chat.js
@@ -51,7 +53,9 @@ jobs:
           grep -Fq 'style.css?v=cu58-header-logo-copyright' ja/index.html
           grep -Fq 'cosmic-interface-equal-stack.css?v=cu51-supporters-placement' ja/index.html
           grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' ja/index.html
-          grep -Fq 'script.js?v=cu58-header-logo-copyright' ja/index.html
+          grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' ja/index.html
+          grep -Fq 'supporter-decoration.css?v=cu66-supporters-layered-design' ja/index.html
+          grep -Fq 'script.js?v=cu66-supporters-layered-design' ja/index.html
           ! grep -Fq '<footer' ja/index.html
           ! grep -Fq 'data-footer-copy' ja/index.html script.js
           grep -Fq 'data-top-copyright' ja/index.html script.js
@@ -61,7 +65,7 @@ jobs:
           grep -Fq 'data-cosmic-main10' ja/index.html
           grep -Fq 'data-cosmic-grid' ja/index.html
           grep -Fq 'data-cosmic-modal' ja/index.html
-          grep -Fq "./scripts/cosmic-interface.js?v=cu55-supporters-two-row" script.js
+          grep -Fq "./scripts/cosmic-interface.js?v=cu66-supporters-layered-design" script.js
           grep -Fq "./scripts/main10-text.js?v=cu58-header-logo-copyright" script.js
           grep -Fq "./scripts/ai-hf-chat.js?v=cu47-mobile-chat" script.js
           grep -Fq "initCosmicMain10();" script.js
@@ -79,6 +83,11 @@ jobs:
           grep -Fq 'class="cosmic-card supporters-card"' scripts/cosmic-interface.js
           grep -Fq 'data-cosmic-card data-key="${item.id}"' scripts/cosmic-interface.js
           grep -Fq 'data-cosmic-card-stack' scripts/cosmic-interface.js
+          grep -Fq 'supporters-card__decor' scripts/cosmic-interface.js
+          grep -Fq 'supporters-card__decor-facet' scripts/cosmic-interface.js
+          grep -Fq 'supporters-card__decor-crest' scripts/cosmic-interface.js
+          grep -Fq 'supporters-card__decor-trim--top' scripts/cosmic-interface.js
+          grep -Fq 'supporters-card__decor-trim--bottom' scripts/cosmic-interface.js
           grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' scripts/cosmic-interface.js
           grep -Fq "const isSupporters=item.id==='supporters';" scripts/cosmic-interface.js
           grep -Fq "panel.classList.toggle('is-supporters',isSupporters);" scripts/cosmic-interface.js
@@ -89,6 +98,15 @@ jobs:
           ! grep -Fq 'タップして詳細を見る' scripts/cosmic-interface.js
           ! grep -Fq 'supporters-card__ornament' scripts/cosmic-interface.js styles/supporter-banner.css
           ! grep -Fq 'supporters-card__cta' scripts/cosmic-interface.js styles/supporter-banner.css
+          ! grep -Fq 'supporters-card__content::before' styles/supporter-premium.css
+          ! grep -Fq 'supporters-card__content::after' styles/supporter-premium.css
+          grep -Fq '.supporters-card__decor{' styles/supporter-decoration.css
+          grep -Fq 'z-index:2' styles/supporter-decoration.css
+          grep -Fq '.supporters-card__decor-facet{' styles/supporter-decoration.css
+          grep -Fq '.supporters-card__decor-crest{' styles/supporter-decoration.css
+          grep -Fq '.supporters-card__decor-trim--top{' styles/supporter-decoration.css
+          grep -Fq '.supporters-card__decor-trim--bottom{' styles/supporter-decoration.css
+          grep -Fq '.supporters-card__content{z-index:5}' styles/supporter-decoration.css
           grep -Fq 'height:178px;' styles/supporter-banner.css
           grep -Fq 'height:160px;' styles/supporter-banner.css
           grep -Fq '.supporters-card{height:174px}' styles/supporter-banner.css
@@ -150,6 +168,8 @@ jobs:
               && curl --fail --silent http://127.0.0.1:4173/styles/header.css >/tmp/header.css \
               && curl --fail --silent http://127.0.0.1:4173/styles/cosmic-interface-equal-stack.css >/tmp/cosmic-interface-equal-stack.css \
               && curl --fail --silent http://127.0.0.1:4173/styles/supporter-banner.css >/tmp/supporter-banner.css \
+              && curl --fail --silent http://127.0.0.1:4173/styles/supporter-premium.css >/tmp/supporter-premium.css \
+              && curl --fail --silent http://127.0.0.1:4173/styles/supporter-decoration.css >/tmp/supporter-decoration.css \
               && curl --fail --silent http://127.0.0.1:4173/scripts/main10-text.js >/tmp/main10-text.js \
               && curl --fail --silent http://127.0.0.1:4173/scripts/cosmic-interface.js >/tmp/cosmic-interface.js \
               && curl --fail --silent http://127.0.0.1:4173/scripts/ai-hf-chat.js >/tmp/ai-hf-chat.js \
@@ -166,6 +186,8 @@ jobs:
           cmp -s /tmp/header.css styles/header.css
           cmp -s /tmp/cosmic-interface-equal-stack.css styles/cosmic-interface-equal-stack.css
           cmp -s /tmp/supporter-banner.css styles/supporter-banner.css
+          cmp -s /tmp/supporter-premium.css styles/supporter-premium.css
+          cmp -s /tmp/supporter-decoration.css styles/supporter-decoration.css
           cmp -s /tmp/main10-text.js scripts/main10-text.js
           cmp -s /tmp/cosmic-interface.js scripts/cosmic-interface.js
           cmp -s /tmp/ai-hf-chat.js scripts/ai-hf-chat.js
