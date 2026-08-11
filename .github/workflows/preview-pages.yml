@@ -33,10 +33,10 @@ jobs:
           node --check script.js
           node --check scripts/cosmic-interface.js
           node --check scripts/main10-text.js
-          grep -Fq 'supporter-banner.css?v=cu54-supporters-shared-panel' ja/index.html
-          grep -Fq 'script.js?v=cu54-supporters-shared-panel' ja/index.html
+          grep -Fq 'supporter-banner.css?v=cu55-supporters-two-row' ja/index.html
+          grep -Fq 'script.js?v=cu55-supporters-two-row' ja/index.html
           ! grep -Fq 'supporters-banner-section' ja/index.html
-          grep -Fq "./scripts/cosmic-interface.js?v=cu54-supporters-shared-panel" script.js
+          grep -Fq "./scripts/cosmic-interface.js?v=cu55-supporters-two-row" script.js
           grep -Fq "export const SUPPORTERS_ITEM" scripts/main10-text.js
           grep -Fq "route: './supporters/'" scripts/main10-text.js
           grep -Fq 'const supportersCardMarkup=' scripts/cosmic-interface.js
@@ -46,10 +46,13 @@ jobs:
           grep -Fq "panel.classList.toggle('is-supporters',isSupporters);" scripts/cosmic-interface.js
           grep -Fq 'dialog.showModal();' scripts/cosmic-interface.js
           grep -Fq 'document.startViewTransition' scripts/cosmic-interface.js
-          grep -Fq 'height:268px;' styles/supporter-banner.css
-          grep -Fq 'height:250px;' styles/supporter-banner.css
-          grep -Fq '.supporters-card{height:262px}' styles/supporter-banner.css
-          grep -Fq '.supporters-card .cosmic-card__stack{height:244px}' styles/supporter-banner.css
+          ! grep -Fq 'Supporters / Sponsors' scripts/cosmic-interface.js
+          ! grep -Fq 'タップして詳細を見る' scripts/cosmic-interface.js
+          ! grep -Fq 'supporters-card__ornament' scripts/cosmic-interface.js styles/supporter-banner.css
+          grep -Fq 'height:178px;' styles/supporter-banner.css
+          grep -Fq 'height:160px;' styles/supporter-banner.css
+          grep -Fq '.supporters-card{height:174px}' styles/supporter-banner.css
+          grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' styles/supporter-banner.css
           grep -Fq '.cosmic-expanded.is-supporters .cosmic-expanded__glass' styles/supporter-banner.css
           test "$(cat CNAME)" = "asterav8.jp"
 
@@ -92,23 +95,26 @@ jobs:
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/main10-text.js?probe=${GITHUB_SHA}" -o /tmp/live-main10-text.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/cosmic-interface.js?probe=${GITHUB_SHA}" -o /tmp/live-cosmic.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/live-banner.css; then
-              if grep -Fq 'supporter-banner.css?v=cu54-supporters-shared-panel' /tmp/live-ja.html \
-                && grep -Fq 'script.js?v=cu54-supporters-shared-panel' /tmp/live-ja.html \
-                && grep -Fq './scripts/cosmic-interface.js?v=cu54-supporters-shared-panel' /tmp/live-script.js \
+              if grep -Fq 'supporter-banner.css?v=cu55-supporters-two-row' /tmp/live-ja.html \
+                && grep -Fq 'script.js?v=cu55-supporters-two-row' /tmp/live-ja.html \
+                && grep -Fq './scripts/cosmic-interface.js?v=cu55-supporters-two-row' /tmp/live-script.js \
                 && grep -Fq '支援者・スポンサーのご紹介' /tmp/live-main10-text.js \
                 && grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' /tmp/live-cosmic.js \
                 && grep -Fq 'data-cosmic-card data-key="${item.id}"' /tmp/live-cosmic.js \
                 && grep -Fq "panel.classList.toggle('is-supporters',isSupporters);" /tmp/live-cosmic.js \
-                && grep -Fq 'height:268px;' /tmp/live-banner.css \
-                && grep -Fq 'height:250px;' /tmp/live-banner.css \
-                && grep -Fq '.supporters-card{height:262px}' /tmp/live-banner.css \
-                && grep -Fq '.supporters-card .cosmic-card__stack{height:244px}' /tmp/live-banner.css; then
+                && ! grep -Fq 'Supporters / Sponsors' /tmp/live-cosmic.js \
+                && ! grep -Fq 'タップして詳細を見る' /tmp/live-cosmic.js \
+                && ! grep -Fq 'supporters-card__ornament' /tmp/live-cosmic.js /tmp/live-banner.css \
+                && grep -Fq 'height:178px;' /tmp/live-banner.css \
+                && grep -Fq 'height:160px;' /tmp/live-banner.css \
+                && grep -Fq '.supporters-card{height:174px}' /tmp/live-banner.css \
+                && grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' /tmp/live-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Pages URL did not serve the shared three-row supporters card component.' >&2
+          echo 'Pages URL did not serve the shared two-row supporters card component.' >&2
           exit 1
 
       - name: Probe custom domain supporters component
@@ -122,20 +128,23 @@ jobs:
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/main10-text.js?probe=${GITHUB_SHA}" -o /tmp/custom-main10-text.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/cosmic-interface.js?probe=${GITHUB_SHA}" -o /tmp/custom-cosmic.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/custom-banner.css; then
-              if grep -Fq 'supporter-banner.css?v=cu54-supporters-shared-panel' /tmp/custom-ja.html \
-                && grep -Fq 'script.js?v=cu54-supporters-shared-panel' /tmp/custom-ja.html \
-                && grep -Fq './scripts/cosmic-interface.js?v=cu54-supporters-shared-panel' /tmp/custom-script.js \
+              if grep -Fq 'supporter-banner.css?v=cu55-supporters-two-row' /tmp/custom-ja.html \
+                && grep -Fq 'script.js?v=cu55-supporters-two-row' /tmp/custom-ja.html \
+                && grep -Fq './scripts/cosmic-interface.js?v=cu55-supporters-two-row' /tmp/custom-script.js \
                 && grep -Fq '支援者・スポンサーのご紹介' /tmp/custom-main10-text.js \
                 && grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' /tmp/custom-cosmic.js \
                 && grep -Fq "panel.classList.toggle('is-supporters',isSupporters);" /tmp/custom-cosmic.js \
-                && grep -Fq 'height:268px;' /tmp/custom-banner.css \
-                && grep -Fq 'height:250px;' /tmp/custom-banner.css \
-                && grep -Fq '.supporters-card{height:262px}' /tmp/custom-banner.css \
-                && grep -Fq '.supporters-card .cosmic-card__stack{height:244px}' /tmp/custom-banner.css; then
+                && ! grep -Fq 'Supporters / Sponsors' /tmp/custom-cosmic.js \
+                && ! grep -Fq 'タップして詳細を見る' /tmp/custom-cosmic.js \
+                && ! grep -Fq 'supporters-card__ornament' /tmp/custom-cosmic.js /tmp/custom-banner.css \
+                && grep -Fq 'height:178px;' /tmp/custom-banner.css \
+                && grep -Fq 'height:160px;' /tmp/custom-banner.css \
+                && grep -Fq '.supporters-card{height:174px}' /tmp/custom-banner.css \
+                && grep -Fq '.supporters-card .cosmic-card__stack{height:156px}' /tmp/custom-banner.css; then
                 exit 0
               fi
             fi
             sleep 5
           done
-          echo 'Custom domain did not serve the shared three-row supporters card component.' >&2
+          echo 'Custom domain did not serve the shared two-row supporters card component.' >&2
           exit 1
