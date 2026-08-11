@@ -1,0 +1,11 @@
+/* CU-HEADER-LANGUAGE-TEXT-SIZE-01
+   Match the Language Select text size to the Astera app-entry UI without changing control geometry. */
+.language-select{
+  font-size:12px;
+}
+
+@media (min-width:768px){
+  .language-select{
+    font-size:13px;
+  }
+}
