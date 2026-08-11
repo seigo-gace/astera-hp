@@ -68,19 +68,22 @@
   background:radial-gradient(220px 120px at var(--mx) var(--my),rgba(241,217,154,.18),transparent 74%);
 }
 
-/* Dedicated emblem + vertical separator. No extra visible text is added. */
-.supporters-card__content{
-  padding-left:clamp(92px,12vw,122px);
-  padding-right:clamp(24px,5vw,50px);
+/* Dedicated emblem + vertical separator. No extra visible text is added.
+   The description keeps the original full text width so its two fixed lines remain intact. */
+.supporters-card__title{
+  position:relative;
+  padding-left:72px;
+  color:rgba(248,248,246,.99);
+  text-shadow:0 0 18px rgba(215,182,106,.10);
 }
-.supporters-card__content::before{
+.supporters-card__title::before{
   content:"✦";
   position:absolute;
-  left:clamp(26px,4.6vw,44px);
+  left:0;
   top:50%;
   transform:translateY(-50%);
-  width:42px;
-  height:42px;
+  width:40px;
+  height:40px;
   display:grid;
   place-items:center;
   border:1px solid rgba(215,182,106,.42);
@@ -92,16 +95,10 @@
   text-shadow:0 0 10px rgba(241,217,154,.34);
   pointer-events:none;
 }
-.supporters-card__title{
-  position:relative;
-  padding-left:22px;
-  color:rgba(248,248,246,.99);
-  text-shadow:0 0 18px rgba(215,182,106,.10);
-}
-.supporters-card__title::before{
+.supporters-card__title::after{
   content:"";
   position:absolute;
-  left:0;
+  left:54px;
   top:50%;
   width:1px;
   height:38px;
@@ -111,7 +108,6 @@
   pointer-events:none;
 }
 .supporters-card__description{
-  margin-left:22px;
   color:rgba(222,222,220,.90);
 }
 
@@ -135,27 +131,27 @@
 
 @media (hover:hover) and (pointer:fine){
   .supporters-card:hover .cosmic-card__stack{filter:drop-shadow(0 18px 30px rgba(215,182,106,.12))}
-  .supporters-card:hover .supporters-card__content::before{box-shadow:0 0 0 1px rgba(220,225,232,.06),0 0 22px rgba(215,182,106,.16),inset 0 1px 0 rgba(255,255,255,.11)}
+  .supporters-card:hover .supporters-card__title::before{box-shadow:0 0 0 1px rgba(220,225,232,.06),0 0 22px rgba(215,182,106,.16),inset 0 1px 0 rgba(255,255,255,.11)}
 }
 .supporters-card:focus-visible .cosmic-card__stack{filter:drop-shadow(0 0 18px rgba(215,182,106,.20))}
 
 @media (max-width:560px){
-  .supporters-card__content{
-    padding-left:82px;
-    padding-right:18px;
+  .supporters-card__title{
+    padding-left:60px;
+    font-size:clamp(18px,5vw,20px);
   }
-  .supporters-card__content::before{
-    left:22px;
-    width:36px;
-    height:36px;
-    border-radius:9px;
-    font-size:17px;
+  .supporters-card__title::before{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    font-size:16px;
   }
-  .supporters-card__title{padding-left:18px}
-  .supporters-card__title::before{height:34px}
-  .supporters-card__description{margin-left:18px}
+  .supporters-card__title::after{
+    left:44px;
+    height:32px;
+  }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .supporters-card__content::before{transition:none}
+  .supporters-card__title::before{transition:none}
 }
