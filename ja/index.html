@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="../styles/cosmic-interface-equal-stack.css?v=cu51-supporters-placement">
   <link rel="stylesheet" href="../styles/supporter-banner.css?v=cu57-copyright-inline">
   <link rel="stylesheet" href="../styles/header-logo-fix.css?v=cu59-logo-visible">
+  <link rel="stylesheet" href="../styles/ai-chat-glass.css?v=cu60-ai-chat-glass">
   <script type="module" src="../script.js?v=cu58-header-logo-copyright"></script>
+  <script type="module" src="../scripts/ai-chat-entry.js?v=cu60-ai-chat-glass"></script>
 </head>
 <body>
   <header class="site-header">
@@ -29,42 +31,47 @@
       <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-chat" aria-label="Astera案内AIを開く"><img src="../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
       <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
     </div>
-    <section id="ai-chat" class="ai-chat" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
-      <div class="ai-chat__header">
-        <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
-        <div class="ai-chat__window-actions">
-          <button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button>
-          <button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button>
+    <section id="ai-chat" class="ai-chat ai-chat--glass" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
+      <div class="ai-chat__top-dock" data-ai-top-dock>
+        <div class="ai-chat__header">
+          <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
+          <div class="ai-chat__window-actions">
+            <button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button>
+            <button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button>
+          </div>
         </div>
-      </div>
-      <div class="ai-routing" data-ai-routing>
-        <div class="ai-routing__current">
-          <span>回答タイプ：<strong data-ai-mode-label>AIに任せる</strong></span>
-          <div class="ai-routing__actions"><button type="button" data-ai-mode-change>変更</button><button type="button" data-ai-new-chat>新しい会話</button></div>
-        </div>
-        <div class="ai-mode-picker" data-ai-mode-picker>
-          <strong class="ai-mode-picker__title">どの案内が必要ですか？</strong>
-          <p>選ばず、そのまま質問することもできます。</p>
-          <div class="ai-mode-picker__chips" role="group" aria-label="回答タイプ">
-            <button type="button" data-ai-mode="general">Asteraについて</button>
-            <button type="button" data-ai-mode="operation">操作・使い方</button>
-            <button type="button" data-ai-mode="billing">料金・Account</button>
-            <button type="button" data-ai-mode="technical">技術者向け</button>
-            <button type="button" data-ai-mode="investor">投資家・法人向け</button>
-            <button type="button" data-ai-mode="support">開発支援・Sponsor</button>
-            <button type="button" data-ai-mode="trouble">不具合・困りごと</button>
-            <button type="button" data-ai-mode="auto" aria-pressed="true">AIに任せる</button>
+        <div class="ai-routing" data-ai-routing>
+          <div class="ai-routing__current">
+            <label class="ai-mode-select-wrap">
+              <span class="ai-mode-select-label">回答タイプ</span>
+              <span class="ai-mode-select-shell">
+                <select class="ai-mode-select" data-ai-mode-select aria-label="回答タイプ">
+                  <option value="auto" selected>AIに任せる</option>
+                  <option value="general">Asteraについて</option>
+                  <option value="operation">操作・使い方</option>
+                  <option value="billing">料金・Account</option>
+                  <option value="technical">技術者向け</option>
+                  <option value="investor">投資家・法人向け</option>
+                  <option value="support">開発支援・Sponsor</option>
+                  <option value="trouble">不具合・困りごと</option>
+                </select>
+                <span class="ai-mode-select-arrow" aria-hidden="true">⌄</span>
+              </span>
+            </label>
+            <div class="ai-routing__actions"><button type="button" data-ai-new-chat>新しい会話</button></div>
           </div>
         </div>
       </div>
       <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話">
         <div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div>
       </div>
-      <div class="ai-composer">
-        <textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1" maxlength="12000"></textarea>
-        <button class="ai-send" type="button">送信</button>
+      <div class="ai-chat__composer-dock" data-ai-composer-dock>
+        <div class="ai-composer">
+          <textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1" maxlength="12000"></textarea>
+          <button class="ai-send" type="button" data-icon-send aria-label="送信"><svg class="ai-send__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6l.8 6.5L15 12 4.2 13.9z"/></svg></button>
+        </div>
+        <p class="ai-status" data-ai-status role="status" aria-live="polite"></p>
       </div>
-      <p class="ai-status" data-ai-status role="status" aria-live="polite"></p>
     </section>
   </header>
   <main class="page-main">
