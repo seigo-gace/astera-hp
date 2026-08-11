@@ -125,7 +125,6 @@
     --ai-bottom-dock-space:86px;
     --ai-viewport-top:0px;
     --ai-viewport-height:100dvh;
-    --ai-viewport-bottom-gap:max(0px,calc(100lvh - var(--ai-viewport-top) - var(--ai-viewport-height)));
     position:fixed;
     inset:0;
     width:100vw;
@@ -188,13 +187,17 @@
 
   .ai-chat--glass:not(.is-minimized) .ai-timeline{
     position:absolute;
-    inset:0;
+    top:var(--ai-viewport-top);
+    right:0;
+    bottom:auto;
+    left:0;
     z-index:1;
+    height:var(--ai-viewport-height);
     min-height:0;
     padding:
-      calc(var(--ai-viewport-top) + var(--ai-top-dock-space) + 12px)
+      calc(var(--ai-top-dock-space) + 12px)
       max(12px,env(safe-area-inset-right))
-      calc(var(--ai-viewport-bottom-gap) + var(--ai-bottom-dock-space) + 12px)
+      calc(var(--ai-bottom-dock-space) + 12px)
       max(12px,env(safe-area-inset-left));
     overflow-y:auto;
     overflow-x:hidden;
@@ -208,8 +211,9 @@
 
   .ai-chat--glass:not(.is-minimized) .ai-chat__composer-dock{
     position:absolute;
+    top:calc(var(--ai-viewport-top) + var(--ai-viewport-height) - var(--ai-bottom-dock-space));
     right:0;
-    bottom:var(--ai-viewport-bottom-gap);
+    bottom:auto;
     left:0;
     z-index:5;
     padding:10px max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
@@ -226,6 +230,8 @@
 
   .ai-chat--glass:not(.is-minimized) .ai-chat textarea{
     min-height:48px;
+    max-height:120px;
+    overflow-y:auto;
     background:color-mix(in srgb,var(--bg) 54%,transparent);
   }
 
