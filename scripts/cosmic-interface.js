@@ -1,5 +1,5 @@
 import { PUBLIC_MAIN10 } from '../data/public-main10.ja.js';
-import { MAIN10_ITEMS, SUPPORTERS_ITEM } from './main10-text.js';
+import { MAIN10_ITEMS, SUPPORTERS_ITEM } from './main10-text.js?v=cu54-supporters-shared-panel';
 
 const byId=new Map([...PUBLIC_MAIN10,SUPPORTERS_ITEM].map(item=>[item.id,item]));
 const routeById=new Map(MAIN10_ITEMS.map(item=>[item.id,item.route]));
