@@ -27,18 +27,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html ja/index.html style.css script.js styles/header.css styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css styles/supporter-premium.css styles/supporter-decoration.css scripts/cosmic-interface.js scripts/main10-text.js CNAME; do
+          for file in index.html ja/index.html style.css script.js styles/header.css styles/cosmic-interface.css styles/cosmic-interface-equal-stack.css styles/supporter-banner.css styles/supporter-premium.css styles/supporter-decoration.css scripts/cosmic-interface.js scripts/main10-text.js assets/ornaments/supporters-crown-ornament.png CNAME; do
             test -s "$file"
           done
           test ! -e styles/footer.css
+          test ! -e assets/images/hero/supporters-crown-ornament.png
+          test "$(git hash-object assets/ornaments/supporters-crown-ornament.png)" = "6f74d324298ffc79091ba4c4d1501c8247b0d6b2"
+          test "$(sha256sum assets/ornaments/supporters-crown-ornament.png | awk '{print $1}')" = "d4905469fef5df2728a86cae85ce4f6ce687852d9ed91ae5fea521a388df0605"
           node --check script.js
           node --check scripts/cosmic-interface.js
           node --check scripts/main10-text.js
           grep -Fq 'style.css?v=cu58-header-logo-copyright' ja/index.html
           grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' ja/index.html
           grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' ja/index.html
-          grep -Fq 'supporter-decoration.css?v=cu66-supporters-layered-design' ja/index.html
-          grep -Fq 'script.js?v=cu66-supporters-layered-design' ja/index.html
+          grep -Fq 'supporter-decoration.css?v=cu67-supporters-crown-overlay' ja/index.html
+          grep -Fq 'script.js?v=cu67-supporters-crown-overlay' ja/index.html
           ! grep -Fq '<footer' ja/index.html
           ! grep -Fq 'data-footer-copy' ja/index.html script.js
           grep -Fq 'data-top-copyright' ja/index.html script.js
@@ -53,18 +56,17 @@ jobs:
           grep -Fq "classList.remove('menu-open')" script.js
           grep -Fq "window.addEventListener('pageshow',releaseStaleScrollLocks)" script.js
           ! grep -Fq 'supporters-banner-section' ja/index.html
-          grep -Fq "./scripts/cosmic-interface.js?v=cu66-supporters-layered-design" script.js
+          grep -Fq "./scripts/cosmic-interface.js?v=cu67-supporters-crown-overlay" script.js
           grep -Fq "./scripts/main10-text.js?v=cu58-header-logo-copyright" script.js
           grep -Fq "export const SUPPORTERS_ITEM" scripts/main10-text.js
           grep -Fq "route: './supporters/'" scripts/main10-text.js
           grep -Fq 'const supportersCardMarkup=' scripts/cosmic-interface.js
           grep -Fq 'class="cosmic-card supporters-card"' scripts/cosmic-interface.js
           grep -Fq 'data-cosmic-card data-key="${item.id}"' scripts/cosmic-interface.js
-          grep -Fq 'supporters-card__decor' scripts/cosmic-interface.js
-          grep -Fq 'supporters-card__decor-facet' scripts/cosmic-interface.js
-          grep -Fq 'supporters-card__decor-crest' scripts/cosmic-interface.js
-          grep -Fq 'supporters-card__decor-trim--top' scripts/cosmic-interface.js
-          grep -Fq 'supporters-card__decor-trim--bottom' scripts/cosmic-interface.js
+          grep -Fq '<span class="supporters-card__decor" aria-hidden="true"></span>' scripts/cosmic-interface.js
+          ! grep -Fq 'supporters-card__decor-facet' scripts/cosmic-interface.js
+          ! grep -Fq 'supporters-card__decor-crest' scripts/cosmic-interface.js
+          ! grep -Fq 'supporters-card__decor-trim' scripts/cosmic-interface.js
           grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' scripts/cosmic-interface.js
           grep -Fq "panel.classList.toggle('is-supporters',isSupporters);" scripts/cosmic-interface.js
           grep -Fq 'dialog.showModal();' scripts/cosmic-interface.js
@@ -76,11 +78,12 @@ jobs:
           ! grep -Fq 'supporters-card__content::after' styles/supporter-premium.css
           grep -Fq '.supporters-card__decor{' styles/supporter-decoration.css
           grep -Fq 'z-index:2' styles/supporter-decoration.css
-          grep -Fq '.supporters-card__decor-facet{' styles/supporter-decoration.css
-          grep -Fq '.supporters-card__decor-crest{' styles/supporter-decoration.css
-          grep -Fq '.supporters-card__decor-trim--top{' styles/supporter-decoration.css
-          grep -Fq '.supporters-card__decor-trim--bottom{' styles/supporter-decoration.css
+          grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu67-supporters-crown-overlay')" styles/supporter-decoration.css
+          grep -Fq 'opacity:.16' styles/supporter-decoration.css
           grep -Fq '.supporters-card__content{z-index:5}' styles/supporter-decoration.css
+          ! grep -Fq '.supporters-card__decor-facet{' styles/supporter-decoration.css
+          ! grep -Fq '.supporters-card__decor-crest{' styles/supporter-decoration.css
+          ! grep -Fq '.supporters-card__decor-trim' styles/supporter-decoration.css
           grep -Fq 'height:178px;' styles/supporter-banner.css
           grep -Fq 'height:160px;' styles/supporter-banner.css
           grep -Fq '.supporters-card{height:174px}' styles/supporter-banner.css
@@ -104,6 +107,8 @@ jobs:
           test -s public/styles/supporter-banner.css
           test -s public/styles/supporter-premium.css
           test -s public/styles/supporter-decoration.css
+          test -s public/assets/ornaments/supporters-crown-ornament.png
+          test ! -e public/assets/images/hero/supporters-crown-ornament.png
           test -s public/scripts/cosmic-interface.js
           test -s public/scripts/main10-text.js
           test ! -e public/styles/footer.css
@@ -136,12 +141,13 @@ jobs:
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/cosmic-interface.js?probe=${GITHUB_SHA}" -o /tmp/live-cosmic.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/live-banner.css \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-premium.css?probe=${GITHUB_SHA}" -o /tmp/live-premium.css \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-decoration.css?probe=${GITHUB_SHA}" -o /tmp/live-decoration.css; then
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-decoration.css?probe=${GITHUB_SHA}" -o /tmp/live-decoration.css \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/assets/ornaments/supporters-crown-ornament.png?probe=${GITHUB_SHA}" -o /tmp/live-ornament.png; then
               if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/live-ja.html \
                 && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/live-ja.html \
                 && grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' /tmp/live-ja.html \
-                && grep -Fq 'supporter-decoration.css?v=cu66-supporters-layered-design' /tmp/live-ja.html \
-                && grep -Fq 'script.js?v=cu66-supporters-layered-design' /tmp/live-ja.html \
+                && grep -Fq 'supporter-decoration.css?v=cu67-supporters-crown-overlay' /tmp/live-ja.html \
+                && grep -Fq 'script.js?v=cu67-supporters-crown-overlay' /tmp/live-ja.html \
                 && grep -Fq 'data-top-copyright' /tmp/live-ja.html \
                 && grep -Fq 'Copyright © 2026 Astera' /tmp/live-ja.html /tmp/live-main10-text.js /tmp/live-script.js \
                 && ! grep -Fq '<footer' /tmp/live-ja.html \
@@ -149,20 +155,23 @@ jobs:
                 && grep -Fq 'height:calc(100% - 4px)' /tmp/live-header.css \
                 && grep -Fq 'filter:contrast(1.10)' /tmp/live-header.css \
                 && grep -Fq 'releaseStaleScrollLocks' /tmp/live-script.js \
-                && grep -Fq './scripts/cosmic-interface.js?v=cu66-supporters-layered-design' /tmp/live-script.js \
+                && grep -Fq './scripts/cosmic-interface.js?v=cu67-supporters-crown-overlay' /tmp/live-script.js \
                 && grep -Fq '支援者・スポンサーのご紹介' /tmp/live-main10-text.js \
                 && grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' /tmp/live-cosmic.js \
-                && grep -Fq 'data-cosmic-card data-key="${item.id}"' /tmp/live-cosmic.js \
-                && grep -Fq 'supporters-card__decor' /tmp/live-cosmic.js \
+                && grep -Fq '<span class="supporters-card__decor" aria-hidden="true"></span>' /tmp/live-cosmic.js \
+                && ! grep -Fq 'supporters-card__decor-facet' /tmp/live-cosmic.js \
+                && ! grep -Fq 'supporters-card__decor-crest' /tmp/live-cosmic.js \
+                && ! grep -Fq 'supporters-card__decor-trim' /tmp/live-cosmic.js \
                 && grep -Fq "panel.classList.toggle('is-supporters',isSupporters);" /tmp/live-cosmic.js \
                 && ! grep -Fq 'Supporters / Sponsors' /tmp/live-cosmic.js \
                 && ! grep -Fq 'タップして詳細を見る' /tmp/live-cosmic.js \
-                && ! grep -Fq 'supporters-card__ornament' /tmp/live-cosmic.js /tmp/live-banner.css \
                 && ! grep -Fq 'supporters-card__content::before' /tmp/live-premium.css \
-                && grep -Fq '.supporters-card__decor-facet{' /tmp/live-decoration.css \
-                && grep -Fq '.supporters-card__decor-crest{' /tmp/live-decoration.css \
-                && grep -Fq '.supporters-card__decor-trim--top{' /tmp/live-decoration.css \
-                && grep -Fq '.supporters-card__decor-trim--bottom{' /tmp/live-decoration.css \
+                && grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu67-supporters-crown-overlay')" /tmp/live-decoration.css \
+                && grep -Fq 'opacity:.16' /tmp/live-decoration.css \
+                && ! grep -Fq '.supporters-card__decor-facet{' /tmp/live-decoration.css \
+                && ! grep -Fq '.supporters-card__decor-crest{' /tmp/live-decoration.css \
+                && ! grep -Fq '.supporters-card__decor-trim' /tmp/live-decoration.css \
+                && test "$(sha256sum /tmp/live-ornament.png | awk '{print $1}')" = "d4905469fef5df2728a86cae85ce4f6ce687852d9ed91ae5fea521a388df0605" \
                 && grep -Fq 'height:178px;' /tmp/live-banner.css \
                 && grep -Fq 'height:160px;' /tmp/live-banner.css \
                 && grep -Fq '.supporters-card{height:174px}' /tmp/live-banner.css \
@@ -173,7 +182,7 @@ jobs:
             fi
             sleep 5
           done
-          echo 'Pages URL did not serve the final supporters layered design.' >&2
+          echo 'Pages URL did not serve the supporters crown ornament overlay.' >&2
           exit 1
 
       - name: Probe custom domain top layout
@@ -190,12 +199,13 @@ jobs:
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/scripts/cosmic-interface.js?probe=${GITHUB_SHA}" -o /tmp/custom-cosmic.js \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-banner.css?probe=${GITHUB_SHA}" -o /tmp/custom-banner.css \
               && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-premium.css?probe=${GITHUB_SHA}" -o /tmp/custom-premium.css \
-              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-decoration.css?probe=${GITHUB_SHA}" -o /tmp/custom-decoration.css; then
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/styles/supporter-decoration.css?probe=${GITHUB_SHA}" -o /tmp/custom-decoration.css \
+              && curl --fail --location --silent --show-error -H 'Cache-Control: no-cache' "$root/assets/ornaments/supporters-crown-ornament.png?probe=${GITHUB_SHA}" -o /tmp/custom-ornament.png; then
               if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/custom-ja.html \
                 && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/custom-ja.html \
                 && grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' /tmp/custom-ja.html \
-                && grep -Fq 'supporter-decoration.css?v=cu66-supporters-layered-design' /tmp/custom-ja.html \
-                && grep -Fq 'script.js?v=cu66-supporters-layered-design' /tmp/custom-ja.html \
+                && grep -Fq 'supporter-decoration.css?v=cu67-supporters-crown-overlay' /tmp/custom-ja.html \
+                && grep -Fq 'script.js?v=cu67-supporters-crown-overlay' /tmp/custom-ja.html \
                 && grep -Fq 'data-top-copyright' /tmp/custom-ja.html \
                 && grep -Fq 'Copyright © 2026 Astera' /tmp/custom-ja.html /tmp/custom-main10-text.js /tmp/custom-script.js \
                 && ! grep -Fq '<footer' /tmp/custom-ja.html \
@@ -203,19 +213,23 @@ jobs:
                 && grep -Fq 'height:calc(100% - 4px)' /tmp/custom-header.css \
                 && grep -Fq 'filter:contrast(1.10)' /tmp/custom-header.css \
                 && grep -Fq 'releaseStaleScrollLocks' /tmp/custom-script.js \
-                && grep -Fq './scripts/cosmic-interface.js?v=cu66-supporters-layered-design' /tmp/custom-script.js \
+                && grep -Fq './scripts/cosmic-interface.js?v=cu67-supporters-crown-overlay' /tmp/custom-script.js \
                 && grep -Fq '支援者・スポンサーのご紹介' /tmp/custom-main10-text.js \
                 && grep -Fq 'supportersCardMarkup(SUPPORTERS_ITEM)' /tmp/custom-cosmic.js \
-                && grep -Fq 'supporters-card__decor' /tmp/custom-cosmic.js \
+                && grep -Fq '<span class="supporters-card__decor" aria-hidden="true"></span>' /tmp/custom-cosmic.js \
+                && ! grep -Fq 'supporters-card__decor-facet' /tmp/custom-cosmic.js \
+                && ! grep -Fq 'supporters-card__decor-crest' /tmp/custom-cosmic.js \
+                && ! grep -Fq 'supporters-card__decor-trim' /tmp/custom-cosmic.js \
                 && grep -Fq "panel.classList.toggle('is-supporters',isSupporters);" /tmp/custom-cosmic.js \
                 && ! grep -Fq 'Supporters / Sponsors' /tmp/custom-cosmic.js \
                 && ! grep -Fq 'タップして詳細を見る' /tmp/custom-cosmic.js \
-                && ! grep -Fq 'supporters-card__ornament' /tmp/custom-cosmic.js /tmp/custom-banner.css \
                 && ! grep -Fq 'supporters-card__content::before' /tmp/custom-premium.css \
-                && grep -Fq '.supporters-card__decor-facet{' /tmp/custom-decoration.css \
-                && grep -Fq '.supporters-card__decor-crest{' /tmp/custom-decoration.css \
-                && grep -Fq '.supporters-card__decor-trim--top{' /tmp/custom-decoration.css \
-                && grep -Fq '.supporters-card__decor-trim--bottom{' /tmp/custom-decoration.css \
+                && grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu67-supporters-crown-overlay')" /tmp/custom-decoration.css \
+                && grep -Fq 'opacity:.16' /tmp/custom-decoration.css \
+                && ! grep -Fq '.supporters-card__decor-facet{' /tmp/custom-decoration.css \
+                && ! grep -Fq '.supporters-card__decor-crest{' /tmp/custom-decoration.css \
+                && ! grep -Fq '.supporters-card__decor-trim' /tmp/custom-decoration.css \
+                && test "$(sha256sum /tmp/custom-ornament.png | awk '{print $1}')" = "d4905469fef5df2728a86cae85ce4f6ce687852d9ed91ae5fea521a388df0605" \
                 && grep -Fq 'height:178px;' /tmp/custom-banner.css \
                 && grep -Fq 'height:160px;' /tmp/custom-banner.css \
                 && grep -Fq '.supporters-card{height:174px}' /tmp/custom-banner.css \
@@ -226,5 +240,5 @@ jobs:
             fi
             sleep 5
           done
-          echo 'Custom domain did not serve the final supporters layered design.' >&2
+          echo 'Custom domain did not serve the supporters crown ornament overlay.' >&2
           exit 1
