@@ -79,3 +79,7 @@ export const SUPPORTERS_ITEM = Object.freeze({
   body: '皆さまのご支援が、挑戦を前へ進める力です。',
   route: './supporters/'
 });
+
+export const SITE_TEXT = Object.freeze({
+  footerCopyright: 'ASTERA © 2026'
+});
