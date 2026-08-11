@@ -3,7 +3,7 @@ import { initSideMenu } from './scripts/menu.js';
 import { initAiBubble } from './scripts/ai-hf-chat.js?v=cu47-mobile-chat';
 import { initAppEntry } from './scripts/app-entry.js';
 import { initHeroEffect } from './scripts/hero-effect.js';
-import { initCosmicMain10 } from './scripts/cosmic-interface.js?v=cu55-supporters-two-row';
+import { initCosmicMain10 } from './scripts/cosmic-interface.js?v=cu66-supporters-layered-design';
 import { SITE_TEXT } from './scripts/main10-text.js?v=cu58-header-logo-copyright';
 
 initLanguageSelect();
