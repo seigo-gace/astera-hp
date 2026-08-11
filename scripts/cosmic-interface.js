@@ -1,7 +1,7 @@
 import { PUBLIC_MAIN10 } from '../data/public-main10.ja.js';
-import { MAIN10_ITEMS } from './main10-text.js';
+import { MAIN10_ITEMS, SUPPORTERS_ITEM } from './main10-text.js';
 
-const byId=new Map(PUBLIC_MAIN10.map(item=>[item.id,item]));
+const byId=new Map([...PUBLIC_MAIN10,SUPPORTERS_ITEM].map(item=>[item.id,item]));
 const routeById=new Map(MAIN10_ITEMS.map(item=>[item.id,item.route]));
 const reduceMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer=()=>matchMedia('(hover:hover) and (pointer:fine)').matches;
@@ -9,6 +9,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const icon=(id,className)=>`<span class="${className} cosmic-icon" data-icon="${id}" aria-hidden="true"></span>`;
 
 const cardMarkup=item=>`<button class="cosmic-card" type="button" data-cosmic-card data-key="${item.id}" aria-label="${item.title}を開く"><span class="cosmic-card__stack" data-cosmic-card-stack><span class="cosmic-card__ghost" aria-hidden="true"></span><span class="cosmic-card__glass"><span class="cosmic-card__top">${icon(item.id,'cosmic-card__icon')}<span class="cosmic-card__divider" aria-hidden="true"></span><span class="cosmic-card__label" data-cosmic-label>${item.title}</span></span><span class="cosmic-card__edge" aria-hidden="true"></span><span class="cosmic-card__flare" aria-hidden="true"></span></span></span></button>`;
+
+const supportersCardMarkup=item=>`<button class="cosmic-card supporters-card" type="button" data-cosmic-card data-key="${item.id}" aria-label="${item.title}を開く"><span class="cosmic-card__stack" data-cosmic-card-stack><span class="cosmic-card__ghost" aria-hidden="true"></span><span class="cosmic-card__glass"><span class="supporters-card__content"><span class="supporters-card__copy"><span class="supporters-card__eyebrow">Supporters / Sponsors</span><span class="supporters-card__title">${item.title}</span><span class="supporters-card__description"><span class="supporters-card__description-line">${item.lead}</span><span class="supporters-card__description-line">${item.body}</span></span><span class="supporters-card__cta">タップして詳細を見る<span class="supporters-card__cta-arrow" aria-hidden="true">↗</span></span></span><span class="supporters-card__ornament" aria-hidden="true"><span class="supporters-card__axis"></span></span></span><span class="cosmic-card__edge" aria-hidden="true"></span><span class="cosmic-card__flare" aria-hidden="true"></span></span></span></button>`;
 
 function setPointer(card,e){
   const r=card.getBoundingClientRect();
@@ -44,14 +46,16 @@ function fitCardLabels(cards){
   cards.forEach(card=>fitSingleLineLabel(card.querySelector('[data-cosmic-label]')));
 }
 function fillExpanded(panel,item){
+  const isSupporters=item.id==='supporters';
+  panel.classList.toggle('is-supporters',isSupporters);
   const title=panel.querySelector('[data-expanded-label]');
   title.textContent=item.title;
   panel.querySelector('[data-expanded-lead]').textContent=item.lead;
   panel.querySelector('[data-expanded-copy]').textContent=item.body;
   const expandedIcon=panel.querySelector('[data-expanded-icon]');
-  if(expandedIcon) expandedIcon.dataset.icon=item.id;
+  if(expandedIcon) expandedIcon.dataset.icon=item.iconId||item.id;
   const detail=panel.querySelector('[data-expanded-detail]');
-  const route=routeById.get(item.id);
+  const route=item.route||routeById.get(item.id);
   if(detail){
     if(route){
       detail.href=route;
@@ -106,7 +110,7 @@ export function initCosmicMain10(){
   const panelStack=panel?.querySelector('[data-cosmic-expanded-stack]');
   if(!root||!grid||!dialog||!panel||!panelStack)return;
 
-  grid.innerHTML=PUBLIC_MAIN10.map(cardMarkup).join('');
+  grid.innerHTML=PUBLIC_MAIN10.map(cardMarkup).join('')+supportersCardMarkup(SUPPORTERS_ITEM);
   const cards=[...grid.querySelectorAll('[data-cosmic-card]')];
   requestAnimationFrame(()=>fitCardLabels(cards));
   document.fonts?.ready?.then(()=>fitCardLabels(cards)).catch(()=>{});
@@ -183,7 +187,7 @@ export function initCosmicMain10(){
     }else{
       await fallbackClose(dialog,panel,source);
     }
-    panel.classList.remove('is-closing','is-preparing');
+    panel.classList.remove('is-closing','is-preparing','is-supporters');
     source?.focus({preventScroll:true});
     active=null;
     busy=false;
