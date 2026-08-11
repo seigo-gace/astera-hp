@@ -40,7 +40,7 @@ jobs:
           grep -Fq 'style.css?v=cu58-header-logo-copyright' ja/index.html
           grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' ja/index.html
           grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' ja/index.html
-          grep -Fq 'supporter-decoration.css?v=cu67-supporters-crown-overlay' ja/index.html
+          grep -Fq 'supporter-decoration.css?v=cu68-supporters-crown-top' ja/index.html
           grep -Fq 'script.js?v=cu67-supporters-crown-overlay' ja/index.html
           ! grep -Fq '<footer' ja/index.html
           ! grep -Fq 'data-footer-copy' ja/index.html script.js
@@ -78,9 +78,14 @@ jobs:
           ! grep -Fq 'supporters-card__content::after' styles/supporter-premium.css
           grep -Fq '.supporters-card__decor{' styles/supporter-decoration.css
           grep -Fq 'z-index:2' styles/supporter-decoration.css
-          grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu67-supporters-crown-overlay')" styles/supporter-decoration.css
+          grep -Fq 'top:8px;' styles/supporter-decoration.css
+          grep -Fq 'left:50%;' styles/supporter-decoration.css
+          grep -Fq 'transform:translateX(-50%);' styles/supporter-decoration.css
+          grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu68-supporters-crown-top')" styles/supporter-decoration.css
           grep -Fq 'opacity:.16' styles/supporter-decoration.css
           grep -Fq '.supporters-card__content{z-index:5}' styles/supporter-decoration.css
+          ! grep -Fq 'right:' styles/supporter-decoration.css
+          ! grep -Fq 'mask-image:' styles/supporter-decoration.css
           ! grep -Fq '.supporters-card__decor-facet{' styles/supporter-decoration.css
           ! grep -Fq '.supporters-card__decor-crest{' styles/supporter-decoration.css
           ! grep -Fq '.supporters-card__decor-trim' styles/supporter-decoration.css
@@ -146,7 +151,7 @@ jobs:
               if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/live-ja.html \
                 && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/live-ja.html \
                 && grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' /tmp/live-ja.html \
-                && grep -Fq 'supporter-decoration.css?v=cu67-supporters-crown-overlay' /tmp/live-ja.html \
+                && grep -Fq 'supporter-decoration.css?v=cu68-supporters-crown-top' /tmp/live-ja.html \
                 && grep -Fq 'script.js?v=cu67-supporters-crown-overlay' /tmp/live-ja.html \
                 && grep -Fq 'data-top-copyright' /tmp/live-ja.html \
                 && grep -Fq 'Copyright © 2026 Astera' /tmp/live-ja.html /tmp/live-main10-text.js /tmp/live-script.js \
@@ -166,8 +171,13 @@ jobs:
                 && ! grep -Fq 'Supporters / Sponsors' /tmp/live-cosmic.js \
                 && ! grep -Fq 'タップして詳細を見る' /tmp/live-cosmic.js \
                 && ! grep -Fq 'supporters-card__content::before' /tmp/live-premium.css \
-                && grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu67-supporters-crown-overlay')" /tmp/live-decoration.css \
+                && grep -Fq 'top:8px;' /tmp/live-decoration.css \
+                && grep -Fq 'left:50%;' /tmp/live-decoration.css \
+                && grep -Fq 'transform:translateX(-50%);' /tmp/live-decoration.css \
+                && grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu68-supporters-crown-top')" /tmp/live-decoration.css \
                 && grep -Fq 'opacity:.16' /tmp/live-decoration.css \
+                && ! grep -Fq 'right:' /tmp/live-decoration.css \
+                && ! grep -Fq 'mask-image:' /tmp/live-decoration.css \
                 && ! grep -Fq '.supporters-card__decor-facet{' /tmp/live-decoration.css \
                 && ! grep -Fq '.supporters-card__decor-crest{' /tmp/live-decoration.css \
                 && ! grep -Fq '.supporters-card__decor-trim' /tmp/live-decoration.css \
@@ -182,7 +192,7 @@ jobs:
             fi
             sleep 5
           done
-          echo 'Pages URL did not serve the supporters crown ornament overlay.' >&2
+          echo 'Pages URL did not serve the top-centered supporters crown ornament.' >&2
           exit 1
 
       - name: Probe custom domain top layout
@@ -204,7 +214,7 @@ jobs:
               if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/custom-ja.html \
                 && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/custom-ja.html \
                 && grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' /tmp/custom-ja.html \
-                && grep -Fq 'supporter-decoration.css?v=cu67-supporters-crown-overlay' /tmp/custom-ja.html \
+                && grep -Fq 'supporter-decoration.css?v=cu68-supporters-crown-top' /tmp/custom-ja.html \
                 && grep -Fq 'script.js?v=cu67-supporters-crown-overlay' /tmp/custom-ja.html \
                 && grep -Fq 'data-top-copyright' /tmp/custom-ja.html \
                 && grep -Fq 'Copyright © 2026 Astera' /tmp/custom-ja.html /tmp/custom-main10-text.js /tmp/custom-script.js \
@@ -224,8 +234,13 @@ jobs:
                 && ! grep -Fq 'Supporters / Sponsors' /tmp/custom-cosmic.js \
                 && ! grep -Fq 'タップして詳細を見る' /tmp/custom-cosmic.js \
                 && ! grep -Fq 'supporters-card__content::before' /tmp/custom-premium.css \
-                && grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu67-supporters-crown-overlay')" /tmp/custom-decoration.css \
+                && grep -Fq 'top:8px;' /tmp/custom-decoration.css \
+                && grep -Fq 'left:50%;' /tmp/custom-decoration.css \
+                && grep -Fq 'transform:translateX(-50%);' /tmp/custom-decoration.css \
+                && grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu68-supporters-crown-top')" /tmp/custom-decoration.css \
                 && grep -Fq 'opacity:.16' /tmp/custom-decoration.css \
+                && ! grep -Fq 'right:' /tmp/custom-decoration.css \
+                && ! grep -Fq 'mask-image:' /tmp/custom-decoration.css \
                 && ! grep -Fq '.supporters-card__decor-facet{' /tmp/custom-decoration.css \
                 && ! grep -Fq '.supporters-card__decor-crest{' /tmp/custom-decoration.css \
                 && ! grep -Fq '.supporters-card__decor-trim' /tmp/custom-decoration.css \
@@ -240,5 +255,5 @@ jobs:
             fi
             sleep 5
           done
-          echo 'Custom domain did not serve the supporters crown ornament overlay.' >&2
+          echo 'Custom domain did not serve the top-centered supporters crown ornament.' >&2
           exit 1
