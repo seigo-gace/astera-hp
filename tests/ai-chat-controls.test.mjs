@@ -12,6 +12,13 @@ class FakeClassList {
   }
 }
 
+class FakeStyle {
+  constructor() { this.values = new Map(); this.height = ''; }
+  setProperty(name, value) { this.values.set(name, String(value)); }
+  removeProperty(name) { this.values.delete(name); }
+  getPropertyValue(name) { return this.values.get(name) ?? ''; }
+}
+
 class FakeElement {
   constructor(tag = 'div') {
     this.tagName = tag.toUpperCase();
@@ -22,9 +29,10 @@ class FakeElement {
     this.className = '';
     this.classList = new FakeClassList();
     this.dataset = {};
-    this.style = {};
+    this.style = new FakeStyle();
     this.scrollHeight = 44;
     this.scrollTop = 0;
+    this.rectHeight = 44;
     this.parentElement = null;
     this.children = [];
     this.listeners = new Map();
@@ -49,6 +57,8 @@ class FakeElement {
 
   click() { this.dispatch('click', { detail: 1 }); }
   focus() { this.focused = true; }
+  blur() { this.focused = false; }
+  getBoundingClientRect() { return { height: this.rectHeight }; }
   setAttribute(name, value) { this.attributes.set(name, String(value)); }
   getAttribute(name) { return this.attributes.get(name) ?? null; }
 
@@ -107,14 +117,18 @@ function buildUi() {
   panel.id = 'ai-chat';
   panel.hidden = false;
   panel.dataset.customerAiApi = 'https://customer-ai.test.invalid';
+  panel.classList.add('ai-chat--glass');
 
   const opener = new FakeElement('button');
   const minimize = new FakeElement('button');
   const deleteClose = new FakeElement('button');
   const newChat = new FakeElement('button');
-  const modeChange = new FakeElement('button');
-  const modePicker = new FakeElement();
-  const modeLabel = new FakeElement('strong');
+  const modeSelect = new FakeElement('select');
+  modeSelect.value = 'auto';
+  const topDock = new FakeElement();
+  topDock.rectHeight = 116;
+  const composerDock = new FakeElement();
+  composerDock.rectHeight = 82;
   const timeline = new FakeElement();
   const empty = new FakeElement();
   const textarea = new FakeElement('textarea');
@@ -122,20 +136,13 @@ function buildUi() {
   const status = new FakeElement('p');
   const connection = new FakeElement('span');
 
-  const modeNames = ['general', 'operation', 'billing', 'technical', 'investor', 'support', 'trouble', 'auto'];
-  const modeButtons = modeNames.map((mode) => {
-    const button = new FakeElement('button');
-    button.dataset.aiMode = mode;
-    return button;
-  });
-
   const bySelector = new Map([
     ['[data-ai-minimize]', minimize],
     ['[data-ai-delete-close]', deleteClose],
     ['[data-ai-new-chat]', newChat],
-    ['[data-ai-mode-change]', modeChange],
-    ['[data-ai-mode-picker]', modePicker],
-    ['[data-ai-mode-label]', modeLabel],
+    ['[data-ai-mode-select]', modeSelect],
+    ['[data-ai-top-dock]', topDock],
+    ['[data-ai-composer-dock]', composerDock],
     ['[data-ai-timeline]', timeline],
     ['[data-ai-empty]', empty],
     ['[data-ai-input]', textarea],
@@ -144,19 +151,27 @@ function buildUi() {
     ['[data-ai-connection]', connection],
   ]);
   panel.querySelector = (selector) => bySelector.get(selector) || null;
-  panel.querySelectorAll = (selector) => selector === '[data-ai-mode]' ? modeButtons : [];
+  panel.querySelectorAll = () => [];
 
-  return { panel, opener, minimize, deleteClose, newChat, modeChange, modePicker, modeLabel, modeButtons, timeline, empty, textarea, send, status, connection };
+  return { panel, opener, minimize, deleteClose, newChat, modeSelect, topDock, composerDock, timeline, empty, textarea, send, status, connection };
 }
 
 const storage = new FakeStorage();
 const ui = buildUi();
+const viewportListeners = new Map();
 
 globalThis.sessionStorage = storage;
 globalThis.location = { pathname: '/ja/' };
 globalThis.window = {
   setTimeout,
   clearTimeout,
+  innerHeight: 900,
+  addEventListener() {},
+  visualViewport: {
+    height: 760,
+    offsetTop: 12,
+    addEventListener(type, handler) { viewportListeners.set(type, handler); },
+  },
 };
 globalThis.document = {
   documentElement: { lang: 'ja' },
@@ -188,8 +203,21 @@ globalThis.fetch = async (url, options = {}) => {
   throw new Error(`unexpected fetch: ${value}`);
 };
 
-const { initAiBubble } = await import(new URL('../scripts/ai-hf-chat.js?controls-behavior-test=2', import.meta.url));
+const { initAiBubble } = await import(new URL('../scripts/ai-hf-chat.js?controls-behavior-test=3', import.meta.url));
 initAiBubble();
+
+function resetUi() {
+  storage.clear();
+  ui.timeline.children = [];
+  ui.panel.hidden = false;
+  ui.panel.classList.remove('is-minimized');
+  ui.textarea.value = '';
+  ui.textarea.disabled = false;
+  ui.textarea.focused = false;
+  ui.send.disabled = false;
+  ui.status.textContent = '';
+  ui.modeSelect.value = 'auto';
+}
 
 function seedConversation(mode = 'billing') {
   storage.setItem('astera.customer-ai.session-id', 'session_test_1234567890');
@@ -205,86 +233,89 @@ function assertConversationCleared() {
   assert.equal(storage.getItem('astera.customer-ai.history-v2'), null);
   assert.equal(storage.getItem('astera.customer-ai.response-mode'), 'auto');
   assert.equal(storage.getItem('astera.customer-ai.mode-source'), 'auto');
+  assert.equal(ui.modeSelect.value, 'auto');
   assert.equal(ui.timeline.querySelectorAll('.ai-message').length, 0);
   assert.equal(ui.textarea.value, '');
   assert.equal(ui.textarea.disabled, false);
   assert.equal(ui.send.disabled, false);
 }
 
-test('new chat click clears locally even when remote session deletion is offline', async () => {
-  seedConversation('billing');
-  ui.panel.hidden = false;
+test('opening glass chat does not autofocus the composer and syncs VisualViewport', async () => {
+  resetUi();
+  ui.panel.hidden = true;
+  ui.opener.click();
+  assert.equal(ui.panel.hidden, false);
+  assert.equal(ui.opener.getAttribute('aria-expanded'), 'true');
+  assert.equal(ui.textarea.focused, false);
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(ui.panel.style.getPropertyValue('--ai-viewport-top'), '12px');
+  assert.equal(ui.panel.style.getPropertyValue('--ai-viewport-height'), '760px');
+  assert.equal(ui.panel.style.getPropertyValue('--ai-top-dock-space'), '116px');
+  assert.equal(ui.panel.style.getPropertyValue('--ai-bottom-dock-space'), '82px');
+});
 
+test('response type dropdown stores the selected mode without forcing keyboard focus', () => {
+  resetUi();
+  ui.modeSelect.value = 'technical';
+  ui.modeSelect.dispatch('change');
+  assert.equal(storage.getItem('astera.customer-ai.response-mode'), 'technical');
+  assert.equal(storage.getItem('astera.customer-ai.mode-source'), 'selected');
+  assert.equal(ui.textarea.focused, false);
+});
+
+test('new chat clears locally, resets dropdown, and keeps the panel open', async () => {
+  resetUi();
+  seedConversation('billing');
+  ui.modeSelect.value = 'billing';
   ui.newChat.click();
   assertConversationCleared();
   assert.equal(ui.panel.hidden, false);
   assert.equal(ui.opener.getAttribute('aria-expanded'), 'true');
-
+  assert.equal(ui.textarea.focused, false);
   await new Promise((resolve) => setTimeout(resolve, 0));
   assertConversationCleared();
 });
 
-test('close click clears locally and closes even when remote session deletion is offline', async () => {
+test('close clears locally and closes even when remote session deletion is offline', async () => {
+  resetUi();
   seedConversation('technical');
-  ui.panel.hidden = false;
-
   ui.deleteClose.click();
   assertConversationCleared();
   assert.equal(ui.panel.hidden, true);
   assert.equal(ui.opener.getAttribute('aria-expanded'), 'false');
-
   await new Promise((resolve) => setTimeout(resolve, 0));
   assertConversationCleared();
 });
 
-test('touch pointerup new chat clears locally and keeps the panel open', async () => {
+test('touch pointerup new chat and close preserve the same delete boundaries', async () => {
+  resetUi();
   seedConversation('billing');
-  ui.panel.hidden = false;
-
   ui.newChat.dispatch('pointerup', { pointerType: 'touch' });
   assertConversationCleared();
   assert.equal(ui.panel.hidden, false);
-  assert.equal(ui.opener.getAttribute('aria-expanded'), 'true');
 
-  await new Promise((resolve) => setTimeout(resolve, 0));
-  assertConversationCleared();
-});
-
-test('touch pointerup close clears locally and closes the panel', async () => {
   seedConversation('technical');
-  ui.panel.hidden = false;
-
   ui.deleteClose.dispatch('pointerup', { pointerType: 'touch' });
   assertConversationCleared();
   assert.equal(ui.panel.hidden, true);
-  assert.equal(ui.opener.getAttribute('aria-expanded'), 'false');
-
   await new Promise((resolve) => setTimeout(resolve, 0));
-  assertConversationCleared();
 });
 
 test('touch compatibility click is suppressed once while keyboard click remains usable', () => {
-  ui.panel.classList.remove('is-minimized');
+  resetUi();
   ui.minimize.dispatch('pointerup', { pointerType: 'touch' });
   assert.equal(ui.panel.classList.contains('is-minimized'), true);
-
   ui.minimize.dispatch('click', { detail: 1 });
   assert.equal(ui.panel.classList.contains('is-minimized'), true);
-
   ui.minimize.dispatch('click', { detail: 0 });
   assert.equal(ui.panel.classList.contains('is-minimized'), false);
 });
 
-test('send collapses the mode picker, then new chat aborts in-flight work without stale repopulation', async () => {
-  storage.clear();
-  ui.timeline.children = [];
-  ui.panel.hidden = false;
-  ui.modePicker.hidden = false;
+test('new chat aborts in-flight work and stale failure cannot repopulate cleared chat', async () => {
+  resetUi();
   ui.textarea.value = '料金を教えて';
-
   ui.send.click();
   await new Promise((resolve) => setTimeout(resolve, 0));
-  assert.equal(ui.modePicker.hidden, true);
   assert.equal(ui.textarea.disabled, true);
   assert.equal(ui.timeline.querySelectorAll('.ai-message').length, 2);
 
