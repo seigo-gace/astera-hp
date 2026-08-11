@@ -92,6 +92,17 @@
   background:linear-gradient(115deg,rgba(246,246,246,.72),color-mix(in srgb,var(--brand-signal) 50%,transparent) 42%,color-mix(in srgb,var(--brand-signal) 58%,#f6f6f6));
 }
 
+.top-copyright{
+  width:min(920px,96%);
+  margin:14px auto 0;
+  padding:8px 0 0;
+  color:var(--muted);
+  text-align:center;
+  font:600 11px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
+  letter-spacing:.18em;
+  white-space:nowrap;
+}
+
 @media (hover:hover) and (pointer:fine){
   .supporters-card:hover .cosmic-card__stack{filter:drop-shadow(0 18px 30px color-mix(in srgb,var(--brand-signal) 14%,transparent))}
   .supporters-card:hover .cosmic-card__edge{opacity:1}
@@ -105,6 +116,11 @@
   .supporters-card__title{font-size:clamp(21px,5.8vw,25px)}
   .supporters-card__description{margin-top:12px;font-size:clamp(10.5px,2.9vw,11.5px);line-height:1.66;letter-spacing:-.015em}
   .supporters-card__description-line{white-space:nowrap}
+  .top-copyright{margin-top:12px;padding-top:6px;font-size:10.5px;letter-spacing:.16em}
+}
+
+@media (min-width:768px){
+  .top-copyright{font-size:12px;letter-spacing:.20em}
 }
 
 @media (prefers-reduced-motion:reduce){
