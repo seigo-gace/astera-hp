@@ -54,7 +54,7 @@
   border-radius:10px;
   appearance:none;
   -webkit-appearance:none;
-  background:rgba(12,17,25,.78);
+  background:color-mix(in srgb,var(--surface-2) 58%,transparent);
   color:var(--text);
   font:inherit;
   font-size:12px;
@@ -123,33 +123,37 @@
   .ai-chat.ai-chat--glass:not(.is-minimized){
     --ai-top-dock-space:118px;
     --ai-bottom-dock-space:86px;
+    --ai-viewport-top:0px;
+    --ai-viewport-height:100dvh;
+    --ai-viewport-bottom-gap:max(0px,calc(100lvh - var(--ai-viewport-top) - var(--ai-viewport-height)));
     position:fixed;
-    inset:auto 0 auto 0;
-    top:var(--ai-viewport-top,0px);
-    width:100dvw;
-    max-width:100dvw;
-    height:var(--ai-viewport-height,100dvh);
-    max-height:var(--ai-viewport-height,100dvh);
-    min-height:0;
+    inset:0;
+    width:100vw;
+    max-width:none;
+    height:100lvh;
+    max-height:none;
+    min-height:100lvh;
     display:block;
     padding:0;
     border:0;
     border-radius:0;
-    background:rgba(3,6,10,.985);
+    background:var(--bg);
     overflow:hidden;
+    isolation:isolate;
+    overscroll-behavior:none;
   }
 
   .ai-chat--glass:not(.is-minimized) .ai-chat__top-dock{
     position:absolute;
-    top:0;
+    top:var(--ai-viewport-top);
     right:0;
     left:0;
     z-index:5;
     padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) 9px max(10px,env(safe-area-inset-left));
     border-bottom:1px solid rgba(255,255,255,.08);
-    background:linear-gradient(180deg,rgba(3,6,10,.90),rgba(3,6,10,.62));
-    backdrop-filter:blur(20px) saturate(132%);
-    -webkit-backdrop-filter:blur(20px) saturate(132%);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 66%,transparent),color-mix(in srgb,var(--bg) 42%,transparent));
+    backdrop-filter:blur(26px) saturate(118%);
+    -webkit-backdrop-filter:blur(26px) saturate(118%);
   }
 
   .ai-chat--glass:not(.is-minimized) .ai-chat__header{
@@ -188,9 +192,9 @@
     z-index:1;
     min-height:0;
     padding:
-      calc(var(--ai-top-dock-space) + 12px)
+      calc(var(--ai-viewport-top) + var(--ai-top-dock-space) + 12px)
       max(12px,env(safe-area-inset-right))
-      calc(var(--ai-bottom-dock-space) + 12px)
+      calc(var(--ai-viewport-bottom-gap) + var(--ai-bottom-dock-space) + 12px)
       max(12px,env(safe-area-inset-left));
     overflow-y:auto;
     overflow-x:hidden;
@@ -199,20 +203,20 @@
   }
 
   .ai-chat--glass:not(.is-minimized) .ai-chat__empty{
-    min-height:calc(var(--ai-viewport-height,100dvh) - var(--ai-top-dock-space) - var(--ai-bottom-dock-space) - 24px);
+    min-height:calc(var(--ai-viewport-height) - var(--ai-top-dock-space) - var(--ai-bottom-dock-space) - 24px);
   }
 
   .ai-chat--glass:not(.is-minimized) .ai-chat__composer-dock{
     position:absolute;
     right:0;
-    bottom:0;
+    bottom:var(--ai-viewport-bottom-gap);
     left:0;
     z-index:5;
     padding:10px max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
     border-top:1px solid rgba(255,255,255,.08);
-    background:linear-gradient(0deg,rgba(3,6,10,.94),rgba(3,6,10,.68));
-    backdrop-filter:blur(20px) saturate(132%);
-    -webkit-backdrop-filter:blur(20px) saturate(132%);
+    background:linear-gradient(0deg,color-mix(in srgb,var(--bg) 72%,transparent),color-mix(in srgb,var(--bg) 46%,transparent));
+    backdrop-filter:blur(26px) saturate(118%);
+    -webkit-backdrop-filter:blur(26px) saturate(118%);
   }
 
   .ai-chat--glass:not(.is-minimized) .ai-composer{
@@ -222,7 +226,7 @@
 
   .ai-chat--glass:not(.is-minimized) .ai-chat textarea{
     min-height:48px;
-    background:rgba(0,0,0,.58);
+    background:color-mix(in srgb,var(--bg) 54%,transparent);
   }
 
   .ai-chat--glass:not(.is-minimized) .ai-send[data-icon-send]{
