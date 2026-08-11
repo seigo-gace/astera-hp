@@ -319,7 +319,7 @@ test('new chat aborts in-flight work and stale failure cannot repopulate cleared
   assert.equal(ui.textarea.disabled, true);
   assert.equal(ui.timeline.querySelectorAll('.ai-message').length, 2);
 
-  ui.newChat.click();
+  ui.newChat.dispatch('click', { detail: 0 });
   assertConversationCleared();
   assert.equal(ui.panel.hidden, false);
 
