@@ -1,13 +1,12 @@
-/* CU-SUPPORTERS-CROWN-COMPOSITION-04
+/* CU-SUPPORTERS-CROWN-COMPOSITION-05
    Asset-backed decoration overlay only.
    The base supporters card, material palette, glass, sweep, edge and flare stay unchanged.
-   Master spacing lock: card top border -> 2mm -> crown -> 2mm -> centered title/description group. */
+   Master layout lock: card top border -> 1mm -> larger crown; text is vertically centered from crown bottom (0) to card bottom border (0). */
 .supporters-card .cosmic-card__glass{
-  --supporters-crown-top:2mm;
-  --supporters-crown-gap:2mm;
+  --supporters-crown-top:1mm;
   display:grid;
   grid-template-columns:minmax(0,1fr);
-  grid-template-rows:auto var(--supporters-crown-gap) minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr);
 }
 
 .supporters-card__decor{
@@ -17,8 +16,8 @@
   grid-column:1;
   grid-row:1;
   z-index:2;
-  width:clamp(180px,32%,260px);
-  height:46px;
+  width:clamp(200px,36%,280px);
+  height:54px;
   margin-top:calc(var(--supporters-crown-top) - 1px);
   transform:translateX(-50%);
   pointer-events:none;
@@ -34,7 +33,7 @@
   position:relative;
   inset:auto;
   grid-column:1;
-  grid-row:3;
+  grid-row:2;
   z-index:5;
   display:flex;
   flex-direction:column;
@@ -48,8 +47,8 @@
 
 @media (max-width:560px){
   .supporters-card__decor{
-    width:min(54%,220px);
-    height:40px;
+    width:min(58%,236px);
+    height:48px;
     opacity:.14;
     filter:brightness(.90) saturate(.78);
   }

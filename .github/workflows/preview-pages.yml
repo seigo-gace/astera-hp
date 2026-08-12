@@ -40,7 +40,7 @@ jobs:
           grep -Fq 'style.css?v=cu58-header-logo-copyright' ja/index.html
           grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' ja/index.html
           grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' ja/index.html
-          grep -Fq 'supporter-decoration.css?v=cu71-supporters-crown-composition' ja/index.html
+          grep -Fq 'supporter-decoration.css?v=cu72-supporters-crown-center-bounds' ja/index.html
           grep -Fq 'script.js?v=cu67-supporters-crown-overlay' ja/index.html
           ! grep -Fq '<footer' ja/index.html
           ! grep -Fq 'data-footer-copy' ja/index.html script.js
@@ -77,20 +77,23 @@ jobs:
           ! grep -Fq 'supporters-card__content::before' styles/supporter-premium.css
           ! grep -Fq 'supporters-card__content::after' styles/supporter-premium.css
           grep -Fq '.supporters-card .cosmic-card__glass{' styles/supporter-decoration.css
-          grep -Fq -- '--supporters-crown-top:2mm;' styles/supporter-decoration.css
-          grep -Fq -- '--supporters-crown-gap:2mm;' styles/supporter-decoration.css
-          grep -Fq 'grid-template-rows:auto var(--supporters-crown-gap) minmax(0,1fr);' styles/supporter-decoration.css
+          grep -Fq -- '--supporters-crown-top:1mm;' styles/supporter-decoration.css
+          ! grep -Fq -- '--supporters-crown-gap:' styles/supporter-decoration.css
+          grep -Fq 'grid-template-rows:auto minmax(0,1fr);' styles/supporter-decoration.css
           grep -Fq '.supporters-card__decor{' styles/supporter-decoration.css
           grep -Fq 'left:50%;' styles/supporter-decoration.css
           grep -Fq 'grid-row:1;' styles/supporter-decoration.css
           grep -Fq 'z-index:2;' styles/supporter-decoration.css
-          grep -Fq 'height:46px;' styles/supporter-decoration.css
+          grep -Fq 'width:clamp(200px,36%,280px);' styles/supporter-decoration.css
+          grep -Fq 'height:54px;' styles/supporter-decoration.css
           grep -Fq 'margin-top:calc(var(--supporters-crown-top) - 1px);' styles/supporter-decoration.css
           grep -Fq 'transform:translateX(-50%);' styles/supporter-decoration.css
           grep -Fq "background-image:url('../assets/ornaments/supporters-crown-ornament.png?v=cu68-supporters-crown-top')" styles/supporter-decoration.css
           grep -Fq 'opacity:.16' styles/supporter-decoration.css
+          grep -Fq 'width:min(58%,236px);' styles/supporter-decoration.css
+          grep -Fq 'height:48px;' styles/supporter-decoration.css
           grep -Fq '.supporters-card__content{' styles/supporter-decoration.css
-          grep -Fq 'grid-row:3;' styles/supporter-decoration.css
+          grep -Fq 'grid-row:2;' styles/supporter-decoration.css
           grep -Fq 'z-index:5;' styles/supporter-decoration.css
           grep -Fq 'justify-content:center;' styles/supporter-decoration.css
           grep -Fq 'align-items:center;' styles/supporter-decoration.css
@@ -164,7 +167,7 @@ jobs:
               if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/live-ja.html \
                 && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/live-ja.html \
                 && grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' /tmp/live-ja.html \
-                && grep -Fq 'supporter-decoration.css?v=cu71-supporters-crown-composition' /tmp/live-ja.html \
+                && grep -Fq 'supporter-decoration.css?v=cu72-supporters-crown-center-bounds' /tmp/live-ja.html \
                 && grep -Fq 'script.js?v=cu67-supporters-crown-overlay' /tmp/live-ja.html \
                 && grep -Fq 'data-top-copyright' /tmp/live-ja.html \
                 && grep -Fq 'Copyright © 2026 Astera' /tmp/live-ja.html /tmp/live-main10-text.js /tmp/live-script.js \
@@ -184,15 +187,18 @@ jobs:
                 && ! grep -Fq 'Supporters / Sponsors' /tmp/live-cosmic.js \
                 && ! grep -Fq 'タップして詳細を見る' /tmp/live-cosmic.js \
                 && ! grep -Fq 'supporters-card__content::before' /tmp/live-premium.css \
-                && grep -Fq -- '--supporters-crown-top:2mm;' /tmp/live-decoration.css \
-                && grep -Fq -- '--supporters-crown-gap:2mm;' /tmp/live-decoration.css \
-                && grep -Fq 'grid-template-rows:auto var(--supporters-crown-gap) minmax(0,1fr);' /tmp/live-decoration.css \
+                && grep -Fq -- '--supporters-crown-top:1mm;' /tmp/live-decoration.css \
+                && ! grep -Fq -- '--supporters-crown-gap:' /tmp/live-decoration.css \
+                && grep -Fq 'grid-template-rows:auto minmax(0,1fr);' /tmp/live-decoration.css \
                 && grep -Fq 'left:50%;' /tmp/live-decoration.css \
                 && grep -Fq 'grid-row:1;' /tmp/live-decoration.css \
-                && grep -Fq 'height:46px;' /tmp/live-decoration.css \
+                && grep -Fq 'width:clamp(200px,36%,280px);' /tmp/live-decoration.css \
+                && grep -Fq 'height:54px;' /tmp/live-decoration.css \
                 && grep -Fq 'margin-top:calc(var(--supporters-crown-top) - 1px);' /tmp/live-decoration.css \
                 && grep -Fq 'transform:translateX(-50%);' /tmp/live-decoration.css \
-                && grep -Fq 'grid-row:3;' /tmp/live-decoration.css \
+                && grep -Fq 'width:min(58%,236px);' /tmp/live-decoration.css \
+                && grep -Fq 'height:48px;' /tmp/live-decoration.css \
+                && grep -Fq 'grid-row:2;' /tmp/live-decoration.css \
                 && grep -Fq 'justify-content:center;' /tmp/live-decoration.css \
                 && grep -Fq 'align-items:center;' /tmp/live-decoration.css \
                 && grep -Fq 'text-align:center;' /tmp/live-decoration.css \
@@ -238,7 +244,7 @@ jobs:
               if grep -Fq 'style.css?v=cu58-header-logo-copyright' /tmp/custom-ja.html \
                 && grep -Fq 'supporter-banner.css?v=cu57-copyright-inline' /tmp/custom-ja.html \
                 && grep -Fq 'supporter-premium.css?v=cu66-supporters-layered-design' /tmp/custom-ja.html \
-                && grep -Fq 'supporter-decoration.css?v=cu71-supporters-crown-composition' /tmp/custom-ja.html \
+                && grep -Fq 'supporter-decoration.css?v=cu72-supporters-crown-center-bounds' /tmp/custom-ja.html \
                 && grep -Fq 'script.js?v=cu67-supporters-crown-overlay' /tmp/custom-ja.html \
                 && grep -Fq 'data-top-copyright' /tmp/custom-ja.html \
                 && grep -Fq 'Copyright © 2026 Astera' /tmp/custom-ja.html /tmp/custom-main10-text.js /tmp/custom-script.js \
@@ -258,15 +264,18 @@ jobs:
                 && ! grep -Fq 'Supporters / Sponsors' /tmp/custom-cosmic.js \
                 && ! grep -Fq 'タップして詳細を見る' /tmp/custom-cosmic.js \
                 && ! grep -Fq 'supporters-card__content::before' /tmp/custom-premium.css \
-                && grep -Fq -- '--supporters-crown-top:2mm;' /tmp/custom-decoration.css \
-                && grep -Fq -- '--supporters-crown-gap:2mm;' /tmp/custom-decoration.css \
-                && grep -Fq 'grid-template-rows:auto var(--supporters-crown-gap) minmax(0,1fr);' /tmp/custom-decoration.css \
+                && grep -Fq -- '--supporters-crown-top:1mm;' /tmp/custom-decoration.css \
+                && ! grep -Fq -- '--supporters-crown-gap:' /tmp/custom-decoration.css \
+                && grep -Fq 'grid-template-rows:auto minmax(0,1fr);' /tmp/custom-decoration.css \
                 && grep -Fq 'left:50%;' /tmp/custom-decoration.css \
                 && grep -Fq 'grid-row:1;' /tmp/custom-decoration.css \
-                && grep -Fq 'height:46px;' /tmp/custom-decoration.css \
+                && grep -Fq 'width:clamp(200px,36%,280px);' /tmp/custom-decoration.css \
+                && grep -Fq 'height:54px;' /tmp/custom-decoration.css \
                 && grep -Fq 'margin-top:calc(var(--supporters-crown-top) - 1px);' /tmp/custom-decoration.css \
                 && grep -Fq 'transform:translateX(-50%);' /tmp/custom-decoration.css \
-                && grep -Fq 'grid-row:3;' /tmp/custom-decoration.css \
+                && grep -Fq 'width:min(58%,236px);' /tmp/custom-decoration.css \
+                && grep -Fq 'height:48px;' /tmp/custom-decoration.css \
+                && grep -Fq 'grid-row:2;' /tmp/custom-decoration.css \
                 && grep -Fq 'justify-content:center;' /tmp/custom-decoration.css \
                 && grep -Fq 'align-items:center;' /tmp/custom-decoration.css \
                 && grep -Fq 'text-align:center;' /tmp/custom-decoration.css \
