@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Astera App｜機能・オプション</title>
-  <meta name="description" content="Astera Appの入力、目的選択、4つの追加Option、8項目結果、履歴、共有、Private Mode、Storage、開発者モードを紹介します。">
-  <link rel="stylesheet" href="../../style.css?v=cu58-header-logo-copyright">
+  <title>Asteraの使い方｜Appでできること｜Astera</title>
+  <meta name="description" content="目的を選び、入力し、実行前確認を行い、8つの判断材料を見るまでのAstera Appの利用Flowを説明します。">
+  <link rel="stylesheet" href="../../style.css?v=cu-public-content-main10-20260813">
   <link rel="stylesheet" href="../../styles/header-logo-fix.css?v=cu61-logo-size-tune">
   <link rel="stylesheet" href="../../styles/header-language-fix.css?v=cu62-language-text-size">
   <link rel="stylesheet" href="../../styles/ai-chat-glass.css?v=cu70-ai-chat-composer-anchor">
-  <link rel="stylesheet" href="../../styles/detail-page.css?v=cu-detail-main10-01">
-  <script type="module" src="../../script.js?v=cu67-supporters-crown-overlay"></script>
+  <link rel="stylesheet" href="../../styles/detail-page.css?v=cu-public-content-main10-20260813">
+  <script type="module" src="../../script.js?v=cu-public-content-main10-20260813"></script>
   <script type="module" src="../../scripts/ai-chat-entry.js?v=cu64-ai-chat-fullscreen"></script>
 </head>
 <body>
+
   <a class="skip-link" href="#main">本文へ移動</a>
   <header class="site-header">
     <div class="header-upper" id="top">
@@ -21,26 +22,20 @@
       <div class="language-select-field"><label class="sr-only" for="site-language">表示言語</label><select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select><span class="language-select-arrow" aria-hidden="true">⌄</span></div>
     </div>
     <div class="header-actions" aria-label="主要操作">
-      <a class="app-entry" href="./">Asteraを使う</a>
+      <a class="app-entry" href="../app/">Asteraを使う</a>
       <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-chat" aria-label="Astera案内AIを開く"><img src="../../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
       <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
     </div>
-
     <section id="ai-chat" class="ai-chat ai-chat--glass" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
       <div class="ai-chat__top-dock" data-ai-top-dock>
         <div class="ai-chat__header">
           <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
-          <div class="ai-chat__window-actions">
-            <button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button>
-            <button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button>
-          </div>
+          <div class="ai-chat__window-actions"><button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button><button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button></div>
         </div>
-        <div class="ai-routing" data-ai-routing>
-          <div class="ai-routing__current">
-            <label class="ai-mode-select-wrap"><span class="ai-mode-select-label">回答タイプ</span><span class="ai-mode-select-shell"><select class="ai-mode-select" data-ai-mode-select aria-label="回答タイプ"><option value="auto" selected>AIに任せる</option><option value="general">Asteraについて</option><option value="operation">操作・使い方</option><option value="billing">料金・Account</option><option value="technical">技術者向け</option><option value="investor">投資家・法人向け</option><option value="support">開発支援・Sponsor</option><option value="trouble">不具合・困りごと</option></select><span class="ai-mode-select-arrow" aria-hidden="true">⌄</span></span></label>
-            <div class="ai-routing__actions"><button type="button" data-ai-new-chat>新しい会話</button></div>
-          </div>
-        </div>
+        <div class="ai-routing" data-ai-routing><div class="ai-routing__current">
+          <label class="ai-mode-select-wrap"><span class="ai-mode-select-label">回答タイプ</span><span class="ai-mode-select-shell"><select class="ai-mode-select" data-ai-mode-select aria-label="回答タイプ"><option value="auto" selected>AIに任せる</option><option value="general">Asteraについて</option><option value="operation">操作・使い方</option><option value="billing">料金・Account</option><option value="technical">技術者向け</option><option value="investor">投資家・法人向け</option><option value="support">開発支援・Sponsor</option><option value="trouble">不具合・困りごと</option></select><span class="ai-mode-select-arrow" aria-hidden="true">⌄</span></span></label>
+          <div class="ai-routing__actions"><button type="button" data-ai-new-chat>新しい会話</button></div>
+        </div></div>
       </div>
       <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話"><div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div></div>
       <div class="ai-chat__composer-dock" data-ai-composer-dock><div class="ai-composer"><textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1" maxlength="12000"></textarea><button class="ai-send" type="button" data-icon-send aria-label="送信"><svg class="ai-send__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6l.8 6.5L15 12 4.2 13.9z"/></svg></button></div><p class="ai-status" data-ai-status role="status" aria-live="polite"></p></div>
@@ -48,33 +43,130 @@
   </header>
   <main id="main" class="detail-main">
     <section class="detail-hero" aria-labelledby="page-title"><div class="detail-hero__inner">
-      <nav class="breadcrumb" aria-label="パンくず"><a href="../">TOP</a><span aria-hidden="true">/</span><span>Astera App</span></nav>
-      <div class="detail-eyebrow">Main 10 / 10</div>
-      <h1 id="page-title">Astera App｜機能・オプション</h1>
-      <p class="detail-hero__description">Asteraを実際に使うための入力、実行、結果、履歴、共有、Plan、Optionをまとめて確認する。</p>
+      <nav class="breadcrumb" aria-label="パンくず"><a href="../">TOP</a><span aria-hidden="true">/</span><span>Asteraの使い方</span></nav>
+      <div class="detail-eyebrow">Main 10 / 04</div>
+      <h1 id="page-title">Asteraの使い方｜Appでできること</h1>
+      <p class="detail-hero__description">目的を選び、入力し、実行前確認を行い、8つの判断材料を見るまでのAstera Appの利用Flowを説明します。</p>
     </div></section>
     <div class="detail-shell">
-      <nav class="detail-toc" aria-label="このページの目次"><span class="detail-toc__title">Contents</span><ol><li><a href="#status">公開前Status</a></li><li><a href="#flow">Appの基本Flow</a></li><li><a href="#features">主な機能</a></li><li><a href="#options">追加実行Option</a></li><li><a href="#independent">独立機能</a></li><li><a href="#private">Private Modeと保存</a></li><li><a href="#file">File</a></li><li><a href="#developer-mode">開発者モード</a></li><li><a href="#devices">対応端末・操作</a></li><li><a href="#customer-ai">Customer AI</a></li><li><a href="#plans">Planとの関係</a></li><li><a href="#cta-prepublic">公開前CTA／公開後導線</a></li><li><a href="#ui">UI・見せ方</a></li><li><a href="#acceptance">合格条件</a></li></ol></nav>
+      <nav class="detail-toc" aria-label="このページの目次"><span class="detail-toc__title">Contents</span><ol><li><a href="#summary">基本は「目的を選んで、入力して、結果を見る」だけです</a></li><li><a href="#section-02">まずは3ステップ</a></li><li><a href="#section-03">たとえば「AIの回答を確認したい」場合</a></li><li><a href="#section-04">8つの目的から選べます</a></li><li><a href="#section-05">入力できるもの</a></li><li><a href="#section-06">実行前に確認できます</a></li><li><a href="#section-07">必要なときだけ追加できる機能</a></li><li><a href="#section-08">結果は8つの判断材料に分かれます</a></li><li><a href="#section-09">保存・履歴・Project</a></li><li><a href="#section-10">保存範囲を抑えたい場合</a></li><li><a href="#section-11">端末が変わっても基本Flowは同じです</a></li><li><a href="#section-12">迷ったときは案内AI</a></li><li><a href="#section-13">開発者はDeveloper Modeへ</a></li><li><a href="#section-14">次に見るなら</a></li></ol></nav>
       <article class="detail-article">
-        <section id="status" class="detail-section"><span class="detail-section__index">01</span><h2>公開前Status</h2><p><strong>Astera Appはクラウドファンディング終了まで一般公開しません。</strong></p><p>このページは、公開前にAppの機能、操作、Option、Planとの関係を理解するための公式説明ページとします。公開前はLogin、Account登録、App起動、Checkoutを表示しません。</p><ul><li>App一般公開：クラウドファンディング終了まで停止</li><li>Login・Account登録：非表示</li><li>実App起動：非表示</li><li>Checkout：非表示</li><li>表示するもの：機能、操作Flow、Option、Plan差、公開予定範囲</li><li>CTA：料金プラン、CAMPFIRE、Q&A</li></ul></section><section id="flow" class="detail-section"><span class="detail-section__index">02</span><h2>Appの基本Flow</h2><pre class="detail-code"><code>目的を選ぶ
-↓
-文章・Fileを入力する
-↓
-必要なOptionを選ぶ
-↓
-実行前のCredit見積りを確認する
-↓
-Asteraを実行する
-↓
-8項目の判断材料を確認する
-↓
-履歴・Project・Download・共有へつなげる</code></pre><div class="detail-visual"><span class="detail-visual__label">Astera Appの操作Flow</span><div class="flow"><div class="flow__step" data-step="01">目的を選ぶ</div><div class="flow__step" data-step="02">文章・Fileを入力</div><div class="flow__step" data-step="03">Optionを選ぶ</div><div class="flow__step" data-step="04">Credit見積り確認</div><div class="flow__step" data-step="05">Asteraを実行</div><div class="flow__step" data-step="06">8項目を確認</div><div class="flow__step" data-step="07">履歴・Project・Download・共有</div></div></div></section><section id="features" class="detail-section"><span class="detail-section__index">03</span><h2>主な機能</h2>
-<h3>1｜入力・Composer</h3><ul><li>文章を入力する。</li><li>Enterは改行、送信は明示操作とする。</li><li>Fileを添付する。</li><li>＋から目的とOptionを選ぶ。</li><li>選択内容はComposer上部のChipで確認・解除できる。</li></ul><h3>2｜目的選択</h3><p>レビュー、比較、検証、改善、調査、計画、検討等、何をしたいかを選択し、Asteraへ処理目的を伝える。</p><h3>3｜実行前確認</h3><ul><li>入力内容。</li><li>選択した目的。</li><li>選択したOption。</li><li>添付File。</li><li>消費予定Credit。</li><li>Private Mode等のData取扱い。</li></ul><p>確認後に利用者が明示して実行する。</p><h3>4｜Asteraの結果</h3><p>Asteraは最終回答だけを置くのではなく、次の8項目を判断材料として整理する。</p><ol><li>目的</li><li>前提不足</li><li>事実・根拠</li><li>Risk・危険</li><li>反対視点</li><li>比較案</li><li>推奨判断</li><li>主役AIへの再指示</li></ol><h3>5｜履歴・Project</h3><ul><li>実行履歴を検索・Filterする。</li><li>単階層Projectへ整理する。</li><li>回答を編集、Copy、削除、Downloadする。</li><li>Revisionと再実行を管理する。</li></ul><h3>6｜共有</h3><ul><li>Public Share。</li><li>指定Account向けPrivate Share。</li><li>公開範囲、Password、Download可否を設定する。</li><li>Private Modeの内容を自動共有しない。</li></ul><h3>7｜Settings</h3><ul><li>Option表示設定。</li><li>表示・言語。</li><li>通知・Credit警告。</li><li>Account・Security。</li><li>Plan・Subscription。</li><li>Credit・購入。</li><li>Data・Privacy。</li><li>開発者モード。</li></ul></section><section id="options" class="detail-section"><span class="detail-section__index">04</span><h2>追加実行Option</h2><p>追加実行Optionは、Composerの＋から利用者が選んだ場合だけ実行・Credit見積りへ含める。</p><div class="table-wrap"><table class="detail-table"><thead><tr><th scope="col">Option</th><th scope="col">利用者向け説明</th><th scope="col">選択項目</th></tr></thead><tbody><tr><td>高精度翻訳</td><td>原文の意味と構造を保持し、指定言語へ翻訳する</td><td>翻訳先言語、任意の翻訳元言語・用語集</td></tr><tr><td>エージェントモード</td><td>Asteraの判断材料とAI利用を組み合わせ、処理深度を選択する</td><td>エージェント低／中／高</td></tr><tr><td>書類作成</td><td>公式Templateまたは作成済み個別Templateを使い、指定構造の書類を作る</td><td>Template、構成、出力条件</td></tr><tr><td>外部Storage転送</td><td>処理結果を利用者が選択した外部Storageへ転送する</td><td>接続先、保存先、転送条件</td></tr></tbody></table></div></section><section id="independent" class="detail-section"><span class="detail-section__index">05</span><h2>Option設定に含む独立機能</h2><p>次は追加実行Optionと混同しません。</p><ul><li><strong>Private Mode</strong>：Basic以上で利用するData取扱い方式。本文をAstera履歴、Astera Storage、TGserver、Backupへ保存しない。</li><li><strong>暗号化・鍵管理</strong>：AppのKey・Secret・大容量Dataを保護する基盤。</li><li><strong>Astera Storage</strong>：通常Mode側で利用するAstera提供Storage。容量別に月次Creditを減算する。</li><li><strong>開発者モード・API</strong>：Pro以上のAPI Catalog、Key、Explorer、Usage、OpenAPI等。</li></ul></section><section id="private" class="detail-section"><span class="detail-section__index">06</span><h2>Private Modeと保存</h2><ul><li>Private Modeは追加実行Optionではない。</li><li>Private Mode自体の追加Creditはない。</li><li>Private Modeでは結果を端末Downloadまたは外部Storage転送で残す。</li><li>Astera Storageへ保存する場合はPrivate ModeをOFFにした通常Modeとして扱う。</li></ul></section><section id="file" class="detail-section"><span class="detail-section__index">07</span><h2>File</h2><ul><li>複数File添付に対応する。</li><li>Planごとに1 File容量、1回の件数、合計容量が異なる。</li><li>対応上限は料金プランで比較する。</li><li>添付失敗、容量超過、非対応形式を実行前に表示する。</li></ul></section><section id="developer-mode" class="detail-section"><span class="detail-section__index">08</span><h2>開発者モード</h2><p>Pro以上を対象に、次を一つの画面群で管理する。</p><ul><li>API Catalog。</li><li>API Key。</li><li>Request Explorer。</li><li>Usage。</li><li>OpenAPI。</li><li>Versionと利用可能Status。</li></ul><p>日本語解析MCP本体と、Appの開発者向けAPIを混同しない。</p></section><section id="devices" class="detail-section"><span class="detail-section__index">09</span><h2>対応端末・操作</h2><ul><li>Smartphone、Tablet、Desktop Webへ対応する。</li><li>縦画面・横画面で責務を失わない。</li><li>余計な横Scrollを発生させない。</li><li>Keyboard、Touch、Screen Readerへ対応する。</li><li>投稿内容と結果はAccordionで整理する。</li></ul></section><section id="customer-ai" class="detail-section"><span class="detail-section__index">10</span><h2>Customer AI</h2><ul><li>全画面共通の案内入口。</li><li>Appの操作、Plan、Credit、Option、Errorを案内する。</li><li>利用者の処理結果を勝手に保存・共有しない。</li></ul></section><section id="plans" class="detail-section"><span class="detail-section__index">11</span><h2>Planとの関係</h2><ul><li>Free／Basic／Pro／Business／Enterpriseを用意する。</li><li>Planごとの月額、月次Credit、File、Storage、Option、API差は料金プランで表示する。</li><li>App説明Pageでは契約ButtonやPlan選択を置かない。</li></ul></section><section id="cta-prepublic" class="detail-section"><span class="detail-section__index">12</span><h2>公開前CTA・公開開始後の導線</h2><h3>公開前CTA</h3><ol><li>料金プラン・Creditを見る</li><li>CAMPFIREで支援・最新情報を見る</li><li>Q&Aを見る</li></ol><h3>公開開始後の導線</h3><ul><li>クラウドファンディング終了後、公開準備と検証が完了した時点で実App起動CTAを有効化する。</li><li>公開前は実App URL、Login、登録、Checkoutへ誘導しない。</li></ul></section><section id="ui" class="detail-section"><span class="detail-section__index">13</span><h2>UI・見せ方</h2><ul><li>Appの外装をそのまま巨大Screenshotで並べず、入力→Option→8項目結果→履歴・共有のFlowで説明する。</li><li>機能はIcon、短い見出し、1〜2文の説明で整理する。</li><li>Optionは4項目を同じ幅で比較する。</li><li>Private Mode、暗号化、Storage、APIを追加実行Optionの列へ混ぜない。</li><li>Mobileは1列で読み進められる。</li></ul></section><section id="acceptance" class="detail-section"><span class="detail-section__index">14</span><h2>合格条件</h2><ul><li>TOP第10項目から/app/へ到達する。</li><li>実App公開前にLogin、登録、Checkout、App起動を出さない。</li><li>最新4追加実行Optionを表示する。</li><li>Private Mode、暗号化、Astera Storage、APIをOptionと混同しない。</li><li>8項目結果、履歴、Project、共有、Settingsを欠落させない。</li><li>料金Pageへ到達できる。</li><li>Desktop／Tablet／Mobileで内容を読める。</li></ul></section>
-        <nav class="detail-cta" aria-label="関連ページ"><span class="detail-cta__label">Related</span><div class="detail-cta__links"><a href="../pricing/">料金プラン・Creditを見る</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">CAMPFIREで支援・最新情報を見る</a><a href="../qa/">Q&Aを見る</a><a href="../">TOPへ戻る</a></div></nav>
+        <section id="summary" class="detail-section"><span class="detail-section__index">01</span><h2>基本は「目的を選んで、入力して、結果を見る」だけです</h2><p>Astera Appは、Asteraを日常の質問、比較、検証、計画、仕事などで使うための画面です。</p>
+<p>難しい設定から始める必要はありません。</p>
+<p><strong>目的を選ぶ → 内容を入力する → 必要な機能を選ぶ → Creditを確認する → 実行する → 判断材料を見る</strong>、という流れで使います。</p>
+</section><section id="section-02" class="detail-section"><span class="detail-section__index">02</span><h2>まずは3ステップ</h2><ol>
+<li><strong>何をしたいか選ぶ</strong></li>
+<li><strong>文章やFileを入力する</strong></li>
+<li><strong>結果を確認する</strong></li>
+</ol>
+<p>必要に応じて、追加機能、保存、共有、Developer Modeなどを後から使えます。</p>
+</section><section id="section-03" class="detail-section"><span class="detail-section__index">03</span><h2>たとえば「AIの回答を確認したい」場合</h2><ol>
+<li>「レビュー」または「検証」を選ぶ</li>
+<li>AIが作った回答を入力する</li>
+<li>実行前に利用Creditを確認する</li>
+<li>Asteraが、前提不足、事実、Risk、反対視点、比較案などを整理する</li>
+<li>必要なら修正して再実行する</li>
+<li>整理した内容を人が判断する、またはAIへ戻して回答を作り直す</li>
+</ol>
+</section><section id="section-04" class="detail-section"><span class="detail-section__index">04</span><h2>8つの目的から選べます</h2><div class="table-wrap"><table class="detail-table">
+<thead>
+<tr>
+  <th scope="col">目的</th>
+  <th scope="col">こんなときに使います</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>AIに任せる</td>
+  <td>何から確認すべきかも含めて進め方を選んでほしい</td>
+</tr>
+<tr>
+  <td>レビュー</td>
+  <td>文章、AI回答、設計、Codeなどの問題点を確認したい</td>
+</tr>
+<tr>
+  <td>比較</td>
+  <td>複数の案を同じ条件で比べたい</td>
+</tr>
+<tr>
+  <td>検証</td>
+  <td>根拠、前提、成立条件を確かめたい</td>
+</tr>
+<tr>
+  <td>改善</td>
+  <td>現在の案の弱点を見つけ、より良くしたい</td>
+</tr>
+<tr>
+  <td>調査</td>
+  <td>何を調べ、何を確認すべきか整理したい</td>
+</tr>
+<tr>
+  <td>計画</td>
+  <td>目標、条件、Risk、順序を整理したい</td>
+</tr>
+<tr>
+  <td>検討</td>
+  <td>まだ結論を決めず、複数の方向から考えたい</td>
+</tr>
+</tbody>
+</table></div>
+<p>目的がはっきりしない場合は「AIに任せる」を選べます。</p>
+</section><section id="section-05" class="detail-section"><span class="detail-section__index">05</span><h2>入力できるもの</h2><ul>
+<li>質問や相談</li>
+<li>AIが作った回答</li>
+<li>企画書や説明資料</li>
+<li>比較したい候補</li>
+<li>CodeやTest結果</li>
+<li>調査・研究資料</li>
+<li>会議記録</li>
+<li>その他の対応File</li>
+</ul>
+</section><section id="section-06" class="detail-section"><span class="detail-section__index">06</span><h2>実行前に確認できます</h2><p>Asteraは、入力しただけで勝手に処理を始めません。</p>
+<p>実行前に、何を処理するのか、どの追加機能を使うのか、どの程度Creditを使うのかを確認してから実行できます。</p>
+</section><section id="section-07" class="detail-section"><span class="detail-section__index">07</span><h2>必要なときだけ追加できる機能</h2><h3>高精度翻訳</h3>
+<p>本文の意味や構造をできるだけ保ちながら、指定した言語へ翻訳します。</p>
+<h3>エージェントモード</h3>
+<p>Asteraの判断材料とAI処理を組み合わせ、より深く処理したい場合に使います。</p>
+<h3>書類作成</h3>
+<p>用意されたTemplateや自分のTemplateを使って、決められた形式の文書・書類を作ります。</p>
+<h3>外部Storage転送</h3>
+<p>結果を、利用者が選んだ外部Storageへ送ります。</p>
+<p>追加機能は必要なものだけ選んで使います。</p>
+</section><section id="section-08" class="detail-section"><span class="detail-section__index">08</span><h2>結果は8つの判断材料に分かれます</h2><p>一つの長文だけでなく、目的、不足条件、事実、Risk、反対視点、比較案、推奨する方向、AIへの再指示を分けて確認できます。</p>
+<p>そのため、Riskだけ見る、足りない条件だけ見る、再指示だけCopyするといった使い方ができます。</p>
+</section><section id="section-09" class="detail-section"><span class="detail-section__index">09</span><h2>保存・履歴・Project</h2><p>実行した内容は履歴から確認できます。関連する内容はProjectとしてまとめ、続きの検討や再実行へつなげられます。</p>
+<p>必要に応じて、Copy、編集、削除、Download、共有を行えます。</p>
+</section><section id="section-10" class="detail-section"><span class="detail-section__index">10</span><h2>保存範囲を抑えたい場合</h2><p>Private Modeでは、通常の履歴利用とは分けて、保存範囲を抑えて扱えます。</p>
+<p>Astera Storageを利用する場合は、Planに応じた容量で履歴やDataを保存できます。Dataの詳しい扱いはPrivacy Policyで確認できます。</p>
+</section><section id="section-11" class="detail-section"><span class="detail-section__index">11</span><h2>端末が変わっても基本Flowは同じです</h2><p>Web、スマートフォン、Tabletでも、目的を選び、入力し、実行し、結果を見るという基本Flowは共通です。</p>
+</section><section id="section-12" class="detail-section"><span class="detail-section__index">12</span><h2>迷ったときは案内AI</h2><p>料金、Account、使い方、Troubleなどは案内AIから確認できます。</p>
+<p>案内AIはAsteraの判断材料生成とは別の、利用案内のための窓口です。</p>
+</section><section id="section-13" class="detail-section"><span class="detail-section__index">13</span><h2>開発者はDeveloper Modeへ</h2><p>自作Appや自社SystemへAsteraを組み込みたい場合は、Developer ModeからAPIを利用できます。</p>
+</section><section id="section-14" class="detail-section"><span class="detail-section__index">14</span><h2>次に見るなら</h2><ul>
+<li><a href="../product/usage/">活用例を見る</a></li>
+<li><a href="../product/value/">導入すると何が変わるのか</a></li>
+<li><a href="../pricing/">料金とCredit</a></li>
+<li><a href="../product/integration/">開発者向け連携</a></li>
+</ul>
+</section>
       </article>
     </div>
   </main>
+
   <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
-  <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="../news/">News</a><a class="side-menu-link" href="../qa/">Q&amp;A</a><a class="side-menu-link" href="../pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="../developer/">開発者プロフィール</a><a href="../developer/achievements/">公開実績</a><a href="../developer/prototypes/">試作実績</a><a href="../developer/theories/">理論・研究</a><a href="../corporate/">法人・協業相談</a><a href="../contact/">お問い合わせ</a><a href="../legal/terms/">利用規約</a><a href="../legal/privacy/">Privacy Policy</a><a href="../legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="../support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="../investors/">投資家</a></div></section></nav></aside>
+  <aside id="side-menu" class="side-menu" aria-hidden="true" inert>
+    <div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div>
+    <nav class="side-menu-body" aria-label="サイドメニュー">
+      <a class="side-menu-link" href="../news/">News</a>
+      <a class="side-menu-link" href="../qa/">Q&amp;A</a>
+      <a class="side-menu-link" href="../pricing/">料金プラン</a>
+      <section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden>
+        <a href="../developer/">開発者情報・IR・リーガル</a><a href="../developer/achievements/">公開実績</a><a href="../developer/prototypes/">試作実績</a><a href="../developer/theories/">理論・研究</a><a href="../corporate/">法人・協業相談</a><a href="../contact/">お問い合わせ</a><a href="../legal/terms/">利用規約</a><a href="../legal/privacy/">Privacy Policy</a><a href="../legal/commerce/">特定商取引法表記</a>
+      </div></section>
+      <section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden>
+        <a href="../support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="../investors/">投資家</a>
+      </div></section>
+    </nav>
+  </aside>
 </body>
 </html>

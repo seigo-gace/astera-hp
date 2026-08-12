@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>日本語を正しく読むための技術｜Deterministic Japanese Parser MCP｜Astera</title>
+  <meta name="description" content="日本語の条件・例外・指示関係・文脈を決定論的に整理し、Asteraの判断工程へ渡す専用読解基盤を説明します。">
+  <link rel="stylesheet" href="../../../style.css?v=cu-public-content-main10-20260813">
+  <link rel="stylesheet" href="../../../styles/header-logo-fix.css?v=cu61-logo-size-tune">
+  <link rel="stylesheet" href="../../../styles/header-language-fix.css?v=cu62-language-text-size">
+  <link rel="stylesheet" href="../../../styles/ai-chat-glass.css?v=cu70-ai-chat-composer-anchor">
+  <link rel="stylesheet" href="../../../styles/detail-page.css?v=cu-public-content-main10-20260813">
+  <script type="module" src="../../../script.js?v=cu-public-content-main10-20260813"></script>
+  <script type="module" src="../../../scripts/ai-chat-entry.js?v=cu64-ai-chat-fullscreen"></script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">本文へ移動</a>
+  <header class="site-header">
+    <div class="header-upper" id="top">
+      <a class="brand" href="../../" aria-label="Asteraトップページへ戻る"><img src="../../../assets/brand/astera-logo-dark.svg?v=cu59-logo-visible" alt="Astera v8"></a>
+      <div class="language-select-field"><label class="sr-only" for="site-language">表示言語</label><select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select><span class="language-select-arrow" aria-hidden="true">⌄</span></div>
+    </div>
+    <div class="header-actions" aria-label="主要操作">
+      <a class="app-entry" href="../../app/">Asteraを使う</a>
+      <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-chat" aria-label="Astera案内AIを開く"><img src="../../../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
+      <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
+    </div>
+    <section id="ai-chat" class="ai-chat ai-chat--glass" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
+      <div class="ai-chat__top-dock" data-ai-top-dock>
+        <div class="ai-chat__header">
+          <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
+          <div class="ai-chat__window-actions"><button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button><button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button></div>
+        </div>
+        <div class="ai-routing" data-ai-routing><div class="ai-routing__current">
+          <label class="ai-mode-select-wrap"><span class="ai-mode-select-label">回答タイプ</span><span class="ai-mode-select-shell"><select class="ai-mode-select" data-ai-mode-select aria-label="回答タイプ"><option value="auto" selected>AIに任せる</option><option value="general">Asteraについて</option><option value="operation">操作・使い方</option><option value="billing">料金・Account</option><option value="technical">技術者向け</option><option value="investor">投資家・法人向け</option><option value="support">開発支援・Sponsor</option><option value="trouble">不具合・困りごと</option></select><span class="ai-mode-select-arrow" aria-hidden="true">⌄</span></span></label>
+          <div class="ai-routing__actions"><button type="button" data-ai-new-chat>新しい会話</button></div>
+        </div></div>
+      </div>
+      <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話"><div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div></div>
+      <div class="ai-chat__composer-dock" data-ai-composer-dock><div class="ai-composer"><textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1" maxlength="12000"></textarea><button class="ai-send" type="button" data-icon-send aria-label="送信"><svg class="ai-send__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6l.8 6.5L15 12 4.2 13.9z"/></svg></button></div><p class="ai-status" data-ai-status role="status" aria-live="polite"></p></div>
+    </section>
+  </header>
+  <main id="main" class="detail-main">
+    <section class="detail-hero" aria-labelledby="page-title"><div class="detail-hero__inner">
+      <nav class="breadcrumb" aria-label="パンくず"><a href="../../">TOP</a><span aria-hidden="true">/</span><span>日本語を正しく読むための技術</span></nav>
+      <div class="detail-eyebrow">Main 10 / 09</div>
+      <h1 id="page-title">日本語を正しく読むための技術｜Deterministic Japanese Parser MCP</h1>
+      <p class="detail-hero__description">日本語の条件・例外・指示関係・文脈を決定論的に整理し、Asteraの判断工程へ渡す専用読解基盤を説明します。</p>
+    </div></section>
+    <div class="detail-shell">
+      <nav class="detail-toc" aria-label="このページの目次"><span class="detail-toc__title">Contents</span><ol><li><a href="#summary">Asteraの日本語読解を支える専用基盤です</a></li><li><a href="#section-02">なぜ日本語専用の読解が必要なのか</a></li><li><a href="#section-03">たとえば</a></li><li><a href="#section-04">文章を“設計図”のように整理します</a></li><li><a href="#section-05">Meaning Graphとは</a></li><li><a href="#section-06">Astera v8との役割分担</a></li><li><a href="#section-07">特に効果が出やすい文章</a></li><li><a href="#section-08">一般利用者にとっての意味</a></li><li><a href="#section-09">生成AIとは違う役割です</a></li><li><a href="#section-10">公開する技術情報の範囲</a></li><li><a href="#section-11">次に見るなら</a></li></ol></nav>
+      <article class="detail-article">
+        <section id="summary" class="detail-section"><span class="detail-section__index">01</span><h2>Asteraの日本語読解を支える専用基盤です</h2><p>Asteraでは、日本語を読む処理を生成AIの推測だけに任せません。</p><p><strong>Deterministic Japanese Parser MCPが、条件、例外、指示関係、文脈などを整理し、Asteraが判断に使える形へ変換します。</strong></p><p>これは文章を新しく作るAIではなく、日本語をできるだけ一定の規則で読み解くための専用読解基盤です。</p>
+</section><section id="section-02" class="detail-section"><span class="detail-section__index">02</span><h2>なぜ日本語専用の読解が必要なのか</h2><p>日本語は、単語だけを拾っても意味が決まらないことがあります。</p><ul><li>主語が省略されている</li><li>「それ」「前述の内容」などの指示語がある</li><li>「ただし」「〜の場合を除く」のような例外がある</li><li>否定がどこまで掛かっているか分かりにくい</li><li>前の会話を読まないと意味が決まらない</li><li>条件の順序によって意味が変わる</li></ul><p>自然に読めることと、<strong>条件や適用範囲まで正確に取り出せることは別</strong>です。</p>
+</section><section id="section-03" class="detail-section"><span class="detail-section__index">03</span><h2>たとえば</h2><p>「Aを実行する。ただしBの場合は実行しない。」という文章では、単にAとBという単語を拾うだけでは足りません。</p><p>必要なのは、</p><ul><li>基本の要求はAの実行</li><li>Bは例外条件</li><li>Bが成立するとAを実行しない</li></ul><p>という関係を保って読むことです。</p><p>MCPは、こうした<strong>意味のつながり</strong>を整理してからAsteraへ渡します。</p>
+</section><section id="section-04" class="detail-section"><span class="detail-section__index">04</span><h2>文章を“設計図”のように整理します</h2><p>長い文章を一つの塊のまま扱うのではなく、誰が述べているのか、何を求めているのか、何を禁止しているのか、どんな条件なら成立するのか、どんな例外があるのか、何が何を指しているのか、どの内容が前の文や会話につながるのかを関係として整理します。</p><p>イメージとしては、文章をそのまま渡すのではなく、<strong>意味のつながりを設計図にしてから次の判断工程へ渡す</strong>考え方です。</p>
+</section><section id="section-05" class="detail-section"><span class="detail-section__index">05</span><h2>Meaning Graphとは</h2><p>この整理結果をMeaning Graphとして扱います。</p><p>利用者が複雑なGraphを操作する必要はありません。</p><p>意味としては、文章を単語の集まりではなく、<strong>「この条件はこの行動に掛かる」「この例外はこの範囲に適用される」</strong>といった関係を持つDataとして扱うことです。</p>
+</section><section id="section-06" class="detail-section"><span class="detail-section__index">06</span><h2>Astera v8との役割分担</h2><pre class="detail-code"><code class="language-text">日本語の入力
+↓
+Deterministic Japanese Parser MCP
+意味・条件・関係を整理
+↓
+Astera v8
+判断材料を生成
+↓
+人または利用するAI
+最終判断・回答・成果物
+</code></pre><p>役割は、</p><ul><li><strong>MCP：日本語を読む</strong></li><li><strong>Astera v8：読んだ内容から判断材料を作る</strong></li><li><strong>生成AI：必要に応じて最終回答や成果物を作る</strong></li></ul><p>と分けます。</p>
+</section><section id="section-07" class="detail-section"><span class="detail-section__index">07</span><h2>特に効果が出やすい文章</h2><ul><li>長い依頼文</li><li>複数の条件を含む指示</li><li>例外の多い規定やRule</li><li>会話の前後関係を引き継ぐ指示</li><li>誰の発言かを区別する必要がある文章</li><li>要求・禁止・維持条件が混在する仕様</li><li>複数段落にまたがる説明</li></ul>
+</section><section id="section-08" class="detail-section"><span class="detail-section__index">08</span><h2>一般利用者にとっての意味</h2><p>Parserの内部構造を覚える必要はありません。</p><p>重要なのは、Asteraが日本語を一つの塊として雑に扱わず、<strong>条件や関係を整理してから判断工程へ渡すこと</strong>です。</p><p>これによって、長文や複雑な指示でも、前提や条件を取り違えにくい判断材料生成につなげます。</p>
+</section><section id="section-09" class="detail-section"><span class="detail-section__index">09</span><h2>生成AIとは違う役割です</h2><p>生成AIは、文章を理解しながら回答や文章を作ることが得意です。</p><p>一方、読解と回答生成を同じ処理だけに任せると、どこをどう読んだかを追いにくくなることがあります。</p><p>MCPは、<strong>回答を作る前に日本語の構造を整理する</strong>役割に集中します。</p>
+</section><section id="section-10" class="detail-section"><span class="detail-section__index">10</span><h2>公開する技術情報の範囲</h2><p>HPでは、何を読み取り、Asteraとどう役割分担するかを説明します。</p><p>解析精度を支える詳細な内部Rule、核心Algorithm、内部Score、非公開Schemaなど、同等実装を再現できる核心部分は公開しません。</p>
+</section><section id="section-11" class="detail-section"><span class="detail-section__index">11</span><h2>次に見るなら</h2><ul><li><a href="../technology/">Astera v8はどう動くのか</a></li><li><a href="../process/">Asteraはどう判断材料を作るのか</a></li><li><a href="../integration/">開発者向け連携</a></li><li><a href="../../developer/achievements/japanese-parser/">日本語Parserの公開実績・技術資料</a></li></ul>
+</section>
+      </article>
+    </div>
+  </main>
+
+  <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
+  <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="../../news/">News</a><a class="side-menu-link" href="../../qa/">Q&amp;A</a><a class="side-menu-link" href="../../pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="../../developer/">開発者情報・IR・リーガル</a><a href="../../developer/achievements/">公開実績</a><a href="../../developer/prototypes/">試作実績</a><a href="../../developer/theories/">理論・研究</a><a href="../../corporate/">法人・協業相談</a><a href="../../contact/">お問い合わせ</a><a href="../../legal/terms/">利用規約</a><a href="../../legal/privacy/">Privacy Policy</a><a href="../../legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="../../support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="../../investors/">投資家</a></div></section></nav></aside>
+</body>
+</html>
