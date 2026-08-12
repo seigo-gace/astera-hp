@@ -1,0 +1,4 @@
+.detail-illustration{width:100%;margin:clamp(24px,4vw,42px) 0 clamp(38px,5vw,62px)}
+.detail-illustration__image{display:block;width:100%;height:auto;object-fit:contain;border-radius:16px;filter:drop-shadow(0 22px 30px rgba(0,0,0,.58)) drop-shadow(0 7px 14px rgba(116,132,164,.18))}
+@media(max-width:480px){.detail-illustration{margin:22px 0 40px}.detail-illustration__image{border-radius:13px;filter:drop-shadow(0 15px 22px rgba(0,0,0,.56)) drop-shadow(0 5px 10px rgba(116,132,164,.15))}}
+@media print{.detail-illustration__image{filter:none}}
