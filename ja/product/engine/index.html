@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>多角的判断エンジン｜Astera</title>
+  <meta name="description" content="Domain Router、Lens、Overlay、5本柱、候補競争、比較構造を説明する。">
+  <link rel="stylesheet" href="../../../style.css?v=cu58-header-logo-copyright">
+  <link rel="stylesheet" href="../../../styles/header-logo-fix.css?v=cu61-logo-size-tune">
+  <link rel="stylesheet" href="../../../styles/header-language-fix.css?v=cu62-language-text-size">
+  <link rel="stylesheet" href="../../../styles/ai-chat-glass.css?v=cu70-ai-chat-composer-anchor">
+  <link rel="stylesheet" href="../../../styles/detail-page.css?v=cu-detail-main10-01">
+  <script type="module" src="../../../script.js?v=cu67-supporters-crown-overlay"></script>
+  <script type="module" src="../../../scripts/ai-chat-entry.js?v=cu64-ai-chat-fullscreen"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+  <header class="site-header">
+    <div class="header-upper" id="top">
+      <a class="brand" href="../../" aria-label="Asteraトップページへ戻る"><img src="../../../assets/brand/astera-logo-dark.svg?v=cu59-logo-visible" alt="Astera v8"></a>
+      <div class="language-select-field"><label class="sr-only" for="site-language">表示言語</label><select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select><span class="language-select-arrow" aria-hidden="true">⌄</span></div>
+    </div>
+    <div class="header-actions" aria-label="主要操作">
+      <a class="app-entry" href="../../app/">Asteraを使う</a>
+      <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-chat" aria-label="Astera案内AIを開く"><img src="../../../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
+      <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
+    </div>
+
+    <section id="ai-chat" class="ai-chat ai-chat--glass" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
+      <div class="ai-chat__top-dock" data-ai-top-dock>
+        <div class="ai-chat__header">
+          <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
+          <div class="ai-chat__window-actions">
+            <button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button>
+            <button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button>
+          </div>
+        </div>
+        <div class="ai-routing" data-ai-routing>
+          <div class="ai-routing__current">
+            <label class="ai-mode-select-wrap"><span class="ai-mode-select-label">回答タイプ</span><span class="ai-mode-select-shell"><select class="ai-mode-select" data-ai-mode-select aria-label="回答タイプ"><option value="auto" selected>AIに任せる</option><option value="general">Asteraについて</option><option value="operation">操作・使い方</option><option value="billing">料金・Account</option><option value="technical">技術者向け</option><option value="investor">投資家・法人向け</option><option value="support">開発支援・Sponsor</option><option value="trouble">不具合・困りごと</option></select><span class="ai-mode-select-arrow" aria-hidden="true">⌄</span></span></label>
+            <div class="ai-routing__actions"><button type="button" data-ai-new-chat>新しい会話</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話"><div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div></div>
+      <div class="ai-chat__composer-dock" data-ai-composer-dock><div class="ai-composer"><textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1" maxlength="12000"></textarea><button class="ai-send" type="button" data-icon-send aria-label="送信"><svg class="ai-send__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6l.8 6.5L15 12 4.2 13.9z"/></svg></button></div><p class="ai-status" data-ai-status role="status" aria-live="polite"></p></div>
+    </section>
+  </header>
+  <main id="main" class="detail-main">
+    <section class="detail-hero" aria-labelledby="page-title"><div class="detail-hero__inner">
+      <nav class="breadcrumb" aria-label="パンくず"><a href="../../">TOP</a><span aria-hidden="true">/</span><span>多角的判断エンジン</span></nav>
+      <div class="detail-eyebrow">Main 10 / 05</div>
+      <h1 id="page-title">多角的判断エンジン</h1>
+      <p class="detail-hero__description">Domain Router、Lens、Overlay、5本柱、候補競争、比較構造を、責務ごとに分けて説明する。</p>
+    </div></section>
+    <div class="detail-shell">
+      <nav class="detail-toc" aria-label="このページの目次"><span class="detail-toc__title">Contents</span><ol><li><a href="#conclusion">結論</a></li><li><a href="#structure">全体構造</a></li><li><a href="#router">Domain Router</a></li><li><a href="#lenses">21 Domain Lens</a></li><li><a href="#lens-criteria">Lensが切り替える基準</a></li><li><a href="#overlays">5 Overlay</a></li><li><a href="#pillars">5本柱</a></li><li><a href="#human-reader">Human Reader</a></li><li><a href="#dialectic">Dialectic候補</a></li><li><a href="#compare">Compare</a></li><li><a href="#evidence">Evidence</a></li><li><a href="#need-limit">必要性と限界</a></li></ol></nav>
+      <article class="detail-article">
+        <section id="conclusion" class="detail-section"><span class="detail-section__index">01</span><h2>結論</h2><p>一つのAIが、一つの会話の中で、目的確認、事実確認、危険検出、反対意見、候補作成、比較、文章生成まで全部行うと、それぞれの責務が混ざり、一方向の回答へ流れやすくなります。</p><p>Asteraは、問いに応じて確認方法を切り替え、異なる目的を持つ処理を分離し、複数候補を競わせ、最後に同じ基準で比較します。</p><blockquote><p><strong>多角とは、同じ対象を異なる立場や評価軸から見ること。多重とは、異なる責務を持つ処理工程を分離し、その結果を重ねて比較・統合することです。</strong></p></blockquote><div class="detail-visual"><span class="detail-visual__label">一つの問いを8視点で囲む</span><div class="hub"><div class="hub__center">問い</div><div class="hub__node">本当の目的</div><div class="hub__node">前提不足</div><div class="hub__node">事実確認</div><div class="hub__node">危機察知</div><div class="hub__node">反対視点</div><div class="hub__node">比較案</div><div class="hub__node">推奨判断</div><div class="hub__node">主役AIへの再指示</div></div></div></section><section id="structure" class="detail-section"><span class="detail-section__index">02</span><h2>全体構造</h2><pre class="detail-code"><code>入力
+↓
+Domain Router
+↓
+Primary Lens ＋ Secondary Lens ＋ Overlay
+↓
+Fact ／ Risk ／ Inquiry
+↓
+Multi
+↓
+Dialectic Candidate
+↓
+Compare
+↓
+8項目の判断材料</code></pre></section><section id="router" class="detail-section"><span class="detail-section__index">03</span><h2>Domain Router｜質問がどの分野かを見分ける</h2><p>利用者が毎回、専門分野やModeを正確に選ぶ必要はありません。</p><p>Domain Routerは、質問、Context、資料、利用目的を読み取り、次を判定します。</p><ul><li>主となる分野</li><li>同時に関係する副分野</li><li>最新情報の確認が必要か</li><li>法律、医療、安全等の高Risk領域か</li><li>厳しいEvidence条件が必要か</li><li>General Lensで処理できるか</li></ul><p>複合案件を一つの分類へ無理に押し込みません。</p><p>たとえば、医療Serviceの事業計画には、Business、Finance、Legal、Medical、Privacy、AI Governance等が同時に関係します。AsteraはPrimary Lensだけで終わらず、Secondary LensとOverlayを追加します。</p></section><section id="lenses" class="detail-section"><span class="detail-section__index">04</span><h2>21種類のDomain Lens</h2><p>公開時の主要Domain Lensは、Generalを含む21種類です。</p><ol><li>General Judgment／Default</li><li>Business／Executive Strategy</li><li>Finance／Investment／Capital Allocation</li><li>Legal／Compliance／Contract</li><li>Medical／Health／Clinical</li><li>Marketing／Growth／Brand</li><li>Product／UX／Roadmap</li><li>Engineering／Architecture／Implementation</li><li>Cybersecurity／Privacy／Trust</li><li>AI／ML／LLM Governance</li><li>Project／Program／Operations</li><li>HR／Organization／People</li><li>Sales／Customer Success／Negotiation</li><li>Research／Academic／Evidence Review</li><li>Education／Training／Learning Design</li><li>Procurement／Vendor／Build-vs-Buy</li><li>Crisis／Reputation／Public Communication</li><li>Policy／Public Sector／Nonprofit</li><li>Creative／Writing／Content</li><li>Personal Decision／Coaching／Life Planning</li><li>Data／Analytics／Experimentation</li></ol><p>「オールジャンル対応」とは、何でも知っているという意味ではありません。</p><ul><li>入力分野を限定しない</li><li>分野ごとに確認方法を切り替える</li><li>複合案件へ複数Lensを適用する</li><li>専門Lensに当てはまらない場合はGeneral Lensで処理する</li><li>知らない情報を未確認として残す</li><li>必要に応じて外部KB、検索、専門Data、利用者資料へ接続する</li></ul><p>つまり、<strong>どの質問にも同じ一般論を返すのではなく、分野に合った調べ方と確認基準へ切り替える</strong>という意味です。</p></section><section id="lens-criteria" class="detail-section"><span class="detail-section__index">05</span><h2>Lensが切り替える基準</h2><div class="table-wrap"><table class="detail-table"><thead><tr><th scope="col">基準</th><th scope="col">確認する内容</th></tr></thead><tbody><tr><td>Fact Lens</td><td>その分野で何を事実として確認するか</td></tr><tr><td>Risk Lens</td><td>どの危険や失敗を優先して探すか</td></tr><tr><td>Multi Lens</td><td>誰の立場から確認するか</td></tr><tr><td>Inquiry Lens</td><td>判断前に何を問い直すか</td></tr><tr><td>Compare Lens</td><td>どの案を、どの軸で比較するか</td></tr><tr><td>Evidence to Collect</td><td>必要な資料、Data、一次情報</td></tr><tr><td>Safety Gate</td><td>断定停止条件、専門家確認条件</td></tr></tbody></table></div><p>Lensは文章Templateではありません。<strong>何を見るか、何を危険とするか、何をEvidenceとして要求するかを変える認知・評価基準</strong>です。</p></section><section id="overlays" class="detail-section"><span class="detail-section__index">06</span><h2>5種類の追加Overlay</h2><p>高Risk条件や厳しいEvidence条件がある場合、主要LensへOverlayを重ねます。</p>
+<h3>High-Stakes Legal Overlay</h3><ul><li>法令、契約、権利、表示義務</li><li>管轄、適用地域、施行日</li><li>法的判断を止める条件</li><li>弁護士、行政、権限者へ確認する条件</li></ul>
+<h3>Medical Safety Overlay</h3><ul><li>医療機関、学会、Guideline、添付文書等の優先</li><li>緊急性</li><li>禁忌、受診条件</li><li>個別診断を避ける境界</li></ul>
+<h3>Current-Information Overlay</h3><ul><li>料金、規約、役職、製品仕様、政治、法令、時事等の現在確認</li><li>情報の公開日、更新日</li><li>古いSourceを断定に使わない</li></ul>
+<h3>Evidence-Strict Overlay</h3><ul><li>一次資料の優先</li><li>引用と主張の一致</li><li>調査条件、Sample、対象範囲</li><li>Evidence不足時の断定停止</li></ul>
+<h3>Safety／Abuse Overlay</h3><ul><li>生命、身体、重大損失、Security、違法利用等の危険確認</li><li>安全側への制限</li><li>実行手順を出してはいけない条件</li></ul>
+<p>Overlayは、通常確認へ追加する二重・三重の安全確認です。</p></section><section id="pillars" class="detail-section"><span class="detail-section__index">07</span><h2>5本柱</h2>
+<h3>Fact｜事実と未確認情報の整理</h3><p>入力内容を、確認済みの事実、未確認情報、意見、推測、予測、矛盾へ仕分けます。</p>
+<h3>Risk｜危険と失敗条件</h3><p>実行するRisk、実行しないRisk、途中失敗、復旧不能、信用、法務、Security、費用、運用等を確認します。</p>
+<h3>Multi｜多角</h3><p>利用者、顧客、運営者、開発者、経営者、投資家、法務、第三者等、問いに必要な立場へ切り替えます。</p>
+<h3>Inquiry｜反対・問い直し</h3><p>前提、隠れた目的、曖昧な言葉、矛盾、見落とした選択肢を問い直します。</p>
+<h3>Compare｜比較</h3><p>候補を同じ評価軸へ揃え、目的への適合、Evidence、Risk、実現性、費用、時間等で比較します。</p></section><section id="human-reader" class="detail-section"><span class="detail-section__index">08</span><h2>Human Reader｜人の状態も処理条件へ含める</h2><p>Asteraは入力内容だけでなく、利用者が現在どのような状態で依頼している可能性があるかも処理条件に含めます。</p><p>検出対象の例：</p><ul><li>urgency：急ぎ・時間圧</li><li>anger：怒り・強い不満</li><li>fatigue：疲労</li><li>confusion：混乱</li><li>precision：正確性要求</li><li>scope_pressure：全部・完璧・最大範囲要求</li><li>build_mode：Code、Download、起動、Test等の実行要求</li></ul><p>Human Readerは心理診断ではありません。<strong>説明量、質問量、出力順序、実行しやすい形式を調整するための補助情報</strong>です。</p><p>急いでいる利用者へ長い前置きを増やさず、混乱している利用者へ前提や手順を省略せず、正確性要求が高い場合はEvidenceと未確認事項を強化します。</p></section><section id="dialectic" class="detail-section"><span class="detail-section__index">09</span><h2>Dialectic｜複数候補を競わせる</h2><p>Asteraは、一つの案だけを改善し続けません。異なる性質を持つ候補を生成します。</p>
+<h3>主案</h3><p>目的達成へ最も直接的な候補。</p>
+<h3>悪手案</h3><p>意図的に弱い案、危険な案、破綻しやすい案を作り、失敗原因を可視化します。採用するためではなく、どこで転ぶかを確認するために使います。</p>
+<h3>反対案</h3><p>主案と逆の価値観、慎重側、別の立場を優先する候補。</p>
+<h3>第三案</h3><p>二択そのものを疑い、構造を変える案、段階案、組み合わせ案を作ります。</p>
+<h3>人読み最適案</h3><p>利用者の緊急度、理解度、負担、実行可能性へ合わせた候補。</p></section><section id="compare" class="detail-section"><span class="detail-section__index">10</span><h2>Compare｜候補を同じものさしで比較する</h2><p>Compareは、候補を印象で選びません。</p><ul><li>目的への適合</li><li>成功条件</li><li>前提依存</li><li>Evidenceの強さ</li><li>Risk</li><li>費用</li><li>時間</li><li>実現性</li><li>撤退しやすさ</li><li>将来拡張</li><li>矛盾</li></ul><p>各候補のscore、answer line distance、成立条件、破綻条件を比較し、selected candidateとcandidate rankingへ統合します。</p><p>点数が高い案を機械的に最終決定するのではありません。<strong>なぜ高いか、どの条件で順位が変わるか、残る不確実性は何か</strong>を判断材料として返します。</p></section><section id="evidence" class="detail-section"><span class="detail-section__index">11</span><h2>Evidenceの扱い</h2><p>Asteraは、Evidenceを「絶対に正しい」という印として付けません。</p><p>Evidenceは、利用者と主役AIが次を確認するために使います。</p><ul><li>どのSourceが主張を支えているか</li><li>一次情報か</li><li>いつ公開・更新されたか</li><li>対象者・地域・条件は合っているか</li><li>反対Evidenceや矛盾はないか</li></ul><p>Sourceの優先例：</p><ol><li>法令、行政、公式発表</li><li>専門機関、学会、一次資料</li><li>査読研究、公式Documentation</li><li>信頼できる報道、専門解説</li><li>その他の参考情報</li></ol></section><section id="need-limit" class="detail-section"><span class="detail-section__index">12</span><h2>必要性と限界</h2><h3>なぜこの構造が必要か</h3><p>真実だけを見ると、危険を見落とします。</p><p>Riskだけを見ると、何も進められません。</p><p>攻めだけを見ると、壊れやすくなります。</p><p>反対だけを見ると、結論へ進めません。</p><p>比較だけを見ると、候補が増えて迷います。</p><p>Asteraは、それぞれを独立させたうえで一つの流れへ統合します。</p><blockquote><p><strong>異なる目的を持つ処理を分離し、互いの結果を検証させ、最後に判断可能な8項目へまとめる。</strong></p></blockquote><p>これが、多角的判断エンジンの役割です。</p><h3>重要事項</h3><p>多角的に確認しても、すべての情報、将来変化、個別事情を網羅できる保証はありません。Asteraは正解を保証するのではなく、見落とし、未確認情報、反対材料、Risk、比較条件を発見しやすい状態を作ります。重要な判断では、Source本文、適用条件、専門家または権限者の確認が必要です。</p></section>
+        <nav class="detail-cta" aria-label="関連ページ"><span class="detail-cta__label">Related</span><div class="detail-cta__links"><a href="../process/">前｜判断材料生成プロセス</a><a href="../usage/">次｜利用方法・活用範囲</a><a href="../technology/">技術基盤</a><a href="../../app/">Astera App</a></div></nav>
+      </article>
+    </div>
+  </main>
+  <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
+  <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="../../news/">News</a><a class="side-menu-link" href="../../qa/">Q&amp;A</a><a class="side-menu-link" href="../../pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="../../developer/">開発者プロフィール</a><a href="../../developer/achievements/">公開実績</a><a href="../../developer/prototypes/">試作実績</a><a href="../../developer/theories/">理論・研究</a><a href="../../corporate/">法人・協業相談</a><a href="../../contact/">お問い合わせ</a><a href="../../legal/terms/">利用規約</a><a href="../../legal/privacy/">Privacy Policy</a><a href="../../legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="../../support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="../../investors/">投資家</a></div></section></nav></aside>
+</body>
+</html>

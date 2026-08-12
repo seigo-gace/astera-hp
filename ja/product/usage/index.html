@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>利用方法・活用範囲｜Astera</title>
+  <meta name="description" content="Asteraの基本操作、コピペ、Web、API、Webhook、個人・開発・事業・研究・組織での利用方法を説明する。">
+  <link rel="stylesheet" href="../../../style.css?v=cu58-header-logo-copyright">
+  <link rel="stylesheet" href="../../../styles/header-logo-fix.css?v=cu61-logo-size-tune">
+  <link rel="stylesheet" href="../../../styles/header-language-fix.css?v=cu62-language-text-size">
+  <link rel="stylesheet" href="../../../styles/ai-chat-glass.css?v=cu70-ai-chat-composer-anchor">
+  <link rel="stylesheet" href="../../../styles/detail-page.css?v=cu-detail-main10-01">
+  <script type="module" src="../../../script.js?v=cu67-supporters-crown-overlay"></script>
+  <script type="module" src="../../../scripts/ai-chat-entry.js?v=cu64-ai-chat-fullscreen"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+  <header class="site-header">
+    <div class="header-upper" id="top">
+      <a class="brand" href="../../" aria-label="Asteraトップページへ戻る"><img src="../../../assets/brand/astera-logo-dark.svg?v=cu59-logo-visible" alt="Astera v8"></a>
+      <div class="language-select-field"><label class="sr-only" for="site-language">表示言語</label><select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select><span class="language-select-arrow" aria-hidden="true">⌄</span></div>
+    </div>
+    <div class="header-actions" aria-label="主要操作">
+      <a class="app-entry" href="../../app/">Asteraを使う</a>
+      <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-chat" aria-label="Astera案内AIを開く"><img src="../../../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
+      <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
+    </div>
+
+    <section id="ai-chat" class="ai-chat ai-chat--glass" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
+      <div class="ai-chat__top-dock" data-ai-top-dock>
+        <div class="ai-chat__header">
+          <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
+          <div class="ai-chat__window-actions">
+            <button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button>
+            <button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button>
+          </div>
+        </div>
+        <div class="ai-routing" data-ai-routing>
+          <div class="ai-routing__current">
+            <label class="ai-mode-select-wrap"><span class="ai-mode-select-label">回答タイプ</span><span class="ai-mode-select-shell"><select class="ai-mode-select" data-ai-mode-select aria-label="回答タイプ"><option value="auto" selected>AIに任せる</option><option value="general">Asteraについて</option><option value="operation">操作・使い方</option><option value="billing">料金・Account</option><option value="technical">技術者向け</option><option value="investor">投資家・法人向け</option><option value="support">開発支援・Sponsor</option><option value="trouble">不具合・困りごと</option></select><span class="ai-mode-select-arrow" aria-hidden="true">⌄</span></span></label>
+            <div class="ai-routing__actions"><button type="button" data-ai-new-chat>新しい会話</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話"><div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div></div>
+      <div class="ai-chat__composer-dock" data-ai-composer-dock><div class="ai-composer"><textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1" maxlength="12000"></textarea><button class="ai-send" type="button" data-icon-send aria-label="送信"><svg class="ai-send__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6l.8 6.5L15 12 4.2 13.9z"/></svg></button></div><p class="ai-status" data-ai-status role="status" aria-live="polite"></p></div>
+    </section>
+  </header>
+  <main id="main" class="detail-main">
+    <section class="detail-hero" aria-labelledby="page-title"><div class="detail-hero__inner">
+      <nav class="breadcrumb" aria-label="パンくず"><a href="../../">TOP</a><span aria-hidden="true">/</span><span>利用方法・活用範囲</span></nav>
+      <div class="detail-eyebrow">Main 10 / 06</div>
+      <h1 id="page-title">利用方法・活用範囲</h1>
+      <p class="detail-hero__description">コピペ、Web App、API、Webhookから、個人・開発・事業・研究・組織・高Risk領域までの利用方法を説明する。</p>
+    </div></section>
+    <div class="detail-shell">
+      <nav class="detail-toc" aria-label="このページの目次"><span class="detail-toc__title">Contents</span><ol><li><a href="#conclusion">結論</a></li><li><a href="#input">入力できるもの</a></li><li><a href="#flow">基本操作Flow</a></li><li><a href="#connection">接続方法</a></li><li><a href="#individual">個人</a></li><li><a href="#ai-review">AI回答検証</a></li><li><a href="#development">開発・設計</a></li><li><a href="#business">事業・経営</a></li><li><a href="#research">調査・研究</a></li><li><a href="#organization">組織</a></li><li><a href="#high-risk">高Risk領域</a></li><li><a href="#fit">向く／向かない／利用禁止</a></li></ol></nav>
+      <article class="detail-article">
+        <section id="conclusion" class="detail-section"><span class="detail-section__index">01</span><h2>結論</h2><p>Asteraは、答えが一つに決まっていない問い、確認不足が結果へ影響する問い、複数案を比較する問い、AI回答をそのまま採用できない場面に向いています。</p><p>難しいAPI接続は必須ではありません。</p><blockquote><p><strong>やりたいことを選び、問い・資料・AI回答を貼り、8項目の判断材料を確認し、再指示を主役AIへ渡す。</strong></p></blockquote><p>これが基本操作です。</p></section><section id="input" class="detail-section"><span class="detail-section__index">02</span><h2>Asteraへ入力できるもの</h2><div class="table-wrap"><table class="detail-table"><thead><tr><th scope="col">種類</th><th scope="col">例</th></tr></thead><tbody><tr><td>人間の入力</td><td>質問、相談、事業案、設計、料金案、生活上の判断</td></tr><tr><td>AIの出力</td><td>AI回答、AI生成Code、AI調査結果、要約</td></tr><tr><td>技術資料</td><td>Repository、Source Code、Log、Test結果、設計資料</td></tr><tr><td>事業資料</td><td>企画書、営業提案、収支計画、経営資料、投資家資料</td></tr><tr><td>研究資料</td><td>論文、仮説、調査資料、引用、実験結果</td></tr><tr><td>組織資料</td><td>会議記録、規定、Project計画、稟議資料</td></tr><tr><td>外部資料</td><td>文書、表、URL、利用者所有Data</td></tr></tbody></table></div><p>質問だけでなく、<strong>「このAI回答を採用してよいか」「この資料には何が足りないか」「この設計は実運用できるか」</strong>という確認にも使えます。</p></section><section id="flow" class="detail-section"><span class="detail-section__index">03</span><h2>基本操作フロー</h2><pre class="detail-code"><code>1. やりたいことを選ぶ
+   例：標準確認、資料確認、比較・検証、改善、調査、計画
+↓
+2. 問い、資料、AI回答、Code等を入力する
+↓
+3. 必要な条件を追加する
+   例：対象者、予算、期限、禁止事項、成功条件
+↓
+4. 使用するOptionと消費予定を確認する
+↓
+5. Asteraを実行する
+↓
+6. 8項目の判断材料を確認する
+↓
+7. Evidence、前提不足、Risk、反対案を確認する
+↓
+8. 再指示を主役AIへコピーする
+   または、人間の判断資料として使用する
+↓
+9. 最終回答、実行内容、専門家確認を決定する</code></pre><p>利用者がすべてのLensや内部工程を覚える必要はありません。入力内容と目的からDomain Routerが分野を判定し、必要な確認工程を構成します。</p></section><section id="connection" class="detail-section"><span class="detail-section__index">04</span><h2>接続方法</h2>
+<h3>1｜コピー＆ペースト</h3><p>最も簡単な方法です。</p><ul><li>AI回答をAsteraへ貼る</li><li>Asteraの8項目を確認する</li><li>再指示をChatGPT、Claude、Gemini等へ貼る</li></ul><p>API Key、Program、外部連携なしで利用できます。</p><h3>2｜Web App</h3><p>画面上で用途、入力、Optionを選び、結果を8項目のカードとして確認します。</p><ul><li>実行前の消費表示</li><li>結果表示</li><li>再指示のコピー</li><li>履歴・保存設定</li><li>利用状況確認</li></ul><h3>3｜API</h3><p>自作App、自社AI、社内Workflow、AI Agent等からAsteraの判断材料生成を呼び出します。</p><p>APIが返す中心成果物は最終回答ではなく、<strong>Asteraが生成した判断材料と再指示</strong>です。</p><h3>4｜Webhook</h3><p>外部Serviceのイベント、問い合わせ、Bot、業務Flow等から、必要なタイミングでAstera処理へ接続します。</p><p>受信、署名検証、保存、配送、再送、監査等はWebhook Gateway側の責務として分離します。</p></section><section id="individual" class="detail-section"><span class="detail-section__index">05</span><h2>個人での活用</h2>
+<h3>購入・契約</h3><ul><li>価格だけでなく、耐久性、維持費、保証、解約、代替案を比較する</li><li>重要条件や小さい注意書きを確認する</li><li>購入しない方がよい条件を出す</li></ul><h3>学習・Career</h3><ul><li>本当の目的と成功条件を整理する</li><li>時間、費用、継続性を比較する</li><li>資格、学校、転職案の成立条件を確認する</li></ul><h3>生活上の判断</h3><ul><li>一般論、公式情報、個別条件を分ける</li><li>危険な自己判断を避ける条件を確認する</li><li>相談先や追加確認事項を整理する</li></ul><h3>文章・申請・説明</h3><ul><li>読み手が必要とする情報の不足を出す</li><li>反論や追加質問を予測する</li><li>事実、主張、推測を分ける</li></ul></section><section id="ai-review" class="detail-section"><span class="detail-section__index">06</span><h2>AI回答の検証</h2><p>Asteraは、AI回答を「答え」ではなく「検証対象」として扱えます。</p><ul><li>目的へ本当に合っているか</li><li>AIが勝手に置いた前提はないか</li><li>事実と推測が混ざっていないか</li><li>Sourceは主張を支えているか</li><li>反対意見を消していないか</li><li>別の案の方がよくないか</li><li>実行時のRiskは何か</li></ul><p>Asteraの結果を再指示へ変換し、同じAIまたは別のAIへ回答を作り直させられます。</p></section><section id="development" class="detail-section"><span class="detail-section__index">07</span><h2>開発・設計での活用</h2><h3>要件整理</h3><ul><li>目的とScope</li><li>必須機能と除外範囲</li><li>利用者、権限、Data</li><li>成功条件と受入基準</li><li>不明点と仮定</li></ul><h3>Architecture比較</h3><ul><li>責務分離</li><li>依存関係</li><li>拡張性</li><li>保守性</li><li>費用</li><li>Vendor Lock-in</li><li>障害時の影響範囲</li></ul><h3>実装前確認</h3><ul><li>正常系だけでなく異常系</li><li>Security、Privacy、秘密情報</li><li>Rate Limit、Timeout、Retry</li><li>Data整合性</li><li>Log、監視、Audit</li><li>Backup、Recovery、Rollback</li></ul><h3>AI駆動開発</h3><ul><li>AIが生成したCodeの前提確認</li><li>実装指示の不足抽出</li><li>Test条件の作成</li><li>「動く」と「運用できる」の分離</li><li>主役AIへ渡す実装再指示</li></ul><p>Asteraは、Repository全体を無制限に処理するServiceではありません。入力上限、利用Plan、接続権限の範囲で、対象Code、仕様、Log、Test結果等を扱います。</p></section><section id="business" class="detail-section"><span class="detail-section__index">08</span><h2>事業・経営での活用</h2><h3>新規事業</h3><ul><li>顧客課題</li><li>未開拓市場性</li><li>代替手段</li><li>収益構造</li><li>実行条件</li><li>撤退条件</li><li>法務・運用Risk</li></ul><h3>投資・資金調達資料</h3><ul><li>事業の独自性</li><li>市場の未充足領域</li><li>実装Evidence</li><li>第三者評価</li><li>費用対効果</li><li>資金用途</li><li>収益化経路</li><li>反論される論点</li></ul><h3>Vendor・Tool導入</h3><ul><li>Build-vs-Buy</li><li>初期費用、運用費、移行費</li><li>解約・Data移行</li><li>Security</li><li>障害時対応</li><li>複数候補比較</li></ul><h3>会議・稟議</h3><ul><li>前提と論点を会議前に整理する</li><li>賛成案だけでなく反対案を残す</li><li>意思決定に必要な追加Evidenceを出す</li><li>決定条件と保留条件を分ける</li></ul></section><section id="research" class="detail-section"><span class="detail-section__index">09</span><h2>調査・研究での活用</h2><ul><li>一次情報と解説を区別する</li><li>Sourceの発行主体、日付、対象条件を確認する</li><li>賛成Evidenceと反対Evidenceを並べる</li><li>複数仮説を同じ基準で比較する</li><li>調査上の不足と追加検索項目を出す</li><li>引用が主張を支えているか確認する</li><li>論文の限界と適用範囲を整理する</li></ul><p>Asteraは研究者や査読を代替しません。Evidence Reviewと判断材料整理を補助します。</p></section><section id="organization" class="detail-section"><span class="detail-section__index">10</span><h2>組織での活用</h2><ul><li>部署や担当者ごとに異なる判断工程を共通化する</li><li>重要な前提を明示して引き継ぐ</li><li>個人の経験だけに依存しない比較表を作る</li><li>反対意見を言いにくい場面でも反対候補を残す</li><li>主役AIへ渡す指示の品質を揃える</li><li>後から判断理由を追跡しやすくする</li></ul><p>Asteraは人間の責任をSystemへ移すものではありません。組織の権限、承認、決裁は既存の仕組みに残します。</p></section><section id="high-risk" class="detail-section"><span class="detail-section__index">11</span><h2>高Risk領域</h2><p>医療、法律、税務、金融、安全、緊急対応等では、Asteraは専門判断を代行しません。</p><ul><li>公式資料、Guideline、法令、一次情報を優先する</li><li>未確認情報を断定しない</li><li>個別診断、法的判断、投資判断の境界を明示する</li><li>受診、専門家相談、行政・公式窓口確認の条件を出す</li><li>緊急性がある場合は分析より緊急対応を優先する</li></ul></section><section id="fit" class="detail-section"><span class="detail-section__index">12</span><h2>向く／向かない／利用禁止</h2><h3>Asteraが向いている場面</h3><ul><li>迷っているが、何に迷っているか整理できていない</li><li>AIの答えが自然だが、根拠に不安がある</li><li>一度の判断ミスが大きな手戻りになる</li><li>複数案を比較したい</li><li>反対意見も含めて説明したい</li><li>分野が複数にまたがる</li><li>判断内容を別の人やAIへ引き継ぎたい</li></ul><h3>Asteraを追加しない方がよい場面</h3><ul><li>単純計算</li><li>短い言い換え</li><li>軽い雑談</li><li>答えが一つに確定している確認</li><li>1秒未満の超低遅延だけが優先される処理</li><li>判断材料を増やすこと自体が不要な作業</li></ul><h3>利用してはいけない場面</h3><ul><li>緊急通報、救命対応の代替</li><li>医師、弁護士、行政等の許可・診断・決定の代替</li><li>違法行為、権利侵害、攻撃を目的とする利用</li><li>Evidenceを確認せず、重大操作を完全自動実行する利用</li><li>利益、正答、事故防止等の保証を求める利用</li></ul></section>
+        <nav class="detail-cta" aria-label="関連ページ"><span class="detail-cta__label">Related</span><div class="detail-cta__links"><a href="../engine/">前｜多角的判断エンジン</a><a href="../technology/">次｜技術基盤</a><a href="../../app/">Astera Appの機能・Option</a><a href="../../pricing/">料金プラン・Credit</a></div></nav>
+      </article>
+    </div>
+  </main>
+  <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
+  <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="../../news/">News</a><a class="side-menu-link" href="../../qa/">Q&amp;A</a><a class="side-menu-link" href="../../pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="../../developer/">開発者プロフィール</a><a href="../../developer/achievements/">公開実績</a><a href="../../developer/prototypes/">試作実績</a><a href="../../developer/theories/">理論・研究</a><a href="../../corporate/">法人・協業相談</a><a href="../../contact/">お問い合わせ</a><a href="../../legal/terms/">利用規約</a><a href="../../legal/privacy/">Privacy Policy</a><a href="../../legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="../../support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="../../investors/">投資家</a></div></section></nav></aside>
+</body>
+</html>

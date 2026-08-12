@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>なぜAsteraを使うのか｜Astera</title>
+  <meta name="description" content="AI利用で起きる前提不足、未確認情報、迎合、一案固定と、Asteraが追加する判断工程を説明する。">
+  <link rel="stylesheet" href="../../../style.css?v=cu58-header-logo-copyright">
+  <link rel="stylesheet" href="../../../styles/header-logo-fix.css?v=cu61-logo-size-tune">
+  <link rel="stylesheet" href="../../../styles/header-language-fix.css?v=cu62-language-text-size">
+  <link rel="stylesheet" href="../../../styles/ai-chat-glass.css?v=cu70-ai-chat-composer-anchor">
+  <link rel="stylesheet" href="../../../styles/detail-page.css?v=cu-detail-main10-01">
+  <script type="module" src="../../../script.js?v=cu67-supporters-crown-overlay"></script>
+  <script type="module" src="../../../scripts/ai-chat-entry.js?v=cu64-ai-chat-fullscreen"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+  <header class="site-header">
+    <div class="header-upper" id="top">
+      <a class="brand" href="../../" aria-label="Asteraトップページへ戻る"><img src="../../../assets/brand/astera-logo-dark.svg?v=cu59-logo-visible" alt="Astera v8"></a>
+      <div class="language-select-field"><label class="sr-only" for="site-language">表示言語</label><select id="site-language" class="language-select" aria-label="表示言語"><option value="ja" selected>JP</option><option value="en" disabled>EN</option></select><span class="language-select-arrow" aria-hidden="true">⌄</span></div>
+    </div>
+    <div class="header-actions" aria-label="主要操作">
+      <a class="app-entry" href="../../app/">Asteraを使う</a>
+      <button class="icon-button ai-button" type="button" data-ai-open aria-expanded="false" aria-controls="ai-chat" aria-label="Astera案内AIを開く"><img src="../../../assets/icons/ai-guide-robot.svg" alt="" aria-hidden="true"></button>
+      <button class="icon-button menu-button" type="button" data-menu-open aria-expanded="false" aria-controls="side-menu" aria-label="サイドメニューを開く"><span></span><span></span><span></span></button>
+    </div>
+
+    <section id="ai-chat" class="ai-chat ai-chat--glass" hidden role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
+      <div class="ai-chat__top-dock" data-ai-top-dock>
+        <div class="ai-chat__header">
+          <div class="ai-chat__title-wrap"><span class="ai-chat__connection" data-ai-connection aria-hidden="true"></span><h2 id="ai-chat-title">Astera総合案内AI</h2></div>
+          <div class="ai-chat__window-actions">
+            <button class="ai-window-button" type="button" data-ai-minimize aria-label="案内AIを最小化">－</button>
+            <button class="ai-window-button ai-window-button--close" type="button" data-ai-delete-close aria-label="会話を削除して案内AIを閉じる">×</button>
+          </div>
+        </div>
+        <div class="ai-routing" data-ai-routing>
+          <div class="ai-routing__current">
+            <label class="ai-mode-select-wrap"><span class="ai-mode-select-label">回答タイプ</span><span class="ai-mode-select-shell"><select class="ai-mode-select" data-ai-mode-select aria-label="回答タイプ"><option value="auto" selected>AIに任せる</option><option value="general">Asteraについて</option><option value="operation">操作・使い方</option><option value="billing">料金・Account</option><option value="technical">技術者向け</option><option value="investor">投資家・法人向け</option><option value="support">開発支援・Sponsor</option><option value="trouble">不具合・困りごと</option></select><span class="ai-mode-select-arrow" aria-hidden="true">⌄</span></span></label>
+            <div class="ai-routing__actions"><button type="button" data-ai-new-chat>新しい会話</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="ai-timeline" data-ai-timeline role="log" aria-live="polite" aria-label="案内AIとの会話"><div class="ai-chat__empty" data-ai-empty>Asteraについて質問してください。</div></div>
+      <div class="ai-chat__composer-dock" data-ai-composer-dock><div class="ai-composer"><textarea data-ai-input aria-label="質問" placeholder="質問を入力…" rows="1" maxlength="12000"></textarea><button class="ai-send" type="button" data-icon-send aria-label="送信"><svg class="ai-send__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6l.8 6.5L15 12 4.2 13.9z"/></svg></button></div><p class="ai-status" data-ai-status role="status" aria-live="polite"></p></div>
+    </section>
+  </header>
+  <main id="main" class="detail-main">
+    <section class="detail-hero" aria-labelledby="page-title"><div class="detail-hero__inner">
+      <nav class="breadcrumb" aria-label="パンくず"><a href="../../">TOP</a><span aria-hidden="true">/</span><span>なぜAsteraを使うのか</span></nav>
+      <div class="detail-eyebrow">Main 10 / 02</div>
+      <h1 id="page-title">なぜAsteraを使うのか</h1>
+      <p class="detail-hero__description">流暢な回答へ、前提・事実・Risk・反対・比較の確認工程を追加する。</p>
+    </div></section>
+    <div class="detail-shell">
+      <nav class="detail-toc" aria-label="このページの目次"><span class="detail-toc__title">Contents</span><ol><li><a href="#conclusion">結論</a></li><li><a href="#problems">通常AI利用の問題</a></li><li><a href="#added-process">追加する判断工程</a></li><li><a href="#separation">AI自身へ全部やらせない理由</a></li><li><a href="#structured-analysis">構造化分析との共通点</a></li><li><a href="#decision-research">意思決定研究との関係</a></li><li><a href="#cost">残るCost</a></li><li><a href="#fit">向く場面／通常AIで十分な場面</a></li><li><a href="#important">重要事項</a></li></ol></nav>
+      <article class="detail-article">
+        <section id="conclusion" class="detail-section"><span class="detail-section__index">01</span><h2>結論</h2><p>AIは速く、自然で、説得力のある文章を生成できます。しかし、<strong>文章が自然であることと、判断に必要な材料が揃っていることは同じではありません。</strong></p><p>Asteraを使う理由は、AIを疑って使わないためではありません。AIが力を発揮できる範囲を見極め、問い、前提、Evidence、Risk、反対意見、比較条件を先に整え、<strong>AIの能力を実務で安全に使いやすい状態へ変えるため</strong>です。</p><div class="detail-visual"><span class="detail-visual__label">AI単体とAstera併用の違い</span><div class="comparison"><section class="comparison__side"><h3>AI単体で不足しやすい確認</h3><ul><li>不足前提の推測</li><li>一方向化</li><li>危険・反対条件の不足</li><li>再質問による手戻り</li></ul></section><section class="comparison__side"><h3>Asteraが追加する確認</h3><ul><li>目的・不足条件の分離</li><li>事実と推測の区別</li><li>反対視点・第三案</li><li>再指示の具体化</li></ul></section></div></div></section><section id="problems" class="detail-section"><span class="detail-section__index">02</span><h2>通常のAI利用で起きやすい問題</h2>
+<h3>1｜表面的な依頼へ、そのまま回答する</h3><p>「文章を作って」という依頼でも、本当の目的が資金調達、契約確認、誤解防止、顧客獲得では、必要な内容が全く異なります。</p><p>目的を整理しないまま回答が始まると、文章は完成していても、達成したい結果へつながりません。</p>
+<h3>2｜足りない前提をAIが補ってしまう</h3><p>対象、予算、期限、利用地域、法令、成功条件、責任者、利用環境等が不足していても、AIは一般的な前提を置いて答えることがあります。</p><p>その仮定が利用者の状況と違えば、自然な回答でも実行には使えません。</p>
+<h3>3｜事実、推測、未確認情報が混ざる</h3><p>AIの回答には、確認済みの事実、一般論、推測、古い情報、存在しない情報が同じ文章の中へ混ざる可能性があります。</p><p>特に、料金、法令、医療、外部Service、最新仕様、技術実装では、未確認情報を事実として扱うと大きな問題になります。</p>
+<h3>4｜依頼者へ迎合し、一方向の案が完成する</h3><p>AIは依頼者が望んでいる方向へ回答をまとめやすく、反対Evidence、失敗条件、別の立場、採用しない方がよい条件が抜ける場合があります。</p><p>賛成材料だけで整った回答は、読みやすいほど危険です。</p>
+<h3>5｜最初の案へ固定される</h3><p>最初に作られた案が妥当そうに見えると、その案を改善する方向へ会話が進み、安い案、安全な案、段階案、撤退しやすい案、第三案を比較しないまま決定することがあります。</p>
+<h3>6｜AIの得意範囲と不得意範囲を区別しない</h3><p>AI支援は、業務とAI能力が合う場合には大きな効果を持ちます。一方、能力範囲外の課題へ無理に使用すると、回答精度を下げる場合があります。</p><p>Harvard Business Schoolの研究では、AIの能力範囲内にある課題で、完了数12.2％増、完了速度25.1％向上、品質40％超向上が確認されました。一方、能力範囲外の課題では、AIを使わない場合より正しい解決策を出す可能性が19ポイント低下しました。</p><p>これはAsteraの効果を証明する数値ではありません。<strong>AIは、どの仕事へ使うか、何を確認するか、どこで人間や専門家へ戻すかが重要である</strong>ことを示す外部研究です。</p></section><section id="added-process" class="detail-section"><span class="detail-section__index">03</span><h2>Asteraが追加する判断工程</h2><p>Asteraは、回答をもう一つ生成する前に、次を独立して確認します。</p><ul><li>本当に達成したい目的</li><li>成功条件と優先順位</li><li>回答を変える前提不足</li><li>確認済みの事実、未確認情報、意見、推測</li><li>実行するRiskと実行しないRisk</li><li>依頼者と異なる立場からの反対意見</li><li>主案、悪手案、反対案、第三案</li><li>共通条件による比較</li><li>現時点の推奨候補と見送り条件</li><li>主役AIが再回答するための具体的な再指示</li></ul></section><section id="separation" class="detail-section"><span class="detail-section__index">04</span><h2>なぜAI自身へ全部やらせないのか</h2><p>一つのAIへ、目的整理、事実確認、Risk分析、反対意見、比較、文章生成を同時に任せると、それぞれの責務が同じ会話の中へ混ざります。</p><p>Asteraは、確認目的の異なる処理を分離します。</p><ul><li>Factは、事実と未確認情報を分ける</li><li>Riskは、失敗条件を探す</li><li>Inquiryは、問いの前提を疑う</li><li>Multiは、立場を変えて見る</li><li>Dialecticは、複数候補を競わせる</li><li>Compareは、同じ基準で候補を比較する</li></ul><p>最後にだけ結果を統合することで、一つの方向へ流されにくい構造を作ります。</p></section><section id="structured-analysis" class="detail-section"><span class="detail-section__index">05</span><h2>外部で使われてきた考え方との共通点</h2><p>Asteraの確認工程には、CIAが公開する構造化分析手法で紹介されている次の考え方と共通する部分があります。</p><ul><li>Key Assumptions Check：重要前提を明確化する</li><li>Quality of Information Check：情報源、日付、信頼性、欠落を確認する</li><li>Analysis of Competing Hypotheses：複数仮説とEvidenceを比較する</li><li>Devil’s Advocacy：有力案に対する強い反論を構成する</li><li>Team A／Team B：異なる立場から分析する</li><li>Alternative Futures：複数の将来展開と成立条件を検討する</li><li>Red Team Analysis：相手側や失敗側の視点から確認する</li></ul><p>AsteraがCIAの手法をそのまま実装したもの、CIAが認定・保証したものではありません。<strong>人が重要な判断で行ってきた確認、反証、比較の考え方を、AI時代の判断材料生成工程へ組み直している</strong>ことを示す関係です。</p></section><section id="decision-research" class="detail-section"><span class="detail-section__index">06</span><h2>意思決定研究との関係</h2><p>McKinseyの調査では、大型意思決定において、前提と代替案を検討する、初期仮説を否定する情報を探す、反対意見を担当する人を置く、という3つをすべて実施した企業は、同社の定義する「winner」に分類される可能性が2.3倍高かったと報告されています。</p><p>これは、Asteraを使えば成果が2.3倍になるという意味ではありません。<strong>重要な判断では、賛成材料だけでなく、前提、代替案、反証を扱う工程そのものに価値がある</strong>ことを示す関連情報です。</p></section><section id="cost" class="detail-section"><span class="detail-section__index">07</span><h2>Asteraを使わない場合に残るコスト</h2><ul><li>前提不足による追加質問</li><li>調査漏れによる再作業</li><li>Evidence不足による社内差し戻し</li><li>誤った比較による選び直し</li><li>Security、法務、運用確認の後付け</li><li>AI出力を人が最初から調べ直す時間</li><li>公開後の訂正、信用低下、障害対応</li></ul><p>Asteraの価値は、回答を長くすることではありません。</p><blockquote><p><strong>後から問題になる確認工程を、判断前へ移動すること。</strong></p></blockquote><p>これが、Asteraを使う本質的な理由です。</p></section><section id="fit" class="detail-section"><span class="detail-section__index">08</span><h2>使った方がよい場面／通常のAIや検索だけで十分な場面</h2><h3>使った方がよい場面</h3><ul><li>判断ミスの修正費用が大きい</li><li>複数の情報源や立場を比べる必要がある</li><li>Evidenceや説明責任が必要</li><li>AI回答をそのまま採用できない</li><li>企画、設計、契約、購入、公開前に確認したい</li><li>主役AIへ、より正確な再指示を渡したい</li></ul><h3>通常のAIや検索だけで十分な場面</h3><p>短い言い換え、単純計算、軽い雑談、答えが一つでRiskや比較を広げる必要がない作業では、Asteraを追加しない方が効率的な場合があります。</p></section><section id="important" class="detail-section"><span class="detail-section__index">09</span><h2>重要事項</h2><p>Asteraは、正解や成果を保証するServiceではありません。判断に必要な確認工程を増やし、誤り、不足、反対材料、Riskを発見しやすい状態を作ります。最終確認と判断は、利用者または権限を持つ組織が行います。</p></section>
+        <nav class="detail-cta" aria-label="関連ページ"><span class="detail-cta__label">Related</span><div class="detail-cta__links"><a href="../what-is-astera/">前｜Asteraとは？</a><a href="../value/">次｜費用対効果・導入価値</a><a href="../process/">判断材料生成プロセス</a><a href="../../app/">Astera App</a></div></nav>
+      </article>
+    </div>
+  </main>
+  <button class="menu-backdrop" type="button" data-menu-close aria-label="サイドメニューを閉じる"></button>
+  <aside id="side-menu" class="side-menu" aria-hidden="true" inert><div class="side-menu-header"><strong>Menu</strong><button class="close-button" type="button" data-menu-close aria-label="サイドメニューを閉じる">×</button></div><nav class="side-menu-body" aria-label="サイドメニュー"><a class="side-menu-link" href="../../news/">News</a><a class="side-menu-link" href="../../qa/">Q&amp;A</a><a class="side-menu-link" href="../../pricing/">料金プラン</a><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="developer-menu">開発者<span aria-hidden="true">⌄</span></button><div id="developer-menu" class="accordion-panel" hidden><a href="../../developer/">開発者プロフィール</a><a href="../../developer/achievements/">公開実績</a><a href="../../developer/prototypes/">試作実績</a><a href="../../developer/theories/">理論・研究</a><a href="../../corporate/">法人・協業相談</a><a href="../../contact/">お問い合わせ</a><a href="../../legal/terms/">利用規約</a><a href="../../legal/privacy/">Privacy Policy</a><a href="../../legal/commerce/">特定商取引法表記</a></div></section><section class="side-menu-accordion"><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="support-menu">開発支援<span aria-hidden="true">⌄</span></button><div id="support-menu" class="accordion-panel" hidden><a href="../../support/">個人支援／スポンサー</a><a href="https://camp-fire.jp/projects/968933/view" rel="external noopener">クラウドファンディング</a><a href="../../investors/">投資家</a></div></section></nav></aside>
+</body>
+</html>
