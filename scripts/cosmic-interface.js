@@ -50,21 +50,8 @@ function placeExpandedDetail(panel,isSupporters){
   const top=panel.querySelector('.cosmic-expanded__top');
   const glass=panel.querySelector('.cosmic-expanded__glass');
   if(!detail||!top||!glass)return;
-  let deck=glass.querySelector('[data-expanded-action-deck]');
-  if(!deck){
-    deck=document.createElement('div');
-    deck.className='cosmic-expanded__action-deck';
-    deck.setAttribute('data-expanded-action-deck','');
-    const edge=glass.querySelector('.cosmic-expanded__edge');
-    glass.insertBefore(deck,edge||null);
-  }
-  if(isSupporters){
-    deck.hidden=true;
-    top.append(detail);
-    return;
-  }
-  deck.hidden=false;
-  deck.append(detail);
+  const target=isSupporters?top:glass;
+  if(detail.parentElement!==target)target.append(detail);
 }
 function fillExpanded(panel,item){
   const isSupporters=item.id==='supporters';

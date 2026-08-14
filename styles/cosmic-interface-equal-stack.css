@@ -90,7 +90,7 @@
   transform-origin:left center;
 }
 
-/* Expanded panel: keep the mechanical lid compact and reserve the lower deck for the detail action. */
+/* Compact expanded header: two title lines max, with the detail UI below the close button. */
 .cosmic-expanded__top{
   height:clamp(104px,17%,118px);
   padding:0 clamp(28px,5vw,46px) 20px;
@@ -110,130 +110,13 @@
   white-space:normal;
   overflow:visible;
   text-overflow:clip;
-  overflow-wrap:normal;
+  overflow-wrap:anywhere;
   word-break:normal;
-  line-break:strict;
-  text-wrap:balance;
-}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__label{
-  margin-right:58px;
-  font-size:clamp(20px,2.6vw,28px);
-  line-height:1.22;
-}
-@supports (word-break:auto-phrase){
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__label,
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__lead,
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__copy{word-break:auto-phrase}
-}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__body{
-  inset:clamp(104px,17%,118px) 0 clamp(64px,10%,72px);
-  padding:clamp(18px,3vw,26px) clamp(24px,5vw,48px) 12px;
-  display:flex;
-  flex-direction:column;
-  gap:clamp(14px,2vw,20px);
-  overflow:auto;
-}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__scan{
-  width:18%;
-  height:7px;
-  opacity:.34;
-}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__selection{
-  width:100%;
-  max-width:49rem;
-  padding:clamp(15px,2.2vw,21px) clamp(17px,2.8vw,26px);
-  border-color:rgba(215,229,255,.24);
-  background:linear-gradient(112deg,rgba(228,236,255,.11),rgba(177,179,255,.065) 56%,rgba(116,88,255,.055));
-  box-shadow:0 0 24px rgba(81,149,255,.055),inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(115,115,255,.08);
-}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__lead{
-  font-size:clamp(16px,2.05vw,21px);
-  line-height:1.56;
-  line-break:strict;
-  overflow-wrap:normal;
-}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__copy{
-  max-width:48rem;
-  font-size:clamp(14px,1.55vw,17px);
-  line-height:1.78;
-  line-break:strict;
-  overflow-wrap:normal;
 }
 
-/* Main10 detail action is a dedicated bottom-right deck, not a header pill. */
-.cosmic-expanded__action-deck{
-  position:absolute;
-  left:clamp(24px,5vw,48px);
-  right:clamp(24px,5vw,48px);
-  bottom:clamp(11px,2vw,16px);
-  z-index:7;
-  min-height:48px;
-  display:flex;
-  align-items:flex-end;
-  justify-content:flex-end;
-  padding:10px 2px 0;
-  background:linear-gradient(180deg,transparent,rgba(8,17,42,.16));
-  box-shadow:inset 0 1px 0 rgba(188,218,255,.085);
-}
-.cosmic-expanded__action-deck[hidden]{display:none!important}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__detail{
-  position:relative;
-  right:auto;
-  bottom:auto;
-  z-index:1;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  min-height:36px;
-  padding:8px 0 7px 14px;
-  border:0;
-  border-left:1px solid rgba(190,225,255,.22);
-  border-radius:0;
-  background:transparent;
-  color:rgba(232,246,255,.94);
-  font:600 13px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
-  letter-spacing:.025em;
-  text-decoration:none;
-  box-shadow:none;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-  transition:transform .18s ease,color .18s ease,border-color .18s ease,text-shadow .18s ease;
-}
-.cosmic-expanded:not(.is-supporters) .cosmic-expanded__detail::after{
-  content:"";
-  position:absolute;
-  left:14px;
-  right:0;
-  bottom:3px;
-  height:1px;
-  background:linear-gradient(90deg,rgba(155,218,255,.18),rgba(153,119,255,.38));
-  transform:scaleX(.45);
-  transform-origin:right center;
-  transition:transform .18s ease,opacity .18s ease;
-  opacity:.72;
-}
-.cosmic-expanded__detail-arrow{
-  font-size:14px;
-  transform:translateY(-.5px);
-  transition:transform .18s ease;
-}
-@media (hover:hover) and (pointer:fine){
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__detail:hover{
-    transform:translateX(2px);
-    color:rgba(246,252,255,.99);
-    border-left-color:rgba(207,238,255,.42);
-    text-shadow:0 0 16px rgba(94,191,255,.18);
-  }
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__detail:hover::after{transform:scaleX(1);opacity:1}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__detail:hover .cosmic-expanded__detail-arrow{transform:translate(3px,-.5px)}
-}
-.cosmic-expanded__detail:focus-visible{
-  outline:1px solid rgba(202,239,255,.72);
-  outline-offset:3px;
-}
-
-/* Supporters uses the pre-existing compact header action and is not redesigned in this Change Unit. */
-.cosmic-expanded.is-supporters .cosmic-expanded__detail{
+/* Latest Master override: use the existing detail control at the panel right-bottom.
+   No new deck, typography, panel geometry, body spacing, or font-size changes. */
+.cosmic-expanded__detail{
   position:absolute;
   right:16px;
   bottom:5px;
@@ -255,19 +138,22 @@
   -webkit-backdrop-filter:blur(12px) saturate(145%);
   transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;
 }
+.cosmic-expanded__detail-arrow{
+  font-size:14px;
+  transform:translateY(-.5px);
+}
 @media (hover:hover) and (pointer:fine){
-  .cosmic-expanded.is-supporters .cosmic-expanded__detail:hover{
+  .cosmic-expanded__detail:hover{
     transform:translateY(-1px);
     border-color:rgba(207,238,255,.50);
     background:linear-gradient(115deg,rgba(177,226,255,.12),rgba(86,116,207,.065) 52%,rgba(153,97,255,.085));
     box-shadow:inset 0 .6px 0 rgba(255,255,255,.22),0 0 22px rgba(70,182,255,.11);
   }
 }
-
-.cosmic-expanded.is-preparing .cosmic-expanded__action-deck{opacity:0;transform:translateY(10px)}
-.cosmic-expanded__action-deck{transition:opacity .24s ease,transform .32s cubic-bezier(.16,1,.3,1)}
-.cosmic-expanded.is-revealed .cosmic-expanded__action-deck{opacity:1;transform:none}
-.cosmic-expanded.is-closing .cosmic-expanded__action-deck{opacity:0;transform:translateY(7px);transition-duration:.14s}
+.cosmic-expanded__detail:focus-visible{
+  outline:1px solid rgba(202,239,255,.72);
+  outline-offset:3px;
+}
 
 @media (max-width:560px){
   .cosmic-main10{min-height:0;padding:0 8px 30px}
@@ -288,15 +174,7 @@
   .cosmic-expanded__icon{width:46px;height:46px}
   .cosmic-expanded__divider{height:46px;margin-left:16px}
   .cosmic-expanded__label{margin-left:15px;margin-right:136px;font-size:clamp(16px,4.8vw,21px);line-height:1.16}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__label{margin-right:52px;font-size:clamp(16px,4.65vw,20px);line-height:1.20}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__body{inset:104px 0 58px;padding:14px 18px 8px;gap:12px}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__selection{padding:14px 15px}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__lead{font-size:clamp(15px,4vw,17px);line-height:1.52}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__copy{font-size:clamp(13px,3.55vw,15px);line-height:1.72}
-  .cosmic-expanded__action-deck{left:18px;right:18px;bottom:9px;min-height:46px;padding-top:8px}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__detail{min-height:34px;padding:7px 0 6px 12px;font-size:12px}
-  .cosmic-expanded:not(.is-supporters) .cosmic-expanded__detail::after{left:12px}
-  .cosmic-expanded.is-supporters .cosmic-expanded__detail{right:12px;bottom:5px;min-height:28px;padding:4px 9px;font-size:11px}
+  .cosmic-expanded__detail{right:12px;bottom:5px;min-height:28px;padding:4px 9px;font-size:11px}
   .cosmic-expanded__close{top:8px;right:10px}
   .cosmic-expanded__ghost{transform:translate(4px,7px) translateZ(-34px)}
   .cosmic-expanded__ghost::before{transform:translate(4px,7px)}
