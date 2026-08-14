@@ -20,6 +20,24 @@ test('Current Canon places Main10 detail link in a dedicated bottom action deck'
   assert.match(css,/\.cosmic-expanded:not\(\.is-supporters\) \.cosmic-expanded__detail\{/);
 });
 
+test('Main10 moved-link header is compacted and does not keep a dead row',()=>{
+  const css=read('styles/cosmic-interface-equal-stack.css');
+  assert.match(css,/\.cosmic-expanded__top\{\s*height:clamp\(88px,14%,100px\);\s*padding:0 clamp\(28px,5vw,46px\);/);
+  assert.match(css,/\.cosmic-expanded__body\{\s*inset:clamp\(88px,14%,100px\) 0 48px;/);
+  assert.match(css,/\.cosmic-expanded:not\(\.is-supporters\) \.cosmic-expanded__top\{\s*border-bottom:0;\s*box-shadow:none;/);
+  assert.match(css,/\.cosmic-expanded__top\{height:86px;padding:0 18px\}/);
+  assert.match(css,/\.cosmic-expanded__body\{inset:86px 0 46px;/);
+});
+
+test('Main10 detail link is a compact UI without underline or separator lines',()=>{
+  const css=read('styles/cosmic-interface-equal-stack.css');
+  assert.match(css,/\.cosmic-expanded__action-deck\{[\s\S]*min-height:48px;[\s\S]*border:0;[\s\S]*background:transparent;[\s\S]*box-shadow:none;/);
+  assert.match(css,/\.cosmic-expanded:not\(\.is-supporters\) \.cosmic-expanded__detail\{[\s\S]*border:1px solid rgba\(190,225,255,.30\);[\s\S]*border-radius:999px;[\s\S]*background:linear-gradient/);
+  assert.match(css,/\.cosmic-expanded:not\(\.is-supporters\) \.cosmic-expanded__detail::after\{\s*content:none;/);
+  assert.doesNotMatch(css,/border-left:1px solid rgba\(190,225,255,.24\)/);
+  assert.doesNotMatch(css,/border-top:1px solid rgba\(171,205,239,.12\)/);
+});
+
 test('Supporters keeps its established header action while Main10 uses the deck',()=>{
   const css=read('styles/cosmic-interface-equal-stack.css');
   const js=read('scripts/cosmic-interface.js');
@@ -48,7 +66,7 @@ test('Expanded body uses Lead plus multiple paragraph presentation without chang
   assert.match(js,/data-expanded-copy-extra/);
   assert.match(css,/\.cosmic-expanded__copy-group\{/);
   assert.match(css,/\.cosmic-card\{\s*height:88px;/);
-  assert.match(css,/\.cosmic-card__stack\{\s*height:70px;/);
+  assert.match(css,/\.cosmic-card__stack\{\s*height:7ppx;/);
   assert.match(css,/\.cosmic-expanded\{width:94vw;height:min\(630px,78svh\);min-height:min\(455px,78svh\)\}/);
 });
 
