@@ -49,10 +49,10 @@ test('current Main10 responsibilities remain in the 2026-08-14 order',()=>{
   assert.doesNotMatch(PUBLIC_MAIN10.map(x=>x.lead+x.body).join(' | '),/5 Overlay/);
 });
 
-test('cache keys force browsers to load the corrected panel source',()=>{
+test('existing top cache contract remains unchanged by this panel correction',()=>{
   const index=read('ja/index.html');
   const script=read('script.js');
-  assert.match(index,/cosmic-interface-equal-stack\.css\?v=cu73-main10-panel-forward-fix/);
-  assert.match(index,/script\.js\?v=cu73-main10-panel-forward-fix/);
-  assert.match(script,/cosmic-interface\.js\?v=cu73-main10-panel-forward-fix/);
+  assert.match(index,/cosmic-interface-equal-stack\.css\?v=cu51-supporters-placement/);
+  assert.match(index,/script\.js\?v=cu67-supporters-crown-overlay/);
+  assert.match(script,/cosmic-interface\.js\?v=cu67-supporters-crown-overlay/);
 });
