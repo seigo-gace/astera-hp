@@ -11,8 +11,8 @@ const expected = [
   ['Asteraでできること', 'ja/product/what-is-astera/index.html'],
   ['AIの答えをそのまま使わないために', 'ja/product/why-astera/index.html'],
   ['AI時代の「判断」を支える新しい価値', 'ja/product/market/index.html'],
-  ['Asteraの使い方', 'ja/app/index.html'],
   ['導入すると何が変わるのか', 'ja/product/value/index.html'],
+  ['Asteraの使い方', 'ja/app/index.html'],
   ['料金とCredit', 'ja/pricing/index.html'],
   ['Asteraはどう判断材料を作るのか', 'ja/product/process/index.html'],
   ['Astera v8はどう動くのか', 'ja/product/technology/index.html'],
@@ -63,13 +63,41 @@ test('public pages do not expose project execution vocabulary', () => {
   assert.doesNotMatch(all, /\bG[0-5]\b|Authority Gate|Change Unit|Push Scope Lock|Commit SHA|Branch Strategy|NOT_RUN/);
 });
 
-test('TOP data and routing source contain exactly ten entries', async () => {
+test('TOP data and routing source contain exactly ten entries in Canon order', async () => {
   const data = await import('../data/public-main10.ja.js');
   const text = await import('../scripts/main10-text.js');
   assert.equal(data.PUBLIC_MAIN10.length, 10);
   assert.equal(text.MAIN10_ITEMS.length, 10);
-  assert.deepEqual(
-    data.PUBLIC_MAIN10.map(x => x.title),
-    expected.map(x => x[0]),
-  );
+  assert.deepEqual(data.PUBLIC_MAIN10.map(x => x.title), expected.map(x => x[0]));
+  assert.deepEqual(text.MAIN10_ITEMS.map(x => x.title), expected.map(x => x[0]));
+});
+
+test('value and adoption-effect responsibilities stay separated', () => {
+  const data = read('data/public-main10.ja.js');
+  const valueBlock = data.slice(data.indexOf("id: 'value'"), data.indexOf("id: 'engine'"));
+  const adoptionBlock = data.slice(data.indexOf("id: 'engine'"), data.indexOf("id: 'process'"));
+  assert.doesNotMatch(valueBlock, /費用対効果|人件費|意思決定遅延/);
+  assert.match(adoptionBlock, /費用対効果/);
+  assert.match(adoptionBlock, /人件費/);
+  assert.match(adoptionBlock, /意思決定遅延/);
+});
+
+test('public process page does not list 5 Overlay as a public feature', () => {
+  const html = read('ja/product/process/index.html');
+  assert.match(html, /38 Genre Lens/);
+  assert.doesNotMatch(html, /5 Overlay/);
+});
+
+test('detail layout suppresses visible numbering and mobile horizontal tables', () => {
+  const css = read('styles/detail-page.css');
+  const script = read('script.js');
+  assert.match(css, /\.detail-eyebrow,\.detail-section__index\{display:none\}/);
+  assert.match(css, /\.detail-toc a::before\{content:none\}/);
+  assert.match(css, /@supports \(word-break:auto-phrase\)/);
+  assert.match(css, /@media \(max-width:720px\)/);
+  assert.match(css, /\.table-wrap\{overflow:visible/);
+  assert.match(css, /\.detail-table\{display:block;width:100%;min-width:0\}/);
+  assert.match(script, /data-main10-detail-nav/);
+  assert.match(script, /MAIN10_ITEMS\.forEach/);
+  assert.match(script, /aria-current/);
 });
