@@ -26,13 +26,16 @@ const markCurrentLocation = (menu) => {
     if (isCurrent) currentGroup = link.closest('[data-menu-group]');
   });
 
-  if (current.startsWith(localPath('/developer/')) ||
+  if (!currentGroup && (current.startsWith(localPath('/developer/')) ||
       current.startsWith(localPath('/corporate/')) ||
       current.startsWith(localPath('/contact/')) ||
-      current.startsWith(localPath('/legal/'))) {
+      current.startsWith(localPath('/legal/')))) {
     currentGroup = menu.querySelector('[data-menu-group="developer"]');
   }
-  if (current.startsWith(localPath('/support/')) || current.startsWith(localPath('/investors/'))) {
+  if (current.startsWith(localPath('/developer/ecosystem/'))) {
+    currentGroup = menu.querySelector('[data-menu-group="ecosystem"]');
+  }
+  if (!currentGroup && (current.startsWith(localPath('/support/')) || current.startsWith(localPath('/investors/')))) {
     currentGroup = menu.querySelector('[data-menu-group="support"]');
   }
 
