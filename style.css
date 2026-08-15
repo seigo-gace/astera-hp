@@ -1,8 +1,9 @@
 @import url('./styles/base.css');
-@import url('./styles/header.css?v=cu58-header-logo-copyright');
+@import url('./styles/header.css?v=cu-hp-developer-ecosystem-contact-20260815');
 @import url('./styles/hero.css');
 @import url('./styles/cosmic-interface.css');
-@import url('./styles/menu.css');
+@import url('./styles/menu.css?v=cu-hp-developer-ecosystem-contact-20260815');
 @import url('./styles/ai-bubble.css?v=cu49-mobile-fullscreen');
 @import url('./styles/site-detail-readable.css?v=cu-site-detail-comprehension-20260815');
 @import url('./styles/pricing-readable.css?v=cu-pricing-comprehension-20260815');
+@import url('./styles/developer-profile.css?v=cu-hp-developer-ecosystem-contact-20260815');

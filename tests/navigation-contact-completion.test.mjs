@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+const root=resolve(import.meta.dirname,'..');
+const read=(p)=>readFileSync(resolve(root,p),'utf8');
+const menuCanon=read('scripts/menu-canon.js');
+const menu=read('scripts/menu.js');
+const header=read('styles/header.css');
+const contact=read('styles/contact-form.css');
+const profile=read('ja/developer/index.html');
+test('canonical menu contains five top groups and ecosystem routes',()=>{for(const x of ['News','Q&amp;A','料金プラン','開発者情報・IR・リーガル','開発支援','TGserver','Webhook Gateway','Libral-Vault'])assert.ok(menuCanon.includes(x),x);for(const p of ['/developer/ecosystem/','/developer/ecosystem/tgserver/','/developer/ecosystem/webhook-gateway/','/developer/ecosystem/libral-vault/'])assert.ok(menuCanon.includes(p),p);});
+test('menu behavior keeps escape focus trap focus return and outside click',()=>{for(const r of [/event\.key === 'Escape'/,/event\.key !== 'Tab'/,/opener\.focus\(\)/,/pointerdown/,/menu-open/])assert.match(menu,r);});
+test('header places language left and brand right',()=>{assert.match(header,/\.brand\{order:2/);assert.match(header,/\.language-select-field\{order:1/);});
+test('contact remains a form-first responsive layout',()=>{for(const r of [/contact-form__grid/,/contact-warning/,/contact-consent/,/contact-status\[data-state="error"\]/,/max-width:760px/])assert.match(contact,r);});
+test('developer page is populated with public identity role risk and ecosystem links',()=>{for(const x of ['seigo-gace','開発の出発点','開発者の役割','強み','Risk','TGserver','Webhook Gateway','Libral-Vault','/ja/contact/'])assert.ok(profile.includes(x),x);});

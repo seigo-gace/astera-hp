@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {resolve} from 'node:path';
+const root=resolve(import.meta.dirname,'..');const pages=['ja/developer/ecosystem/index.html','ja/developer/ecosystem/tgserver/index.html','ja/developer/ecosystem/webhook-gateway/index.html','ja/developer/ecosystem/libral-vault/index.html'];const read=p=>readFileSync(resolve(root,p),'utf8');
+test('all ecosystem pages are same-site detail pages',()=>{for(const p of pages){const s=read(p);assert.match(s,/class="detail-main"/);assert.match(s,/id="side-menu"/);assert.match(s,/src="\/script\.js/);assert.doesNotMatch(s,/https?:\/\/(?!camp-fire|challenges\.cloudflare)/);}});
+test('each system page contains its canonical responsibility',()=>{assert.match(read(pages[1]),/運用記録/);assert.match(read(pages[2]),/Event連携基盤/);assert.match(read(pages[3]),/保護基盤/);});
+test('ecosystem index links all three local detail routes',()=>{const s=read(pages[0]);for(const p of ['/ja/developer/ecosystem/tgserver/','/ja/developer/ecosystem/webhook-gateway/','/ja/developer/ecosystem/libral-vault/'])assert.ok(s.includes(p),p);});

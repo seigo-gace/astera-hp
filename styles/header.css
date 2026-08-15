@@ -1,8 +1,9 @@
 .site-header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line-subtle)}
 .header-upper{height:42px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--line-subtle)}
-.brand{display:flex;align-items:center;height:100%;min-width:0;max-width:calc(100% - 58px)}
-.brand img{display:block;height:calc(100% - 4px);width:auto;max-width:62vw;max-height:none;object-fit:contain;object-position:left center;filter:contrast(1.10)}
-.language-select-field{position:relative;width:50px;margin-left:auto}
+/* Current Canon: language left, verified brand asset right. */
+.brand{order:2;display:flex;align-items:center;height:100%;min-width:0;max-width:calc(100% - 58px);margin-left:auto;overflow:visible}
+.brand img{display:block;height:calc(100% - 4px);width:auto;max-width:62vw;max-height:none;object-fit:contain;object-position:right center;filter:contrast(1.10)}
+.language-select-field{order:1;position:relative;width:50px;margin-left:0;margin-right:10px}
 .language-select{width:100%;height:28px;appearance:none;padding:0 17px 0 7px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text);font-size:10px;font-weight:800;outline:none}
 .language-select:hover{border-color:var(--hover-metal)}
 .language-select:focus-visible{border-color:var(--focus);outline:2px solid var(--focus);outline-offset:2px}
@@ -18,11 +19,11 @@
 .menu-button{gap:4px}
 .menu-button span{display:block;width:18px;height:2px;border-radius:9px;background:var(--icon)}
 
-@media (min-width:768px){
+@media(min-width:768px){
   .header-upper{height:46px;padding-inline:16px}
   .brand{max-width:calc(100% - 66px)}
   .brand img{height:calc(100% - 4px);width:auto;max-width:58vw;max-height:none}
-  .language-select-field{width:54px}
+  .language-select-field{width:54px;margin-right:12px}
   .header-actions{height:60px;padding-inline:16px}
   .app-entry{height:40px;font-size:13px}
   .icon-button{width:40px;height:40px}

@@ -1,24 +1,4 @@
-/* CU-HEADER-LOGO-VISIBLE-FIX-01
-   Header logo only: force a fresh, cache-busted visual correction without changing the approved logo geometry. */
-.brand{
-  overflow:visible;
-}
-.brand img{
-  display:block;
-  height:calc(100% - 8px);
-  width:auto;
-  max-width:64vw;
-  max-height:none;
-  object-fit:contain;
-  object-position:left center;
-  background:#000;
-  filter:contrast(1.085);
-  image-rendering:auto;
-}
-
-@media (min-width:768px){
-  .brand img{
-    height:calc(100% - 8px);
-    max-width:60vw;
-  }
-}
+/* Header brand asset visibility correction. Geometry is not modified. */
+.brand{overflow:visible}
+.brand img{display:block;height:calc(100% - 8px);width:auto;max-width:64vw;max-height:none;object-fit:contain;object-position:right center;background:#000;filter:contrast(1.085);image-rendering:auto}
+@media(min-width:768px){.brand img{height:calc(100% - 8px);max-width:60vw}}

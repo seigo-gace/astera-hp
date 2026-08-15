@@ -5,6 +5,7 @@ import { initAppEntry } from './scripts/app-entry.js';
 import { initHeroEffect } from './scripts/hero-effect.js';
 import { initCosmicMain10 } from './scripts/cosmic-interface.js?v=cu67-supporters-crown-overlay';
 import { initDetailIllustrations } from './scripts/detail-illustrations.js?v=cu-main10-illustrations-01';
+import { initDeveloperProfile } from './scripts/developer-profile.js';
 import { MAIN10_ITEMS, SITE_TEXT } from './scripts/main10-text.js?v=cu58-header-logo-copyright';
 
 initLanguageSelect();
@@ -14,6 +15,7 @@ initAppEntry();
 initHeroEffect();
 initCosmicMain10();
 initDetailIllustrations();
+initDeveloperProfile();
 
 const copyrightCopy=document.querySelector('[data-top-copyright]');
 if(copyrightCopy)copyrightCopy.textContent=SITE_TEXT.topCopyright??'Copyright © 2026 Astera';
