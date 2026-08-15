@@ -1,0 +1,18 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const direct=['ja/news/index.html','ja/qa/index.html','ja/developer/index.html','ja/developer/achievements/index.html','ja/developer/prototypes/index.html','ja/developer/theories/index.html','ja/corporate/index.html','ja/contact/index.html','ja/legal/terms/index.html','ja/legal/privacy/index.html','ja/legal/commerce/index.html','ja/support/index.html','ja/investors/index.html'];
+const deps=['ja/developer/achievements/astera/index.html','ja/developer/achievements/japanese-parser/index.html','ja/developer/achievements/utp-v2-1/index.html','ja/developer/prototypes/kagrra-ai/index.html','ja/developer/theories/ai-structure/index.html','ja/supporters/index.html'];
+const files=[...direct,...deps];
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const routeExists=href=>{if(!href.startsWith('/ja/'))return true;const clean=href.split(/[?#]/)[0].replace(/^\//,'');return fs.existsSync(path.join(root,clean,'index.html'));};
+test('all internal side-menu detail routes exist',()=>{for(const f of direct)assert.ok(fs.existsSync(path.join(root,f)),f);});
+test('direct dependency routes exist',()=>{for(const f of deps)assert.ok(fs.existsSync(path.join(root,f)),f);});
+test('new pages reuse shared detail chassis without duplicate background design',()=>{for(const f of files){const s=read(f);assert.match(s,/styles\/detail-page\.css/);for(const c of ['detail-main','detail-hero','detail-shell','detail-toc','detail-article'])assert.ok(s.includes(`class="${c}"`),`${f}: ${c}`);assert.ok(s.includes('id="side-menu"'),f);assert.doesNotMatch(s,/<footer\b/i);assert.doesNotMatch(s,/linear-gradient|radial-gradient|conic-gradient/i);}});
+test('menu preserves approved routes and CAMPFIRE external link',()=>{const s=read('ja/news/index.html');for(const href of ['/ja/news/','/ja/qa/','/ja/pricing/','/ja/developer/','/ja/developer/achievements/','/ja/developer/prototypes/','/ja/developer/theories/','/ja/corporate/','/ja/contact/','/ja/legal/terms/','/ja/legal/privacy/','/ja/legal/commerce/','/ja/support/','/ja/investors/'])assert.ok(s.includes(`href="${href}"`),href);assert.ok(s.includes('https://camp-fire.jp/projects/968933/view'));});
+test('current public canon does not expose 5 Overlay in these pages',()=>{for(const f of files)assert.doesNotMatch(read(f),/5 Overlay/);});
+test('contact information page does not invent a submission backend',()=>{const s=read('ja/contact/index.html');assert.doesNotMatch(s,/<form\b/i);assert.doesNotMatch(s,/action=/i);});
+test('all internal ja links in new pages resolve in assembled site',()=>{for(const f of files){for(const m of read(f).matchAll(/href="(\/ja\/[^\"]*)"/g))assert.ok(routeExists(m[1]),`${f}: ${m[1]}`);}});
