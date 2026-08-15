@@ -10,6 +10,9 @@ if(form){
   const MAX_FILES=5;
   const MAX_TOTAL_BYTES=25*1024*1024;
   const deniedExtensions=new Set(['exe','msi','bat','cmd','com','scr','ps1','sh','js','mjs','cjs','vbs','jar','apk']);
+  const newSubmissionKey=()=>crypto.randomUUID();
+  let submissionKey=newSubmissionKey();
+  let turnstileWidgetId=null;
 
   const setStatus=(message,state='')=>{
     if(!status)return;
@@ -48,30 +51,36 @@ if(form){
 
   files?.addEventListener('change',validateFiles);
 
+  const setTurnstileToken=(token='')=>{
+    const target=form.querySelector('[name="turnstile_token"]');
+    if(target)target.value=token;
+  };
+
+  const resetTurnstile=()=>{
+    setTurnstileToken('');
+    if(window.turnstile?.reset&&turnstileWidgetId!==null)window.turnstile.reset(turnstileWidgetId);
+  };
+
+  const renderTurnstile=(host)=>{
+    turnstileWidgetId=window.turnstile.render(host,{
+      sitekey:turnstileSiteKey,
+      callback:(token)=>setTurnstileToken(token),
+      'expired-callback':()=>setTurnstileToken(''),
+      'error-callback':()=>setTurnstileToken('')
+    });
+    return turnstileWidgetId!==undefined&&turnstileWidgetId!==null;
+  };
+
   const configureTurnstile=()=>{
     const host=form.querySelector('[data-contact-turnstile]');
     if(!host||!turnstileSiteKey)return Promise.resolve(false);
-    if(window.turnstile?.render){
-      window.turnstile.render(host,{sitekey:turnstileSiteKey,callback:(token)=>{
-        const target=form.querySelector('[name="turnstile_token"]');
-        if(target)target.value=token;
-      }});
-      return Promise.resolve(true);
-    }
+    if(window.turnstile?.render)return Promise.resolve(renderTurnstile(host));
     return new Promise((resolve)=>{
       const script=document.createElement('script');
       script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
       script.async=true;
       script.defer=true;
-      script.addEventListener('load',()=>{
-        if(window.turnstile?.render){
-          window.turnstile.render(host,{sitekey:turnstileSiteKey,callback:(token)=>{
-            const target=form.querySelector('[name="turnstile_token"]');
-            if(target)target.value=token;
-          }});
-          resolve(true);
-        }else resolve(false);
-      },{once:true});
+      script.addEventListener('load',()=>resolve(window.turnstile?.render?renderTurnstile(host):false),{once:true});
       script.addEventListener('error',()=>resolve(false),{once:true});
       document.head.append(script);
     });
@@ -100,6 +109,8 @@ if(form){
     const token=form.querySelector('[name="turnstile_token"]')?.value?.trim();
     if(!token){setStatus('送信確認を完了してください。','error');return;}
     const body=new FormData(form);
+    body.set('source','hp');
+    body.set('idempotency_key',submissionKey);
     if(submit)submit.disabled=true;
     form.setAttribute('aria-busy','true');
     setStatus('送信しています…');
@@ -113,10 +124,12 @@ if(form){
       }
       const ticketId=payload?.ticket_id||payload?.ticket?.id||'';
       form.reset();
+      submissionKey=newSubmissionKey();
       if(fileSummary)fileSummary.textContent='添付なし';
       setStatus(ticketId?`送信を受け付けました。受付番号：${ticketId}`:'送信を受け付けました。','success');
-      if(window.turnstile?.reset)window.turnstile.reset();
+      resetTurnstile();
     }catch(error){
+      resetTurnstile();
       setStatus(error instanceof Error?error.message:'お問い合わせを送信できませんでした。','error');
     }finally{
       form.removeAttribute('aria-busy');
