@@ -1,0 +1,33 @@
+/* Standard FAQ presentation: category headings + native accordion. */
+.qa-page{background:#000;color:#f5f8fc}
+.qa-page .detail-hero{padding-bottom:8px}
+.qa-page .detail-hero__inner{max-width:980px}
+.qa-page .detail-shell{width:min(980px,100%);margin-inline:auto;padding-top:8px}
+.qa-page .detail-article{width:100%;max-width:none}
+.qa-intro{max-width:72ch;margin:0 0 24px;color:#bdc7d3;font-size:14px;line-height:1.8}
+.qa-group{margin:0 0 30px;padding:0}
+.qa-group h2{margin:0 0 10px;padding:0 0 9px;border-bottom:1px solid rgba(205,214,226,.14);font-size:clamp(18px,2vw,23px)}
+.qa-list{display:grid;gap:8px}
+.qa-item{margin:0;border:1px solid rgba(205,214,226,.16);border-radius:8px;background:#030405;overflow:hidden}
+.qa-item summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:54px;padding:13px 15px;color:#f3f7fb;font-size:14px;font-weight:760;line-height:1.55;cursor:pointer;list-style:none}
+.qa-item summary::-webkit-details-marker{display:none}
+.qa-item summary::after{content:'＋';flex:0 0 auto;color:#aeb9c5;font-size:18px;font-weight:400;line-height:1}
+.qa-item[open] summary{border-bottom:1px solid rgba(205,214,226,.12);background:#06080a}
+.qa-item[open] summary::after{content:'−'}
+.qa-answer{padding:14px 15px 16px;color:#cbd4de;font-size:14px;line-height:1.8}
+.qa-answer p{margin:0 0 10px}
+.qa-answer p:last-child{margin-bottom:0}
+.qa-answer ul,.qa-answer ol{margin:8px 0 0;padding-left:1.35em}
+.qa-answer a{color:#c7f1ff;text-underline-offset:3px}
+.qa-related{margin-top:26px;padding-top:20px;border-top:1px solid rgba(205,214,226,.12)}
+.qa-related p{margin:0 0 12px;color:#b7c1cd;font-size:13px;line-height:1.7}
+.qa-related__links{display:flex;flex-wrap:wrap;gap:8px}
+.qa-related__links a,.qa-related__links button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 11px;border:1px solid rgba(205,214,226,.16);border-radius:7px;background:#030405;color:#eef4f9;font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
+.qa-item summary:focus-visible,.qa-related__links a:focus-visible,.qa-related__links button:focus-visible{outline:2px solid rgba(84,217,255,.72);outline-offset:3px}
+@media(max-width:760px){
+ .qa-page .detail-shell{width:100%}
+ .qa-page .detail-article{padding-inline:14px}
+ .qa-item summary{min-height:52px;padding:12px 13px;font-size:13.5px}
+ .qa-answer{padding:13px 13px 15px;font-size:13.5px}
+ .qa-related__links{display:grid;grid-template-columns:1fr}
+}
